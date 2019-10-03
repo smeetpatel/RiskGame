@@ -1,3 +1,5 @@
+package main.java;
+
 import java.util.ArrayList;
 
 /**
@@ -14,6 +16,8 @@ public class Country {
 	private ArrayList<Country> neighbours;
 	int xCoOrdinate;
 	int yCoOrdinate;
+	
+	Country(){}
 	
 	Country(String index, String countryName, String continentIndex, String xCoOrdinate, String yCoOrdinate, GameMap map){
 		this.index = Integer.parseInt(index);

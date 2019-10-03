@@ -1,3 +1,5 @@
+package main.java;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -23,12 +25,12 @@ public class GameMap {
 		return this.mapName;
 	}
 	
-	int getNumberOfContinents() {
-		return continents.size();
+	ArrayList<Continent> getContinentList(){
+		return this.continents;
 	}
 	
-	void addContinent(Continent continent) {
-		continents.add(continent);
+	void setContinentList(ArrayList<Continent> continents) {
+		this.continents = continents;
 	}
 	
 	Continent getContinent(int index) {

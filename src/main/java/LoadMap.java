@@ -1,3 +1,5 @@
+package main.java;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,8 +16,8 @@ import java.util.Scanner;
  *
  */
 public class LoadMap {
-	private static GameMap map;
-	private static HashMap<Integer, Country> listOfCountries; //temporary hashmap to map index with Country
+	private static GameMap map;	
+	private static HashMap<Integer, Country> listOfCountries; //temporary HashMap to facilitate reading .map files
 	
 	public static void main(String[] args){
 		
@@ -53,10 +55,28 @@ public class LoadMap {
 	
 	static BufferedReader readContinents(BufferedReader reader) {
 		String s;
+		boolean continentExists = false;
 		try {
 			while(!((s = reader.readLine()).equals(""))) {
 				String[] continentString = s.split("\\s+");
-				map.addContinent(new Continent(continentString[0], continentString[1], continentString[2]));
+				//Check if continent already exists in the map
+				ArrayList<Continent> continents = map.getContinentList();
+				Iterator<Continent> itr = continents.iterator();
+				while(itr.hasNext()) {
+					Continent tempContinent = itr.next();
+					if(tempContinent.getContinentName().equalsIgnoreCase(continentString[0]))
+						continentExists = true;
+				}
+				if(!continentExists) {
+					continents.add(new Continent(continentString[0], continentString[1], continentString[2]) );
+					map.setContinentList(continents);
+				} 
+				else {
+					//terminate the program if continent already exists
+					System.out.println("Error reading the file.");
+					System.out.println("Two continents of same name exists.");
+					System.exit(-1);
+				}
 			}
 		}
 		catch(IOException e) {
@@ -71,8 +91,8 @@ public class LoadMap {
 			while(!((s = reader.readLine()).equals(""))) {
 				String[] countryString = s.split("\\s+");
 				Country newCountry = new Country(countryString[0], countryString[1], countryString[2], countryString[3], countryString[4], map);
-				if(addToContinentMap(newCountry))
-					listOfCountries.put(newCountry.getIndex(), newCountry);
+				addToContinentMap(newCountry);	//Add country to the appropriate continent in the map. Terminate if duplicate entry.
+				listOfCountries.put(newCountry.getIndex(), newCountry);
 			}
 		}
 		catch(IOException e) {
@@ -88,7 +108,16 @@ public class LoadMap {
 				System.out.println(s);
 				if(!s.equals("")) {
 					String[] borderString = s.split("\\s+");
-					Country argumentCountry = listOfCountries.get(Integer.parseInt(borderString[0]));
+					Country argumentCountry = new Country();
+					try {
+						argumentCountry = listOfCountries.get(Integer.parseInt(borderString[0]));
+					}
+					catch(IndexOutOfBoundsException e){
+						System.out.println("Error reading the file.");
+						System.out.println("Neighbour does not exist.");
+						System.exit(-1);
+					}
+					
 					for(int i=1; i<borderString.length; i++) {
 						addNeighbour(argumentCountry, borderString[i]);
 					}
@@ -101,16 +130,18 @@ public class LoadMap {
 		return reader;
 	}
 
-	static boolean addToContinentMap(Country newCountry) {
+	static void addToContinentMap(Country newCountry) {
 		Continent tempContinent = map.getContinent(newCountry.getContinentName());
 		HashMap<String, Country> tempMap = tempContinent.getCountries();
 		if(!tempMap.containsKey(newCountry.getCountryName())) {
 			tempMap.put(newCountry.getCountryName(), newCountry);
-			return true;
 		}
-		else
-			System.out.println("Country already exists.");
-		return false;
+		else {
+			//terminate the program if same name country exists in the continent
+			System.out.println("Error reading the file.");
+			System.out.println("Two countries of same name exists in the same continent.");
+			System.exit(-1);
+		}
 	}
 	
 	static void addNeighbour(Country argumentCountry, String stringIndex) {
@@ -135,8 +166,7 @@ public class LoadMap {
 	
 	static void printMap() {
 		System.out.println("Map name: " + map.getMapName());
-		//map.printContinentsSize();
-		for(int i=1;i<=map.getNumberOfContinents();i++) {
+		for(int i=1;i<=map.getContinentList().size();i++) {
 			Continent tempContinent = map.getContinent(i);
 			System.out.println("Continent name: " + tempContinent.getContinentName());
 			HashMap<String, Country> tempMap = tempContinent.getCountries();
