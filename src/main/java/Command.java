@@ -125,7 +125,7 @@ public class Command {
 								System.out.println("Invalid Command");
 						
 							//NewMap nm = new NewMap();
-							//nm.removeContinent(continent_name);
+							//nm.removeCountry(country_name);
 						}
 					}
 				}	
@@ -161,7 +161,7 @@ public class Command {
 							System.out.println("Invalid Command");
 					}
 					//NewMap nm = new NewMap();
-					//nm.addCountry(country_name, continent_name);
+					//nm.addNeighbor(country_name, neighbor_country_name);
 					
 					for(i=1;i<alt.length;i+=2)
 					{
@@ -182,7 +182,7 @@ public class Command {
 								System.out.println("Invalid Command");
 						
 							//NewMap nm = new NewMap();
-							//nm.removeContinent(continent_name);
+							//nm.removeNeighbor(country_name, neighbor_country_name);
 						}
 					}
 				}	
