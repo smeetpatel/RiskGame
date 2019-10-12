@@ -4,7 +4,7 @@ import java.util.*;
 public class Command {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		//TODO: @Tirth change all variable names to meaningful names following our coding convention
 		Scanner sc = new Scanner(System.in);
 		String cmd = sc.nextLine();
 		String[] alt = cmd.split(" ");
@@ -13,7 +13,11 @@ public class Command {
 		
 		switch(day){
 		
-		case "showmap":
+		/*TODO: @Tirth
+		 * showmap should only work if editmap/loadmap has been called earlier.
+		 * showmap command does not have mapname in its command.
+		 */
+		case "showmap":	
 			if(!(alt[1] == ""))
 			{
 				LoadMap lm = new LoadMap();
@@ -31,7 +35,7 @@ public class Command {
 			}
 			else
 			{
-				System.out.println("Empty Name");
+				System.out.println("Please specify the name of the map");
 			}
 			break;
 		
@@ -46,8 +50,8 @@ public class Command {
 					{
 						if(!(alt[i+1] == null))
 						{
-							String continent_name = alt[i+1];
-							//System.out.println(continent_name);
+							String continent_name = alt[i+1];	//following naming convention
+							System.out.println(continent_name);
 						}
 						else
 							System.out.println("Invalid Command");
@@ -55,7 +59,7 @@ public class Command {
 						if(!(alt[i+2] == null))
 						{
 							int continent_value = Integer.parseInt(alt[i+2]);
-							//System.out.println(continent_value);
+							System.out.println(continent_value);
 						}
 						else
 							System.out.println("Invalid Command");
@@ -191,9 +195,6 @@ public class Command {
 				System.out.println("Invalid Command");
 			
 			break;
-			
 		}
-
 	}
-
 }
