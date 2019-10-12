@@ -3,18 +3,27 @@ import java.util.*;
 
 public class Command {
 
+	
+	public boolean isAlpha(String s) {
+		return s != null && s.matches("^[a-zA-Z]*$");
+	}
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		String continentName = null,countryName = null,neighborCountryName = null,playerName = null,fromCountry = null, toCountry = null; 
+		int continentValue = 0, numberOfArmies = 0, armiesToFortify = 0;
+		
 		Scanner sc = new Scanner(System.in);
 		String cmd = sc.nextLine();
-		String[] alt = cmd.split(" ");
+		String[] data = cmd.split(" ");
 		
-		String day = alt[0];
+		Command ob1 = new Command();
 		
-		switch(day){
+		String commandName = data[0];
 		
+		switch(commandName){
 		case "showmap":
-			if(!(alt[1] == ""))
+			if(!(data[1] == ""))
 			{
 				LoadMap lm = new LoadMap();
 			}
@@ -25,175 +34,175 @@ public class Command {
 			break;
 		
 		case "editmap":
-			if(!(alt[1] == ""))
+			if(!(data[1] == ""))
 			{
-				//EditMap lm = new EditMap();
+				if(ob1.isAlpha(data[1]))
+				{
+					//EditMap lm = new EditMap();
+				}
+				else
+					System.out.println("invalid command");
 			}
 			else
 			{
 				System.out.println("Empty Name");
 			}
 			break;
-		
+			
 		case "editcontinent":
-			if(!(alt[1] == null))
-			{
-				int i;
-				
-				for(i=1;i<alt.length;i+=3)
-				{
-					if(alt[i].equals("-add"))
-					{
-						if(!(alt[i+1] == null))
-						{
-							String continent_name = alt[i+1];
-							//System.out.println(continent_name);
-						}
-						else
-							System.out.println("Invalid Command");
-					
-						if(!(alt[i+2] == null))
-						{
-							int continent_value = Integer.parseInt(alt[i+2]);
-							//System.out.println(continent_value);
-						}
-						else
-							System.out.println("Invalid Command");
-					}
-					//NewMap nm = new NewMap();
-					//nm.addContinent(continent_name, continent_value);
-					
-					for(i=1;i<alt.length;i+=2)
-					{
-						if(alt[i].equals("-remove"))
-						{
-							if(!(alt[i+1] == null))
-							{
-								String continent_name = alt[i+1];
-							}
-							else
-								System.out.println("Invalid Command");
-						
-							//NewMap nm = new NewMap();
-							//nm.removeContinent(continent_name);
-						}
-					}
-				}	
-			}
-			else
-				System.out.println("Invalid Command");
 			
+			for(int i=1;i<data.length;i++)
+			{
+				if(data[i].equals("-add"))
+				{
+					if(ob1.isAlpha(data[i+1]))
+						continentName = data[i+1];
+					else
+						System.out.println("invalid command");
+					
+					continentValue = Integer.parseInt(data[i+2]);
+					
+					System.out.println(continentName+"  "+continentValue);
+				}
+				else if(data[i].equals("-remove"))
+				{
+					if(ob1.isAlpha(data[i+1]))
+						continentName = data[i+1];
+					else
+						System.out.println("invalid command");
+					System.out.println(continentName);
+				}		
+			}
 			break;
 		
-		case "editcountry":
-			if(!(alt[1] == null))
-			{
-				int i;
-				
-				for(i=1;i<alt.length;i+=3)
-				{
-					if(alt[i].equals("-add"))
-					{
-						if(!(alt[i+1] == null))
-						{
-							String country_name = alt[i+1];
-							//System.out.println(continent_name);
-						}
-						else
-							System.out.println("Invalid Command");
-					
-						if(!(alt[i+2] == null))
-						{
-							String continent_name = alt[i+2];
-							//System.out.println(continent_value);
-						}
-						else
-							System.out.println("Invalid Command");
-					}
-					//NewMap nm = new NewMap();
-					//nm.addCountry(country_name, continent_name);
-					
-					for(i=1;i<alt.length;i+=2)
-					{
-						if(alt[i].equals("-remove"))
-						{
-							if(!(alt[i+1] == null))
-							{
-								String country_name = alt[i+1];
-							}
-							else
-								System.out.println("Invalid Command");
-						
-							//NewMap nm = new NewMap();
-							//nm.removeCountry(country_name);
-						}
-					}
-				}	
-			}
-			else
-				System.out.println("Invalid Command");
+			case "editcountry":
 			
-			break;
+				for(int i=1;i<data.length;i++)
+				{
+					if(data[i].equals("-add"))
+					{
+						if(ob1.isAlpha(data[i+1]) || ob1.isAlpha(data[i+2]))
+						{	
+							countryName = data[i+1];
+							continentName = data[i+2];
+						}
+						else
+							System.out.println("invalid command");	
+					
+						System.out.println(countryName+"  "+continentName);
+					}
+					else if(data[i].equals("-remove"))
+					{
+						if(ob1.isAlpha(data[i+1]))
+							countryName = data[i+1];
+						else
+							System.out.println("invalid command");
+						System.out.println(countryName);
+					}		
+				}
+				break;
 			
 		case "editneighbor":
-			if(!(alt[1] == null))
-			{
-				int i;
-				
-				for(i=1;i<alt.length;i+=3)
-				{
-					if(alt[i].equals("-add"))
-					{
-						if(!(alt[i+1] == null))
-						{
-							String country_name = alt[i+1];
-							//System.out.println(continent_name);
-						}
-						else
-							System.out.println("Invalid Command");
-					
-						if(!(alt[i+2] == null))
-						{
-							String neighbor_country_name = alt[i+2];
-							//System.out.println(continent_value);
-						}
-						else
-							System.out.println("Invalid Command");
-					}
-					//NewMap nm = new NewMap();
-					//nm.addNeighbor(country_name, neighbor_country_name);
-					
-					for(i=1;i<alt.length;i+=2)
-					{
-						if(alt[i].equals("-remove"))
-						{
-							if(!(alt[i+1] == null))
-							{
-								String country_name = alt[i+1];
-							}
-							else
-								System.out.println("Invalid Command");
-							
-							if(!(alt[i+2] == null))
-							{
-								String neighbor_country_name = alt[i+2];
-							}
-							else
-								System.out.println("Invalid Command");
-						
-							//NewMap nm = new NewMap();
-							//nm.removeNeighbor(country_name, neighbor_country_name);
-						}
-					}
-				}	
-			}
-			else
-				System.out.println("Invalid Command");
 			
+			for(int i=1;i<data.length;i++)
+			{
+				if(data[i].equals("-add"))
+				{
+					if(ob1.isAlpha(data[i+1]) || ob1.isAlpha(data[i+2]))
+					{
+						countryName = data[i+1];
+						neighborCountryName = data[i+2];
+					}
+					else
+						System.out.println("invalid command");
+					System.out.println(countryName+"  "+neighborCountryName);
+				}
+				else if(data[i].equals("-remove"))
+				{
+					if(ob1.isAlpha(data[i+1]) || ob1.isAlpha(data[i+2]))
+					{
+						countryName = data[i+1];
+						neighborCountryName = data[i+2];
+					}
+					else
+						System.out.println("invalid command");
+					System.out.println(countryName+"  "+neighborCountryName);
+				}		
+			}
 			break;
 			
+		case "gameplayer":
+			
+			for(int i=1;i<data.length;i++)
+			{
+				if(data[i].equals("-add"))
+				{
+					if(data[i+1].matches("[a-zA-Z0-9]+"))
+					{
+						playerName = data[i+1];
+					}
+					else
+						System.out.println("invalid command");
+					System.out.println(playerName);
+					
+					// parse the playerName to class
+				}
+				else if(data[i].equals("-remove"))
+				{
+					if(data[i+1].matches("[a-zA-Z0-9]+"))
+					{
+						playerName = data[i+1];
+					}
+					else
+						System.out.println("invalid command");
+					System.out.println(playerName);
+					
+					// parse playerName to class
+				}		
+			}
+			break;
+			
+		case "populatecountries":
+			
+			// call class method which will assign initial armies
+			break;
+			
+		case "reinforce":
+			
+			if(!(data[1] == null) || !(data[2] == null))
+			{
+				if(ob1.isAlpha(data[1]) || data[2].matches("[0-9]+"))
+				{
+					countryName = data[1];
+					numberOfArmies = Integer.parseInt(data[2]);
+					System.out.println(countryName+"  "+numberOfArmies);
+				}
+				else
+					System.out.println("invlid command");
+				
+				// parse countryName and numberOfArmies
+			}
+			break;
+			
+		case "fortify":
+			
+			if(!(data[1] == null) || !(data[2] == null) || !(data[3] == null))
+			{
+				if(ob1.isAlpha(data[1]) || ob1.isAlpha(data[2]) || data[3].matches("[0-9]+"))
+				{
+					countryName = data[1];
+					numberOfArmies = Integer.parseInt(data[2]);
+					System.out.println(countryName+"  "+numberOfArmies);
+				}
+				else
+					System.out.println("invlid command");
+				
+				// parse countryName and numberOfArmies
+			}
+			
+			break;
 		}
-
+		sc.close();
 	}
 
 }
