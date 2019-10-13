@@ -4,7 +4,7 @@ import java.util.*;
 public class Command {
 
 	/*TODO: @Tirth create a function of type
-	 *  public PlayRisk.Phase parseCommand(PlayRisk.phase phaseValue, String cmd)()
+	 *  public PlayRisk.Phase parseCommand(PlayRisk.phase phaseValue, String cmd())
 	 *  This function will return appropriate phase value as per the command.
 	 *  This value can be one of the following: {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
 	 *  You will return it as, for example: return PlayRisk.Phase.EDITMAP;

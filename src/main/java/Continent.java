@@ -31,7 +31,7 @@ public class Continent {
 		this.inMapIndex = LoadMap.inMapIndex;
 		LoadMap.inMapIndex++;
 		this.controlValue = controlValue;
-		this.colorCode = "";
+		this.colorCode = "000";
 		this.countries = new HashMap<String, Country>();
 	}	
 	
@@ -54,7 +54,7 @@ public class Continent {
 	 * Returns the name of the continent.
 	 * @return returns the name of the continent
 	 */
-	String getContinentName() {
+	public String getContinentName() {
 		return this.continentName;
 	}
 	
@@ -62,15 +62,47 @@ public class Continent {
 	 * Returns the index for this continent when saved  in ".map" file following domination's rules
 	 * @return returns index of the continent
 	 */
-	int getInMapIndex() {
+	public int getInMapIndex() {
 		return this.inMapIndex;
 	}
 	
 	/**
+	 * Getter method to fetch the control value of the continent
+	 * @return returns the control value of the continent
+	 */
+	public int getControlValue() {
+		return this.controlValue;
+	}
+
+	/**
+	 * Setter method to set the control value of the continent
+	 * @param controlValue set control value of the continent to this value
+	 */
+	public void setControlValue(int controlValue) {
+		this.controlValue = controlValue;
+	}
+	
+	/**
+	 * Getter method to fetch the color code of the continent
+	 * @return returns the color code of the continent
+	 */
+	public String getColorCode() {
+		return this.colorCode;
+	}
+
+	/**
+	 * Setter method to set the color code of the continent
+	 * @param colorCode set color code of the continent to this value
+	 */
+	public void setColorCode(String colorCode) {
+		this.colorCode = colorCode;
+	}
+
+	/**
 	 * Returns the HashMap containing countries belonging to this continent
 	 * @return returns the HashMap containing countries belonging to this continent
 	 */
-	HashMap<String, Country> getCountries() {
+	public HashMap<String, Country> getCountries() {
 		return countries;
 	}
 }

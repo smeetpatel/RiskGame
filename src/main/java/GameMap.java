@@ -15,6 +15,7 @@ public class GameMap {
 	private String mapName;
 	private HashMap<String, Continent> continents;
 	private HashMap<String, Country> countries;
+	private boolean valid;
 	
 	/**
 	 * Registers the name of the map.
@@ -25,6 +26,7 @@ public class GameMap {
 		this.mapName = mapName;
 		this.continents = new HashMap<String, Continent>();
 		this.countries = new HashMap<String, Country>();
+		this.valid = false;
 	}
 	
 	/**
@@ -65,5 +67,21 @@ public class GameMap {
 	 */
 	void setCountries(HashMap<String, Country> countries) {
 		this.countries = countries;
+	}
+	
+	/**
+	 * Getter method to fetch valid variable
+	 * @return returns whether the map is valid for game play or not
+	 */
+	boolean getValid() {
+		return this.valid;
+	}
+	
+	/**
+	 * Setter method to set status for validity of the map
+	 * @param valid Indicates whether the map is valid for game play or not
+	 */
+	void setValid(boolean valid) {
+		this.valid = valid;
 	}
 }

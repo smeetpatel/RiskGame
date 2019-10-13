@@ -38,6 +38,21 @@ public class LoadMap {
 	}
 	
 	/**
+	 * Getter method for getting the game map.
+	 * @return GameMap object that is created.
+	 */
+	public GameMap getMap() {
+		return this.map;
+	}
+	
+	/**
+	 * Setter method for setting the game map.
+	 * @param map GameMap object to be set.
+	 */
+	public void setMap(GameMap map) {
+		this.map = map;
+	}
+	/**
 	 * Reads the ".map" file and creates a GameMap object accordingly.
 	 * Performs basic validation checks too.
 	 * @param mapName Name of the map file to be read

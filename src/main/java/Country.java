@@ -24,6 +24,17 @@ public class Country {
 	Country(){}
 	
 	/**
+	 * Create country object with values in argument parameters and set defaults for the rest.
+	 * @param countryName Name of the country
+	 * @param inContinent Name of the continent in which this country belongs
+	 */
+	Country(String countryName, String inContinent){
+		this.countryName = countryName;
+		this.inContinent = inContinent;
+		this.neighbours = new HashMap<String, Country>();
+	}
+	
+	/**
 	 * Creates country object as per the argument parameters.
 	 * Used when reading from ".map" files.
 	 * @param index index in the ".map" file as per Domination's conventions
