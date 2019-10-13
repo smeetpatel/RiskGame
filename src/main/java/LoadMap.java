@@ -10,20 +10,28 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 /**
- * Temporary file responsible for interacting with the user and loading the map.
+ * Responsible for loading map.
  * 
  * @author Smeet
  *
  */
 public class LoadMap {
-	private static GameMap map;	
-	private static HashMap<Integer, Country> listOfCountries; //temporary HashMap to facilitate reading .map files
+	private GameMap map;	
+	private HashMap<Integer, Country> listOfCountries; //temporary HashMap to facilitate reading .map files
 	
+	//temporary main method for testing purpose.
 	public static void main(String[] args){
 		
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter the name of the map:");
 		String mapName = in.nextLine();
+		LoadMap loadedMap = new LoadMap();
+		loadedMap.readMap(mapName);
+		in.close();
+		loadedMap.printMap();
+	}
+	
+	public GameMap readMap(String mapName) {
 		map = new GameMap(mapName);
 		listOfCountries = new HashMap<Integer, Country>();
 		
@@ -31,7 +39,7 @@ public class LoadMap {
 			BufferedReader reader = new BufferedReader(new FileReader(mapName));
 			String s;
 			while ((s = reader.readLine()) != null) {
-				System.out.println(s); 
+				//System.out.println(s); 
 				if(s.equals("[continents]"))
 					reader = readContinents(reader);
 				if(s.equals("[countries]"))
@@ -49,11 +57,10 @@ public class LoadMap {
 			System.out.println("IOException");
 			System.out.println(e.getMessage());
 		}
-		in.close();
-		printMap();
+		return map;
 	}
 	
-	static BufferedReader readContinents(BufferedReader reader) {
+	private BufferedReader readContinents(BufferedReader reader) {
 		String s;
 		boolean continentExists = false;
 		try {
@@ -85,7 +92,7 @@ public class LoadMap {
 		return reader;
 	}
 	
-	static BufferedReader readCountries(BufferedReader reader) {
+	private BufferedReader readCountries(BufferedReader reader) {
 		String s;
 		try {
 			while(!((s = reader.readLine()).equals(""))) {
@@ -101,11 +108,11 @@ public class LoadMap {
 		return reader;
 	}
 	
-	static BufferedReader readBorders(BufferedReader reader) {
+	private BufferedReader readBorders(BufferedReader reader) {
 		String s;
 		try {
 			while((s = reader.readLine()) != null) {
-				System.out.println(s);
+				//System.out.println(s);
 				if(!s.equals("")) {
 					String[] borderString = s.split("\\s+");
 					Country argumentCountry = new Country();
@@ -130,7 +137,7 @@ public class LoadMap {
 		return reader;
 	}
 
-	static void addToContinentMap(Country newCountry) {
+	private void addToContinentMap(Country newCountry) {
 		Continent tempContinent = map.getContinent(newCountry.getContinentName());
 		HashMap<String, Country> tempMap = tempContinent.getCountries();
 		if(!tempMap.containsKey(newCountry.getCountryName())) {
@@ -144,7 +151,7 @@ public class LoadMap {
 		}
 	}
 	
-	static void addNeighbour(Country argumentCountry, String stringIndex) {
+	private void addNeighbour(Country argumentCountry, String stringIndex) {
 		int borderIndex = Integer.parseInt(stringIndex);
 		Country neighbourCountry = listOfCountries.get(borderIndex);
 		ArrayList<Country> neighbourList = argumentCountry.getNeighbours();
@@ -154,7 +161,7 @@ public class LoadMap {
 			System.out.println("Neighbourhood already defined.");
 	}
 	
-	static boolean notANeighbour(ArrayList<Country> neighbourList, String country) {
+	private boolean notANeighbour(ArrayList<Country> neighbourList, String country) {
 		Iterator<Country> itr = neighbourList.iterator();
 		while(itr.hasNext()) {
 			Country tempCountry = itr.next();
@@ -164,7 +171,7 @@ public class LoadMap {
 		return false;
 	}
 	
-	static void printMap() {
+	public void printMap() {
 		System.out.println("Map name: " + map.getMapName());
 		for(int i=1;i<=map.getContinentList().size();i++) {
 			Continent tempContinent = map.getContinent(i);
