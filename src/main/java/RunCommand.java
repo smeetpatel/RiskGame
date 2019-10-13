@@ -228,6 +228,7 @@ public class RunCommand {
 		if(validateMap(map)) {
 			try {
 				BufferedWriter writer = new BufferedWriter(new FileWriter("maps/"+map.getMapName()));
+				int continentIndex = 0;	//to track continent index in "map" file
 				writer.write("name " + map.getMapName() + " Map");
 				writer.newLine();
 				writer.write("[files");
@@ -237,6 +238,7 @@ public class RunCommand {
 				for(Continent continent : map.getContinents().values()) {
 					writer.write(continent.getContinentName() + " " + Integer.toString(continent.getControlValue()) + " " + continent.getColorCode());
 					writer.newLine();
+					
 				}
 			}
 			catch(IOException e) {
