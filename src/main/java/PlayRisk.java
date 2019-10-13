@@ -28,10 +28,11 @@ public class PlayRisk {
 		String command = read.nextLine();
 		Command cmd = new Command();
 		Phase gamePhase = Phase.NULL;
-		gamePhase = cmd.parseCommand(gamePhase, command);
+		//gamePhase = cmd.parseCommand(gamePhase, command);
+		//cmd.parseCommand(command);
 		while(gamePhase!=Phase.QUIT) {
 			command = read.nextLine();
-			gamePhase = cmd.parseCommand(gamePhase, command);
+			//gamePhase = cmd.parseCommand(gamePhase, command);
 		}
 	}
 	
