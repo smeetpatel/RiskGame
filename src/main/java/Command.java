@@ -216,7 +216,7 @@ public class Command {
                     if (!(data[1] == "")) {
                         if (ob1.isAlpha(data[1])) {
                             mapName = data[1];
-                            boolean check = runCmd.saveMap(map);
+                            boolean check = runCmd.saveMap(map,mapName);
                             if(check) {
                                 System.out.println("Map file saved successfully");
                                 gamePhase = Phase.EDITMAP;
@@ -235,6 +235,8 @@ public class Command {
                     gamePhase = Phase.EDITMAP;
                     break;
 
+                default:
+                    System.out.println("Please enter valid command");
 
             }
         }
@@ -271,6 +273,8 @@ public class Command {
                     gamePhase = Phase.STARTUP;
                     break;
 
+                default:
+                    System.out.println("Please enter valid command");
 
             }
         }
@@ -314,6 +318,8 @@ public class Command {
                     }
                     break;
 
+                default:
+                    System.out.println("Please enter valid command");
 
             }
         }
