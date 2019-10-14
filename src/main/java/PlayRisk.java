@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class PlayRisk {
 
-	public enum Phase{NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT};
+	//public enum Phase{NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT};
 	
 	public static void main(String[] args) {
 		PlayRisk game = new PlayRisk();
@@ -25,14 +25,16 @@ public class PlayRisk {
 
 		//read first command
 		Scanner read = new Scanner(System.in);
+		System.out.println("Enter: ");
 		String command = read.nextLine();
 		Command cmd = new Command();
-		Phase gamePhase = Phase.NULL;
+		Command.Phase gamePhase = Command.Phase.NULL;
 		//gamePhase = cmd.parseCommand(gamePhase, command);
-		//cmd.parseCommand(command);
-		while(gamePhase!=Phase.QUIT) {
+		gamePhase = cmd.parseCommand(command);
+		while(!gamePhase.equals(Command.Phase.QUIT)) {
+			System.out.println("Enter Command: ");
 			command = read.nextLine();
-			//gamePhase = cmd.parseCommand(gamePhase, command);
+			gamePhase = cmd.parseCommand(command);
 		}
 	}
 	
