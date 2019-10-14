@@ -252,7 +252,7 @@ public class RunCommand {
 	/**
 	 * Saves GameMap object as ".map" file following Domination game format
 	 * @param map GameMap object representing the map to be saved
-	 * @return true if succesfful, else false indicating invalid command
+	 * @return true if successful, else false indicating invalid command
 	 * @throws IOException
 	 */
 	public boolean saveMap(GameMap map, String fileName) {
@@ -262,14 +262,18 @@ public class RunCommand {
 				BufferedWriter writer = new BufferedWriter(new FileWriter("maps/"+fileName+".map"));
 				int continentIndex = 1;	//to track continent index in "map" file
 				int countryIndex = 1; //to track country index in "map" file
-				HashMap<String, Integer> countryToIndex = new HashMap<String, Integer>(); //to get in map index to be in compliance with Domination format
-				ArrayList<Country> borderWritingList = new ArrayList<Country>(); //to write borders in order to be in compliance with Domination format
+				HashMap<Integer, String> indexToCountry = new HashMap<Integer, String>(); //to get in map index to be in compliance with Domination format
+				HashMap<String, Integer> countryToIndex = new HashMap<String, Integer>();
 				
 				//write preliminary basic information
 				writer.write("name " + map.getMapName() + " Map");
 				writer.newLine();
+				writer.newLine();
 				writer.write("[files]");
 				writer.newLine();
+				writer.newLine();
+				//writer.newLine();
+				writer.flush();
 				
 				//write information about all the continents
 				writer.write("[continents]");
@@ -277,9 +281,11 @@ public class RunCommand {
 				for(Continent continent : map.getContinents().values()) {
 					writer.write(continent.getContinentName() + " " + Integer.toString(continent.getControlValue()) + " " + continent.getColorCode());
 					writer.newLine();
+					writer.flush();
 					continent.setInMapIndex(continentIndex);
 					continentIndex++;
 				}
+				writer.newLine();
 				
 				//write information about all the countries
 				writer.write("[countries]");
@@ -287,24 +293,45 @@ public class RunCommand {
 				for(Country country : map.getCountries().values()) {
 					writer.write(Integer.toString(countryIndex) + " " + country.getCountryName() + " " + Integer.toString(map.getContinents().get(country.getInContinent()).getInMapIndex()) + " " + country.getxCoOrdinate() + " " + country.getyCoOrdinate());
 					writer.newLine();
+					writer.flush();
+					indexToCountry.put(countryIndex, country.getCountryName().toLowerCase());
 					countryToIndex.put(country.getCountryName().toLowerCase(), countryIndex);
 					countryIndex++;
 				}
-				countryIndex = 1;
+				writer.newLine();
+				//countryIndex = 1;
 				
 				//write information about all the borders
 				writer.write("[borders]");
 				writer.newLine();
+				//writer.newLine();
+				writer.flush();
+				for(int i=1;i<countryIndex-1;i++) {
+					String countryName = indexToCountry.get(i);
+					Country c = map.getCountries().get(countryName.toLowerCase());
+					writer.write(Integer.toString(i) + " ");
+					for(Country neighbor : c.getNeighbours().values()) {
+						writer.write(Integer.toString(countryToIndex.get(neighbor.getCountryName().toLowerCase())) + " ");
+						writer.flush();
+						System.out.println(Integer.toString(countryToIndex.get(neighbor.getCountryName().toLowerCase())) + " ");
+					}
+					writer.newLine();
+				}
+				/*
 				Iterator<Country> itr = borderWritingList.listIterator();
 				while(itr.hasNext()) {
 					Country country = itr.next();
-					writer.write(countryIndex + " ");
+					writer.write(Integer.toString(countryIndex) + " ");
+					writer.flush();
 					for(Country c : country.getNeighbours().values()) {
-						writer.write(Integer.toString(countryToIndex.get(c.getCountryName().toLowerCase())) + " ");
+						writer.write(Integer.toString(indexToCountry.get(c.getCountryName().toLowerCase())) + " ");
+						writer.flush();
+						System.out.println(Integer.toString(indexToCountry.get(c.getCountryName().toLowerCase())) + " ");
 					}
 					writer.newLine();
+					writer.flush();
 					writer.close();
-				}
+				}*/
 			}
 			catch(IOException e) {
 				e.printStackTrace();

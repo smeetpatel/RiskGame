@@ -130,6 +130,13 @@ public class Country {
 		//System.out.println("index: " + index);
 		//System.out.println("index: " + index);
 	}
+
+	@Override
+	public String toString() {
+		return "Country [countryName=" + countryName + ", xCoOrdinate=" + xCoOrdinate + ", yCoOrdinate=" + yCoOrdinate
+				+ "]";
+	}
+	
 	
 	
 }
