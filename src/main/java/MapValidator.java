@@ -13,7 +13,7 @@ import org.jgrapht.traverse.*;
 import org.jgrapht.alg.connectivity.*;
 
 /**
- * Class holding functions to validate map.
+ * Class holding functions to validate m
  * 
  * @author Smeet
  */
