@@ -3,6 +3,9 @@ package main.java;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import main.java.Continent;
+import main.java.Country;
+import main.java.GameMap;
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
 //import org.jgrapht.io.*;

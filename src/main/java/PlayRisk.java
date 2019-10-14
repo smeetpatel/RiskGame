@@ -9,13 +9,13 @@ import java.util.Scanner;
  * Responsible for only interacting with the user and calling apporpriate methods for further
  * actions.
  * 
- * @author Smeet
+ * @author Tirth & Smeet
  *
  */
 
 public class PlayRisk {
 
-	public enum Phase{NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT};
+
 	
 	public static void main(String[] args) {
 		PlayRisk game = new PlayRisk();
@@ -27,12 +27,11 @@ public class PlayRisk {
 		Scanner read = new Scanner(System.in);
 		String command = read.nextLine();
 		Command cmd = new Command();
-		Phase gamePhase = Phase.NULL;
-		//gamePhase = cmd.parseCommand(gamePhase, command);
-		//cmd.parseCommand(command);
-		while(gamePhase!=Phase.QUIT) {
+		Command.Phase gamePhase = Command.Phase.NULL;
+		gamePhase = cmd.parseCommand(command);
+		while(gamePhase!= Command.Phase.QUIT) {
 			command = read.nextLine();
-			//gamePhase = cmd.parseCommand(gamePhase, command);
+			gamePhase = cmd.parseCommand(command);
 		}
 	}
 	
