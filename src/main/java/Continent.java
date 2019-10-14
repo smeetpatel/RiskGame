@@ -109,7 +109,7 @@ public class Continent {
 	 * Returns the HashMap containing countries belonging to this continent
 	 * @return returns the HashMap containing countries belonging to this continent
 	 */
-	public HashMap<String, Country> getCountries() {
+	public static HashMap<String, Country> getCountries() {
 		return countries;
 	}
 }
