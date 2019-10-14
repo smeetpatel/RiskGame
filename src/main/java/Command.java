@@ -60,7 +60,7 @@ public class Command {
                             //EditMap lm = new EditMap();
                             System.out.println(data[1]);
                         } else
-                            System.out.println("invalid command");
+                        	System.out.println("Invalid command");
                     } else {
                         System.out.println("Empty Name");
                     }
