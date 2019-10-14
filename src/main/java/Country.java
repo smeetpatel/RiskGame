@@ -50,7 +50,7 @@ public class Country {
 		for(Continent c : map.getContinents().values()) {
 			if(c.getInMapIndex()==Integer.parseInt(continentIndex)) {
 				this.inContinent = c.getContinentName();
-				break;
+				//break;
 			}	
 		}	
 		this.neighbours = new HashMap<String, Country>();
@@ -62,7 +62,7 @@ public class Country {
 	 * Returns the index of this country in the ".map" file as per Domination's conventions
 	 * @return returns the index of this country in the ".map" file as per Domination's conventions
 	 */
-	int getIndex() {
+	public int getIndex() {
 		return index;
 	}
 	
@@ -70,7 +70,7 @@ public class Country {
 	 * Returns the name of the continent in which this country belongs
 	 * @return returns the name of the continent in which this country belongs
 	 */
-	String getInContinent() {
+	public String getInContinent() {
 		return this.inContinent;
 	}
 	
@@ -78,16 +78,58 @@ public class Country {
 	 * Returns the name of the country
 	 * @return returns the name of the country
 	 */
-	String getCountryName() {
+	public String getCountryName() {
 		return countryName;
 	}
 	
 	/**
-	 * Returns the HashMap holding all the neighbours with their names in lower case as keys and their 
+	 * Returns the HashMap holding all the neighbors with their names in lower case as keys and their 
 	 * Country object references as values.
 	 * @return returns neighbors of this country
 	 */
-	HashMap<String, Country> getNeighbours(){
+	public HashMap<String, Country> getNeighbours(){
 		return this.neighbours;
 	}
+
+	/**
+	 * Getter method to fetch x-co-ordinate value
+	 * @return returns x-co-ordinate
+	 */
+	public int getxCoOrdinate() {
+		return this.xCoOrdinate;
+	}
+	
+	/**
+	 * Setter method to fetch x-co-ordinate
+	 * @param xCoOrdinate argument x-co-ordinate value to be set
+	 */
+	public void setxCoOrdinate(int xCoOrdinate) {
+		this.xCoOrdinate = xCoOrdinate;
+	}
+	
+	/**
+	 * Getter method to fetch y-co-ordinate value
+	 * @return returns y-co-ordinate
+	 */
+	public int getyCoOrdinate() {
+		return this.yCoOrdinate;
+	}
+
+	/**
+	 * Setter method to fetch y-co-ordinate
+	 * @param xCoOrdinate argument y-co-ordinate value to be set
+	 */
+	public void setyCoOrdinate(int yCoOrdinate) {
+		this.yCoOrdinate = yCoOrdinate;
+	}
+	
+	public void printCountry(){
+		System.out.println("index: " + index);
+		System.out.println("countryName: " + countryName);
+		System.out.println("inContinent: " + inContinent);
+		//System.out.println("index: " + index);
+		//System.out.println("index: " + index);
+	}
+	
+	
 }

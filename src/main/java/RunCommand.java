@@ -4,6 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Class containing logic for executing commands
@@ -50,6 +53,7 @@ public class RunCommand {
 			LoadMap lm = new LoadMap();
 			map = lm.readMap(filePath);
 			if(validateMap(map)) {
+				//System.out.println("Valid in loading map");
 				map.setValid(true);
 			}
 			else {
@@ -223,27 +227,67 @@ public class RunCommand {
 		l.printMap();
 	}
 	
-	public boolean saveMap(GameMap map) {
+	/**
+	 * Saves GameMap object as ".map" file following Domination game format
+	 * @param map GameMap object representing the map to be saved
+	 * @return true if succesfful, else false indicating invalid command
+	 * @throws IOException
+	 */
+	public boolean saveMap(GameMap map, String fileName) {
 		//Check if map is valid or not 
 		if(validateMap(map)) {
 			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter("maps/"+map.getMapName()));
-				int continentIndex = 0;	//to track continent index in "map" file
+				BufferedWriter writer = new BufferedWriter(new FileWriter("maps/"+fileName+".map"));
+				int continentIndex = 1;	//to track continent index in "map" file
+				int countryIndex = 1; //to track country index in "map" file
+				HashMap<String, Integer> countryToIndex = new HashMap<String, Integer>(); //to get in map index to be in compliance with Domination format
+				ArrayList<Country> borderWritingList = new ArrayList<Country>(); //to write borders in order to be in compliance with Domination format
+				
+				//write preliminary basic information
 				writer.write("name " + map.getMapName() + " Map");
 				writer.newLine();
-				writer.write("[files");
+				writer.write("[files]");
 				writer.newLine();
-				writer.write("[continents");
+				
+				//write information about all the continents
+				writer.write("[continents]");
 				writer.newLine();
 				for(Continent continent : map.getContinents().values()) {
 					writer.write(continent.getContinentName() + " " + Integer.toString(continent.getControlValue()) + " " + continent.getColorCode());
 					writer.newLine();
-					
+					continent.setInMapIndex(continentIndex);
+					continentIndex++;
+				}
+				
+				//write information about all the countries
+				writer.write("[countries]");
+				writer.newLine();
+				for(Country country : map.getCountries().values()) {
+					writer.write(Integer.toString(countryIndex) + " " + country.getCountryName() + " " + map.getContinents().get(country.getInContinent()).getInMapIndex() + " " + country.getxCoOrdinate() + " " + country.getyCoOrdinate());
+					writer.newLine();
+					countryToIndex.put(country.getCountryName().toLowerCase(), countryIndex);
+					countryIndex++;
+				}
+				countryIndex = 1;
+				
+				//write information about all the borders
+				writer.write("[borders]");
+				writer.newLine();
+				Iterator<Country> itr = borderWritingList.listIterator();
+				while(itr.hasNext()) {
+					Country country = itr.next();
+					writer.write(countryIndex + " ");
+					for(Country c : country.getNeighbours().values()) {
+						writer.write(Integer.toString(countryToIndex.get(c.getCountryName().toLowerCase())) + " ");
+					}
+					writer.newLine();
+					writer.close();
 				}
 			}
 			catch(IOException e) {
 				e.printStackTrace();
 			}
+			return true;
 		}
 		else
 		{
@@ -252,4 +296,30 @@ public class RunCommand {
 		}
 	}
 	
+	/**
+	 * Runs various validity checks to ensure that map is suitable for playing the game.
+	 * Checks:
+	 * 	1) If any empty continent is present, i.e. continent without any country
+	 * 	2) If each continent is a connected sub-graph
+	 * 	3) If map for the game is connected graph or not
+	 * @param map GameMap representing the map
+	 * @return returns true if valid map, else false indicating invalid map
+	 */
+	public boolean validateMap(GameMap map) {
+		MapValidator mv = new MapValidator();
+		if(!mv.notEmptyContinent(map)) {
+			System.out.println("Invalid map - emtpy continent present.");
+			return false;
+		}
+		else if(!mv.isGraphConnected(mv.createGraph(map))) {
+			System.out.println("Invalid map - not a connected graph");
+			return false;
+		}
+		else if(!mv.continentConnectivityCheck(map)) {
+			System.out.println("Invalid map - one of the continent is not a connected sub-graph");
+			return false;
+		}
+		
+		return true;
+	}
 }
