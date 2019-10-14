@@ -103,7 +103,7 @@ public class LoadMap {
 				
 				//Check if continent already exists in the map
 				//continentExists = MapValidator.doesContinentExist(map, continentString[0]);
-				if(!continentExists) {
+				if(!continentExists && Integer.parseInt(continentString[1])>=0) {
 					map.getContinents().put(continentString[0].toLowerCase(), new Continent(continentString[0], continentString[1], continentString[2]));
 					inMapIndex++;
 				} 

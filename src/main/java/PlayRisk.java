@@ -15,8 +15,6 @@ import java.util.Scanner;
 
 public class PlayRisk {
 
-
-	
 	public static void main(String[] args) {
 		PlayRisk game = new PlayRisk();
 		System.out.println("Welcome to Risk Game");
