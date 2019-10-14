@@ -1,6 +1,7 @@
 package main.java;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
@@ -21,7 +22,7 @@ public class MapValidator {
 	  * Creates a Graph object supported by JGraphT library.
 	  */
 	 MapValidator(){
-		 this.mapGraph = new SimpleGraph<>(DefaultEdge.class);
+		 this.mapGraph = new DefaultUndirectedGraph<>(DefaultEdge.class);
 	 }
 	 
 	/**
@@ -88,10 +89,11 @@ public class MapValidator {
 		//add Edges based on neighbors of each countries
 		for(Country country : countries.values()) {
 			for(Country neighbor : country.getNeighbours().values()) {
-				if(countries.containsKey(neighbor.getCountryName()))
+				if(countries.containsKey(neighbor.getCountryName().toLowerCase()))
 					subGraph.addEdge(country, neighbor);
 			}
 		}
+		//printGraph(subGraph, countries);
 		return subGraph;
 	}
 	/**
@@ -114,10 +116,14 @@ public class MapValidator {
 	 */
 	public boolean continentConnectivityCheck(GameMap map) {
 		for(Continent continent : map.getContinents().values()) {
-			Graph<Country, DefaultEdge> subGraph = new SimpleGraph<>(DefaultEdge.class);
+			Graph<Country, DefaultEdge> subGraph = new DefaultUndirectedGraph<>(DefaultEdge.class);
 			subGraph = createGraph(subGraph, continent.getCountries());
-			if(!isGraphConnected(subGraph))
+			//printGraph(subGraph, continent.getCountries());
+			if(!isGraphConnected(subGraph)) {
+				printGraph(subGraph, continent.getCountries());
+				//System.out.println(continent.getContinentName() + " is not a connected sub-graph.");
 				return false;
+			}
 		}
 		return true;
 	}
@@ -134,4 +140,16 @@ public class MapValidator {
 		}
 		return true;
 	}
+	
+	public void printGraph(Graph<Country, DefaultEdge> graph, HashMap<String, Country> countries) {
+		Country c = new Country();
+		for(Country co:countries.values())
+			c = co;
+		Iterator<Country> iterator = new DepthFirstIterator<>(graph, c);
+        while (iterator.hasNext()) {
+            Country uri = iterator.next();
+            System.out.println(uri.getCountryName());
+        }
+	}
 }
+	

@@ -50,7 +50,7 @@ public class Country {
 		for(Continent c : map.getContinents().values()) {
 			if(c.getInMapIndex()==Integer.parseInt(continentIndex)) {
 				this.inContinent = c.getContinentName();
-				break;
+				//break;
 			}	
 		}	
 		this.neighbours = new HashMap<String, Country>();
@@ -121,6 +121,14 @@ public class Country {
 	 */
 	public void setyCoOrdinate(int yCoOrdinate) {
 		this.yCoOrdinate = yCoOrdinate;
+	}
+	
+	public void printCountry(){
+		System.out.println("index: " + index);
+		System.out.println("countryName: " + countryName);
+		System.out.println("inContinent: " + inContinent);
+		//System.out.println("index: " + index);
+		//System.out.println("index: " + index);
 	}
 	
 	

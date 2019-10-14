@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class LoadMap {
 	/**
-	 * Tracks the index value of continents, new or exisiting, to later facilitate writing them to
+	 * Tracks the index value of continents, new or existing, to later facilitate writing them to
 	 * map files following domaination's conventions.
 	 */
 	public static int inMapIndex = 1;	
@@ -118,6 +118,9 @@ public class LoadMap {
 		catch(IOException e) {
 			e.printStackTrace();
 		}
+		inMapIndex = 1;
+		//for(Continent c : map.getContinents().values())
+		//	System.out.println(c.getContinentName() + " has inMapIndex: " + c.getInMapIndex());
 		return reader;
 	}
 	
@@ -134,15 +137,23 @@ public class LoadMap {
 			while(!((s = reader.readLine()).equals(""))) {
 				String[] countryString = s.split("\\s+");
 				Country newCountry = new Country(countryString[0], countryString[1], countryString[2], countryString[3], countryString[4], map);
-				if(newCountry.getInContinent()==null)
-				{
-					System.out.println("Country: " + newCountry.getCountryName() + " continent name: " + newCountry.getInContinent());
-					System.out.println("Error reading the file.");
-					System.out.println("This continent does not exist.");
-					System.exit(-1);
+				try {
+					if(newCountry.getInContinent()==null)
+					{
+						//System.out.println("continent: " + countryString[2]);
+						//System.out.println("Country: " + newCountry.getCountryName() + " continent name: " + newCountry.getInContinent());
+						System.out.println("Error reading the file.");
+						System.out.println("This continent does not exist.");
+						System.exit(-1);
+					}
+					addToContinentMap(newCountry);	//Add country to the appropriate continent in the map. Terminate if duplicate entry.
+					listOfCountries.put(newCountry.getIndex(), newCountry);
 				}
-				addToContinentMap(newCountry);	//Add country to the appropriate continent in the map. Terminate if duplicate entry.
-				listOfCountries.put(newCountry.getIndex(), newCountry);
+				catch(NullPointerException e) {
+					e.printStackTrace();
+				}
+				
+				
 			}
 		}
 		catch(IOException e) {
@@ -194,7 +205,9 @@ public class LoadMap {
 	private void addToContinentMap(Country newCountry) {
 		
 		if(!MapValidator.doesCountryExist(map, newCountry.getCountryName())) {
-			Continent argumentContinent = map.getContinents().get(newCountry.getInContinent());
+			//newCountry.printCountry();
+			Continent argumentContinent = map.getContinents().get(newCountry.getInContinent().toLowerCase());
+			//System.out.println("Fetched continent: " + argumentContinent.getContinentName());
 			argumentContinent.getCountries().put(newCountry.getCountryName().toLowerCase(), newCountry);
 			map.getCountries().put(newCountry.getCountryName().toLowerCase(), newCountry);
 		}

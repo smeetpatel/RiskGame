@@ -53,6 +53,7 @@ public class RunCommand {
 			LoadMap lm = new LoadMap();
 			map = lm.readMap(filePath);
 			if(validateMap(map)) {
+				//System.out.println("Valid in loading map");
 				map.setValid(true);
 			}
 			else {
@@ -232,11 +233,11 @@ public class RunCommand {
 	 * @return true if succesfful, else false indicating invalid command
 	 * @throws IOException
 	 */
-	public boolean saveMap(GameMap map) {
+	public boolean saveMap(GameMap map, String fileName) {
 		//Check if map is valid or not 
 		if(validateMap(map)) {
 			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter("maps/"+map.getMapName()));
+				BufferedWriter writer = new BufferedWriter(new FileWriter("maps/"+fileName+".map"));
 				int continentIndex = 1;	//to track continent index in "map" file
 				int countryIndex = 1; //to track country index in "map" file
 				HashMap<String, Integer> countryToIndex = new HashMap<String, Integer>(); //to get in map index to be in compliance with Domination format
@@ -310,15 +311,15 @@ public class RunCommand {
 			System.out.println("Invalid map - emtpy continent present.");
 			return false;
 		}
-		else if(!mv.continentConnectivityCheck(map)) {
-			System.out.println("Invalid map - one of the continent is not a connected sub-graph");
-			return false;
-		}
 		else if(!mv.isGraphConnected(mv.createGraph(map))) {
 			System.out.println("Invalid map - not a connected graph");
 			return false;
 		}
+		else if(!mv.continentConnectivityCheck(map)) {
+			System.out.println("Invalid map - one of the continent is not a connected sub-graph");
+			return false;
+		}
+		
 		return true;
 	}
-	
 }
