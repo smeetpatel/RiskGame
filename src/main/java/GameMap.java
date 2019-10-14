@@ -33,7 +33,7 @@ public class GameMap {
 	 * Returns the name of the map.
 	 * @return returns the name of the map
 	 */
-	String getMapName() {
+	public String getMapName() {
 		return this.mapName;
 	}
 	
@@ -41,7 +41,7 @@ public class GameMap {
 	 * Returns the HashMap maintaining list of continents in the map.
 	 * @return returns the HashMap maintaining list of continents in the map.
 	 */
-	HashMap<String, Continent> getContinents(){
+	public HashMap<String, Continent> getContinents(){
 		return this.continents;
 	}
 	
@@ -49,7 +49,7 @@ public class GameMap {
 	 * Sets the continents HashMap to the argument HashMap.
 	 * @param continents Altered HashMap for continents 
 	 */
-	void setContinents(HashMap<String, Continent> continents) {
+	public void setContinents(HashMap<String, Continent> continents) {
 		this.continents = continents;
 	}
 	
@@ -57,7 +57,7 @@ public class GameMap {
 	 * Returns the HashMap maintaining list of continents in the map.
 	 * @return returns the HashMap maintaining list of countries in the map.
 	 */
-	HashMap<String, Country> getCountries(){
+	public HashMap<String, Country> getCountries(){
 		return this.countries;
 	}
 	
@@ -65,7 +65,7 @@ public class GameMap {
 	 * Sets the countries HashMap to the argument HashMap.
 	 * @param countries Altered HashMap for countries 
 	 */
-	void setCountries(HashMap<String, Country> countries) {
+	public void setCountries(HashMap<String, Country> countries) {
 		this.countries = countries;
 	}
 	
@@ -73,7 +73,7 @@ public class GameMap {
 	 * Getter method to fetch valid variable
 	 * @return returns whether the map is valid for game play or not
 	 */
-	boolean getValid() {
+	public boolean getValid() {
 		return this.valid;
 	}
 	
@@ -81,7 +81,7 @@ public class GameMap {
 	 * Setter method to set status for validity of the map
 	 * @param valid Indicates whether the map is valid for game play or not
 	 */
-	void setValid(boolean valid) {
+	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
 }
