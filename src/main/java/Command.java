@@ -90,7 +90,7 @@ public class Command {
                                 gamePhase = Phase.NULL;
                             }
                         } else
-                            System.out.println("invalid command");
+                        	System.out.println("invalid command");
                     } else {
                         System.out.println("Empty Name");
                     }
