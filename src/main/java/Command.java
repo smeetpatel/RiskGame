@@ -2,8 +2,9 @@ package main.java;
 
 public class Command {
 
-    /*TODO: @Tirth create a function of type
-     *  public PlayRisk.Phase parseCommand(PlayRisk.phase phaseValue, String cmd)()
+    /**create a function of type
+     * @author Tirth
+     *  public Phase parseCommand(String cmd)()
      *  This function will return appropriate phase value as per the command.
      *  This value can be one of the following: {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
      *  You will return it as, for example: return PlayRisk.Phase.EDITMAP;
@@ -11,8 +12,9 @@ public class Command {
 
     public enum Phase {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
 
-    ;
+
     public GameMap map;
+    public RunCommand runCmd;
     Phase gamePhase = Phase.NULL;
 
     public boolean isAlpha(String s) {
@@ -21,7 +23,7 @@ public class Command {
 
     public Phase parseCommand(String newCommand) {
 
-
+        String mapName = null;
         String continentName = null;
         String countryName = null;
         String neighborCountryName = null;
@@ -29,7 +31,7 @@ public class Command {
         String fromCountry = null;
         String toCountry = null;
 
-        int continentValue = 0;
+        int controlValue = 0;
         int numberOfArmies = 0;
         int armiesToFortify = 0;
 
@@ -46,8 +48,10 @@ public class Command {
                 case "editmap":
                     if (!(data[1] == "")) {
                         if (ob1.isAlpha(data[1])) {
-                            //EditMap lm = new EditMap();
-                            //map = RunCommand.editmap(data[1]);
+                            mapName = data[1];
+                            runCmd = new RunCommand();
+                            map = new GameMap(mapName);
+                            map = runCmd.editMap(mapName);
                         } else
                             System.out.println("invalid command");
                     } else {
@@ -59,8 +63,13 @@ public class Command {
                 case "loadmap":
                     if (!(data[1] == "")) {
                         if (ob1.isAlpha(data[1])) {
-                            //EditMap lm = new EditMap();
-                            System.out.println(data[1]);
+                            //System.out.println(data[1]);
+                            mapName = data[1];
+                            runCmd = new RunCommand();
+                            map = new GameMap(mapName);
+                            map = runCmd.loadMap(mapName);
+                            if(map.getValid())
+                                System.out.println("Enter valid map name");
                         } else
                             System.out.println("invalid command");
                     } else {
@@ -72,6 +81,8 @@ public class Command {
         }
 
         if (gamePhase.equals("EDITMAP")) {
+            runCmd = new RunCommand();
+            map = new GameMap(mapName);
 
             switch (commandName) {
                 case "editcontinent":
@@ -82,17 +93,27 @@ public class Command {
                                 continentName = data[i + 1];
                             else
                                 System.out.println("invalid command");
+                            controlValue = Integer.parseInt(data[i + 2]);
 
-                            continentValue = Integer.parseInt(data[i + 2]);
+                            boolean check = runCmd.addContinent(map, continentName,controlValue);
+                            if(check)
+                                System.out.println("Continent added to the map");
+                            else
+                                System.out.println("Continent Exist - Please add valid Continent Name");
 
-                            System.out.println(continentName + "  " + continentValue);
+                            //System.out.println(continentName + "  " + controlValue);
                         } else if (data[i].equals("-remove")) {
                             if (ob1.isAlpha(data[i + 1]))
                                 continentName = data[i + 1];
-                                //boolean check = RunCommand.removeContinent(map, continentName);
                             else
                                 System.out.println("invalid command");
-                            System.out.println(continentName);
+
+                            boolean check = runCmd.removeContinent(map, continentName);
+                            if(check)
+                                System.out.println("Continent removed from the map");
+                            else
+                                System.out.println("Continent does not exist - Please enter valid continent name");
+                            //System.out.println(continentName);
                         }
                     }
                     gamePhase = Phase.EDITMAP;
@@ -108,13 +129,24 @@ public class Command {
                             } else
                                 System.out.println("invalid command");
 
-                            System.out.println(countryName + "  " + continentName);
+                            boolean check = runCmd.addCountry(map, countryName, continentName);
+                            if(check)
+                                System.out.println("Country added to the map");
+                            else
+                                System.out.println("Country Exist - Please add valid Country Name");
+                            //System.out.println(countryName + "  " + continentName);
                         } else if (data[i].equals("-remove")) {
                             if (ob1.isAlpha(data[i + 1]))
                                 countryName = data[i + 1];
                             else
                                 System.out.println("invalid command");
-                            System.out.println(countryName);
+
+                            boolean check = runCmd.removeCountry(map, countryName);
+                            if(check)
+                                System.out.println("Country removed from the map");
+                            else
+                                System.out.println("Country doed not exist - Please enter valid Country Name");
+                            //System.out.println(countryName);
                         }
                     }
                     gamePhase = Phase.EDITMAP;
@@ -129,25 +161,49 @@ public class Command {
                                 neighborCountryName = data[i + 2];
                             } else
                                 System.out.println("invalid command");
-                            System.out.println(countryName + "  " + neighborCountryName);
+
+                            boolean check = runCmd.addNeighbor(map, countryName, neighborCountryName);
+                            if(check)
+                                System.out.println("Neighbor added to the map");
+                            else
+                                System.out.println("Neighbor Exist or Country does not exist - Please enter valid neighbor or country name");
+                            //System.out.println(countryName + "  " + neighborCountryName);
                         } else if (data[i].equals("-remove")) {
                             if (ob1.isAlpha(data[i + 1]) || ob1.isAlpha(data[i + 2])) {
                                 countryName = data[i + 1];
                                 neighborCountryName = data[i + 2];
                             } else
                                 System.out.println("invalid command");
-                            System.out.println(countryName + "  " + neighborCountryName);
+
+                            boolean check = runCmd.addNeighbor(map, countryName, neighborCountryName);
+                            if(check)
+                                System.out.println("Neighbor removed from the map");
+                            else
+                                System.out.println("Neighbor does not exist or Country does not exist - Please enter valid neighbor or country name");
+                            //System.out.println(countryName + "  " + neighborCountryName);
                         }
                     }
                     gamePhase = Phase.EDITMAP;
                     break;
 
-                case "showmap":
+                case  "savemap":
                     if (!(data[1] == "")) {
-                        //LoadMap lm = new LoadMap();
+                        if (ob1.isAlpha(data[1])) {
+                            mapName = data[1];
+                        } else
+                            System.out.println("invalid command");
                     } else {
                         System.out.println("Empty Name");
                     }
+                    boolean check = runCmd.saveMap(map,mapName);
+                    if(check)
+                        System.out.println("Map file saved successfully");
+                    else
+                        System.out.println("Error in map saving");
+                    gamePhase = Phase.EDITMAP;
+                    break;
+                case "showmap":
+                    runCmd.showMap(map);
                     gamePhase = Phase.EDITMAP;
                     break;
             }
@@ -157,9 +213,7 @@ public class Command {
             switch (commandName) {
                 case "gameplayer":
 
-                    for (
-                            int i = 1;
-                            i < data.length; i++) {
+                    for (int i = 1; i < data.length; i++) {
                         if (data[i].equals("-add")) {
                             if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                 playerName = data[i + 1];
@@ -227,8 +281,5 @@ public class Command {
             }
         }
         return gamePhase;
-
     }
-
-
 }

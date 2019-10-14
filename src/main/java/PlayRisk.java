@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Responsible for only interacting with the user and calling apporpriate methods for further
  * actions.
  * 
- * @author Smeet
+ * @author Tirth & Smeet
  *
  */
 
