@@ -2,14 +2,6 @@ package main.java;
 
 public class Command {
 
-    /**create a function of type
-     * @author Tirth
-     *  public Phase parseCommand(String cmd)()
-     *  This function will return appropriate phase value as per the command.
-     *  This value can be one of the following: {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
-     *  You will return it as, for example: return PlayRisk.Phase.EDITMAP;
-     */
-
     public enum Phase {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
 
 

@@ -29,6 +29,7 @@ public class RunCommand {
 		if(f.exists()) {
 			LoadMap lm = new LoadMap();
 			map = lm.readMap(filePath);
+			map.setMapName(mapName);
 		}
 		else {
 			System.out.println(mapName + " does not exist.");
@@ -52,6 +53,7 @@ public class RunCommand {
 		if(f.exists()) {
 			LoadMap lm = new LoadMap();
 			map = lm.readMap(filePath);
+			map.setMapName(mapName);
 			if(validateMap(map)) {
 				//System.out.println("Valid in loading map");
 				map.setValid(true);
@@ -80,6 +82,8 @@ public class RunCommand {
 	public boolean addContinent(GameMap map, String continentName, int controlValue) {
 		//check if continent already exists
 		if(!(MapValidator.doesContinentExist(map, continentName))) {
+			if(controlValue<0)
+				return false;
 			Continent continent = new Continent(continentName, controlValue);
 			map.getContinents().put(continentName.toLowerCase(), continent);
 			return true;
@@ -100,10 +104,17 @@ public class RunCommand {
 		//check if argument continent exists or not
 		if(map.getContinents().containsKey(continentName.toLowerCase())) {
 			Continent continent = map.getContinents().get(continentName.toLowerCase());
+			
 			//remove each country of the continent
+			ArrayList<Country> tempList = new ArrayList<Country>();
 			for(Country c : continent.getCountries().values()) {
+				tempList.add(c);
+			}
+			Iterator<Country> itr = tempList.listIterator();
+			while(itr.hasNext()) {
+				Country c = itr.next();
 				if(!removeCountry(map, c.getCountryName()))
-						return false;
+					return false;
 			}
 			map.getContinents().remove(continentName.toLowerCase());
 			return true;
@@ -125,6 +136,10 @@ public class RunCommand {
 	public boolean addCountry(GameMap map, String countryName, String continentName) {
 		//check if argument country exists or not
 		if(!MapValidator.doesCountryExist(map, countryName)) {
+			if(!map.getContinents().containsKey(continentName.toLowerCase())) {
+				System.out.println(continentName + " does not exist.");
+				return false;
+			}
 			Country country = new Country(countryName, continentName);
 			Continent continent = map.getContinents().get(continentName.toLowerCase());
 			continent.getCountries().put(countryName.toLowerCase(), country);
@@ -146,12 +161,19 @@ public class RunCommand {
 		//check if argument country exists or not
 		if(map.getCountries().containsKey(countryName.toLowerCase())) {
 			Country country = map.getCountries().get(countryName.toLowerCase());
+			ArrayList<Country> tempList = new ArrayList<Country>();
 			//remove each neighbor link of this country
 			for(Country neighbor : country.getNeighbours().values()) {
+				tempList.add(neighbor);
+			}
+			Iterator<Country> itr = tempList.listIterator();
+			while(itr.hasNext()) {
+				Country neighbor = itr.next();
 				if(!removeNeighbor(map, country.getCountryName(), neighbor.getCountryName()))
 					return false;
 			}
 			map.getCountries().remove(countryName.toLowerCase());
+			map.getContinents().get(country.getInContinent()).getCountries().remove(countryName.toLowerCase());
 			return true;
 		}
 		else {
@@ -164,28 +186,28 @@ public class RunCommand {
 	/**
 	 * Adds link between the two argument countries to indicate their neighborhood.
 	 * @param map GameMap object representing the map being edited
-	 * @param country1 Name of one of the participating country
-	 * @param country2 Name of another participating country
+	 * @param countryName Name of one of the participating country
+	 * @param neighborCountryName Name of another participating country
 	 * @return true if successful, else false indicating invalid command
 	 */
-	public boolean addNeighbor(GameMap map, String country1, String country2) {
+	public boolean addNeighbor(GameMap map, String countryName, String neighborCountryName) {
 		//Check if both the country exists
-		if(map.getCountries().containsKey(country1.toLowerCase()) && map.getCountries().containsKey(country2.toLowerCase())) {
-			Country c1 = map.getCountries().get(country1.toLowerCase());
-			Country c2 = map.getCountries().get(country2.toLowerCase());
+		if(map.getCountries().containsKey(countryName.toLowerCase()) && map.getCountries().containsKey(neighborCountryName.toLowerCase())) {
+			Country c1 = map.getCountries().get(countryName.toLowerCase());
+			Country c2 = map.getCountries().get(neighborCountryName.toLowerCase());
 			if(!c1.getNeighbours().containsKey(c2.getCountryName().toLowerCase()))
-				c1.getNeighbours().put(country2.toLowerCase(), c2);
+				c1.getNeighbours().put(neighborCountryName.toLowerCase(), c2);
 			if(!c2.getNeighbours().containsKey(c1.getCountryName().toLowerCase()))
-				c2.getNeighbours().put(country1.toLowerCase(), c1);
+				c2.getNeighbours().put(countryName.toLowerCase(), c1);
 			return true;
 		}
 		else {
-			if(!map.getCountries().containsKey(country1.toLowerCase()) && !map.getCountries().containsKey(country2.toLowerCase()))
-				System.out.println(country1 + " and " + country2 + "  does not exist. Create country first and then set their neighbors.");
-			else if(!map.getCountries().containsKey(country1.toLowerCase()))
-				System.out.println(country1 + " does not exist. Create country first and then set its neighbors.");
+			if(!map.getCountries().containsKey(countryName.toLowerCase()) && !map.getCountries().containsKey(neighborCountryName.toLowerCase()))
+				System.out.println(countryName + " and " + neighborCountryName + "  does not exist. Create country first and then set their neighbors.");
+			else if(!map.getCountries().containsKey(countryName.toLowerCase()))
+				System.out.println(countryName + " does not exist. Create country first and then set its neighbors.");
 			else
-				System.out.println(country2 + " does not exist. Create country first and then set its neighbors.");
+				System.out.println(neighborCountryName + " does not exist. Create country first and then set its neighbors.");
 			return false;
 		}
 	}
@@ -193,26 +215,26 @@ public class RunCommand {
 	/**
 	 * Removes the link between the two neighboring Country objects
 	 * @param map GameMap object representing the map being edited
-	 * @param country1 One of the argument countries
-	 * @param country2 One of the argument countries
+	 * @param countryName One of the argument countries
+	 * @param neighborCountryName One of the argument countries
 	 * @return true if successful, else false indicating invalid command
 	 */
-	public boolean removeNeighbor(GameMap map, String country1, String country2) {
+	public boolean removeNeighbor(GameMap map, String countryName, String neighborCountryName) {
 		//Check if both the country exists
-		if(map.getCountries().containsKey(country1.toLowerCase()) && map.getCountries().containsKey(country2.toLowerCase())) {
-			Country c1 = map.getCountries().get(country1.toLowerCase());
-			Country c2 = map.getCountries().get(country2.toLowerCase());
-			c1.getNeighbours().remove(country2.toLowerCase());
-			c2.getNeighbours().remove(country1.toLowerCase());
+		if(map.getCountries().containsKey(countryName.toLowerCase()) && map.getCountries().containsKey(neighborCountryName.toLowerCase())) {
+			Country c1 = map.getCountries().get(countryName.toLowerCase());
+			Country c2 = map.getCountries().get(neighborCountryName.toLowerCase());
+			c1.getNeighbours().remove(neighborCountryName.toLowerCase());
+			c2.getNeighbours().remove(countryName.toLowerCase());
 			return true;
 		}
 		else {
-			if(!map.getCountries().containsKey(country1.toLowerCase()) && !map.getCountries().containsKey(country2.toLowerCase()))
-				System.out.println(country1 + " and " + country2 + "  does not exist.");
-			else if(!map.getCountries().containsKey(country1.toLowerCase()))
-				System.out.println(country1 + " does not exist.");
+			if(!map.getCountries().containsKey(countryName.toLowerCase()) && !map.getCountries().containsKey(neighborCountryName.toLowerCase()))
+				System.out.println(countryName + " and " + neighborCountryName + "  does not exist.");
+			else if(!map.getCountries().containsKey(countryName.toLowerCase()))
+				System.out.println(countryName + " does not exist.");
 			else
-				System.out.println(country2 + " does not exist.");
+				System.out.println(neighborCountryName + " does not exist.");
 			return false;
 		}
 	}
@@ -263,7 +285,7 @@ public class RunCommand {
 				writer.write("[countries]");
 				writer.newLine();
 				for(Country country : map.getCountries().values()) {
-					writer.write(Integer.toString(countryIndex) + " " + country.getCountryName() + " " + map.getContinents().get(country.getInContinent()).getInMapIndex() + " " + country.getxCoOrdinate() + " " + country.getyCoOrdinate());
+					writer.write(Integer.toString(countryIndex) + " " + country.getCountryName() + " " + Integer.toString(map.getContinents().get(country.getInContinent()).getInMapIndex()) + " " + country.getxCoOrdinate() + " " + country.getyCoOrdinate());
 					writer.newLine();
 					countryToIndex.put(country.getCountryName().toLowerCase(), countryIndex);
 					countryIndex++;
@@ -286,6 +308,7 @@ public class RunCommand {
 			}
 			catch(IOException e) {
 				e.printStackTrace();
+				return false;
 			}
 			return true;
 		}

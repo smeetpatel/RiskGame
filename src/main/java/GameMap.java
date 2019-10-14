@@ -18,6 +18,16 @@ public class GameMap {
 	private boolean valid;
 	
 	/**
+	 * Creates a GameMap object without naming the map.
+	 */
+	GameMap(){
+		this.mapName = "";
+		this.continents = new HashMap<String, Continent>();
+		this.countries = new HashMap<String, Country>();
+		this.valid = false;
+	}
+	
+	/**
 	 * Registers the name of the map.
 	 * Initializes HashMaps for maintaining continents and countries.
 	 * @param mapName name of the map
@@ -28,13 +38,21 @@ public class GameMap {
 		this.countries = new HashMap<String, Country>();
 		this.valid = false;
 	}
-	
+
 	/**
 	 * Returns the name of the map.
 	 * @return returns the name of the map
 	 */
 	public String getMapName() {
 		return this.mapName;
+	}
+	
+	/**
+	 * Set name of the map to the given name.
+	 * @param mapName Name of the map
+	 */
+	public void setMapName(String mapName) {
+		this.mapName = mapName;
 	}
 	
 	/**
