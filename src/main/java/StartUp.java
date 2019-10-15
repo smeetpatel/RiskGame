@@ -1,7 +1,12 @@
 package main.java;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class StartUp {
 
-	public boolean addPlayer(ArrayList<Player> players, String playerName){
+	public List<Player> addPlayer(List<Player> players, String playerName){
 		if(players.size()==6)
 			return false;
 		players.add(new Player(playerName));
@@ -9,7 +14,7 @@ public class StartUp {
 	}
 	
 	public boolean removePlayer(ArrayList<Player> players, String playerName){
-		Iterator<PLayer> itr = players.listIterator();
+		Iterator<Player> itr = players.listIterator();
 		while(itr.hasNext()) {
 			Player p = itr.next();
 			if(p.getPlayerName().equals(playerName)) {
