@@ -144,6 +144,30 @@ public class MapValidator {
 		return true;
 	}
 	
+	public boolean fortificationConnectivityCheck(Player player, String fromCountry, String toCountry) {
+		Graph<Country, DefaultEdge> subGraph = new DefaultUndirectedGraph<>(DefaultEdge.class);
+		for(Country country : player.getOwnedCountries().values()) {
+			subGraph.addVertex(country);
+		}
+		for(Country country : player.getOwnedCountries().values()) {
+			for(Country neighbor : country.getNeighbours().values()) {
+				if(player.getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())) {
+					subGraph.addEdge(country, neighbor);
+				}
+			}
+		}
+		
+		Country from = player.getOwnedCountries().get(fromCountry.toLowerCase());
+		Iterator<Country> iterator = new DepthFirstIterator<>(mapGraph, from);
+        while (iterator.hasNext()) {
+        	Country uri = iterator.next();
+        	if(uri.getCountryName().equalsIgnoreCase(toCountry))
+        		return true;
+            //System.out.println(uri);
+        }
+		return false;
+	}
+	
 	public void printGraph(Graph<Country, DefaultEdge> graph, HashMap<String, Country> countries) {
 		Country c = new Country();
 		for(Country co:countries.values())
