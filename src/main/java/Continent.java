@@ -1,5 +1,6 @@
 package main.java;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -58,14 +59,6 @@ public class Continent {
 	}
 	
 	/**
-	 * Setter method to set in map index value following 'domination' map norms
-	 * @param inMapIndex Returns index value to be present in map
-	 */
-	public void setInMapIndex(int inMapIndex) {
-		this.inMapIndex = inMapIndex;
-	}
-
-	/**
 	 * Returns the index for this continent when saved  in ".map" file following domination's rules
 	 * @return returns index of the continent
 	 */
@@ -109,7 +102,7 @@ public class Continent {
 	 * Returns the HashMap containing countries belonging to this continent
 	 * @return returns the HashMap containing countries belonging to this continent
 	 */
-	public HashMap<String, Country> getCountries() {
+	public static HashMap<String, Country> getCountries() {
 		return countries;
 	}
 }

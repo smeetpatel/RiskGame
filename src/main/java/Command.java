@@ -4,7 +4,8 @@ public class Command {
 
     public GameMap map;
     public RunCommand runCmd;
-
+    public StartUp startUp;
+    public static boolean allArmiesPlaced = false;
 
     /**create a function of type
      * @author Tirth
@@ -16,6 +17,7 @@ public class Command {
     public Command(){
         map = new GameMap();
         runCmd = new RunCommand();
+        startUp = new StartUp();
     }
     public enum Phase {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
 
@@ -86,7 +88,7 @@ public class Command {
                                 gamePhase = Phase.NULL;
                             }
                         } else
-                            System.out.println("invalid command");
+                        	System.out.println("invalid command");
                     } else {
                         System.out.println("Empty Name");
                     }
@@ -271,6 +273,24 @@ public class Command {
                     // call class method which will assign initial armies
                     gamePhase = Phase.STARTUP;
                     break;
+
+                case "placearmy":
+                    if (!(data[1] == "")) {
+                        if (ob1.isAlpha(data[1])) {
+                            countryName = data[1];
+                            startUp.placeArmy(countryName);
+                            if(allArmiesPlaced)
+                                gamePhase = Phase.REINFORCEMENT;
+                        } else
+                            System.out.println("invalid command");
+                    } else {
+                        System.out.println("Empty Name");
+                    }
+                    break;
+
+                case "placeall":
+                    startUp.placeAll();
+                    gamePhase = Phase.REINFORCEMENT;
 
                 default:
                     System.out.println("Please enter valid command");
