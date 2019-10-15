@@ -1,10 +1,16 @@
 package main.java;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Command {
 
     public GameMap map;
     public RunCommand runCmd;
     public StartUp startUp;
+    public Players player;
+    public Reinforcement reinforce;
+    public Fortification fortify;
     public static boolean allArmiesPlaced = false;
 
 
@@ -15,11 +21,15 @@ public class Command {
      *  This value can be one of the following: {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
      *  You will return it as, for example: return PlayRisk.Phase.EDITMAP;
      */
+
+    public List<Player> players = new ArrayList<Player>();
+
     public Command(){
 
         map = new GameMap();
         runCmd = new RunCommand();
         startUp = new StartUp();
+        player = new Player();
     }
     public enum Phase {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
 
@@ -27,6 +37,7 @@ public class Command {
     //public GameMap map;
     //public RunCommand runCmd;
     Phase gamePhase = Phase.NULL;
+
 
     public boolean isAlpha(String s) {
         return s != null && s.matches("^[a-zA-Z]*$");
@@ -252,14 +263,16 @@ public class Command {
                         if (data[i].equals("-add")) {
                             if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                 playerName = data[i + 1];
+                                startUp.addPlayer(players,playerName);
                             } else
                                 System.out.println("invalid command");
-                            System.out.println(playerName);
 
+                            //System.out.println(playerName);
                             // parse the playerName to class
                         } else if (data[i].equals("-remove")) {
                             if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                 playerName = data[i + 1];
+                                startUp.removePlayer(playerName);
                             } else
                                 System.out.println("invalid command");
                             System.out.println(playerName);
@@ -284,9 +297,9 @@ public class Command {
                             if(allArmiesPlaced)
                                 gamePhase = Phase.REINFORCEMENT;
                         } else
-                            System.out.println("invalid command");
+                            System.out.println("Invalid command");
                     } else {
-                        System.out.println("Empty Name");
+                        System.out.println("Invalid command");
                     }
                     break;
 
@@ -308,7 +321,9 @@ public class Command {
                         if (ob1.isAlpha(data[1]) || data[2].matches("[0-9]+")) {
                             countryName = data[1];
                             numberOfArmies = Integer.parseInt(data[2]);
-                            System.out.println(countryName + "  " + numberOfArmies);
+
+                            reinforce.reinforce(player,plcountryName, numberOfArmies);
+                            //System.out.println(countryName + "  " + numberOfArmies);
                         } else
                             System.out.println("invlid command");
 
@@ -326,11 +341,13 @@ public class Command {
             switch (commandName) {
                 case "fortify":
 
-                    if (!(data[1] == null) || !(data[2] == null) || !(data[3] == null)) {
+                    if (!(data[1] == null) || !(data[2] == null) || !(data[3] == null) || !(data[1].equals("none"))) {
                         if (ob1.isAlpha(data[1]) || ob1.isAlpha(data[2]) || data[3].matches("[0-9]+")) {
                             fromCountry = data[1];
                             toCountry = data[2];
                             armiesToFortify = Integer.parseInt(data[2]);
+
+                            fortify.fortification(fromCountry,toCountry,armiesToFortify);
                             System.out.println(fromCountry + "  " + toCountry + " " + armiesToFortify);
                         } else
                             System.out.println("invlid command");
