@@ -262,8 +262,8 @@ public class RunCommand {
 				BufferedWriter writer = new BufferedWriter(new FileWriter("maps/"+fileName+".map"));
 				int continentIndex = 1;	//to track continent index in "map" file
 				int countryIndex = 1; //to track country index in "map" file
-				HashMap<Integer, String> indexToCountry = new HashMap<Integer, String>(); //to get in map index to be in compliance with Domination format
-				HashMap<String, Integer> countryToIndex = new HashMap<String, Integer>();
+				HashMap<Integer, String> indexToCountry = new HashMap<Integer, String>(); //to get in country name corresponding to in map index to be in compliance with Domination format
+				HashMap<String, Integer> countryToIndex = new HashMap<String, Integer>(); //to get in map index to be in compliance with Domination format
 				
 				//write preliminary basic information
 				writer.write("name " + map.getMapName() + " Map");
@@ -313,25 +313,9 @@ public class RunCommand {
 					for(Country neighbor : c.getNeighbours().values()) {
 						writer.write(Integer.toString(countryToIndex.get(neighbor.getCountryName().toLowerCase())) + " ");
 						writer.flush();
-						System.out.println(Integer.toString(countryToIndex.get(neighbor.getCountryName().toLowerCase())) + " ");
 					}
 					writer.newLine();
 				}
-				/*
-				Iterator<Country> itr = borderWritingList.listIterator();
-				while(itr.hasNext()) {
-					Country country = itr.next();
-					writer.write(Integer.toString(countryIndex) + " ");
-					writer.flush();
-					for(Country c : country.getNeighbours().values()) {
-						writer.write(Integer.toString(indexToCountry.get(c.getCountryName().toLowerCase())) + " ");
-						writer.flush();
-						System.out.println(Integer.toString(indexToCountry.get(c.getCountryName().toLowerCase())) + " ");
-					}
-					writer.newLine();
-					writer.flush();
-					writer.close();
-				}*/
 			}
 			catch(IOException e) {
 				e.printStackTrace();

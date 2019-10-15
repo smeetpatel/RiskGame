@@ -17,6 +17,7 @@ public class Country {
 	private HashMap<String, Country> neighbours;
 	private int xCoOrdinate;
 	private int yCoOrdinate;
+	private int numberOfArmies;
 	
 	/**
 	 * Create Country object with default values.
@@ -32,6 +33,7 @@ public class Country {
 		this.countryName = countryName;
 		this.inContinent = inContinent;
 		this.neighbours = new HashMap<String, Country>();
+		this.numberOfArmies = 0;
 	}
 	
 	/**
@@ -56,6 +58,7 @@ public class Country {
 		this.neighbours = new HashMap<String, Country>();
 		this.xCoOrdinate = Integer.parseInt(xCoOrdinate);
 		this.yCoOrdinate = Integer.parseInt(yCoOrdinate);
+		this.numberOfArmies = 0;
 	}
 	
 	/**
@@ -129,6 +132,22 @@ public class Country {
 		System.out.println("inContinent: " + inContinent);
 		//System.out.println("index: " + index);
 		//System.out.println("index: " + index);
+	}
+
+	/**
+	 * Getter method to get number of armies in the country.
+	 * @return returns number of armies in the player
+	 */
+	public int getNumberOfArmies() {
+		return this.numberOfArmies;
+	}
+
+	/**
+	 * Set number of armies in the country
+	 * @param numberOfArmies number of armies to be set in the country
+	 */
+	public void setNumberOfArmies(int numberOfArmies) {
+		this.numberOfArmies = numberOfArmies;
 	}
 
 	@Override

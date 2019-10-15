@@ -27,10 +27,22 @@ public class PlayRisk {
 		Command cmd = new Command();
 		Command.Phase gamePhase = Command.Phase.NULL;
 		gamePhase = cmd.parseCommand(command);
-		while(gamePhase!= Command.Phase.QUIT) {
+		while(gamePhase!= Command.Phase.REINFORCEMENT) {
 			command = read.nextLine();
 			gamePhase = cmd.parseCommand(command);
 		}
+		
+		int numberOfPlayers = cmd.players.size();
+		int traversalCounter = 0;
+		//start the game by looping through the players
+		while(1) {
+			while(traversalCounter<numberOfPlayers) {
+				Player p = cmd.players.get(traversalCounter);
+				while()
+			}
+			
+		}
+		
 	}
 	
 	//prints names of existing map files

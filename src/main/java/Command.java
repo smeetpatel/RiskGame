@@ -14,7 +14,6 @@ public class Command {
      *  You will return it as, for example: return PlayRisk.Phase.EDITMAP;
      */
     public Command(){
-
         map = new GameMap();
         runCmd = new RunCommand();
     }
