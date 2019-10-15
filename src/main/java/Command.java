@@ -9,7 +9,7 @@ public class Command {
     public RunCommand runCmd;
     public StartUp startUp;
     public Player player;
-    public Reinforcement reinforce;
+    public Reinforcement rfc;
     public Fortification fortify;
     public static boolean allArmiesPlaced = false;
 
@@ -261,7 +261,12 @@ public class Command {
                         if (data[i].equals("-add")) {
                             if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                 playerName = data[i + 1];
-                                startUp.addPlayer(players,playerName);
+                                boolean check = startUp.addPlayer(players,playerName);
+                                if(check)
+                                    System.out.println("Player successfully added");
+                                else
+                                    System.out.println("Can not add any player");
+                                gamePhase = Phase.STARTUP;
                             } else
                                 System.out.println("invalid command");
 
@@ -270,7 +275,12 @@ public class Command {
                         } else if (data[i].equals("-remove")) {
                             if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                 playerName = data[i + 1];
-                                startUp.removePlayer(players,playerName);
+                                boolean check = startUp.removePlayer(players,playerName);
+                                if(check)
+                                    System.out.println("Player successfully removed");
+                                else
+                                    System.out.println("Player does not exist");
+                                gamePhase = Phase.STARTUP;
                             } else
                                 System.out.println("invalid command");
                             System.out.println(playerName);
@@ -278,13 +288,18 @@ public class Command {
                             // parse playerName to class
                         }
                     }
-                    gamePhase = Phase.STARTUP;
+
                     break;
 
                 case "populatecountries":
 
                     // call class method which will assign initial armies
-                    startUp.armyDistribution();
+                    boolean check = startUp.populateCountries(map, players);
+                    if(check)
+                        System.out.println("Countries allocated among players");
+                    else
+                        System.out.println("Operation failed");
+                    startUp.armyDistribution(players, gamePhase);
                     gamePhase = Phase.REINFORCEMENT;
                     break;
 
@@ -293,8 +308,8 @@ public class Command {
                         if (ob1.isAlpha(data[1])) {
                             countryName = data[1];
                             startUp.placeArmy(player, countryName);
-                            boolean check = startUp.isAllArmyPlaced(players);
-                            if(check)
+                            boolean checkstatus = startUp.isAllArmyPlaced(players);
+                            if(checkstatus)
                                 gamePhase = Phase.REINFORCEMENT;
                             else
                                 gamePhase = Phase.STARTUP;
@@ -306,7 +321,7 @@ public class Command {
                     break;
 
                 case "placeall":
-                    startUp.placeAll();
+                    startUp.placeAll(players);
                     gamePhase = Phase.REINFORCEMENT;
 
                 default:
@@ -324,7 +339,11 @@ public class Command {
                             countryName = data[1];
                             numberOfArmies = Integer.parseInt(data[2]);
 
-                            reinforce.reinforce(player,plcountryName, numberOfArmies);
+                            boolean check = rfc.reinforce(player,plcountryName, numberOfArmies);
+                            if(check)
+                                System.out.println("Reinforcement phase successfully ended");
+                            else
+                                System.out.println("Invalid command");
                             //System.out.println(countryName + "  " + numberOfArmies);
                         } else
                             System.out.println("invlid command");
