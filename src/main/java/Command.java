@@ -8,9 +8,9 @@ public class Command {
     public GameMap map;
     public RunCommand runCmd;
     public StartUp startUp;
-    public Player player;
+    //public Player player;
     public Reinforcement rfc;
-    public Fortification fortify;
+    public Fortification ftf;
     public static boolean allArmiesPlaced = false;
 
     /**create a function of type
@@ -27,9 +27,9 @@ public class Command {
         map = new GameMap();
         runCmd = new RunCommand();
         startUp = new StartUp();
-        player = new Player();
+        //player = new Player();
     }
-    public enum Phase {NULL, EDITMAP, STARTUP, ARMYALLOCATION, REINFORCEMENT, FORTIFICATION, QUIT}
+    public enum Phase {NULL, EDITMAP, STARTUP, ARMYALLOCATION, REINFORCEMENT, FORTIFICATION, TURNEND, QUIT}
 
 
     //public GameMap map;
@@ -41,7 +41,7 @@ public class Command {
         return s != null && s.matches("^[a-zA-Z]*$");
     }
 
-    public Phase parseCommand(String newCommand) {
+    public Phase parseCommand(Player player, String newCommand) {
 
         String mapName = null;
         String continentName = null;
@@ -339,7 +339,7 @@ public class Command {
                             countryName = data[1];
                             numberOfArmies = Integer.parseInt(data[2]);
 
-                            boolean check = rfc.reinforce(player,plcountryName, numberOfArmies);
+                            boolean check = rfc.reinforce(player,countryName, numberOfArmies);
                             if(check)
                                 System.out.println("Reinforcement phase successfully ended");
                             else
@@ -368,8 +368,14 @@ public class Command {
                             toCountry = data[2];
                             armiesToFortify = Integer.parseInt(data[2]);
 
-                            fortify.fortification(fromCountry,toCountry,armiesToFortify);
-                            System.out.println(fromCountry + "  " + toCountry + " " + armiesToFortify);
+                            boolean check = ftf.fortify(player,fromCountry,toCountry,armiesToFortify);
+                            if(check) {
+                                System.out.println("Successfull fortification");
+                                gamePhase = Phase.TURNEND;
+                            }
+                            else
+                                System.out.println("Invalid command");
+                            //System.out.println(fromCountry + "  " + toCountry + " " + armiesToFortify);
                         } else
                             System.out.println("invlid command");
 
