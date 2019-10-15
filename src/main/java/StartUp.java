@@ -56,10 +56,9 @@ public class StartUp {
 		else if(numberOfPlayers==6) {
 			numberOfArmies = 20;
 		}
-		
-		
-		
-		
+		else {
+			numberOfArmies = 15;
+		}		
 	}
 	
 	public boolean placeArmy(Player player, String countryName) {
