@@ -13,7 +13,7 @@ public class Player {
 	private String playerName;
 	private int ownedArmies;
 	private HashMap<String, Country> ownedCountries;
-	private HashMap<String, Continent> ownedContinent;
+	private HashMap<String, Continent> ownedContinents;
 
 
 	/**
@@ -60,4 +60,4 @@ public class Player {
 		this.ownedContinents = ownedContinents;
 	}
 }
->>>>>>> 6f7171ae37f3b3e377defadc15dbbec9dbbb7c63
+

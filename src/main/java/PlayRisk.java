@@ -42,7 +42,6 @@ public class PlayRisk {
 			}
 			
 		}
-		
 	}
 	
 	//prints names of existing map files

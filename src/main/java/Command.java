@@ -8,7 +8,7 @@ public class Command {
     public GameMap map;
     public RunCommand runCmd;
     public StartUp startUp;
-    public Players player;
+    public Player player;
     public Reinforcement reinforce;
     public Fortification fortify;
     public static boolean allArmiesPlaced = false;
