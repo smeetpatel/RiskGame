@@ -21,7 +21,7 @@ public class Command {
      *  You will return it as, for example: return PlayRisk.Phase.EDITMAP;
      */
 
-    public List<Player> players = new ArrayList<Player>();
+    public ArrayList<Player> players = new ArrayList<Player>();
 
     public Command(){
         map = new GameMap();
@@ -29,7 +29,7 @@ public class Command {
         startUp = new StartUp();
         player = new Player();
     }
-    public enum Phase {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
+    public enum Phase {NULL, EDITMAP, STARTUP, ARMYALLOCATION, REINFORCEMENT, FORTIFICATION, QUIT}
 
 
     //public GameMap map;
@@ -270,7 +270,7 @@ public class Command {
                         } else if (data[i].equals("-remove")) {
                             if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                 playerName = data[i + 1];
-                                startUp.removePlayer(playerName);
+                                startUp.removePlayer(players,playerName);
                             } else
                                 System.out.println("invalid command");
                             System.out.println(playerName);
@@ -278,22 +278,26 @@ public class Command {
                             // parse playerName to class
                         }
                     }
-                    gamePhase = Phase.REINFORCEMENT;
+                    gamePhase = Phase.STARTUP;
                     break;
 
                 case "populatecountries":
 
                     // call class method which will assign initial armies
-                    gamePhase = Phase.STARTUP;
+                    startUp.armyDistribution();
+                    gamePhase = Phase.REINFORCEMENT;
                     break;
 
                 case "placearmy":
                     if (!(data[1] == "")) {
                         if (ob1.isAlpha(data[1])) {
                             countryName = data[1];
-                            startUp.placeArmy(countryName);
-                            if(allArmiesPlaced)
+                            startUp.placeArmy(player, countryName);
+                            boolean check = startUp.isAllArmyPlaced(players);
+                            if(check)
                                 gamePhase = Phase.REINFORCEMENT;
+                            else
+                                gamePhase = Phase.STARTUP;
                         } else
                             System.out.println("Invalid command");
                     } else {
