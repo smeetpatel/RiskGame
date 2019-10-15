@@ -25,7 +25,7 @@ public class Player {
 		this.playerName = playerName;
 		this.ownedArmies = 0;
 		this.ownedCountries = new HashMap<String, Country>();
-		this.ownedContinents = new HashMap<String, Continent>();
+		this.ownedContinent = new HashMap<String, Continent>();
 	}
 
 	public String getPlayerName() {

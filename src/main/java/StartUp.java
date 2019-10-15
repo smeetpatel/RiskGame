@@ -73,6 +73,7 @@ public class StartUp {
 				int existingArmy = player.getOwnedCountries().get(countryName.toLowerCase()).getNumberOfArmies();
 				existingArmy++;
 				player.getOwnedCountries().get(countryName.toLowerCase()).setNumberOfArmies(existingArmy);
+				player.setOwnedArmies(player.getOwnedArmies()-1);
 			}
 			else {
 				return false;
@@ -100,5 +101,25 @@ public class StartUp {
 			}
 		}
 		return true;
+	}
+	
+	public boolean isAllArmyPlaced(ArrayList<Player> players) {
+		Iterator<Player> itr = players.listIterator();
+		while(itr.hasNext()) {
+			Player p = itr.next();
+			if(p.getOwnedArmies()>0)
+				return false;
+		}
+		return true;
+	}
+	
+	public void armyDistribution(ArrayList<Player> players, Command.Phase gamePhase) {
+		Scanner sc = new Scanner(System.in);
+		while(gamePhase!=Command.Phase.REINFORCEMENT) {
+			String command = sc.nextLine();
+			Command cmd = new Command();
+			gamePhase = cmd.parseCommand(command);
+		}
+		sc.close();
 	}
 }
