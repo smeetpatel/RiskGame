@@ -38,9 +38,11 @@ public class PlayRisk {
 		while(true) {
 			while(traversalCounter<numberOfPlayers) {
 				Player p = cmd.players.get(traversalCounter);
-				//while()
+				while(gamePhase!=Command.Phase.TURNEND) {
+					command = read.nextLine();
+					gamePhase = cmd.parseCommand(command);
+				}
 			}
-			
 		}
 	}
 	
