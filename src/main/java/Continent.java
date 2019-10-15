@@ -66,6 +66,10 @@ public class Continent {
 		return this.inMapIndex;
 	}
 	
+	public void setInMapIndex(int inMapIndex) {
+		this.inMapIndex = inMapIndex;
+	}
+	
 	/**
 	 * Getter method to fetch the control value of the continent
 	 * @return returns the control value of the continent
@@ -102,7 +106,7 @@ public class Continent {
 	 * Returns the HashMap containing countries belonging to this continent
 	 * @return returns the HashMap containing countries belonging to this continent
 	 */
-	public static HashMap<String, Country> getCountries() {
+	public HashMap<String, Country> getCountries() {
 		return countries;
 	}
 }
