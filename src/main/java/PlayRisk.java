@@ -26,10 +26,10 @@ public class PlayRisk {
 		String command = read.nextLine();
 		Command cmd = new Command();
 		Command.Phase gamePhase = Command.Phase.NULL;
-		gamePhase = cmd.parseCommand(command);
+		gamePhase = cmd.parseCommand(null, command);
 		while(gamePhase!= Command.Phase.REINFORCEMENT) {
 			command = read.nextLine();
-			gamePhase = cmd.parseCommand(command);
+			gamePhase = cmd.parseCommand(null, command);
 		}
 		
 		int numberOfPlayers = cmd.players.size();
@@ -41,7 +41,7 @@ public class PlayRisk {
 				Reinforcement.assignReinforcementArmies(p);
 				while(gamePhase!=Command.Phase.TURNEND) {
 					command = read.nextLine();
-					gamePhase = cmd.parseCommand(command);
+					gamePhase = cmd.parseCommand(null, command);
 				}
 			}
 		}

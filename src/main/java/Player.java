@@ -21,7 +21,7 @@ public class Player {
 	 *
 	 * @param playerName name of player
 	 */
-	public Player(String playerName){
+	 Player(String playerName){
 		this.playerName = playerName;
 		this.ownedArmies = 0;
 		this.ownedCountries = new HashMap<String, Country>();
