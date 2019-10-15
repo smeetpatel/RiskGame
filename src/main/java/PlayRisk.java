@@ -38,6 +38,7 @@ public class PlayRisk {
 		while(true) {
 			while(traversalCounter<numberOfPlayers) {
 				Player p = cmd.players.get(traversalCounter);
+				Reinforcement.assignReinforcementArmies(p);
 				while(gamePhase!=Command.Phase.TURNEND) {
 					command = read.nextLine();
 					gamePhase = cmd.parseCommand(command);
