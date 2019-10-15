@@ -68,10 +68,37 @@ public class StartUp {
 	}
 	
 	public boolean placeArmy(Player player, String countryName) {
+		if(player.getOwnedArmies()>0) {
+			if(player.getOwnedCountries().containsKey(countryName.toLowerCase())) {
+				int existingArmy = player.getOwnedCountries().get(countryName.toLowerCase()).getNumberOfArmies();
+				existingArmy++;
+				player.getOwnedCountries().get(countryName.toLowerCase()).setNumberOfArmies(existingArmy);
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
 		return true;
 	}
 	
-	public boolean placeAll(ArrayList<Player> players, Player callingPlayer) {
+	public boolean placeAll(ArrayList<Player> players) {
+		Iterator<Player> itr = players.listIterator();
+		while(itr.hasNext()) {
+			Player p = itr.next();
+			while(p.getOwnedArmies()>0) {
+				for(Country country : p.getOwnedCountries().values()) {
+					int newArmy = country.getNumberOfArmies();
+					newArmy += 1;
+					country.setNumberOfArmies(newArmy);
+					p.setOwnedArmies(p.getOwnedArmies()-1);
+					if(p.getOwnedArmies()<=0)
+						break;
+				}
+			}
+		}
 		return true;
 	}
 }
