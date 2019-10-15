@@ -39,7 +39,7 @@ public class StartUp {
 			else
 				counter++;
 		}
-		return false;
+		return true;
 	}
 	
 	public void assignInitialArmies(ArrayList<Player> players) {
@@ -85,7 +85,7 @@ public class StartUp {
 		return true;
 	}
 	
-	public boolean placeAll(ArrayList<Player> players) {
+	public void placeAll(ArrayList<Player> players) {
 		Iterator<Player> itr = players.listIterator();
 		while(itr.hasNext()) {
 			Player p = itr.next();
@@ -100,7 +100,7 @@ public class StartUp {
 				}
 			}
 		}
-		return true;
+		//return true;
 	}
 	
 	public boolean isAllArmyPlaced(ArrayList<Player> players) {
