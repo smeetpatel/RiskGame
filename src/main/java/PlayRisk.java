@@ -35,10 +35,10 @@ public class PlayRisk {
 		int numberOfPlayers = cmd.players.size();
 		int traversalCounter = 0;
 		//start the game by looping through the players
-		while(1) {
+		while(true) {
 			while(traversalCounter<numberOfPlayers) {
 				Player p = cmd.players.get(traversalCounter);
-				while()
+				//while()
 			}
 			
 		}

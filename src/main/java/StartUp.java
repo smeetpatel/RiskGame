@@ -1,15 +1,19 @@
 package main.java;
+
+import java.util.*;
+import java.io.*;
+
 public class StartUp {
 
 	public boolean addPlayer(ArrayList<Player> players, String playerName){
 		if(players.size()==6)
 			return false;
 		players.add(new Player(playerName));
-		return players;
+		return true;
 	}
 	
 	public boolean removePlayer(ArrayList<Player> players, String playerName){
-		Iterator<PLayer> itr = players.listIterator();
+		Iterator<Player> itr = players.listIterator();
 		while(itr.hasNext()) {
 			Player p = itr.next();
 			if(p.getPlayerName().equals(playerName)) {
@@ -29,7 +33,7 @@ public class StartUp {
 		int counter = 0;
 		for(Country c : map.getCountries().values()) {
 			Player p = players.get(counter);
-			p.getOwnedCountries.put(c.getCountryName().toLowerCase(), c);
+			p.getOwnedCountries().put(c.getCountryName().toLowerCase(), c);
 			if(counter>=numberOfPlayers-1)
 				counter = 0;
 			else
@@ -56,16 +60,18 @@ public class StartUp {
 		else if(numberOfPlayers==6) {
 			numberOfArmies = 20;
 		}
-		else {
-			numberOfArmies = 15;
-		}		
+		Iterator<Player> itr = players.listIterator();
+		while(itr.hasNext()) {
+			Player p = itr.next();
+			p.setOwnedArmies(numberOfArmies);
+		}
 	}
 	
 	public boolean placeArmy(Player player, String countryName) {
-		
+		return true;
 	}
 	
 	public boolean placeAll(ArrayList<Player> players, Player callingPlayer) {
-		
+		return true;
 	}
 }
