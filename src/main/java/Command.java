@@ -29,7 +29,7 @@ public class Command {
         startUp = new StartUp();
         player = new Player();
     }
-    public enum Phase {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
+    public enum Phase {NULL, EDITMAP, STARTUP, ARMYALLOCATION, REINFORCEMENT, FORTIFICATION, QUIT}
 
 
     //public GameMap map;
@@ -278,22 +278,26 @@ public class Command {
                             // parse playerName to class
                         }
                     }
-                    gamePhase = Phase.REINFORCEMENT;
+                    gamePhase = Phase.STARTUP;
                     break;
 
                 case "populatecountries":
 
                     // call class method which will assign initial armies
-                    gamePhase = Phase.STARTUP;
+                    startUp.armyDistribution();
+                    gamePhase = Phase.REINFORCEMENT;
                     break;
 
                 case "placearmy":
                     if (!(data[1] == "")) {
                         if (ob1.isAlpha(data[1])) {
                             countryName = data[1];
-                            startUp.placeArmy(countryName);
-                            if(allArmiesPlaced)
+                            startUp.placeArmy(player, countryName);
+                            boolean check = startUp.isAllArmyPlaced(players);
+                            if(check)
                                 gamePhase = Phase.REINFORCEMENT;
+                            else
+                                gamePhase = Phase.STARTUP;
                         } else
                             System.out.println("Invalid command");
                     } else {
