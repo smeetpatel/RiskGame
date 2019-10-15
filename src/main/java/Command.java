@@ -21,7 +21,7 @@ public class Command {
      *  You will return it as, for example: return PlayRisk.Phase.EDITMAP;
      */
 
-    public List<Player> players = new ArrayList<Player>();
+    public ArrayList<Player> players = new ArrayList<Player>();
 
     public Command(){
         map = new GameMap();
@@ -270,7 +270,7 @@ public class Command {
                         } else if (data[i].equals("-remove")) {
                             if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                 playerName = data[i + 1];
-                                startUp.removePlayer(playerName);
+                                startUp.removePlayer(players,playerName);
                             } else
                                 System.out.println("invalid command");
                             System.out.println(playerName);
