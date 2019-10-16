@@ -400,7 +400,11 @@ public class Command {
                             if (this.isAlpha(data[1])) {
                                 countryName = data[1];
                                 System.out.println(countryName);
-                                startUp.placeArmy(player, countryName);
+                                check = startUp.placeArmy(player, countryName);
+                                if(check)
+                                    System.out.println("Army placed on given country");
+                                else
+                                    System.out.println("Unsuccessful operation");
                                 boolean checkstatus = startUp.isAllArmyPlaced(players);
                                 if (checkstatus)
                                     gamePhase = Phase.REINFORCEMENT;
