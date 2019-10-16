@@ -29,6 +29,8 @@ public class Command {
         map = new GameMap();
         runCmd = new RunCommand();
         startUp = new StartUp();
+        rfc = new Reinforcement();
+        ftf = new Fortification();
         //player = new Player();
     }
 
@@ -46,7 +48,11 @@ public class Command {
     public boolean isMapNameValid(String s) {
         return s != null && s.matches("^[a-zA-Z.]*$");
     }
-
+    
+    public void setGamePhase(Command.Phase gamePhase) {
+    	this.gamePhase = gamePhase;
+    }
+    
     public Phase parseCommand(Player player, String newCommand) {
 
         String mapName = null;
@@ -66,6 +72,8 @@ public class Command {
         Command ob1 = new Command();
 
         String commandName = data[0];
+        
+        System.out.println("Command: " + newCommand + " gamePhase: " + gamePhase);
 
         if (gamePhase.equals(Phase.NULL)) { //@tirth deleted emptyphase
             switch (commandName) {
@@ -87,7 +95,7 @@ public class Command {
                 case "loadmap":
                     if (data[1] != null) {
                         if (ob1.isMapNameValid(data[1])) {
-                            System.out.println(data[1]);
+                           System.out.println("In loadmap: " + data[1]);
                             mapName = data[1];
                             map = runCmd.loadMap(mapName);
 
@@ -101,6 +109,7 @@ public class Command {
                             } else {
                                 gamePhase = Phase.NULL;
                             }
+                            break;
                         } else {
                             System.out.println("invalid command");
                         }
@@ -109,11 +118,11 @@ public class Command {
                     }
                     break;
                 default:
-                    System.out.println("Please enter valid command");
+                    System.out.println("115 Please enter valid command");
                     break;
             }
         }
-        if (gamePhase.equals(Phase.EDITMAP)) {
+        else if (gamePhase.equals(Phase.EDITMAP)) {
             switch (commandName) {
                 case "editcontinent":
                     System.out.println(commandName);
@@ -153,7 +162,6 @@ public class Command {
                     break;
 
                 case "editcountry":
-
                     for (int i = 1; i < data.length; i++) {
                         if (data[i].equals("-add")) {
                             if (ob1.isAlpha(data[i + 1]) || ob1.isAlpha(data[i + 2])) {
@@ -285,13 +293,13 @@ public class Command {
                     break;
 
                 default:
-                    System.out.println("Please enter valid command");
+                    System.out.println("291 Please enter valid command");
                     break;
 
             }
         }
 
-        if (gamePhase.equals(Phase.STARTUP)) {
+        else if (gamePhase.equals(Phase.STARTUP)) {
             switch (commandName) {
                 case "gameplayer":
 
@@ -337,7 +345,7 @@ public class Command {
                         System.out.println("Countries allocated among players");
                     else
                         System.out.println("Operation failed");
-                    startUp.armyDistribution(players, gamePhase);
+                    startUp.armyDistribution(players, this, gamePhase);
                     gamePhase = Phase.REINFORCEMENT;
                     break;
 
@@ -361,18 +369,19 @@ public class Command {
 
                 case "placeall":
                     System.out.println("placeall call");
-                    startUp.placeAll(players);
+                    if(startUp.placeAll(players))
+                    	System.out.println("Armies placed successfully");
                     gamePhase = Phase.REINFORCEMENT;
                     break;
 
                 default:
-                    System.out.println("Please enter valid command");
+                    System.out.println("373 Please enter valid command");
                     break;
 
             }
         }
 
-        if (gamePhase.equals(Phase.REINFORCEMENT)) {
+        else if (gamePhase.equals(Phase.REINFORCEMENT)) {
             switch (commandName) {
                 case "reinforce":
                     if (!(data[1] == null) || !(data[2] == null)) {
@@ -381,8 +390,12 @@ public class Command {
                             numberOfArmies = Integer.parseInt(data[2]);
                             System.out.println(countryName + "  " + numberOfArmies);
                             boolean check = rfc.reinforce(player, countryName, numberOfArmies);
-                            if (check)
-                                System.out.println("Reinforcement phase successfully ended");
+                            if (check) {
+                            	if(player.getOwnedArmies()==0) {
+                            		System.out.println("Reinforcement phase successfully ended");
+                            		gamePhase = Phase.FORTIFICATION;
+                            	}
+                            }
                             else
                                 System.out.println("Invalid command");
                             //System.out.println(countryName + "  " + numberOfArmies);
@@ -390,20 +403,23 @@ public class Command {
                             System.out.println("invlid command");
                         // parse countryName and numberOfArmies
                     }
-                    gamePhase = Phase.FORTIFICATION;
+                    
                     break;
 
                 default:
-                    System.out.println("Please enter valid command");
+                    System.out.println("401 Please enter valid command");
                     break;
             }
         }
 
-        if (gamePhase.equals(Phase.FORTIFICATION)) {
+        else if (gamePhase.equals(Phase.FORTIFICATION)) {
             switch (commandName) {
                 case "fortify":
-
-                    if (!(data[1] == null) || !(data[2] == null) || !(data[3] == null) || !(data[1].equals("none"))) {
+                	if(data[1].equals("none")) {
+                		System.out.println("Successfull fortification");
+                		gamePhase = Phase.TURNEND;
+                	}
+                	else if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
                         if (ob1.isAlpha(data[1]) || ob1.isAlpha(data[2]) || data[3].matches("[0-9]+")) {
                             fromCountry = data[1];
                             toCountry = data[2];
@@ -423,12 +439,8 @@ public class Command {
                     }
                     break;
                 default:
-                    System.out.println("Please enter valid command");
-<<<<<<< HEAD
-=======
+                    System.out.println("430 Please enter valid command");
                     break;
-
->>>>>>> 32a7c9c495d6aef79e6165c1ba5f3faee07a7c8d
             }
         }
         return gamePhase;
