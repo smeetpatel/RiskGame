@@ -40,10 +40,9 @@ public class PlayRisk {
 				Player p = cmd.players.get(traversalCounter);
 				Reinforcement.assignReinforcementArmies(p);
 				System.out.println(p.getPlayerName() + "'s turn");
-				System.out.println("Own's countries: ");
-				for(Country c : p.getOwnedCountries().values())
-					System.out.println(c.getCountryName());
-
+				//System.out.println("Own's countries: ");
+				//for(Country c : p.getOwnedCountries().values())
+				//	System.out.println(c.getCountryName());
 				System.out.println("Owned armies: " + p.getOwnedArmies());
 
 				while(gamePhase!=Command.Phase.TURNEND) {

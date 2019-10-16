@@ -34,7 +34,7 @@ public class LoadMap {
 		LoadMap loadedMap = new LoadMap();
 		loadedMap.readMap(mapName);
 		in.close();
-		loadedMap.printMap();
+		//loadedMap.printMap();
 	}
 	
 	/**
@@ -238,22 +238,5 @@ public class LoadMap {
 		}
 		if(!argumentCountry.getNeighbours().containsKey(neighbourCountry.getCountryName().toLowerCase()))
 			argumentCountry.getNeighbours().put(neighbourCountry.getCountryName().toLowerCase(), neighbourCountry);
-	}
-	
-	/**
-	 * Prints the map listing all continents, its respective countries, and their respective neighbors
-	 */
-	public void printMap() {
-		System.out.println("Map name: " + map.getMapName());
-		for(Continent continent : map.getContinents().values()) {
-			System.out.println("Continent name: " + continent.getContinentName());
-			for(Country country : continent.getCountries().values()) {
-				System.out.println("\tCountry: " + country.getCountryName());
-				System.out.println("\tNeighbours:");
-				for(Country neighbour : country.getNeighbours().values())
-					System.out.print("\t" + neighbour.getCountryName());
-				System.out.println("");
-			}
-		}
-	}
+	}	
 }

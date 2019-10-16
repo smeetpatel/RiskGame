@@ -59,7 +59,7 @@ public class RunCommand {
 				map.setValid(true);
 			}
 			else {
-				System.out.println("Map not suitable for game play. Correct the map to continue with this map or load another map from the existing maps. ");
+				System.out.println("Map not suitable for game play. Correct the map to continue with this map or load another map from the existing maps.");
 				map.setValid(false);
 			}
 		}
@@ -173,7 +173,7 @@ public class RunCommand {
 					return false;
 			}
 			map.getCountries().remove(countryName.toLowerCase());
-			map.getContinents().get(country.getInContinent()).getCountries().remove(countryName.toLowerCase());
+			map.getContinents().get(country.getInContinent().toLowerCase()).getCountries().remove(countryName.toLowerCase());
 			return true;
 		}
 		else {
@@ -244,9 +244,47 @@ public class RunCommand {
 	 * @param map GameMap object representing the map to be shown.
 	 */
 	public void showMap(GameMap map) {
-		LoadMap l = new LoadMap();
-		l.setMap(map);
-		l.printMap();
+		if(map==null)
+			return;
+		System.out.format("%25s%25s%35s\n", "Continents", "Country", "Country's neighbors");
+		System.out.format("%85s\n", "-------------------------------------------------------------------------------------------");
+		boolean printContinentName = true;
+		boolean printCountryName = true;
+		for(Continent continent : map.getContinents().values()) {
+			if(continent.getCountries().size()==0) {
+				System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), "", "");
+			}
+			for(Country country : continent.getCountries().values()) {
+				if(country.getNeighbours().size()==0) {
+					if(printContinentName && printCountryName) {
+						System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), country.getCountryName(), "");
+						printContinentName = false;
+						printCountryName = false;
+					}
+					else if(printCountryName) {
+						System.out.format("\n%25s%25s%25s\n", "", country.getCountryName(), "");
+						printCountryName = false;
+					}
+				}
+				for(Country neighbor : country.getNeighbours().values()) {
+					if(printContinentName && printCountryName) {
+						System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), country.getCountryName(), neighbor.getCountryName());
+						printContinentName = false;
+						printCountryName = false;
+					}
+					else if(printCountryName) {
+						System.out.format("\n%25s%25s%25s\n", "", country.getCountryName(), neighbor.getCountryName());
+						printCountryName = false;
+					}
+					else {
+						System.out.format("%25s%25s%25s\n", "", "", neighbor.getCountryName());
+					}
+				}
+				printCountryName = true;
+			}
+			printContinentName = true;
+			printCountryName = true;
+		}
 	}
 	
 	/**
@@ -291,7 +329,7 @@ public class RunCommand {
 				writer.write("[countries]");
 				writer.newLine();
 				for(Country country : map.getCountries().values()) {
-					writer.write(Integer.toString(countryIndex) + " " + country.getCountryName() + " " + Integer.toString(map.getContinents().get(country.getInContinent()).getInMapIndex()) + " " + country.getxCoOrdinate() + " " + country.getyCoOrdinate());
+					writer.write(Integer.toString(countryIndex) + " " + country.getCountryName() + " " + Integer.toString(map.getContinents().get(country.getInContinent().toLowerCase()).getInMapIndex()) + " " + country.getxCoOrdinate() + " " + country.getyCoOrdinate());
 					writer.newLine();
 					writer.flush();
 					indexToCountry.put(countryIndex, country.getCountryName().toLowerCase());
