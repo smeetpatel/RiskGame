@@ -1,7 +1,6 @@
 package main.java;
 
 import java.util.*;
-import java.io.*;
 
 public class StartUp {
 
@@ -118,7 +117,7 @@ public class StartUp {
 		while(gamePhase!=Command.Phase.REINFORCEMENT) {
 			String command = sc.nextLine();
 			Command cmd = new Command();
-			gamePhase = cmd.parseCommand(command);
+			gamePhase = cmd.parseCommand(null, command);
 		}
 		sc.close();
 	}

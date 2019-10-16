@@ -34,6 +34,7 @@ public class PlayRisk {
 		
 		int numberOfPlayers = cmd.players.size();
 		int traversalCounter = 0;
+		
 		//start the game by looping through the players
 		while(true) {
 			while(traversalCounter<numberOfPlayers) {
@@ -44,7 +45,7 @@ public class PlayRisk {
 					gamePhase = cmd.parseCommand(null, command);
 				}
 			}
-		}
+		}		
 	}
 	
 	//prints names of existing map files

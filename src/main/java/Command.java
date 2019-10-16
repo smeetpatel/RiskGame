@@ -31,7 +31,6 @@ public class Command {
     }
     public enum Phase {NULL, EDITMAP, STARTUP, ARMYALLOCATION, REINFORCEMENT, FORTIFICATION, TURNEND, QUIT}
 
-
     //public GameMap map;
     //public RunCommand runCmd;
     Phase gamePhase = Phase.NULL;
@@ -109,7 +108,6 @@ public class Command {
                     System.out.println("Please enter valid command");
             }
         }
-
         if (gamePhase.equals("EDITMAP")) {
             switch (commandName) {
                 case "editcontinent":
@@ -385,7 +383,6 @@ public class Command {
 
                 default:
                     System.out.println("Please enter valid command");
-
             }
         }
         return gamePhase;
