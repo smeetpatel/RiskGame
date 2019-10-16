@@ -32,7 +32,7 @@ public class GameMap {
 	 * Initializes HashMaps for maintaining continents and countries.
 	 * @param mapName name of the map
 	 */
-	GameMap(String mapName){
+	public GameMap(String mapName){
 		this.mapName = mapName;
 		this.continents = new HashMap<String, Continent>();
 		this.countries = new HashMap<String, Country>();

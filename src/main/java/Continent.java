@@ -49,8 +49,8 @@ public class Continent {
 		this.colorCode = colorCode;
 		this.countries = new HashMap<String, Country>();
 	}
-	
-	/**
+
+    /**
 	 * Returns the name of the continent.
 	 * @return returns the name of the continent
 	 */

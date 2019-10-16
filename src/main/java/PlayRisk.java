@@ -44,6 +44,7 @@ public class PlayRisk {
 				//for(Country c : p.getOwnedCountries().values())
 				//	System.out.println(c.getCountryName());
 				System.out.println("Owned armies: " + p.getOwnedArmies());
+
 				while(gamePhase!=Command.Phase.TURNEND) {
 					command = read.nextLine();
 					gamePhase = cmd.parseCommand(p, command);
