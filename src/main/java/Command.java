@@ -341,12 +341,16 @@ public class Command {
 
                     // call class method which will assign countries
                     boolean check = startUp.populateCountries(map, players);
-                    if (check)
-                        System.out.println("Countries allocated among players");
+                    if (check) {
+                    	System.out.println("Countries allocated among players");
+                    }   
                     else
                         System.out.println("Operation failed");
+                    
+                    System.out.println("players.get(0).getOwnedArmies(): " + players.get(0).getOwnedArmies());
                     startUp.armyDistribution(players, this, gamePhase);
                     gamePhase = Phase.REINFORCEMENT;
+                    
                     break;
 
                 case "placearmy":
@@ -373,11 +377,14 @@ public class Command {
                     	System.out.println("Armies placed successfully");
                     gamePhase = Phase.REINFORCEMENT;
                     break;
-
+                
+                case "showmap":
+                	startUp.showMap(players, map);
+                	break;
+                	
                 default:
                     System.out.println("373 Please enter valid command");
                     break;
-
             }
         }
 
@@ -405,7 +412,11 @@ public class Command {
                     }
                     
                     break;
-
+                    
+                case "showmap":
+                	startUp.showMap(players, map);
+                	break;
+                	
                 default:
                     System.out.println("401 Please enter valid command");
                     break;
@@ -438,6 +449,11 @@ public class Command {
                         // parse countryName and numberOfArmies
                     }
                     break;
+                    
+                case "showmap":
+                	startUp.showMap(players, map);
+                	break;
+                	
                 default:
                     System.out.println("430 Please enter valid command");
                     break;

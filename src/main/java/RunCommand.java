@@ -244,9 +244,31 @@ public class RunCommand {
 	 * @param map GameMap object representing the map to be shown.
 	 */
 	public void showMap(GameMap map) {
-		LoadMap l = new LoadMap();
-		l.setMap(map);
-		l.printMap();
+		System.out.format("%25s%25s%35s\n", "Continents", "Country", "Country's neighbors");
+		System.out.format("%85s\n", "-------------------------------------------------------------------------------------------");
+		boolean printContinentName = true;
+		boolean printCountryName = true;
+		for(Continent continent : map.getContinents().values()) {
+			for(Country country : continent.getCountries().values()) {
+				for(Country neighbor : country.getNeighbours().values()) {
+					if(printContinentName && printCountryName) {
+						System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), country.getCountryName(), neighbor.getCountryName());
+						printContinentName = false;
+						printCountryName = false;
+					}
+					else if(printCountryName) {
+						System.out.format("\n%25s%25s%25s\n", "", country.getCountryName(), neighbor.getCountryName());
+						printCountryName = false;
+					}
+					else {
+						System.out.format("%25s%25s%25s\n", "", "", neighbor.getCountryName());
+					}
+				}
+				printCountryName = true;
+			}
+			printContinentName = true;
+			printCountryName = true;
+		}
 	}
 	
 	/**

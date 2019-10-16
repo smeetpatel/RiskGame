@@ -38,6 +38,7 @@ public class StartUp {
 			else
 				counter++;
 		}
+		assignInitialArmies(players);
 		return true;
 	}
 	
@@ -122,4 +123,51 @@ public class StartUp {
 		System.out.println("Out of armyDistribution");
 		//sc.close();
 	}
+	
+	public void showMap(ArrayList<Player> players, GameMap map) {
+		if(players.size()==0 || players.get(0).getOwnedCountries().size()==0) {
+			RunCommand rc = new RunCommand();
+			rc.showMap(map);
+			return;
+		}
+		System.out.format("%25s%25s%35s%25s%10s\n", "Owner", "Country", "Neighbors", "Continent", "#Armies");
+		System.out.format("%85s\n", "---------------------------------------------------------------------------------------------------------------------------");
+		boolean printPlayerName = true;
+		boolean printContinentName = true;
+		boolean printCountryName = true;
+		boolean printNumberOfArmies = true;
+		
+		for(int i=0; i<players.size(); i++){
+			Player p = players.get(i);
+			for(Country country : p.getOwnedCountries().values()) {
+				for(Country neighbor : country.getNeighbours().values()) {
+					if(printPlayerName && printContinentName && printCountryName) {
+						System.out.format("\n%25s%25s%35s%25s%10d\n", p.getPlayerName(), country.getCountryName(), neighbor.getCountryName(), country.getInContinent(), country.getNumberOfArmies());
+						printPlayerName = false;
+						printContinentName = false;
+						printCountryName = false;
+						printNumberOfArmies = false;
+					}
+					else if(printContinentName && printCountryName && printNumberOfArmies) {
+						System.out.format("\n%25s%25s%35s%25s%10d\n", "", country.getCountryName(), neighbor.getCountryName(), country.getInContinent(), country.getNumberOfArmies());
+						printContinentName = false;
+						printCountryName = false;
+						printNumberOfArmies = false;
+					}
+					else {
+						System.out.format("\n%25s%25s%35s%25s%10s\n", "", "", neighbor.getCountryName(), "", "");
+					}
+				}
+				printContinentName = true;
+				printCountryName = true;
+				printNumberOfArmies = true;
+			}
+			printPlayerName = true;
+			printContinentName = true;
+			printCountryName = true;
+			printNumberOfArmies = true;
+		}
+	}
+		
+		
 }
