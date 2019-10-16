@@ -34,17 +34,25 @@ public class PlayRisk {
 		
 		int numberOfPlayers = cmd.players.size();
 		int traversalCounter = 0;
-		
 		//start the game by looping through the players
 		while(true) {
 			while(traversalCounter<numberOfPlayers) {
 				Player p = cmd.players.get(traversalCounter);
 				Reinforcement.assignReinforcementArmies(p);
+				System.out.println(p.getPlayerName() + "'s turn");
+				System.out.println("Own's countries: ");
+				for(Country c : p.getOwnedCountries().values())
+					System.out.println(c.getCountryName());
+				System.out.println("Owned armies: " + p.getOwnedArmies());
 				while(gamePhase!=Command.Phase.TURNEND) {
 					command = read.nextLine();
-					gamePhase = cmd.parseCommand(null, command);
+					gamePhase = cmd.parseCommand(p, command);
 				}
+				gamePhase = Command.Phase.REINFORCEMENT;
+				cmd.setGamePhase(gamePhase);
+				traversalCounter++;
 			}
+			traversalCounter = 0;
 		}		
 	}
 	

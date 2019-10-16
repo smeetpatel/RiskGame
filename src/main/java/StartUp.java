@@ -84,7 +84,7 @@ public class StartUp {
 		return true;
 	}
 	
-	public void placeAll(ArrayList<Player> players) {
+	public boolean placeAll(ArrayList<Player> players) {
 		Iterator<Player> itr = players.listIterator();
 		while(itr.hasNext()) {
 			Player p = itr.next();
@@ -99,7 +99,7 @@ public class StartUp {
 				}
 			}
 		}
-		//return true;
+		return true;
 	}
 	
 	public boolean isAllArmyPlaced(ArrayList<Player> players) {
@@ -112,13 +112,14 @@ public class StartUp {
 		return true;
 	}
 	
-	public void armyDistribution(ArrayList<Player> players, Command.Phase gamePhase) {
+	public void armyDistribution(ArrayList<Player> players, Command cmd, Command.Phase gamePhase) {
 		Scanner sc = new Scanner(System.in);
 		while(gamePhase!=Command.Phase.REINFORCEMENT) {
 			String command = sc.nextLine();
-			Command cmd = new Command();
+			//Command cmd = new Command();
 			gamePhase = cmd.parseCommand(null, command); // changed by tirth. added null as player object
 		}
-		sc.close();
+		System.out.println("Out of armyDistribution");
+		//sc.close();
 	}
 }

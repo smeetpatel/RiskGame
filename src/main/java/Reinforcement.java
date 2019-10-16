@@ -47,7 +47,8 @@ public class Reinforcement {
 	{
 		if(player.getOwnedCountries().containsKey(countryName.toLowerCase()))
 		{
-			if(player.getOwnedArmies() <= num)
+			//System.out.println("In reinforce, player.getOwnedArmies(): " + player.getOwnedArmies());
+			if(player.getOwnedArmies() >= num)
 			{
 				Country c= player.getOwnedCountries().get(countryName.toLowerCase());
 				int existingArmies = c.getNumberOfArmies();
