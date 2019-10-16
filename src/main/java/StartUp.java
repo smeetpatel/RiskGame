@@ -117,7 +117,7 @@ public class StartUp {
 		while(gamePhase!=Command.Phase.REINFORCEMENT) {
 			String command = sc.nextLine();
 			Command cmd = new Command();
-			gamePhase = cmd.parseCommand(null, command);
+			gamePhase = cmd.parseCommand(null, command); // changed by tirth. added null as player object
 		}
 		sc.close();
 	}
