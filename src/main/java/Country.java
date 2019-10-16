@@ -22,14 +22,13 @@ public class Country {
 	/**
 	 * Create Country object with default values.
 	 */
-	Country(){}
-	
+	public Country(){}
 	/**
 	 * Create country object with values in argument parameters and set defaults for the rest.
 	 * @param countryName Name of the country
 	 * @param inContinent Name of the continent in which this country belongs
 	 */
-	Country(String countryName, String inContinent){
+	public Country(String countryName, String inContinent){
 		this.countryName = countryName;
 		this.inContinent = inContinent;
 		this.neighbours = new HashMap<String, Country>();

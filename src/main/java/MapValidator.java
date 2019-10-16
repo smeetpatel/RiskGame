@@ -24,7 +24,7 @@ public class MapValidator {
 	 /**
 	  * Creates a Graph object supported by JGraphT library.
 	  */
-	 MapValidator(){
+	 public MapValidator(){
 		 this.mapGraph = new DefaultUndirectedGraph<>(DefaultEdge.class);
 	 }
 	 
