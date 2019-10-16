@@ -35,6 +35,8 @@ public class MapValidator {
 	 * @return true if continent already exists, else false
 	 */
 	public static boolean doesContinentExist(GameMap map, String continentName) {
+		if(map==null)
+			System.out.println("Map is null");
 		if(map.getContinents().containsKey(continentName.toLowerCase()))
 			return true;
 		else

@@ -5,8 +5,10 @@ import java.util.*;
 public class StartUp {
 
 	public boolean addPlayer(ArrayList<Player> players, String playerName){
-		if(players.size()==6)
+		if(players.size()==6) {
+			System.out.println("Can not add any more player. Maximum 6 players are allowed.");
 			return false;
+		}
 		players.add(new Player(playerName));
 		return true;
 	}
@@ -25,8 +27,8 @@ public class StartUp {
 	
 	public boolean populateCountries(GameMap map, ArrayList<Player> players) {
 		int numberOfPlayers = players.size();
-		if(players.size()==1) {
-			System.out.println("Add at least one more player");
+		if(players.size()<2) {
+			System.out.println("Minimum two players are required to play the game.");
 			return false;
 		}
 		int counter = 0;
@@ -125,6 +127,8 @@ public class StartUp {
 	}
 	
 	public void showMap(ArrayList<Player> players, GameMap map) {
+		if(map==null)
+			return;
 		if(players.size()==0 || players.get(0).getOwnedCountries().size()==0) {
 			RunCommand rc = new RunCommand();
 			rc.showMap(map);
