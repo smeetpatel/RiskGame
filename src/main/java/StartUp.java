@@ -117,10 +117,21 @@ public class StartUp {
 	
 	public void armyDistribution(ArrayList<Player> players, Command cmd, Command.Phase gamePhase) {
 		Scanner sc = new Scanner(System.in);
+		int numberOfPlayers = players.size();
+		int playerTraversal = 0;
 		while(gamePhase!=Command.Phase.REINFORCEMENT) {
-			String command = sc.nextLine();
-			//Command cmd = new Command();
-			gamePhase = cmd.parseCommand(null, command); // changed by tirth. added null as player object
+			while(gamePhase!=Command.Phase.REINFORCEMENT) {
+				String command = sc.nextLine();
+				Player p = players.get(playerTraversal);
+				System.out.println("p.getPlayerName(): " + p.getPlayerName() + " p.getOwnedArmies(): " + p.getOwnedArmies());
+				gamePhase = cmd.parseCommand(p, command); // TODO: send player here
+				playerTraversal++;
+				if(playerTraversal>=numberOfPlayers) {
+					playerTraversal = 0;
+				}
+				System.out.println("playerTraversal: " + playerTraversal + " numberOfPlayers: " + numberOfPlayers);
+			}
+			
 		}
 		System.out.println("Out of armyDistribution");
 		//sc.close();

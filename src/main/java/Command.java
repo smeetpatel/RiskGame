@@ -170,6 +170,9 @@ public class Command {
                 	catch(ArrayIndexOutOfBoundsException e) {
                 		System.out.println("Invalid command - it should be of the form editcontinent -add continentName controlValue -remove continentName");
                 	}
+                	catch(NumberFormatException e) {
+                		System.out.println("Invalid command - it should be of the form editcontinent -add continentName controlValue -remove continentName");
+                	}
                     break;
 
                 case "editcountry":

@@ -344,7 +344,7 @@ public class RunCommand {
 				writer.newLine();
 				//writer.newLine();
 				writer.flush();
-				for(int i=1;i<countryIndex-1;i++) {
+				for(int i=1;i<countryIndex;i++) {
 					String countryName = indexToCountry.get(i);
 					Country c = map.getCountries().get(countryName.toLowerCase());
 					writer.write(Integer.toString(i) + " ");
