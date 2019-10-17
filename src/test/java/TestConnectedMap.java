@@ -8,12 +8,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.validator.ValidateWith;
 
+/**
+ * Tests if connected maps are being rightly identified or not.
+ *
+ */
 public class TestConnectedMap {
 
     MapValidator mvr;
     GameMap map;
     RunCommand rcmd;
 
+    /**
+     * Set up the context
+     */
     @Before
     public void before(){
         map = new GameMap("world.map");
@@ -21,6 +28,9 @@ public class TestConnectedMap {
         rcmd = new RunCommand();
     }
 
+    /**
+     * Test if tests are rightly identified or not
+     */
     @Test
     public void testConnectedMap(){
         map = rcmd.editMap("world.map");

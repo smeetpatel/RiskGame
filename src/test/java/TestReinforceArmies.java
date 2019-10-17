@@ -8,6 +8,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Tests if reinforcement armies are being calculated properly or not.
+ *
+ */
 public class TestReinforceArmies {
 
     Player player1;
@@ -19,6 +23,9 @@ public class TestReinforceArmies {
     Command cmd;
     Reinforcement rfc;
 
+    /**
+     * Set up the context
+     */
     @Before
     public void before(){
         player1 = new Player("tirth");
@@ -31,6 +38,9 @@ public class TestReinforceArmies {
 
     }
 
+    /**
+     * Test if tests are rightly identified or not
+     */
     @Test
     public void testReinforceArmies(){
         stp = new StartUp();

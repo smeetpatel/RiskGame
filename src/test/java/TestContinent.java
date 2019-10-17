@@ -7,6 +7,10 @@ import main.java.RunCommand;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests if continents are being removed properly or not
+ *
+ */
 public class TestContinent {
 
     GameMap map;
@@ -14,6 +18,9 @@ public class TestContinent {
     int controlValue;
     RunCommand rcmd;
 
+    /**
+     * Set up the context
+     */
     @Before
     public void before(){
         map = new GameMap("ameroki.map");
@@ -21,6 +28,9 @@ public class TestContinent {
         continentName = "azio";
     }
 
+    /**
+     * Test if tests are rightly identified or not
+     */
     @Test
     public void testContinent(){
 
