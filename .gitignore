@@ -1,2 +1,8 @@
 /bin/
 /target/
+.DS_STORE
+.classpath
+.project
+/.idea/
+/.metadata/
+/.settings/
