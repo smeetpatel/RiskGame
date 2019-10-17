@@ -37,7 +37,7 @@ public class Command {
      * @return true if valid match, else false
      */
     public boolean isAlpha(String s) {
-        return s != null && s.matches("^[a-zA-Z-]*$");
+        return s != null && s.matches("^[a-zA-Z-_]*$");
     }
 
     /**
@@ -87,6 +87,7 @@ public class Command {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
                                 map = runCmd.editMap(mapName);
+                                System.out.println("You can now edit " + mapName);
                                 gamePhase = Phase.EDITMAP;
                             } else {
                                 System.out.println("Invalid map name");
@@ -254,7 +255,7 @@ public class Command {
                                     gamePhase = Phase.EDITMAP;
                                 } else
                                     System.out.println("Country does not exist - Please enter valid neighbor or country name");
-                            }
+                            } 
                         }
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {
@@ -299,6 +300,7 @@ public class Command {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
                                 map = runCmd.editMap(mapName);
+                                System.out.println("You can now edit " + mapName);
                                 gamePhase = Phase.EDITMAP;
                             } else
                                 System.out.println("Map name not valid.");
@@ -514,8 +516,6 @@ public class Command {
                                 } 
                             } else
                                 System.out.println("Invalid command - invalid characters in command");
-
-                            // parse countryName and numberOfArmies
                         }
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {

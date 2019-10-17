@@ -1,0 +1,18 @@
+name test Map
+
+[files]
+
+[continents]
+one 9 000
+two 9 000
+three 9 000
+
+[countries]
+1 Canada 3 0 0
+2 India 1 0 0
+3 US 2 0 0
+
+[borders]
+1 2 3 
+2 1 
+3 1 
