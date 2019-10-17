@@ -303,7 +303,7 @@ public class RunCommand {
 				HashMap<String, Integer> countryToIndex = new HashMap<String, Integer>(); //to get in map index to be in compliance with Domination format
 				
 				//write preliminary basic information
-				writer.write("name " + map.getMapName() + " Map");
+				writer.write("name " + fileName + " Map");
 				writer.newLine();
 				writer.newLine();
 				writer.write("[files]");
