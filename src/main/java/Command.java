@@ -405,7 +405,7 @@ public class Command {
                     startUp.armyDistribution(players, this, gamePhase);
                     gamePhase = Phase.REINFORCEMENT;
                     break;
-
+                
                 case "showmap":
 		        	startUp.showMap(players, map);
 		        	break;
