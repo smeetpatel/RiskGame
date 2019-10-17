@@ -1,4 +1,6 @@
-package Test;
+package test.java;
+
+import static org.junit.Assert.*;
 
 import main.java.GameMap;
 import main.java.RunCommand;
@@ -7,11 +9,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestNeighbor {
+public class TestCountry {
 
     GameMap map;
     String countryName;
-    String neighborCountrynName;
     RunCommand rcmd;
 
     @Before
@@ -19,15 +20,15 @@ public class TestNeighbor {
         map = new GameMap("ameroki.map");
         rcmd = new RunCommand();
         countryName = "siberia";
-        neighborCountrynName = "egypt";
     }
 
     @Test
-    public void testNeighbor(){
+    public void testCountry(){
 
         map = rcmd.editMap("ameroki.map");
         System.out.println(map.getMapName());
-        boolean check = rcmd.removeNeighbor(map, countryName, neighborCountrynName);
+        System.out.println(map.getCountries().size());
+        boolean check = rcmd.removeCountry(map, countryName);
         assertEquals(true,check);
     }
 }

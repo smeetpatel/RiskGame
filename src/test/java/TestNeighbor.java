@@ -1,33 +1,33 @@
-package Test;
-
-import static org.junit.Assert.*;
+package test.java;
 
 import main.java.GameMap;
 import main.java.RunCommand;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestContinent {
+import static org.junit.Assert.assertEquals;
+
+public class TestNeighbor {
 
     GameMap map;
-    String continentName;
-    int controlValue;
+    String countryName;
+    String neighborCountrynName;
     RunCommand rcmd;
 
     @Before
     public void before(){
         map = new GameMap("ameroki.map");
         rcmd = new RunCommand();
-        continentName = "azio";
+        countryName = "siberia";
+        neighborCountrynName = "egypt";
     }
 
     @Test
-    public void testContinent(){
+    public void testNeighbor(){
 
         map = rcmd.editMap("ameroki.map");
         System.out.println(map.getMapName());
-        System.out.println(map.getContinents().size());
-        boolean check = rcmd.removeContinent(map, continentName);
+        boolean check = rcmd.removeNeighbor(map, countryName, neighborCountrynName);
         assertEquals(true,check);
     }
 }

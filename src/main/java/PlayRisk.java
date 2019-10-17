@@ -5,14 +5,11 @@ import java.util.Scanner;
 
 /**
  * Responsible for playing the game.
- * Covers tasks ranging from 'map editing' to 'actual gameplay'.
- * Responsible for only interacting with the user and calling apporpriate methods for further
+ * Covers tasks ranging from 'map editing' to 'actual game play'.
+ * Responsible for only interacting with the user and calling appropriate methods for further
  * actions.
- * 
- * @author Tirth & Smeet
  *
  */
-
 public class PlayRisk {
 
 	public static void main(String[] args) {
@@ -24,28 +21,27 @@ public class PlayRisk {
 		//read first command
 		Scanner read = new Scanner(System.in);
 		String command = read.nextLine();
-		Command cmd = new Command();
-		Command.Phase gamePhase = Command.Phase.NULL;
+		Command.Phase gamePhase = Command.Phase.NULL;	//maintains phase of the game
+		Command cmd = new Command();			
 		gamePhase = cmd.parseCommand(null, command);
 		while(gamePhase!= Command.Phase.REINFORCEMENT) {
 			command = read.nextLine();
 			gamePhase = cmd.parseCommand(null, command);
 		}
 		
+		//start the game by looping through the players
 		int numberOfPlayers = cmd.players.size();
 		int traversalCounter = 0;
-		//start the game by looping through the players
 		while(true) {
 			while(traversalCounter<numberOfPlayers) {
 				Player p = cmd.players.get(traversalCounter);
 				Reinforcement.assignReinforcementArmies(p);
 				System.out.println(p.getPlayerName() + "'s turn");
-				//System.out.println("Own's countries: ");
-				//for(Country c : p.getOwnedCountries().values())
-				//	System.out.println(c.getCountryName());
-				System.out.println("Owned armies: " + p.getOwnedArmies());
 
 				while(gamePhase!=Command.Phase.TURNEND) {
+					if(gamePhase==Command.Phase.REINFORCEMENT) {
+						System.out.println("Reinforcement armies: " + p.getOwnedArmies());
+					}
 					command = read.nextLine();
 					gamePhase = cmd.parseCommand(p, command);
 				}
@@ -57,7 +53,9 @@ public class PlayRisk {
 		}		
 	}
 	
-	//prints names of existing map files
+	/**
+	 * Prints names of existing map files in maps folder.
+	 */
 	private void printMapNames() {
 		File folder = new File("maps/");
 		File[] files = folder.listFiles();

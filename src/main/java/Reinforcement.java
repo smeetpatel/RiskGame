@@ -1,12 +1,16 @@
 package main.java;
 
+/**
+ * Manage's task related to reinforcement phase of the game.
+ *
+ */
 public class Reinforcement {
 	
 	int totalReinforcementArmies;
 	/**
-	 * this function is to assign armies to player for reinforcement
-	 * @param player
-	 * @return
+	 * This function is to assign armies to player for reinforcement
+	 * @param player Player playing the move
+	 * @return true if successful, else false
 	 */
 	public static boolean assignReinforcementArmies(Player player)
 	{
@@ -36,18 +40,17 @@ public class Reinforcement {
 	}
 
 	/**
-	 * this function allow player to place armies
-	 * @param player
-	 * @param countryName
-	 * @param num
-	 * @return
+	 * This function allow player to place armies
+	 * @param player Player playing the move
+	 * @param countryName Reinforce armies here
+	 * @param num Reinforce this many armies
+	 * @return true if successful, else false
 	 */
 
 	public boolean reinforce(Player player, String countryName, int num)
 	{
 		if(player.getOwnedCountries().containsKey(countryName.toLowerCase()))
 		{
-			//System.out.println("In reinforce, player.getOwnedArmies(): " + player.getOwnedArmies());
 			if(player.getOwnedArmies() >= num)
 			{
 				Country c= player.getOwnedCountries().get(countryName.toLowerCase());

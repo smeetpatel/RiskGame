@@ -1,5 +1,6 @@
 package main.java;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -8,12 +9,11 @@ import main.java.Country;
 import main.java.GameMap;
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
-//import org.jgrapht.io.*;
 import org.jgrapht.traverse.*;
 import org.jgrapht.alg.connectivity.*;
 
 /**
- * Class holding functions to validate m
+ * Class holding functions to validate map
  * 
  * @author Smeet
  */
@@ -35,8 +35,6 @@ public class MapValidator {
 	 * @return true if continent already exists, else false
 	 */
 	public static boolean doesContinentExist(GameMap map, String continentName) {
-		if(map==null)
-			System.out.println("Map is null");
 		if(map.getContinents().containsKey(continentName.toLowerCase()))
 			return true;
 		else
@@ -98,7 +96,6 @@ public class MapValidator {
 					subGraph.addEdge(country, neighbor);
 			}
 		}
-		//printGraph(subGraph, countries);
 		return subGraph;
 	}
 	/**
@@ -123,10 +120,7 @@ public class MapValidator {
 		for(Continent continent : map.getContinents().values()) {
 			Graph<Country, DefaultEdge> subGraph = new DefaultUndirectedGraph<>(DefaultEdge.class);
 			subGraph = createGraph(subGraph, continent.getCountries());
-			//printGraph(subGraph, continent.getCountries());
 			if(!isGraphConnected(subGraph)) {
-				printGraph(subGraph, continent.getCountries());
-				//System.out.println(continent.getContinentName() + " is not a connected sub-graph.");
 				return false;
 			}
 		}
@@ -146,39 +140,35 @@ public class MapValidator {
 		return true;
 	}
 	
+	/**
+	 * Check if there is a path of countries between argument fromCountry and argument toCountry such that all the countries in the path are owned by the argument player.
+	 * @param player Player playing the fortify move
+	 * @param fromCountry Move armies from this country
+	 * @param toCountry Move armies to this country
+	 * @return true if there exists a path matching required criteria, else false
+	 */
 	public boolean fortificationConnectivityCheck(Player player, String fromCountry, String toCountry) {
-		Graph<Country, DefaultEdge> subGraph = new DefaultUndirectedGraph<>(DefaultEdge.class);
+		Graph<String, DefaultEdge> subGraph = new DefaultUndirectedGraph<>(DefaultEdge.class);
 		for(Country country : player.getOwnedCountries().values()) {
-			subGraph.addVertex(country);
+			subGraph.addVertex(country.getCountryName().toLowerCase());
 		}
 		for(Country country : player.getOwnedCountries().values()) {
 			for(Country neighbor : country.getNeighbours().values()) {
 				if(player.getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())) {
-					subGraph.addEdge(country, neighbor);
+					subGraph.addEdge(country.getCountryName().toLowerCase(), neighbor.getCountryName().toLowerCase());
 				}
 			}
 		}
-		
-		Country from = player.getOwnedCountries().get(fromCountry.toLowerCase());
-		Iterator<Country> iterator = new DepthFirstIterator<>(mapGraph, from);
+		Country countryStart = player.getOwnedCountries().get(fromCountry.toLowerCase());
+		Iterator<String> iterator = new DepthFirstIterator<>(subGraph);
+		ArrayList<String> arr = new ArrayList<String>();
         while (iterator.hasNext()) {
-        	Country uri = iterator.next();
-        	if(uri.getCountryName().equalsIgnoreCase(toCountry))
-        		return true;
-            //System.out.println(uri);
+        	String uri = iterator.next();
+        	arr.add(uri);
         }
+        if(arr.contains(countryStart.getCountryName().toLowerCase()) && arr.contains(toCountry.toLowerCase()))
+        	return true;
 		return false;
+		
 	}
-	
-	public void printGraph(Graph<Country, DefaultEdge> graph, HashMap<String, Country> countries) {
-		Country c = new Country();
-		for(Country co:countries.values())
-			c = co;
-		Iterator<Country> iterator = new DepthFirstIterator<>(graph, c);
-        while (iterator.hasNext()) {
-            Country uri = iterator.next();
-            System.out.println(uri.getCountryName());
-        }
-	}
-}
-	
+}	

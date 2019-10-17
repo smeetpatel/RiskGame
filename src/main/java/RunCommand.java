@@ -55,7 +55,6 @@ public class RunCommand {
 			map = lm.readMap(filePath);
 			map.setMapName(mapName);
 			if(validateMap(map)) {
-				//System.out.println("Valid in loading map");
 				map.setValid(true);
 			}
 			else {
@@ -64,7 +63,6 @@ public class RunCommand {
 			}
 		}
 		else {
-			//error
 			System.out.println("Map " + mapName + " does not exist. Try again or use 'editmap' if you want to create new map.");
 			return null;
 		}
@@ -162,6 +160,7 @@ public class RunCommand {
 		if(map.getCountries().containsKey(countryName.toLowerCase())) {
 			Country country = map.getCountries().get(countryName.toLowerCase());
 			ArrayList<Country> tempList = new ArrayList<Country>();
+			
 			//remove each neighbor link of this country
 			for(Country neighbor : country.getNeighbours().values()) {
 				tempList.add(neighbor);
