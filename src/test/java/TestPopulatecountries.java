@@ -1,6 +1,9 @@
 package test.java;
 
-
+/**
+ * Tests if countries are being populated properly or not
+ *
+ */
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -19,6 +22,9 @@ public class TestPopulatecountries {
     ArrayList<Player> players;
     StartUp stp;
 
+    /**
+     * Set up the context
+     */
     @Before
     public void before() {
 
@@ -30,6 +36,9 @@ public class TestPopulatecountries {
         players.add(player2);
     }
 
+    /**
+     * Test if tests are rightly identified or not
+     */
     @Test
     public void testPopulateCountries() {
         stp = new StartUp();

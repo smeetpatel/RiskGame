@@ -9,12 +9,19 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests if country are being removed properly or not
+ *
+ */
 public class TestCountry {
 
     GameMap map;
     String countryName;
     RunCommand rcmd;
 
+    /**
+     * Set up the context
+     */
     @Before
     public void before(){
         map = new GameMap("ameroki.map");
@@ -22,6 +29,9 @@ public class TestCountry {
         countryName = "siberia";
     }
 
+    /**
+     * Test if tests are rightly identified or not
+     */
     @Test
     public void testCountry(){
 

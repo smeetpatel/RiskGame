@@ -7,6 +7,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests if neighbors are being removed properly or not
+ *
+ */
 public class TestNeighbor {
 
     GameMap map;
@@ -14,6 +18,9 @@ public class TestNeighbor {
     String neighborCountrynName;
     RunCommand rcmd;
 
+    /**
+     * Set up the context
+     */
     @Before
     public void before(){
         map = new GameMap("ameroki.map");
@@ -22,6 +29,9 @@ public class TestNeighbor {
         neighborCountrynName = "egypt";
     }
 
+    /**
+     * Test if tests are rightly identified or not
+     */
     @Test
     public void testNeighbor(){
 

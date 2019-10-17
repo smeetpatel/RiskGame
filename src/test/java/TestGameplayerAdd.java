@@ -9,11 +9,19 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * Tests if adding game player works correctly or not.
+ *
+ */
 public class TestGameplayerAdd {
 
     StartUp stp;
     ArrayList<Player> players;
     String playerName;
+    
+    /**
+     * Set up the context
+     */
     @Before
     public void before(){
         stp = new StartUp();
@@ -21,6 +29,9 @@ public class TestGameplayerAdd {
         playerName = "Tirth";
     }
 
+    /**
+     * Test if tests are rightly identified or not
+     */
     @Test
     public void testGameplayerAdd(){
         boolean check = stp.addPlayer(players, playerName);
