@@ -1,4 +1,4 @@
-package Test;
+package test.java;
 
 import main.java.GameMap;
 import main.java.MapValidator;

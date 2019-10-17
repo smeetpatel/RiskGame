@@ -1,4 +1,4 @@
-package Test;
+package test.java;
 
 import static org.junit.Assert.*;
 import main.java.GameMap;

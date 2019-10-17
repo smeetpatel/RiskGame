@@ -1,9 +1,20 @@
 package main.java;
 
 import java.util.*;
-
+/**
+ * 
+ * Manage's task related to start up phase of the game.
+ *
+ */
 public class StartUp {
 
+	/**
+	 * Adds player to the game.
+	 * Restricts number of players to 6.
+	 * @param players List of players in the game
+	 * @param playerName Name of the player
+	 * @return true if successful in adding the player, else false
+	 */
 	public boolean addPlayer(ArrayList<Player> players, String playerName){
 		if(players.size()==6) {
 			System.out.println("Can not add any more player. Maximum 6 players are allowed.");
@@ -13,6 +24,12 @@ public class StartUp {
 		return true;
 	}
 	
+	/**
+	 * Removes player from the game.
+	 * @param players List of players in the game
+	 * @param playerName Name of the player
+	 * @return true if successful in removing the player, else false
+	 */
 	public boolean removePlayer(ArrayList<Player> players, String playerName){
 		Iterator<Player> itr = players.listIterator();
 		while(itr.hasNext()) {
@@ -25,6 +42,12 @@ public class StartUp {
 		return false;
 	}
 	
+	/**
+	 * Responsible for distributing countries amongst players and assigning initial armies.
+	 * @param map Game map 
+	 * @param players List of players in the game
+	 * @return true if successful, else false
+	 */
 	public boolean populateCountries(GameMap map, ArrayList<Player> players) {
 		int numberOfPlayers = players.size();
 		if(players.size()<2) {
@@ -44,6 +67,10 @@ public class StartUp {
 		return true;
 	}
 	
+	/**
+	 * Assigns initial armies to each player depending on the number of players.
+	 * @param players List of players in the game
+	 */
 	public void assignInitialArmies(ArrayList<Player> players) {
 		int numberOfPlayers = players.size();
 		int numberOfArmies = 0;
@@ -69,6 +96,12 @@ public class StartUp {
 		}
 	}
 	
+	/**
+	 * Place army at the argument country if it is in compliance with game rules.
+	 * @param player Player assigning the army
+	 * @param countryName Country where army is to be placed
+	 * @return true if successful, else false
+	 */
 	public boolean placeArmy(Player player, String countryName) {
 		if(player.getOwnedArmies()>0) {
 			if(player.getOwnedCountries().containsKey(countryName.toLowerCase())) {
@@ -78,6 +111,7 @@ public class StartUp {
 				player.setOwnedArmies(player.getOwnedArmies()-1);
 			}
 			else {
+				System.out.println("You don't own this country. Please allocate army in your country.");
 				return false;
 			}
 		}
@@ -87,6 +121,11 @@ public class StartUp {
 		return true;
 	}
 	
+	/**
+	 * Place army of all players randomly.
+	 * @param players List of players in the game
+	 * @return true if successful, else false
+	 */
 	public boolean placeAll(ArrayList<Player> players) {
 		Iterator<Player> itr = players.listIterator();
 		while(itr.hasNext()) {
@@ -105,6 +144,11 @@ public class StartUp {
 		return true;
 	}
 	
+	/**
+	 * Checks if all armies of every player is allocated or not.
+	 * @param players List of players in the game
+	 * @return true if successful, else false
+	 */
 	public boolean isAllArmyPlaced(ArrayList<Player> players) {
 		Iterator<Player> itr = players.listIterator();
 		while(itr.hasNext()) {
@@ -115,28 +159,38 @@ public class StartUp {
 		return true;
 	}
 	
-	public void armyDistribution(ArrayList<Player> players, Command cmd, Command.Phase gamePhase) {
+	/**
+	 * Responsible for managing distribution of initial armies.
+	 * @param players List of players in the game
+	 * @param cmd Command object that maintains game state
+	 * @param gamePhase Current game phase
+	 */
+	public void armyDistribution(ArrayList<Player> players, Command cmd, Command.Phase gamePhase){
 		Scanner sc = new Scanner(System.in);
 		int numberOfPlayers = players.size();
 		int playerTraversal = 0;
 		while(gamePhase!=Command.Phase.REINFORCEMENT) {
 			while(gamePhase!=Command.Phase.REINFORCEMENT) {
-				String command = sc.nextLine();
 				Player p = players.get(playerTraversal);
-				System.out.println("p.getPlayerName(): " + p.getPlayerName() + " p.getOwnedArmies(): " + p.getOwnedArmies());
-				gamePhase = cmd.parseCommand(p, command); // TODO: send player here
-				playerTraversal++;
-				if(playerTraversal>=numberOfPlayers) {
-					playerTraversal = 0;
+				int originalArmies = p.getOwnedArmies();
+				System.out.println(p.getPlayerName() + "'s turn");
+				String command = sc.nextLine();
+				gamePhase = cmd.parseCommand(p, command); 
+				if(!command.contentEquals("showmap") && originalArmies>p.getOwnedArmies()) {
+					playerTraversal++;
+					if(playerTraversal>=numberOfPlayers) {
+						playerTraversal = 0;
+					}
 				}
-				System.out.println("playerTraversal: " + playerTraversal + " numberOfPlayers: " + numberOfPlayers);
 			}
-			
 		}
-		System.out.println("Out of armyDistribution");
-		//sc.close();
 	}
 	
+	/**
+	 * Shows map in tabular form.
+	 * @param players List of players in the game
+	 * @param map Game map
+	 */
 	public void showMap(ArrayList<Player> players, GameMap map) {
 		if(map==null)
 			return;
@@ -183,6 +237,4 @@ public class StartUp {
 			printNumberOfArmies = true;
 		}
 	}
-		
-		
 }

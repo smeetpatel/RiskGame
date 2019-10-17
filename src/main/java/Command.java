@@ -4,27 +4,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class responsible to interpret user commands, call apt methods, and update game phases based on method responses.
+ *
+ */
 public class Command {
 
+	public static boolean allArmiesPlaced = false;
+	
     public GameMap map;
     public RunCommand runCmd;
     public StartUp startUp;
-    //public Player player;
     public Reinforcement rfc;
     public Fortification ftf;
-    public static boolean allArmiesPlaced = false;
-
-    /**
-     * create a function of type
-     *
-     * @author Tirth
-     * public Phase parseCommand(String cmd)()
-     * This function will return appropriate phase value as per the command.
-     * This value can be one of the following: {NULL, EDITMAP, STARTUP, REINFORCEMENT, FORTIFICATION, QUIT}
-     * You will return it as, for example: return PlayRisk.Phase.EDITMAP;
-     */
-
-    public ArrayList<Player> players = new ArrayList<Player>();
+    public enum Phase {NULL, EDITMAP, STARTUP, ARMYALLOCATION, REINFORCEMENT, FORTIFICATION, TURNEND, QUIT};
+    Phase gamePhase;
+    public ArrayList<Player> players;
 
     public Command() {
         map = new GameMap();
@@ -32,30 +27,48 @@ public class Command {
         startUp = new StartUp();
         rfc = new Reinforcement();
         ftf = new Fortification();
-        //player = new Player();
+        players = new ArrayList<Player>();
+        gamePhase = Phase.NULL;
     }
 
-    public enum Phase {NULL, EDITMAP, STARTUP, ARMYALLOCATION, REINFORCEMENT, FORTIFICATION, TURNEND, QUIT}
-
-    //public GameMap map;
-    //public RunCommand runCmd;
-    Phase gamePhase = Phase.NULL;
-
-
+    /**
+     * Ensures string matches the defined criteria.
+     * @param s input string
+     * @return true if valid match, else false
+     */
     public boolean isAlpha(String s) {
         return s != null && s.matches("^[a-zA-Z-]*$");
     }
 
+    /**
+     * Ensures map name is valid.
+     * @param s input string
+     * @return true if valid match, else false
+     */
     public boolean isMapNameValid(String s) {
         return s != null && s.matches("^[a-zA-Z.]*$");
     }
     
+    /**
+     * Setter method to set game phase.
+     * @param gamePhase changed phase value
+     */
     public void setGamePhase(Command.Phase gamePhase) {
     	this.gamePhase = gamePhase;
     }
     
+    /**
+     * Function responsible to parsing user commands, calling apt methods, and updating the game phase.
+     * @param player Player playing the move
+     * @param newCommand Command to be interpreted
+     * @return next game phase
+     */
     public Phase parseCommand(Player player, String newCommand) {
 
+    	int controlValue = 0;
+        int numberOfArmies = 0;
+        int armiesToFortify = 0;
+        
         String mapName = null;
         String continentName = null;
         String countryName = null;
@@ -63,16 +76,9 @@ public class Command {
         String playerName = null;
         String fromCountry = null;
         String toCountry = null;
-
-        int controlValue = 0;
-        int numberOfArmies = 0;
-        int armiesToFortify = 0;
-
         String[] data = newCommand.split("\\s+");
         String commandName = data[0];
         
-        System.out.println("Command: " + newCommand + " gamePhase: " + gamePhase);
-
         if (gamePhase.equals(Phase.NULL)) { 
             switch (commandName) {
                 case "editmap":
@@ -81,7 +87,6 @@ public class Command {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
                                 map = runCmd.editMap(mapName);
-                                System.out.println(mapName);
                                 gamePhase = Phase.EDITMAP;
                             } else {
                                 System.out.println("Invalid map name");
@@ -97,29 +102,28 @@ public class Command {
                 	try {
                 		if (data[1] != null) {
                             if (this.isMapNameValid(data[1])) {
-                               System.out.println("In loadmap: " + data[1]);
                                 mapName = data[1];
                                 map = runCmd.loadMap(mapName);
-
                                 if (map != null) {
                                     if (!map.getValid()) {
                                         System.out.println("Map is not valid for game play");
-                                        gamePhase = Phase.NULL; // map is not valid for game play. so return to NULL Phase
+                                        gamePhase = Phase.NULL; 
                                     } else {
-                                        gamePhase = Phase.STARTUP; // startup phase of game started from here
+                                    	System.out.println("Map is valid. Add players now.");
+                                        gamePhase = Phase.STARTUP; 
                                     }
                                 } else {
                                     gamePhase = Phase.NULL;
                                 }
-                                break;
                             } else {
                                 System.out.println("Map name not valid.");
                             }
-                        } else {
-                            System.out.println("Empty Name");
-                        }
+                        } 
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {
+                		System.out.println("Invalid command - it should be of the form loadmap mapname.map");
+                	}
+                	catch(Exception e) {
                 		System.out.println("Invalid command - it should be of the form loadmap mapname.map");
                 	}
                     break;
@@ -149,7 +153,6 @@ public class Command {
                                 } else {
                                 	System.out.println("Continent already exists - Please add valid Continent Name");
                                 }
-                                System.out.println(continentName + "  " + controlValue);
                             } else if (data[i].equals("-remove")) {
                                 if (this.isAlpha(data[i + 1])) {
                                 	continentName = data[i + 1];
@@ -163,7 +166,6 @@ public class Command {
                                     gamePhase = Phase.EDITMAP;
                                 } else
                                     System.out.println("Continent does not exist - Please enter valid continent name");
-                                //System.out.println(continentName);
                             }
                         }
                 	}
@@ -171,6 +173,9 @@ public class Command {
                 		System.out.println("Invalid command - it should be of the form editcontinent -add continentName controlValue -remove continentName");
                 	}
                 	catch(NumberFormatException e) {
+                		System.out.println("Invalid command - it should be of the form editcontinent -add continentName controlValue -remove continentName");
+                	}
+                	catch(Exception e) {
                 		System.out.println("Invalid command - it should be of the form editcontinent -add continentName controlValue -remove continentName");
                 	}
                     break;
@@ -192,7 +197,6 @@ public class Command {
                                 } else {
                                 	System.out.println("Country already exists - Please add valid Continent Name");
                                 }
-                                //System.out.println(countryName + "  " + continentName);
                             } else if (data[i].equals("-remove")) {
                                 if (this.isAlpha(data[i + 1])) {
                                 	countryName = data[i + 1];
@@ -207,11 +211,13 @@ public class Command {
                                 } else {
                                 	System.out.println("Country doed not exist - Please enter valid country name");
                                 }
-                                //System.out.println(countryName);
                             }
                         }
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {
+                		System.out.println("Invalid command - it should be of the form editcountry -add countryName continentName -remove countryName");
+                	}
+                	catch(Exception e) {
                 		System.out.println("Invalid command - it should be of the form editcountry -add countryName continentName -remove countryName");
                 	}
                     break;
@@ -248,11 +254,13 @@ public class Command {
                                     gamePhase = Phase.EDITMAP;
                                 } else
                                     System.out.println("Country does not exist - Please enter valid neighbor or country name");
-                                //System.out.println(countryName + "  " + neighborCountryName);
                             }
                         }
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {
+                		System.out.println("Invalid command - it should be of the form editneighbor -add countryName neighborCountryName -remove countryName neighborCountryName");
+                	}
+                	catch(Exception e) {
                 		System.out.println("Invalid command - it should be of the form editneighbor -add countryName neighborCountryName -remove countryName neighborCountryName");
                 	}
                     break;
@@ -262,7 +270,6 @@ public class Command {
                 		if (!(data[1] == "")) {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
-                                System.out.println(mapName);
                                 boolean check = runCmd.saveMap(map, mapName);
                                 if (check) {
                                     System.out.println("Map file saved successfully");
@@ -274,6 +281,9 @@ public class Command {
                         } 
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {
+                		System.out.println("Invalid command - it should be of the form savemap filename");
+                	}
+                	catch(Exception e) {
                 		System.out.println("Invalid command - it should be of the form savemap filename");
                 	}
                     break;
@@ -289,7 +299,6 @@ public class Command {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
                                 map = runCmd.editMap(mapName);
-                                //System.out.println(mapName);
                                 gamePhase = Phase.EDITMAP;
                             } else
                                 System.out.println("Map name not valid.");
@@ -298,21 +307,24 @@ public class Command {
                 	catch(ArrayIndexOutOfBoundsException e) {
                 		System.out.println("Invalid command - it should be of the form editmap mapname.map");
                 	}
+                	catch(Exception e) {
+                		System.out.println("Invalid command - it should be of the form editmap mapname.map");
+                	}
                     break;
 
                 case "loadmap":
                 	try {
                 		if (!(data[1] == "")) {
                             if (this.isMapNameValid(data[1])) {
-                                //System.out.println(data[1]);
                                 mapName = data[1];
                                 map = runCmd.loadMap(mapName);
                                 if (map != null) {
                                     if (!map.getValid()) {
                                         System.out.println("Map is not valid for game play");
-                                        gamePhase = Phase.NULL; // map is not valid for game play. so return to NULL Phase
+                                        gamePhase = Phase.NULL; 
                                     } else {
-                                        gamePhase = Phase.STARTUP; // startup phase of game started from here
+                                    	System.out.println("Map is valid. Add players now.");
+                                        gamePhase = Phase.STARTUP; 
                                     }
                                 } else {
                                     gamePhase = Phase.NULL;
@@ -322,6 +334,9 @@ public class Command {
                         } 
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {
+                		System.out.println("Invalid command - it should be of the form loadmap mapname.map");
+                	}
+                	catch(Exception e) {
                 		System.out.println("Invalid command - it should be of the form loadmap mapname.map");
                 	}
                     break;
@@ -349,23 +364,19 @@ public class Command {
                             if (data[i].equals("-add")) {
                                 if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                     playerName = data[i + 1];
-                                    System.out.println(playerName);
                                     boolean check = startUp.addPlayer(players, playerName);
                                     if (check) {
                                         System.out.println("Player successfully added");
-                                    }
-                                    else
+                                    } else {
                                         System.out.println("Can not add any more player. Maximum 6 players can play.");
+                                    }
                                     gamePhase = Phase.STARTUP;
-                                } else
-                                    System.out.println("Invalid player name");
-
-                                //System.out.println(playerName);
-                                // parse the playerName to class
+                                } else {
+                                	System.out.println("Invalid player name");
+                                }     
                             } else if (data[i].equals("-remove")) {
                                 if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                     playerName = data[i + 1];
-                                    System.out.println(playerName);
                                     boolean check = startUp.removePlayer(players, playerName);
                                     if (check)
                                         System.out.println("Player successfully removed");
@@ -374,65 +385,77 @@ public class Command {
                                     gamePhase = Phase.STARTUP;
                                 } else
                                     System.out.println("Invalid player name");
-                                // parse playerName to class
                             }
                         }
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {
                 		System.out.println("Invalid command - it should be of the form gameplayer -add playername -remove playername");
                 	}
+                	catch(Exception e) {
+                		System.out.println("Invalid command - it should be of the form gameplayer -add playername -remove playername");
+                	}
                     break;
 
                 case "populatecountries":
-                    // call class method which will assign countries
                     boolean check = startUp.populateCountries(map, players);
                     if (check) {
                     	System.out.println("Countries allocated amongst the players");
                     }   
-                    //System.out.println("players.get(0).getOwnedArmies(): " + players.get(0).getOwnedArmies());
+                    gamePhase = Phase.ARMYALLOCATION;
                     startUp.armyDistribution(players, this, gamePhase);
                     gamePhase = Phase.REINFORCEMENT;
                     break;
 
-                case "placearmy":
-                	try {
-                		if (!(data[1] == "")) {
-                            if (this.isAlpha(data[1])) {
-                                countryName = data[1];
-                                System.out.println(countryName);
-                                startUp.placeArmy(player, countryName);
-                                boolean checkstatus = startUp.isAllArmyPlaced(players);
-                                if (checkstatus)
-                                    gamePhase = Phase.REINFORCEMENT;
-                                else
-                                    gamePhase = Phase.STARTUP;
-                            } else
-                                System.out.println("Invalid country name");
-                        } 
-                	}
-                	catch(ArrayIndexOutOfBoundsException e) {
-                		System.out.println("Invalid command - it should be of the form placearmy countryname");
-                	}
-                    break;
-
-                case "placeall":
-                    System.out.println("placeall call");
-                    if(startUp.placeAll(players)) {
-                    	System.out.println("Armies placed successfully");
-                    }
-                    gamePhase = Phase.REINFORCEMENT;
-                    break;
-                
                 case "showmap":
-                	startUp.showMap(players, map);
-                	break;
+		        	startUp.showMap(players, map);
+		        	break;
                 	
                 default:
                     System.out.println("Invalid command - use gameplayer/populatecountries/placearmy/placeall/showmap commands in start up phase.");
                     break;
             }
         }
-
+        else if(gamePhase.equals(Phase.ARMYALLOCATION)) {
+        	switch (commandName) {
+	        	case "placearmy":
+		        	try {
+		        		if (!(data[1] == "")) {
+		                    if (this.isAlpha(data[1])) {
+		                        countryName = data[1];
+		                        startUp.placeArmy(player, countryName);
+		                        boolean checkstatus = startUp.isAllArmyPlaced(players);
+		                        if (checkstatus)
+		                            gamePhase = Phase.REINFORCEMENT;
+		                        else
+		                            gamePhase = Phase.ARMYALLOCATION;
+		                    } else
+		                        System.out.println("Invalid country name");
+		                } 
+		        	}
+		        	catch(ArrayIndexOutOfBoundsException e) {
+		        		System.out.println("Invalid command - it should be of the form placearmy countryname");
+		        	}
+		        	catch(Exception e) {
+		        		System.out.println("Invalid command - it should be of the form placearmy countryname");
+                	}
+		            break;
+	
+		        case "placeall":
+		            if(startUp.placeAll(players)) {
+		            	System.out.println("Armies placed successfully");
+		            }
+		            gamePhase = Phase.REINFORCEMENT;
+		            break;
+	        
+		        case "showmap":
+		        	startUp.showMap(players, map);
+		        	break;
+	        	
+		        default:
+		        	System.out.println("Invalid command - use placearmy/placeall/showmap commands to first allocate the assigned armies.");
+		            break;
+        	}		
+        }
         else if (gamePhase.equals(Phase.REINFORCEMENT)) {
             switch (commandName) {
                 case "reinforce":
@@ -441,21 +464,21 @@ public class Command {
                             if (this.isAlpha(data[1]) || data[2].matches("[0-9]+")) {
                                 countryName = data[1];
                                 numberOfArmies = Integer.parseInt(data[2]);
-                                System.out.println(countryName + "  " + numberOfArmies);
                                 boolean check = rfc.reinforce(player, countryName, numberOfArmies);
                                 if (check) {
                                 	if(player.getOwnedArmies()==0) {
-                                		System.out.println("Reinforcement phase successfully ended");
+                                		System.out.println("Reinforcement phase successfully ended. Begin fortification now.");
                                 		gamePhase = Phase.FORTIFICATION;
                                 	}
                                 }
                             } else
                                 System.out.println("Invalid command - invalid characters in command");
-                            // parse countryName and numberOfArmies
-                        }
-                        
+                        } 
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {
+                		System.out.println("Invalid command - it should be of the form reinforce countryName num");
+                	}
+                	catch(Exception e) {
                 		System.out.println("Invalid command - it should be of the form reinforce countryName num");
                 	}
                     break;
@@ -482,7 +505,7 @@ public class Command {
                             if (this.isAlpha(data[1]) || this.isAlpha(data[2]) || data[3].matches("[0-9]+")) {
                                 fromCountry = data[1];
                                 toCountry = data[2];
-                                armiesToFortify = Integer.parseInt(data[2]);
+                                armiesToFortify = Integer.parseInt(data[3]);
 
                                 boolean check = ftf.fortify(player, fromCountry, toCountry, armiesToFortify);
                                 if (check) {
@@ -496,6 +519,12 @@ public class Command {
                         }
                 	}
                 	catch(ArrayIndexOutOfBoundsException e) {
+                		System.out.println("Invalid command - it should be of the form fortify fromCountry toCountry num or foritfy none");
+                	}
+                	catch(NumberFormatException e) {
+                		System.out.println("Invalid command - it should be of the form fortify fromCountry toCountry num or foritfy none");
+                	}
+                	catch(Exception e) {
                 		System.out.println("Invalid command - it should be of the form fortify fromCountry toCountry num or foritfy none");
                 	}
                     break;
