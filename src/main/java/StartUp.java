@@ -195,7 +195,7 @@ public class StartUp {
 		if(map==null)
 			return;
 		if(players.size()==0 || players.get(0).getOwnedCountries().size()==0) {
-			RunCommand rc = new RunCommand();
+			MapEditor rc = new MapEditor();
 			rc.showMap(map);
 			return;
 		}

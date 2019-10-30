@@ -1,7 +1,7 @@
 package test.java;
 
 import main.java.GameMap;
-import main.java.RunCommand;
+import main.java.MapEditor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class TestNeighbor {
     GameMap map;
     String countryName;
     String neighborCountrynName;
-    RunCommand rcmd;
+    MapEditor rcmd;
 
     /**
      * Set up the context
@@ -24,7 +24,7 @@ public class TestNeighbor {
     @Before
     public void before(){
         map = new GameMap("ameroki.map");
-        rcmd = new RunCommand();
+        rcmd = new MapEditor();
         countryName = "siberia";
         neighborCountrynName = "egypt";
     }

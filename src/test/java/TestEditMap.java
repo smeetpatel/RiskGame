@@ -3,7 +3,7 @@ package test.java;
 import static org.junit.Assert.*;
 
 import main.java.GameMap;
-import main.java.RunCommand;
+import main.java.MapEditor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import org.junit.Test;
  */
 public class TestEditMap {
 
-    RunCommand rcmd;
+    MapEditor rcmd;
     String mapName;
     GameMap map;
     
@@ -22,7 +22,7 @@ public class TestEditMap {
      */
     @Before
     public void before(){
-        rcmd = new RunCommand();
+        rcmd = new MapEditor();
         mapName = "newcall.map";
     }
 

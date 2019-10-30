@@ -1,7 +1,7 @@
 package test.java;
 
 import main.java.GameMap;
-import main.java.RunCommand;
+import main.java.MapEditor;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,7 @@ import org.junit.Test;
  *
  */
 public class TestValidateMap {
-    RunCommand rcmd;
+    MapEditor rcmd;
     GameMap map;
 
     /**
@@ -20,7 +20,7 @@ public class TestValidateMap {
     @Before
     public void before(){
 
-        rcmd = new RunCommand();
+        rcmd = new MapEditor();
         map = new GameMap("ameroki.map");
     }
 

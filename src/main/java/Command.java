@@ -1,8 +1,6 @@
 package main.java;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class responsible to interpret user commands, call apt methods, and update game phases based on method responses.
@@ -13,7 +11,7 @@ public class Command {
 	public static boolean allArmiesPlaced = false;
 	
     public GameMap map;
-    public RunCommand runCmd;
+    public MapEditor runCmd;
     public StartUp startUp;
     public Reinforcement rfc;
     public Fortification ftf;
@@ -23,7 +21,7 @@ public class Command {
 
     public Command() {
         map = new GameMap();
-        runCmd = new RunCommand();
+        runCmd = new MapEditor();
         startUp = new StartUp();
         rfc = new Reinforcement();
         ftf = new Fortification();

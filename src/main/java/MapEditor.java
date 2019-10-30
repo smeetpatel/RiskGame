@@ -13,7 +13,7 @@ import java.util.Iterator;
  * @author Smeet
  *
  */
-public class RunCommand {
+public class MapEditor {
 
 	/**
 	 * Loads map as GameMap object for editing.
