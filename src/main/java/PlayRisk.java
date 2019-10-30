@@ -6,9 +6,7 @@ import java.util.Scanner;
 /**
  * Responsible for playing the game.
  * Covers tasks ranging from 'map editing' to 'actual game play'.
- * Responsible for only interacting with the user and calling appropriate methods for further
- * actions.
- *
+ * Responsible for only interacting with the user and calling appropriate methods for further actions.
  */
 public class PlayRisk {
 
@@ -19,34 +17,33 @@ public class PlayRisk {
 		game.printMapNames();
 
 		//read first command
+		String command;
+		Phase gamePhase;
+		Command cmd = new Command();
 		Scanner read = new Scanner(System.in);
-		String command = read.nextLine();
-		Command.Phase gamePhase = Command.Phase.NULL;	//maintains phase of the game
-		Command cmd = new Command();			
-		gamePhase = cmd.parseCommand(null, command);
-		while(gamePhase!= Command.Phase.REINFORCEMENT) {
+		do{
 			command = read.nextLine();
 			gamePhase = cmd.parseCommand(null, command);
-		}
+		}while(gamePhase!=Phase.REINFORCEMENT);
 		
 		//start the game by looping through the players
-		int numberOfPlayers = cmd.players.size();
+		int numberOfPlayers = cmd.game.getPlayers().size();
 		int traversalCounter = 0;
 		while(true) {
 			while(traversalCounter<numberOfPlayers) {
-				Player p = cmd.players.get(traversalCounter);
+				Player p = cmd.game.getPlayers().get(traversalCounter);
 				Reinforcement.assignReinforcementArmies(p);
 				System.out.println(p.getPlayerName() + "'s turn");
 
-				while(gamePhase!=Command.Phase.TURNEND) {
-					if(gamePhase==Command.Phase.REINFORCEMENT) {
+				while(gamePhase!=Phase.TURNEND) {
+					if(gamePhase==Phase.REINFORCEMENT) {
 						System.out.println("Reinforcement armies: " + p.getOwnedArmies());
 					}
 					command = read.nextLine();
 					gamePhase = cmd.parseCommand(p, command);
 				}
-				gamePhase = Command.Phase.REINFORCEMENT;
-				cmd.setGamePhase(gamePhase);
+				gamePhase = Phase.REINFORCEMENT;
+				cmd.game.setGamePhase(gamePhase);
 				traversalCounter++;
 			}
 			traversalCounter = 0;

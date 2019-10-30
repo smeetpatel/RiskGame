@@ -9,9 +9,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * Class containing logic for executing commands
+ * Class containing logic for executing map related commands
  * @author Smeet
- *
  */
 public class MapEditor {
 

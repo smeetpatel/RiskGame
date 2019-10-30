@@ -36,7 +36,7 @@ public class GameData {
      * @return returns the map being edited or played on.
      */
     public GameMap getMap() {
-        return map;
+        return this.map;
     }
 
     /**
@@ -52,7 +52,7 @@ public class GameData {
      * @return returns the current phase of the game.
      */
     public Phase getGamePhase() {
-        return gamePhase;
+        return this.gamePhase;
     }
 
     /**
@@ -68,7 +68,7 @@ public class GameData {
      * @return returns the list of players.
      */
     public ArrayList<Player> getPlayers() {
-        return players;
+        return this.players;
     }
 
     /**
