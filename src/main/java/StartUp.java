@@ -17,8 +17,13 @@ public class StartUp {
 	 */
 	public boolean addPlayer(ArrayList<Player> players, String playerName){
 		if(players.size()==6) {
-			System.out.println("Can not add any more player. Maximum 6 players are allowed.");
 			return false;
+		}
+		Iterator<Player> itr = players.listIterator();
+		while(itr.hasNext()){
+			if(itr.next().getPlayerName().equalsIgnoreCase(playerName)) {
+				return false;
+			}
 		}
 		players.add(new Player(playerName));
 		return true;
@@ -48,14 +53,13 @@ public class StartUp {
 	 * @param players List of players in the game
 	 * @return true if successful, else false
 	 */
-	public boolean populateCountries(GameMap map, ArrayList<Player> players) {
+	public boolean populateCountries(GameData game, ArrayList<Player> players) {
 		int numberOfPlayers = players.size();
 		if(players.size()<2) {
-			System.out.println("Minimum two players are required to play the game.");
 			return false;
 		}
 		int counter = 0;
-		for(Country c : map.getCountries().values()) {
+		for(Country c : game.getMap().getCountries().values()) {
 			Player p = players.get(counter);
 			p.getOwnedCountries().put(c.getCountryName().toLowerCase(), c);
 			if(counter>=numberOfPlayers-1)
@@ -64,6 +68,7 @@ public class StartUp {
 				counter++;
 		}
 		assignInitialArmies(players);
+		game.setGamePhase(Phase.ARMYALLOCATION);
 		return true;
 	}
 	
@@ -111,7 +116,6 @@ public class StartUp {
 				player.setOwnedArmies(player.getOwnedArmies()-1);
 			}
 			else {
-				System.out.println("You don't own this country. Please allocate army in your country.");
 				return false;
 			}
 		}
@@ -126,8 +130,8 @@ public class StartUp {
 	 * @param players List of players in the game
 	 * @return true if successful, else false
 	 */
-	public boolean placeAll(ArrayList<Player> players) {
-		Iterator<Player> itr = players.listIterator();
+	public boolean placeAll(GameData game) {
+		Iterator<Player> itr = game.getPlayers().listIterator();
 		while(itr.hasNext()) {
 			Player p = itr.next();
 			while(p.getOwnedArmies()>0) {
@@ -141,6 +145,7 @@ public class StartUp {
 				}
 			}
 		}
+		game.setGamePhase(Phase.REINFORCEMENT);
 		return true;
 	}
 	
@@ -149,14 +154,15 @@ public class StartUp {
 	 * @param players List of players in the game
 	 * @return true if successful, else false
 	 */
-	public boolean isAllArmyPlaced(ArrayList<Player> players) {
-		Iterator<Player> itr = players.listIterator();
+	public void isAllArmyPlaced(GameData game) {
+		Iterator<Player> itr = game.getPlayers().listIterator();
 		while(itr.hasNext()) {
 			Player p = itr.next();
-			if(p.getOwnedArmies()>0)
-				return false;
+			if(p.getOwnedArmies()>0){
+				return;
+			}
 		}
-		return true;
+		game.setGamePhase(Phase.REINFORCEMENT);
 	}
 	
 	/**
@@ -165,17 +171,17 @@ public class StartUp {
 	 * @param cmd Command object that maintains game state
 	 * @param gamePhase Current game phase
 	 */
-	public void armyDistribution(ArrayList<Player> players, Command cmd, Command.Phase gamePhase){
+	public void armyDistribution(GameData game, Command cmd){
 		Scanner sc = new Scanner(System.in);
-		int numberOfPlayers = players.size();
+		int numberOfPlayers = game.getPlayers().size();
 		int playerTraversal = 0;
-		while(gamePhase!=Command.Phase.REINFORCEMENT) {
-			while(gamePhase!=Command.Phase.REINFORCEMENT) {
-				Player p = players.get(playerTraversal);
+		while(game.getGamePhase()!=Phase.REINFORCEMENT) {
+			while(game.getGamePhase()!=Phase.REINFORCEMENT) {
+				Player p = game.getPlayers().get(playerTraversal);
 				int originalArmies = p.getOwnedArmies();
 				System.out.println(p.getPlayerName() + "'s turn");
 				String command = sc.nextLine();
-				gamePhase = cmd.parseCommand(p, command); 
+				game.setGamePhase(cmd.parseCommand(p, command));
 				if(!command.contentEquals("showmap") && originalArmies>p.getOwnedArmies()) {
 					playerTraversal++;
 					if(playerTraversal>=numberOfPlayers) {
@@ -184,57 +190,6 @@ public class StartUp {
 				}
 			}
 		}
-	}
-	
-	/**
-	 * Shows map in tabular form.
-	 * @param players List of players in the game
-	 * @param map Game map
-	 */
-	public void showMap(ArrayList<Player> players, GameMap map) {
-		if(map==null)
-			return;
-		if(players.size()==0 || players.get(0).getOwnedCountries().size()==0) {
-			RunCommand rc = new RunCommand();
-			rc.showMap(map);
-			return;
-		}
-		System.out.format("%25s%25s%35s%25s%10s\n", "Owner", "Country", "Neighbors", "Continent", "#Armies");
-		System.out.format("%85s\n", "---------------------------------------------------------------------------------------------------------------------------");
-		boolean printPlayerName = true;
-		boolean printContinentName = true;
-		boolean printCountryName = true;
-		boolean printNumberOfArmies = true;
-		
-		for(int i=0; i<players.size(); i++){
-			Player p = players.get(i);
-			for(Country country : p.getOwnedCountries().values()) {
-				for(Country neighbor : country.getNeighbours().values()) {
-					if(printPlayerName && printContinentName && printCountryName) {
-						System.out.format("\n%25s%25s%35s%25s%10d\n", p.getPlayerName(), country.getCountryName(), neighbor.getCountryName(), country.getInContinent(), country.getNumberOfArmies());
-						printPlayerName = false;
-						printContinentName = false;
-						printCountryName = false;
-						printNumberOfArmies = false;
-					}
-					else if(printContinentName && printCountryName && printNumberOfArmies) {
-						System.out.format("\n%25s%25s%35s%25s%10d\n", "", country.getCountryName(), neighbor.getCountryName(), country.getInContinent(), country.getNumberOfArmies());
-						printContinentName = false;
-						printCountryName = false;
-						printNumberOfArmies = false;
-					}
-					else {
-						System.out.format("\n%25s%25s%35s%25s%10s\n", "", "", neighbor.getCountryName(), "", "");
-					}
-				}
-				printContinentName = true;
-				printCountryName = true;
-				printNumberOfArmies = true;
-			}
-			printPlayerName = true;
-			printContinentName = true;
-			printCountryName = true;
-			printNumberOfArmies = true;
-		}
+		game.setGamePhase(Phase.REINFORCEMENT);
 	}
 }

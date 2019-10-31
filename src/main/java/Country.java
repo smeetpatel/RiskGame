@@ -11,18 +11,49 @@ import java.util.HashMap;
  */
 
 public class Country {
+	/**
+	 * Index value of the country when saving to ".map" file of domination game format.
+	 */
 	private int index;
+
+	/**
+	 * Represents the name of the country.
+	 */
 	private String countryName;
+
+	/**
+	 * Represents the name of the continent to which this country belongs.
+	 */
 	private String inContinent;
+
+	/**
+	 * Stores the neighboring countries.
+	 * 	 * HashMap has
+	 * 	 * 1) Key: name of the country stored in lower case
+	 * 	 * 2) Value: corresponding Country object
+	 */
 	private HashMap<String, Country> neighbours;
+
+	/**
+	 * X co-ordinate value of the country for GUI uses.
+	 */
 	private int xCoOrdinate;
+
+	/**
+	 * Y co-ordinate value of the country for GUI uses.
+	 */
 	private int yCoOrdinate;
+
+	/**
+	 * Number of armies in this country.
+	 */
 	private int numberOfArmies;
 	
 	/**
 	 * Create Country object with default values.
 	 */
 	public Country(){}
+
 	/**
 	 * Create country object with values in argument parameters and set defaults for the rest.
 	 * @param countryName Name of the country
@@ -102,7 +133,7 @@ public class Country {
 	}
 	
 	/**
-	 * Setter method to fetch x-co-ordinate
+	 * Setter method to set x-co-ordinate
 	 * @param xCoOrdinate argument x-co-ordinate value to be set
 	 */
 	public void setxCoOrdinate(int xCoOrdinate) {
@@ -118,19 +149,11 @@ public class Country {
 	}
 
 	/**
-	 * Setter method to fetch y-co-ordinate
-	 * @param xCoOrdinate argument y-co-ordinate value to be set
+	 * Setter method to set y-co-ordinate
+	 * @param yCoOrdinate argument y-co-ordinate value to be set
 	 */
 	public void setyCoOrdinate(int yCoOrdinate) {
 		this.yCoOrdinate = yCoOrdinate;
-	}
-	
-	public void printCountry(){
-		System.out.println("index: " + index);
-		System.out.println("countryName: " + countryName);
-		System.out.println("inContinent: " + inContinent);
-		//System.out.println("index: " + index);
-		//System.out.println("index: " + index);
 	}
 
 	/**
@@ -148,13 +171,4 @@ public class Country {
 	public void setNumberOfArmies(int numberOfArmies) {
 		this.numberOfArmies = numberOfArmies;
 	}
-
-	@Override
-	public String toString() {
-		return "Country [countryName=" + countryName + ", xCoOrdinate=" + xCoOrdinate + ", yCoOrdinate=" + yCoOrdinate
-				+ "]";
-	}
-	
-	
-	
 }

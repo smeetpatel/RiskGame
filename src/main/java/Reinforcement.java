@@ -47,7 +47,7 @@ public class Reinforcement {
 	 * @return true if successful, else false
 	 */
 
-	public boolean reinforce(Player player, String countryName, int num)
+	public boolean reinforce(GameData game, Player player, String countryName, int num)
 	{
 		if(player.getOwnedCountries().containsKey(countryName.toLowerCase()))
 		{
@@ -58,17 +58,18 @@ public class Reinforcement {
 				existingArmies += num;
 				c.setNumberOfArmies(existingArmies);
 				player.setOwnedArmies(player.getOwnedArmies()-num);
+				if(player.getOwnedArmies()==0) {
+					game.setGamePhase(Phase.FORTIFICATION);
+				}
 				return true;
 			}
 			else
 			{
-				System.out.println("You don't have enough armies");
 				return false;
 			}
 		}
 		else
 		{
-			System.out.println("You don't own this country");
 			return false;
 		}
 	}

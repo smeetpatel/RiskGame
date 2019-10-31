@@ -12,31 +12,28 @@ import java.util.Scanner;
  * Map is loaded as GameMap object.
  * 
  * @author Smeet
- *
  */
 public class LoadMap {
 	/**
 	 * Tracks the index value of continents, new or existing, to later facilitate writing them to
 	 * map files following domaination's conventions.
 	 */
-	public static int inMapIndex = 1;	
-	
-	private GameMap map;	
+	public static int inMapIndex = 1;
+
+	/**
+	 * Represents the game map.
+	 */
+	private GameMap map;
+
+	/**
+	 * Stores list of countries in the map.
+	 * Facilitates reading neighbors of a country written following the rules of ".map" files of domination file format
+	 * HashMap has
+	 * 1) Key: integer value representing the index of the country in ".map" file of domination file format
+	 * 2) Value: corresponding Country object
+	 */
 	private HashMap<Integer, Country> listOfCountries; //temporary HashMap to facilitate reading .map files
-	
-	
-	//temporary main method for testing purpose.
-	public static void main(String[] args){
-		
-		Scanner in = new Scanner(System.in);
-		System.out.println("Enter the name of the map:");
-		String mapName = in.nextLine();
-		LoadMap loadedMap = new LoadMap();
-		loadedMap.readMap(mapName);
-		in.close();
-		//loadedMap.printMap();
-	}
-	
+
 	/**
 	 * Getter method for getting the game map.
 	 * @return GameMap object that is created.
@@ -52,6 +49,7 @@ public class LoadMap {
 	public void setMap(GameMap map) {
 		this.map = map;
 	}
+
 	/**
 	 * Reads the ".map" file and creates a GameMap object accordingly.
 	 * Performs basic validation checks too.
@@ -102,7 +100,6 @@ public class LoadMap {
 				String[] continentString = s.split("\\s+");
 				
 				//Check if continent already exists in the map
-				//continentExists = MapValidator.doesContinentExist(map, continentString[0]);
 				if(!continentExists && Integer.parseInt(continentString[1])>=0) {
 					map.getContinents().put(continentString[0].toLowerCase(), new Continent(continentString[0], continentString[1], continentString[2]));
 					inMapIndex++;
@@ -119,8 +116,6 @@ public class LoadMap {
 			e.printStackTrace();
 		}
 		inMapIndex = 1;
-		//for(Continent c : map.getContinents().values())
-		//	System.out.println(c.getContinentName() + " has inMapIndex: " + c.getInMapIndex());
 		return reader;
 	}
 	

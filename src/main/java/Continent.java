@@ -14,10 +14,32 @@ import java.util.HashMap;
  *
  */
 public class Continent {
+	/**
+	 * Represents the name of the continent.
+	 */
 	private String continentName;
-	private int inMapIndex;	//index to further assist in writing files in ".map" format
+
+	/**
+	 * Index value of the continent when saving to ".map" file of domination game format.
+	 */
+	private int inMapIndex;
+
+	/**
+	 * Control value of the continent.
+	 */
 	private int controlValue;
+
+	/**
+	 * Color code for the continent for GUI uses.
+	 */
 	private String colorCode;
+
+	/**
+	 * Stores the countries belonging to this continent.
+	 * HashMap has
+	 * 1) Key: name of the country stored in lower case
+	 * 2) Value: corresponding Country object
+	 */
 	private HashMap<String, Country> countries;
 	
 	/**
@@ -29,7 +51,6 @@ public class Continent {
 	Continent(String continentName, int controlValue){
 		this.continentName = continentName;
 		this.inMapIndex = LoadMap.inMapIndex;
-		LoadMap.inMapIndex++;
 		this.controlValue = controlValue;
 		this.colorCode = "000";
 		this.countries = new HashMap<String, Country>();
@@ -55,6 +76,7 @@ public class Continent {
 	 * @return returns the name of the continent
 	 */
 	public String getContinentName() {
+
 		return this.continentName;
 	}
 	
@@ -65,7 +87,11 @@ public class Continent {
 	public int getInMapIndex() {
 		return this.inMapIndex;
 	}
-	
+
+	/**
+	 * Sets the index of the continent as per domination file format.
+	 * @param inMapIndex Index value of the continent in ".map" file of domination game format
+	 */
 	public void setInMapIndex(int inMapIndex) {
 		this.inMapIndex = inMapIndex;
 	}

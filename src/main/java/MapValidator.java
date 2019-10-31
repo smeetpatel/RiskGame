@@ -19,7 +19,10 @@ import org.jgrapht.alg.connectivity.*;
  */
 public class MapValidator {
 
-	 private Graph<Country, DefaultEdge> mapGraph; //JGraphT type Graph representing the game map
+	/**
+	 * JGraphT type Graph representing the game map
+	 */
+	 private Graph<Country, DefaultEdge> mapGraph;
 	
 	 /**
 	  * Creates a Graph object supported by JGraphT library.
@@ -169,6 +172,5 @@ public class MapValidator {
         if(arr.contains(countryStart.getCountryName().toLowerCase()) && arr.contains(toCountry.toLowerCase()))
         	return true;
 		return false;
-		
 	}
 }	
