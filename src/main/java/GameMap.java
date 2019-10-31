@@ -12,9 +12,30 @@ import java.util.HashMap;
  *
  */
 public class GameMap {
+	/**
+	 * Name of the game map.
+	 */
 	private String mapName;
+
+	/**
+	 * Stores the continents present in the map.
+	 * HashMap has
+	 * 1) Key: name of the continent in lower case
+	 * 2) Value: corresponding Continent object
+	 */
 	private HashMap<String, Continent> continents;
+
+	/**
+	 * Stores the countries present in the map.
+	 * HashMap has
+	 * 1) Key: name of the country in lower case
+	 * 2) Value: corresponding Country object
+	 */
 	private HashMap<String, Country> countries;
+
+	/**
+	 * Boolean indicating whether the map is valid for Risk game play or not.
+	 */
 	private boolean valid;
 	
 	/**
@@ -72,7 +93,7 @@ public class GameMap {
 	}
 	
 	/**
-	 * Returns the HashMap maintaining list of continents in the map.
+	 * Returns the HashMap maintaining list of countries in the map.
 	 * @return returns the HashMap maintaining list of countries in the map.
 	 */
 	public HashMap<String, Country> getCountries(){
@@ -88,7 +109,7 @@ public class GameMap {
 	}
 	
 	/**
-	 * Getter method to fetch valid variable
+	 * Getter method to fetch valid status of the map
 	 * @return returns whether the map is valid for game play or not
 	 */
 	public boolean getValid() {

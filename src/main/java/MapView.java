@@ -2,6 +2,9 @@ package main.java;
 
 import java.util.ArrayList;
 
+/**
+ * Responsible for printing map depending on the phase of the game.
+ */
 public class MapView {
     /**
      * Prints the continents, countries, and neighbors for each country present in the map.
@@ -53,8 +56,8 @@ public class MapView {
 
     /**
      * Shows map in tabular form.
-     * @param players List of players in the game
      * @param map Game map
+     * @param players List of players in the game
      */
     public void showMap(GameMap map, ArrayList<Player> players) {
         if(map==null)

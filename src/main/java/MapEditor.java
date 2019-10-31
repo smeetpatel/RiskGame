@@ -17,8 +17,8 @@ public class MapEditor {
 	/**
 	 * Loads map as GameMap object for editing.
 	 * If the map file does not exist, creates a new GameMap object to add information.
+	 * @param game Representing game state
 	 * @param mapName Name of the map to be searched/created
-	 * @return map object representing the existing map or null value if new one is to be created
 	 */
 	public void editMap(GameData game, String mapName) {
 		//Check if file exists
@@ -40,8 +40,9 @@ public class MapEditor {
 	/**
 	 * Loads map as GameMap object for playing the game.
 	 * If map file does not exist, it reflects the command as invalid command.
+	 * @param game Representing game state
 	 * @param mapName name of the map to be used for playing the game
-	 * @return map representing the existing map to be used for game play
+	 * @return true if map exists, else false
 	 */
 	public boolean loadMap(GameData game, String mapName) {
 		//check if file exists
@@ -177,7 +178,6 @@ public class MapEditor {
 		else {
 			return false;
 		}
-		
 	}
 	
 	/**
@@ -227,6 +227,7 @@ public class MapEditor {
 	/**
 	 * Saves GameMap object as ".map" file following Domination game format
 	 * @param map GameMap object representing the map to be saved
+	 * @param fileName  Name with which map file is to be saved
 	 * @return true if successful, else false indicating invalid command
 	 * @throws IOException
 	 */
@@ -311,7 +312,7 @@ public class MapEditor {
 	 * 	2) If each continent is a connected sub-graph
 	 * 	3) If map for the game is connected graph or not
 	 * @param map GameMap representing the map
-	 * @return returns true if valid map, else false indicating invalid map
+	 * @return returns MapValidityStatus value as VALIDMAP if it is a valid map, else appropriate error value of MapValidityStatus
 	 */
 	public MapValidityStatus validateMap(GameMap map) {
 		MapValidator mv = new MapValidator();
@@ -326,7 +327,6 @@ public class MapEditor {
 		else if(!mv.continentConnectivityCheck(map)) {
 			return MapValidityStatus.UNCONNECTEDCONTINENT;
 		}
-		
 		return MapValidityStatus.VALIDMAP;
 	}
 }

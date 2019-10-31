@@ -6,19 +6,28 @@ import java.util.Scanner;
 /**
  * Responsible for playing the game.
  * Covers tasks ranging from 'map editing' to 'actual game play'.
- * Responsible for only interacting with the user and calling appropriate methods for further actions.
+ * Responsible for only interacting with the user and passing the user command for appropriate action.
  */
 public class PlayRisk {
 
+	/**
+	 * Responsible for playing the game.
+	 * Covers tasks ranging from 'map editing' to 'actual game play'.
+	 * Responsible for only interacting with the user and passing the user command for appropriate action.
+	 * @param args Command line arguments
+	 */
 	public static void main(String[] args) {
+		int numberOfPlayers;
+		int traversalCounter;
+		String command;
+		Phase gamePhase;
 		PlayRisk game = new PlayRisk();
+
 		System.out.println("Welcome to Risk Game");
 		System.out.println("To continue, select a map from the below mentioned existing maps or create a new one.");
 		game.printMapNames();
 
 		//read first command
-		String command;
-		Phase gamePhase;
 		Command cmd = new Command();
 		Scanner read = new Scanner(System.in);
 		do{
@@ -27,8 +36,8 @@ public class PlayRisk {
 		}while(gamePhase!=Phase.REINFORCEMENT);
 		
 		//start the game by looping through the players
-		int numberOfPlayers = cmd.game.getPlayers().size();
-		int traversalCounter = 0;
+		numberOfPlayers = cmd.game.getPlayers().size();
+		traversalCounter = 0;
 		while(true) {
 			while(traversalCounter<numberOfPlayers) {
 				Player p = cmd.game.getPlayers().get(traversalCounter);
