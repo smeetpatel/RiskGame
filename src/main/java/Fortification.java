@@ -14,7 +14,7 @@ public class Fortification {
 	 * @param num Number of armies to be shifted
 	 * @return true if successful, else false
 	 */
-	public boolean fortify(Player player, String fromCountry, String toCountry, int num)
+	public FortificationCheck fortify(GameData game, Player player, String fromCountry, String toCountry, int num)
 	{
 		MapValidator mv = new MapValidator();
 		if(player.getOwnedCountries().containsKey(fromCountry.toLowerCase()))
@@ -31,30 +31,25 @@ public class Fortification {
 						int toArmies = player.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
 						toArmies += num;
 						player.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
-						return true;
+						game.setGamePhase(Phase.TURNEND);
+						return FortificationCheck.FORTIFICATIONSUCCESS;
+					} else {
+						return FortificationCheck.PATHFAIL;
 					}
-					else
-					{
-						System.out.println(fromCountry + " and " + toCountry + " do not have of player owned countries.");
-						return false;
-					}
+				} else {
+					return FortificationCheck.ARMYCOUNTFAIL;
 				}
-				else
-				{
-					System.out.println("You don't have enough armies.");
-					return false;
-				}
-			}
-			else
-			{
-				System.out.println(toCountry + " does not exist.");
-				return false;
+			} else {
+				return FortificationCheck.TOCOUNTRYFAIL;
 			}
 		}
 		else 
 		{
-			System.out.println(fromCountry + " does not exist.");
-			return false;
+			return FortificationCheck.FROMCOUNTRYFAIL;
 		}
+	}
+
+	public void fortify(GameData game){
+		game.setGamePhase((Phase.TURNEND));
 	}
 }

@@ -20,7 +20,7 @@ public class MapEditor {
 	 * @param mapName Name of the map to be searched/created
 	 * @return map object representing the existing map or null value if new one is to be created
 	 */
-	public GameMap editMap(String mapName) {
+	public void editMap(GameData game, String mapName) {
 		//Check if file exists
 		String filePath = "maps/" + mapName;
 		GameMap map;
@@ -31,11 +31,10 @@ public class MapEditor {
 			map.setMapName(mapName);
 		}
 		else {
-			System.out.println(mapName + " does not exist.");
-			System.out.println("Creating a new map named " + mapName);
 			map = new GameMap(mapName);
 		}
-		return map;
+		game.setMap(map);
+		game.setGamePhase(Phase.EDITMAP);
 	}
 	
 	/**
@@ -44,7 +43,7 @@ public class MapEditor {
 	 * @param mapName name of the map to be used for playing the game
 	 * @return map representing the existing map to be used for game play
 	 */
-	public GameMap loadMap(String mapName) {
+	public boolean loadMap(GameData game, String mapName) {
 		//check if file exists
 		String filePath = "maps/" + mapName;
 		GameMap map;
@@ -53,19 +52,21 @@ public class MapEditor {
 			LoadMap lm = new LoadMap();
 			map = lm.readMap(filePath);
 			map.setMapName(mapName);
-			if(validateMap(map)) {
+			game.setMap(map);
+			if(validateMap(map)==MapValidityStatus.VALIDMAP) {
 				map.setValid(true);
+				game.setGamePhase(Phase.STARTUP);
 			}
 			else {
-				System.out.println("Map not suitable for game play. Correct the map to continue with this map or load another map from the existing maps.");
 				map.setValid(false);
+				game.setGamePhase(Phase.NULL);
 			}
 		}
 		else {
-			System.out.println("Map " + mapName + " does not exist. Try again or use 'editmap' if you want to create new map.");
-			return null;
+			game.setGamePhase(Phase.NULL);
+			return false;
 		}
-		return map;
+		return true;
 	}
 	
 	/**
@@ -79,8 +80,9 @@ public class MapEditor {
 	public boolean addContinent(GameMap map, String continentName, int controlValue) {
 		//check if continent already exists
 		if(!(MapValidator.doesContinentExist(map, continentName))) {
-			if(controlValue<0)
+			if(controlValue<0){
 				return false;
+			}
 			Continent continent = new Continent(continentName, controlValue);
 			map.getContinents().put(continentName.toLowerCase(), continent);
 			return true;
@@ -117,7 +119,6 @@ public class MapEditor {
 			return true;
 		}
 		else {
-			System.out.println(continentName + " does not exist.");
 			return false;
 		}
 	}
@@ -134,7 +135,6 @@ public class MapEditor {
 		//check if argument country exists or not
 		if(!MapValidator.doesCountryExist(map, countryName)) {
 			if(!map.getContinents().containsKey(continentName.toLowerCase())) {
-				System.out.println(continentName + " does not exist.");
 				return false;
 			}
 			Country country = new Country(countryName, continentName);
@@ -175,7 +175,6 @@ public class MapEditor {
 			return true;
 		}
 		else {
-			System.out.println(countryName + " does not exist.");
 			return false;
 		}
 		
@@ -200,12 +199,6 @@ public class MapEditor {
 			return true;
 		}
 		else {
-			if(!map.getCountries().containsKey(countryName.toLowerCase()) && !map.getCountries().containsKey(neighborCountryName.toLowerCase()))
-				System.out.println(countryName + " and " + neighborCountryName + "  does not exist. Create country first and then set their neighbors.");
-			else if(!map.getCountries().containsKey(countryName.toLowerCase()))
-				System.out.println(countryName + " does not exist. Create country first and then set its neighbors.");
-			else
-				System.out.println(neighborCountryName + " does not exist. Create country first and then set its neighbors.");
 			return false;
 		}
 	}
@@ -227,64 +220,10 @@ public class MapEditor {
 			return true;
 		}
 		else {
-			if(!map.getCountries().containsKey(countryName.toLowerCase()) && !map.getCountries().containsKey(neighborCountryName.toLowerCase()))
-				System.out.println(countryName + " and " + neighborCountryName + "  does not exist.");
-			else if(!map.getCountries().containsKey(countryName.toLowerCase()))
-				System.out.println(countryName + " does not exist.");
-			else
-				System.out.println(neighborCountryName + " does not exist.");
 			return false;
 		}
 	}
-	
-	/**
-	 * Prints the continents, countries, and neighbors for each country present in the map.
-	 * @param map GameMap object representing the map to be shown.
-	 */
-	public void showMap(GameMap map) {
-		if(map==null)
-			return;
-		System.out.format("%25s%25s%35s\n", "Continents", "Country", "Country's neighbors");
-		System.out.format("%85s\n", "-------------------------------------------------------------------------------------------");
-		boolean printContinentName = true;
-		boolean printCountryName = true;
-		for(Continent continent : map.getContinents().values()) {
-			if(continent.getCountries().size()==0) {
-				System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), "", "");
-			}
-			for(Country country : continent.getCountries().values()) {
-				if(country.getNeighbours().size()==0) {
-					if(printContinentName && printCountryName) {
-						System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), country.getCountryName(), "");
-						printContinentName = false;
-						printCountryName = false;
-					}
-					else if(printCountryName) {
-						System.out.format("\n%25s%25s%25s\n", "", country.getCountryName(), "");
-						printCountryName = false;
-					}
-				}
-				for(Country neighbor : country.getNeighbours().values()) {
-					if(printContinentName && printCountryName) {
-						System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), country.getCountryName(), neighbor.getCountryName());
-						printContinentName = false;
-						printCountryName = false;
-					}
-					else if(printCountryName) {
-						System.out.format("\n%25s%25s%25s\n", "", country.getCountryName(), neighbor.getCountryName());
-						printCountryName = false;
-					}
-					else {
-						System.out.format("%25s%25s%25s\n", "", "", neighbor.getCountryName());
-					}
-				}
-				printCountryName = true;
-			}
-			printContinentName = true;
-			printCountryName = true;
-		}
-	}
-	
+
 	/**
 	 * Saves GameMap object as ".map" file following Domination game format
 	 * @param map GameMap object representing the map to be saved
@@ -293,7 +232,7 @@ public class MapEditor {
 	 */
 	public boolean saveMap(GameMap map, String fileName) {
 		//Check if map is valid or not 
-		if(validateMap(map)) {
+		if(validateMap(map)==MapValidityStatus.VALIDMAP) {
 			try {
 				BufferedWriter writer = new BufferedWriter(new FileWriter("maps/"+fileName+".map"));
 				int continentIndex = 1;	//to track continent index in "map" file
@@ -361,7 +300,6 @@ public class MapEditor {
 		}
 		else
 		{
-			System.out.println("Map not suitable for game play. Correct the map to continue with the new map or load a map from the existing maps.");
 			return false;
 		}
 	}
@@ -375,21 +313,20 @@ public class MapEditor {
 	 * @param map GameMap representing the map
 	 * @return returns true if valid map, else false indicating invalid map
 	 */
-	public boolean validateMap(GameMap map) {
+	public MapValidityStatus validateMap(GameMap map) {
 		MapValidator mv = new MapValidator();
 		if(!mv.notEmptyContinent(map)) {
-			System.out.println("Invalid map - emtpy continent present.");
-			return false;
+
+			return MapValidityStatus.EMPTYCONTINENT;
 		}
 		else if(!mv.isGraphConnected(mv.createGraph(map))) {
-			System.out.println("Invalid map - not a connected graph");
-			return false;
+
+			return MapValidityStatus.UNCONNECTEDGRAPH;
 		}
 		else if(!mv.continentConnectivityCheck(map)) {
-			System.out.println("Invalid map - one of the continent is not a connected sub-graph");
-			return false;
+			return MapValidityStatus.UNCONNECTEDCONTINENT;
 		}
 		
-		return true;
+		return MapValidityStatus.VALIDMAP;
 	}
 }

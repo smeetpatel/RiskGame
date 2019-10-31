@@ -32,9 +32,8 @@ public class PlayRisk {
 		while(true) {
 			while(traversalCounter<numberOfPlayers) {
 				Player p = cmd.game.getPlayers().get(traversalCounter);
-				Reinforcement.assignReinforcementArmies(p);
 				System.out.println(p.getPlayerName() + "'s turn");
-
+				Reinforcement.assignReinforcementArmies(p);
 				while(gamePhase!=Phase.TURNEND) {
 					if(gamePhase==Phase.REINFORCEMENT) {
 						System.out.println("Reinforcement armies: " + p.getOwnedArmies());

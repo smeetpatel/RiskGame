@@ -29,7 +29,6 @@ public class Continent {
 	Continent(String continentName, int controlValue){
 		this.continentName = continentName;
 		this.inMapIndex = LoadMap.inMapIndex;
-		LoadMap.inMapIndex++;
 		this.controlValue = controlValue;
 		this.colorCode = "000";
 		this.countries = new HashMap<String, Country>();
