@@ -190,6 +190,6 @@ public class StartUp {
 				}
 			}
 		}
-		game.setGamePhase(Phase.REINFORCEMENT);
+		game.setGamePhase(Phase.CARDEXCHANGE);
 	}
 }

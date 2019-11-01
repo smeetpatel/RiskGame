@@ -32,6 +32,11 @@ public enum Phase {
     ARMYALLOCATION,
 
     /**
+     * Player will exchange cards.
+     */
+    CARDEXCHANGE,
+
+    /**
      * Individual turn of player begins in round-robin fashion.
      * Player assigns reinforced armies amongst owned countries.
      * Phase ends when reinforcement armies are distributed amongst the owned countries.
