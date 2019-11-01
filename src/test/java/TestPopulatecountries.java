@@ -20,7 +20,7 @@ public class TestPopulatecountries {
     Player player2;
     GameMap map;
     ArrayList<Player> players;
-    StartUp stp;
+    //StartUp stp;
 
     /**
      * Set up the context
@@ -41,7 +41,7 @@ public class TestPopulatecountries {
      */
     @Test
     public void testPopulateCountries() {
-        stp = new StartUp();
+        //stp = new StartUp();
        // boolean check = stp.populateCountries(map, players);
         //assertEquals(true,check);
     }

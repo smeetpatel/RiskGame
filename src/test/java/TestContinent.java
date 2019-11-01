@@ -1,9 +1,6 @@
 package test.java;
 
-import static org.junit.Assert.*;
-
 import main.java.GameMap;
-import main.java.MapEditor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +13,6 @@ public class TestContinent {
     GameMap map;
     String continentName;
     int controlValue;
-    MapEditor rcmd;
 
     /**
      * Set up the context
@@ -24,7 +20,6 @@ public class TestContinent {
     @Before
     public void before(){
         map = new GameMap("ameroki.map");
-        rcmd = new MapEditor();
         continentName = "azio";
     }
 

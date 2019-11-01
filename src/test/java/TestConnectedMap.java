@@ -1,9 +1,7 @@
 package test.java;
 
-import static org.junit.Assert.*;
 import main.java.GameMap;
-import main.java.MapValidator;
-import main.java.MapEditor;
+import main.java.MapValidation;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,9 +11,8 @@ import org.junit.Test;
  */
 public class TestConnectedMap {
 
-    MapValidator mvr;
+    MapValidation mvr;
     GameMap map;
-    MapEditor rcmd;
 
     /**
      * Set up the context
@@ -23,8 +20,7 @@ public class TestConnectedMap {
     @Before
     public void before(){
         map = new GameMap("world.map");
-        mvr = new MapValidator();
-        rcmd = new MapEditor();
+        mvr = new MapValidation();
     }
 
     /**
