@@ -18,10 +18,10 @@ public class TestReinforceArmies {
     Player player2;
     GameMap map;
     ArrayList<Player> players;
-    StartUp stp;
+    //StartUp stp;
     Phase gamePhase;
     Command cmd;
-    Reinforcement rfc;
+    //Reinforcement rfc;
 
     /**
      * Set up the context
@@ -43,7 +43,7 @@ public class TestReinforceArmies {
      */
     @Test
     public void testReinforceArmies(){
-        stp = new StartUp();
+        //stp = new StartUp();
         cmd = new Command();
         boolean checkagain = false;
        // boolean check = stp.populateCountries(map, players);

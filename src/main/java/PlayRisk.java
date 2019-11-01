@@ -42,7 +42,7 @@ public class PlayRisk {
 			while(traversalCounter<numberOfPlayers) {
 				Player p = cmd.game.getPlayers().get(traversalCounter);
 				System.out.println(p.getPlayerName() + "'s turn");
-				Reinforcement.assignReinforcementArmies(p);
+				GameActions.assignReinforcementArmies(p);
 				while(gamePhase!=Phase.TURNEND) {
 					if(gamePhase==Phase.REINFORCEMENT) {
 						System.out.println("Reinforcement armies: " + p.getOwnedArmies());
@@ -62,7 +62,7 @@ public class PlayRisk {
 	 * Prints names of existing map files in maps folder.
 	 */
 	private void printMapNames() {
-		File folder = new File("maps/");
+		File folder = new File("src/main/resources/maps/");
 		File[] files = folder.listFiles();
 		
 		for(int i=0; i<files.length; i++) {

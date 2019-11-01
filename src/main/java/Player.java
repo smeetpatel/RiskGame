@@ -106,5 +106,84 @@ public class Player {
 	public void setOwnedContinents(HashMap<String, Continent> ownedContinents) {
 		this.ownedContinents = ownedContinents;
 	}
+
+	/**
+	 * This function allow player to place armies
+	 * @param game Represents the state of the game
+	 * @param countryName Reinforce armies here
+	 * @param num Reinforce this many armies
+	 * @return true if successful, else false
+	 */
+	public boolean reinforce(GameData game, String countryName, int num)
+	{
+		if(this.ownedCountries.containsKey(countryName.toLowerCase()))
+		{
+			if(this.ownedArmies >= num)
+			{
+				Country c= this.ownedCountries.get(countryName.toLowerCase());
+				int existingArmies = c.getNumberOfArmies();
+				existingArmies += num;
+				c.setNumberOfArmies(existingArmies);
+				this.setOwnedArmies(this.ownedArmies-num);
+				if(this.ownedArmies==0) {
+					game.setGamePhase(Phase.FORTIFICATION);
+				}
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	//TODO: Add attack method
+	//TODO: Add fortification method
+	public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num)
+	{
+		MapValidation mv = new MapValidation();
+		if(this.ownedCountries.containsKey(fromCountry.toLowerCase()))
+		{
+			if(this.ownedCountries.containsKey(toCountry.toLowerCase()))
+			{
+				if((this.ownedCountries.get(fromCountry.toLowerCase()).getNumberOfArmies()- num)>=1)
+				{
+					if(mv.fortificationConnectivityCheck(this, fromCountry, toCountry))
+					{
+						int fromArmies = this.ownedCountries.get(fromCountry.toLowerCase()).getNumberOfArmies();
+						fromArmies -= num;
+						this.ownedCountries.get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
+						int toArmies = this.ownedCountries.get(toCountry.toLowerCase()).getNumberOfArmies();
+						toArmies += num;
+						this.ownedCountries.get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+						game.setGamePhase(Phase.TURNEND);
+						return FortificationCheck.FORTIFICATIONSUCCESS;
+					} else {
+						return FortificationCheck.PATHFAIL;
+					}
+				} else {
+					return FortificationCheck.ARMYCOUNTFAIL;
+				}
+			} else {
+				return FortificationCheck.TOCOUNTRYFAIL;
+			}
+		}
+		else
+		{
+			return FortificationCheck.FROMCOUNTRYFAIL;
+		}
+	}
+
+	/**
+	 * Used to mark end of a player's turn when player decides to not fortify.
+	 * @param game Represents current state of the game.
+	 */
+	public void fortify(GameData game){
+		game.setGamePhase((Phase.TURNEND));
+	}
 }
 

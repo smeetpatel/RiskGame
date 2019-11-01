@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
-import java.util.Scanner;
 
 /**
  * Responsible for loading map from ".map" file.
@@ -199,7 +198,7 @@ public class LoadMap {
 	 */
 	private void addToContinentMap(Country newCountry) {
 		
-		if(!MapValidator.doesCountryExist(map, newCountry.getCountryName())) {
+		if(!MapValidation.doesCountryExist(map, newCountry.getCountryName())) {
 			//newCountry.printCountry();
 			Continent argumentContinent = map.getContinents().get(newCountry.getInContinent().toLowerCase());
 			//System.out.println("Fetched continent: " + argumentContinent.getContinentName());

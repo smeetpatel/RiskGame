@@ -17,7 +17,7 @@ import org.jgrapht.alg.connectivity.*;
  * 
  * @author Smeet
  */
-public class MapValidator {
+public class MapValidation {
 
 	/**
 	 * JGraphT type Graph representing the game map
@@ -27,7 +27,7 @@ public class MapValidator {
 	 /**
 	  * Creates a Graph object supported by JGraphT library.
 	  */
-	 public MapValidator(){
+	 public MapValidation(){
 		 this.mapGraph = new DefaultUndirectedGraph<>(DefaultEdge.class);
 	 }
 	 

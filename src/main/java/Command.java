@@ -13,40 +13,22 @@ public class Command {
 	public GameData game;
 
     /**
-     * Helps access methods related to editing or loading a game map.
-     */
-    public MapEditor mapCmd;
-
-    /**
      * Helps access methods to view map.
      */
     public MapView mapView;
 
     /**
-     * Helps access methods related to start up phase of the game.
+     * Helps access methods related to background operations of the game such as loading/editing map, calculating the number of reinforcement armies, etc.
      */
-    public StartUp startUp;
-
-    /**
-     * Helps access methods related to reinforcement phase of the game.
-     */
-    public Reinforcement rfc;
-
-    /**
-     * Helps access methods related to fortification phase of the game.
-     */
-    public Fortification ftf;
+    public GameActions gameAction;
 
     /**
      * Initializes the variables and objects required to play the game and act on user commands.
      */
     public Command() {
         game = new GameData();
-        mapCmd = new MapEditor();
         mapView = new MapView();
-        startUp = new StartUp();
-        rfc = new Reinforcement();
-        ftf = new Fortification();
+        gameAction = new GameActions();
     }
 
     /**
@@ -102,7 +84,7 @@ public class Command {
                 		if (!(data[1] == "")) {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
-                                mapCmd.editMap(game, mapName);
+                                gameAction.editMap(game, mapName);
                                 if(game.getMap().getCountries().size()==0){
                                     System.out.println(mapName + " does not exist.");
                                     System.out.println("Creating a new map named " + mapName);
@@ -127,7 +109,7 @@ public class Command {
                 		if (data[1] != null) {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
-                                if (mapCmd.loadMap(game, mapName)) {
+                                if (gameAction.loadMap(game, mapName)) {
                                     if (!game.getMap().getValid()) {
                                         System.out.println("Map not suitable for game play. Correct the map to continue with this map or load/edit another map.");
                                     } else {
@@ -163,7 +145,7 @@ public class Command {
                                 if (this.isAlpha(data[i + 1])) {
                                 	continentName = data[i + 1];
                                     controlValue = Integer.parseInt(data[i + 2]);
-                                    boolean check = mapCmd.addContinent(game.getMap(), continentName, controlValue);
+                                    boolean check = game.getMap().addContinent(continentName, controlValue);
                                     if (check) {
                                         System.out.println(continentName + " added to the map");
                                     } else {
@@ -176,7 +158,7 @@ public class Command {
                             } else if (data[i].equals("-remove")) {
                                 if (this.isAlpha(data[i + 1])) {
                                 	continentName = data[i + 1];
-                                    boolean check = mapCmd.removeContinent(game.getMap(), continentName);
+                                    boolean check = game.getMap().removeContinent(continentName);
                                     if (check) {
                                         System.out.println(continentName + " removed from the map");
                                     } else {
@@ -207,7 +189,7 @@ public class Command {
                                 if (this.isAlpha(data[i + 1]) && this.isAlpha(data[i + 2])) {
                                     countryName = data[i + 1];
                                     continentName = data[i + 2];
-                                    boolean check = mapCmd.addCountry(game.getMap(), countryName, continentName);
+                                    boolean check = game.getMap().addCountry(countryName, continentName);
                                     if (check) {
                                         System.out.println(countryName + " added to the map");
                                     } else {
@@ -224,7 +206,7 @@ public class Command {
                             } else if (data[i].equals("-remove")) {
                                 if (this.isAlpha(data[i + 1])) {
                                 	countryName = data[i + 1];
-                                    boolean check = mapCmd.removeCountry(game.getMap(), countryName);
+                                    boolean check = game.getMap().removeCountry(countryName);
                                     if (check) {
                                         System.out.println(countryName + " removed from the map");
                                     } else {
@@ -252,7 +234,7 @@ public class Command {
                                 if (this.isAlpha(data[i + 1]) && this.isAlpha(data[i + 2])) {
                                     countryName = data[i + 1];
                                     neighborCountryName = data[i + 2];
-                                    boolean check = mapCmd.addNeighbor(game.getMap(), countryName, neighborCountryName);
+                                    boolean check = game.getMap().addNeighbor(countryName, neighborCountryName);
                                     if (check) {
                                         System.out.println(neighborCountryName + " added as neighbor of " + countryName);
                                     } else {
@@ -272,7 +254,7 @@ public class Command {
                                 if (this.isAlpha(data[i + 1]) || this.isAlpha(data[i + 2])) {
                                     countryName = data[i + 1];
                                     neighborCountryName = data[i + 2];
-                                    boolean check = mapCmd.removeNeighbor(game.getMap(), countryName, neighborCountryName);
+                                    boolean check = game.getMap().removeNeighbor(countryName, neighborCountryName);
                                     if (check) {
                                         System.out.println(neighborCountryName + " removed as neighbor of " + countryName);
                                     } else {
@@ -304,7 +286,7 @@ public class Command {
                 		if (!(data[1] == "")) {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
-                                boolean check = mapCmd.saveMap(game.getMap(), mapName);
+                                boolean check = gameAction.saveMap(game.getMap(), mapName);
                                 if (check) {
                                     System.out.println("Map file saved successfully as " + mapName + ".map");
                                 } else {
@@ -331,7 +313,7 @@ public class Command {
                 		if (data[1] != null) {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
-                                mapCmd.editMap(game, mapName);
+                                gameAction.editMap(game, mapName);
                                 if(game.getMap().getCountries().size()==0){
                                     System.out.println(mapName + " does not exist.");
                                     System.out.println("Creating a new map named " + mapName);
@@ -358,7 +340,7 @@ public class Command {
                         if (data[1] != null) {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
-                                if (mapCmd.loadMap(game, mapName)) {
+                                if (gameAction.loadMap(game, mapName)) {
                                     if (!game.getMap().getValid()) {
                                         System.out.println("Map not suitable for game play. Correct the map to continue with this map or load/edit another map.");
                                     } else {
@@ -382,7 +364,7 @@ public class Command {
                     break;
                     
                 case "validatemap":
-                    MapValidityStatus mvs = mapCmd.validateMap(game.getMap());
+                    MapValidityStatus mvs = gameAction.validateMap(game.getMap());
                 	if(mvs==MapValidityStatus.VALIDMAP) {
                 		System.out.println("Valid map");
                 	}
@@ -411,7 +393,7 @@ public class Command {
                             if (data[i].equals("-add")) {
                                 if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                     playerName = data[i + 1];
-                                    boolean check = startUp.addPlayer(game.getPlayers(), playerName);
+                                    boolean check = gameAction.addPlayer(game.getPlayers(), playerName);
                                     if (check) {
                                         System.out.println("Player " + playerName + " successfully added");
                                     } else {
@@ -428,7 +410,7 @@ public class Command {
                             } else if (data[i].equals("-remove")) {
                                 if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                     playerName = data[i + 1];
-                                    boolean check = startUp.removePlayer(game.getPlayers(), playerName);
+                                    boolean check = gameAction.removePlayer(game.getPlayers(), playerName);
                                     if (check)
                                         System.out.println("Player " + playerName + " successfully removed");
                                     else
@@ -447,10 +429,10 @@ public class Command {
                     break;
 
                 case "populatecountries":
-                    boolean check = startUp.populateCountries(game, game.getPlayers());
+                    boolean check = gameAction.populateCountries(game, game.getPlayers());
                     if (check) {
                     	System.out.println("Countries allocated amongst the players");
-                        startUp.armyDistribution(game, this);
+                        gameAction.armyDistribution(game, this);
                     } else {
                         System.out.println("Minimum two players are required to play the game.");
                     }
@@ -472,14 +454,14 @@ public class Command {
 		        		if (!(data[1] == "")) {
 		                    if (this.isAlpha(data[1])) {
 		                        countryName = data[1];
-		                        if(!startUp.placeArmy(player, countryName)){
+		                        if(!gameAction.placeArmy(player, countryName)){
 		                            if(player.getOwnedArmies()<=0){
 		                                System.out.println("Invalid command - player does not own armies to assign.");
                                     } else {
                                         System.out.println("You don't own this country. Please allocate army in your country.");
                                     }
                                 }
-		                        startUp.isAllArmyPlaced(game);
+		                        gameAction.isAllArmyPlaced(game);
 		                    } else
 		                        System.out.println("Invalid country name");
 		                } 
@@ -493,7 +475,7 @@ public class Command {
 		            break;
 	
 		        case "placeall":
-		            if(startUp.placeAll(game)) {
+		            if(gameAction.placeAll(game)) {
 		            	System.out.println("Armies placed successfully");
 		            }
                     game.setGamePhase(Phase.REINFORCEMENT);
@@ -516,7 +498,7 @@ public class Command {
                             if (this.isAlpha(data[1]) || data[2].matches("[0-9]+")) {
                                 countryName = data[1];
                                 numberOfArmies = Integer.parseInt(data[2]);
-                                boolean check = rfc.reinforce(game, player, countryName, numberOfArmies);
+                                boolean check = player.reinforce(game, countryName, numberOfArmies);
                                 if (check) {
                                 	if(player.getOwnedArmies()==0) {
                                 		System.out.println("Reinforcement phase successfully ended. Begin fortification now.");
@@ -555,7 +537,7 @@ public class Command {
                 case "fortify":
                 	try {
                 		if(data[1].equals("none")) {
-                		    ftf.fortify(game);
+                		    player.fortify(game);
                     		System.out.println("Successfull fortification");
                     	}
                     	else if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
@@ -563,7 +545,7 @@ public class Command {
                                 fromCountry = data[1];
                                 toCountry = data[2];
                                 armiesToFortify = Integer.parseInt(data[3]);
-                                FortificationCheck check = ftf.fortify(game, player, fromCountry, toCountry, armiesToFortify);
+                                FortificationCheck check = player.fortify(game, fromCountry, toCountry, armiesToFortify);
                                 if (check==FortificationCheck.FORTIFICATIONSUCCESS) {
                                     System.out.println("Successfull fortification");
                                 } else if(check==FortificationCheck.PATHFAIL) {
