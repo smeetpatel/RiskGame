@@ -313,7 +313,7 @@ public class GameActions {
                 }
             }
         }
-        game.setGamePhase(Phase.REINFORCEMENT);
+        game.setGamePhase(Phase.CARDEXCHANGE);
         return true;
     }
 
@@ -330,7 +330,7 @@ public class GameActions {
                 return;
             }
         }
-        game.setGamePhase(Phase.REINFORCEMENT);
+        game.setGamePhase(Phase.CARDEXCHANGE);
     }
 
     /**
@@ -342,8 +342,8 @@ public class GameActions {
         Scanner sc = new Scanner(System.in);
         int numberOfPlayers = game.getPlayers().size();
         int playerTraversal = 0;
-        while(game.getGamePhase()!=Phase.REINFORCEMENT) {
-            while(game.getGamePhase()!=Phase.REINFORCEMENT) {
+        while(game.getGamePhase()!=Phase.CARDEXCHANGE) {
+            while(game.getGamePhase()!=Phase.CARDEXCHANGE) {
                 Player p = game.getPlayers().get(playerTraversal);
                 int originalArmies = p.getOwnedArmies();
                 System.out.println(p.getPlayerName() + "'s turn");
@@ -357,7 +357,7 @@ public class GameActions {
                 }
             }
         }
-        game.setGamePhase(Phase.REINFORCEMENT);
+        game.setGamePhase(Phase.CARDEXCHANGE);
     }
 
     /**

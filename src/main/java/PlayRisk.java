@@ -22,6 +22,7 @@ public class PlayRisk {
 		String command;
 		Phase gamePhase;
 		PlayRisk game = new PlayRisk();
+		CardExchange ce = new CardExchange();
 
 		System.out.println("Welcome to Risk Game");
 		System.out.println("To continue, select a map from the below mentioned existing maps or create a new one.");
@@ -33,7 +34,7 @@ public class PlayRisk {
 		do{
 			command = read.nextLine();
 			gamePhase = cmd.parseCommand(null, command);
-		}while(gamePhase!=Phase.REINFORCEMENT);
+		}while(gamePhase!=Phase.CARDEXCHANGE);
 		
 		//start the game by looping through the players
 		numberOfPlayers = cmd.game.getPlayers().size();
@@ -43,6 +44,22 @@ public class PlayRisk {
 				Player p = cmd.game.getPlayers().get(traversalCounter);
 				System.out.println(p.getPlayerName() + "'s turn");
 				GameActions.assignReinforcementArmies(p);
+
+				while (p.getOwnedCards().size()>2) {
+					while (p.getOwnedCards().size() > 4) {
+						System.out.println("You have 5 cards or more..you have to exchange cards");
+						ce.printPlayersCards(p);
+						command = read.nextLine();
+						gamePhase = cmd.parseCommand(p, command);
+					}
+					System.out.println("Would you like to exchange your card to get more armies?");
+					ce.printPlayersCards(p);
+					command = read.nextLine();
+					gamePhase = cmd.parseCommand(p,command);
+				}
+				command = "exchangecards none";
+				gamePhase = cmd.parseCommand(p,command);
+
 				while(gamePhase!=Phase.TURNEND) {
 					if(gamePhase==Phase.REINFORCEMENT) {
 						System.out.println("Reinforcement armies: " + p.getOwnedArmies());

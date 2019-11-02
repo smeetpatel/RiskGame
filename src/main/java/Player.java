@@ -35,6 +35,11 @@ public class Player {
 	private HashMap<String, Continent> ownedContinents;
 
 	/**
+	 * Stores cards owned by the player.
+	 */
+	private ArrayList<Card> ownedCards;
+
+	/**
 	 * Creates a player with the argument player name and sets default value for rest of the player fields.
 	 * @param playerName name of player
 	 */
@@ -43,6 +48,7 @@ public class Player {
 		this.ownedArmies = 0;
 		this.ownedCountries = new HashMap<String, Country>();
 		this.ownedContinents = new HashMap<String, Continent>();
+		this.ownedCards = new ArrayList<Card>();
 	}
 	/**
 	 * Getter method to return player name entered by user
@@ -185,5 +191,27 @@ public class Player {
 	public void fortify(GameData game){
 		game.setGamePhase((Phase.TURNEND));
 	}
+
+	/**
+	 * This method returns the cards owned by player.
+	 * @return ownedCards number of cards owned by player
+	 */
+	public ArrayList<Card> getOwnedCards(){
+		return this.ownedCards;
+	}
+
+	/**
+	 * This method adds the card earned by the player.
+	 * @param card object of Card
+	 */
+	public void setOwnedCards(Card card){
+		this.ownedCards.add(card);
+	}
+
+	/**
+	 * This method removes the card from owned cards after trade in process.
+	 * @param card object of Card
+	 */
+	public void removeOwnedCards(Card card){ this.ownedCards.remove(card); }
 }
 
