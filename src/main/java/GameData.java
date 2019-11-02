@@ -1,6 +1,7 @@
 package main.java;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class holds the data required to maintain the state of the game.
@@ -21,6 +22,7 @@ public class GameData {
      * Stores the list of players playing the game.
      */
     private ArrayList<Player> players;
+
 
     /**
      * Constructor to initialize the game data.
@@ -61,6 +63,7 @@ public class GameData {
      */
     public void setGamePhase(Phase gamePhase) {
         this.gamePhase = gamePhase;
+
     }
 
     /**
@@ -78,4 +81,6 @@ public class GameData {
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
+
+
 }
