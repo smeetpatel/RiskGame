@@ -602,6 +602,7 @@ public class Command {
                                     }else{
 
                                     }*/
+                                attackCommandExecuted = false;
                                 }else {
                                     System.out.println("Enter valid number of dice. Enter either 1 or 2.");
                                 }
