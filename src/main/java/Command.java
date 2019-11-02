@@ -1,6 +1,7 @@
 package main.java;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Class responsible for:
@@ -479,26 +480,16 @@ public class Command {
                     break;
             }
         } else if (game.getGamePhase().equals(Phase.CARDEXCHANGE)) {
+            System.out.println(commandName + " " + data[1]);
             switch (commandName) {
                 case "exchangecards":
                     try {
-                        if (player.getOwnedCards().size() >= 5) {
-                            if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
-                                if (data[1].matches("[0-9]+") && data[2].matches("[0-9]+") && data[3].matches("[0-9]+")) {
-                                    ArrayList<Integer> cardIndex = new ArrayList<Integer>();
-                                    cardIndex.add(Integer.parseInt(data[1]));
-                                    cardIndex.add(Integer.parseInt(data[2]));
-                                    cardIndex.add(Integer.parseInt(data[3]));
-
-                                    CardExchange ce = new CardExchange();
-                                    boolean check = ce.cardTradeIn(player, cardIndex);
-                                    if (check) {
-                                        System.out.println("Card Exchange successfully occured");
-                                        game.setGamePhase(Phase.REINFORCEMENT);
-                                    } else {
-                                        System.out.println("Failure of Card Exchange");
-                                    }
-                                }
+                        if (data[1].equals("none")) {
+                            if (player.getOwnedCards().size() < 5) {
+                                System.out.println("Player do not want to perform card exchange operation");
+                                game.setGamePhase(Phase.REINFORCEMENT);
+                            } else {
+                                System.out.println("Player has to exchange the cards.");
                             }
                         } else {
                             if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
@@ -507,7 +498,7 @@ public class Command {
                                     cardIndex.add(Integer.parseInt(data[1]));
                                     cardIndex.add(Integer.parseInt(data[2]));
                                     cardIndex.add(Integer.parseInt(data[3]));
-
+                                    Collections.sort(cardIndex);
                                     CardExchange ce = new CardExchange();
                                     boolean check = ce.cardTradeIn(player, cardIndex);
                                     if (check) {
@@ -516,11 +507,6 @@ public class Command {
                                     } else {
                                         System.out.println("Failure of Card Exchange");
                                     }
-                                }
-                            } else {
-                                if (data[1].equals("none")) {
-                                    System.out.println("Player do not want to perform card exchange operation");
-                                    game.setGamePhase(Phase.REINFORCEMENT);
                                 }
                             }
                         }
@@ -530,7 +516,6 @@ public class Command {
                         System.out.println("Invalid command - it should be of the form 'exchangecards num num num -none'");
                     }
                     break;
-
             }
         } else if (game.getGamePhase().equals(Phase.REINFORCEMENT)) {
             switch (commandName) {
@@ -570,7 +555,9 @@ public class Command {
                     System.out.println("Invalid command - either use reinforce or showmap commands in reinforcement phase.");
                     break;
             }
-        } else if (game.getGamePhase().equals(Phase.FORTIFICATION)) {
+        } else if (game.getGamePhase().
+
+                equals(Phase.FORTIFICATION)) {
             switch (commandName) {
                 case "fortify":
                     try {

@@ -35,6 +35,7 @@ public class PlayRisk {
         do {
             command = read.nextLine();
             gamePhase = cmd.parseCommand(null, command);
+            System.out.println(gamePhase);
         } while (gamePhase != Phase.CARDEXCHANGE);
 
         //start the game by looping through the players
@@ -60,7 +61,8 @@ public class PlayRisk {
                 }
                 ce.printPlayersCards(p);
                 System.out.println("Player do not own enough cards for exchange.");
-                cmd.game.setGamePhase(Phase.REINFORCEMENT);
+                command = "exchangecards none";
+                gamePhase = cmd.parseCommand(p,command);
 
             while (gamePhase != Phase.TURNEND) {
                 if (gamePhase == Phase.REINFORCEMENT) {

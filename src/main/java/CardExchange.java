@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class CardExchange {
 
-    CardExchange ce = new CardExchange();
+    //CardExchange ce = new CardExchange();
     int cardExchangeArmies = 5;
     /**
      * This method determine whether player need to do a trade in operation.
@@ -87,5 +87,9 @@ public class CardExchange {
             System.out.println(cardIndex.get(i)-1);
             player.removeOwnedCards(player.getOwnedCards().get(cardIndex.get(i)-1));
         }
+    }
+
+    public void noAcionCards(Player player){
+
     }
 }
