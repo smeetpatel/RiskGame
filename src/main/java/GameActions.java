@@ -54,6 +54,8 @@ public class GameActions {
             map = lm.readMap(filePath);
             map.setMapName(mapName);
             game.setMap(map);
+            ArrayList<Country> countries = new ArrayList<>(map.getCountries().values());
+            Deck deck = new Deck(countries);
             if(validateMap(map)==MapValidityStatus.VALIDMAP) {
                 map.setValid(true);
                 game.setGamePhase(Phase.STARTUP);

@@ -132,7 +132,7 @@ public class Player {
 				c.setNumberOfArmies(existingArmies);
 				this.setOwnedArmies(this.ownedArmies-num);
 				if(this.ownedArmies==0) {
-					game.setGamePhase(Phase.FORTIFICATION);
+					game.setGamePhase(Phase.ATTACK);
 				}
 				return true;
 			}

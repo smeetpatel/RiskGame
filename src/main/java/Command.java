@@ -7,6 +7,7 @@ import java.util.Collections;
  * Class responsible for:
  * 1) Interpreting user commands
  * 2) Call appropriate methods to act on user commands
+ * @author Tirth
  */
 public class Command {
 
@@ -24,6 +25,11 @@ public class Command {
      * Helps access methods related to background operations of the game such as loading/editing map, calculating the number of reinforcement armies, etc.
      */
     public GameActions gameAction;
+
+    /**
+     * Make it true when player conquered the attacked country.
+     */
+    public static boolean attackSuccess = false;
 
     /**
      * Initializes the variables and objects required to play the game and act on user commands.
@@ -68,6 +74,7 @@ public class Command {
         int controlValue = 0;
         int numberOfArmies = 0;
         int armiesToFortify = 0;
+        int numberOfDice = 0;
 
         String mapName = null;
         String continentName = null;
@@ -78,6 +85,9 @@ public class Command {
         String toCountry = null;
         String[] data = newCommand.split("\\s+");
         String commandName = data[0];
+
+        boolean isAttackAllOut = false;
+        boolean attackCommandExecuted = false;
 
         if (game.getGamePhase().equals(Phase.NULL)) {
             switch (commandName) {
@@ -498,13 +508,17 @@ public class Command {
                         System.out.println("Invalid command - it should be of the form 'exchangecards num num num -none'");
                     }
                     break;
+
+                default:
+                    System.out.println("Invalid command - use exchangecards command.");
+                    break;
             }
         } else if (game.getGamePhase().equals(Phase.REINFORCEMENT)) {
             switch (commandName) {
                 case "reinforce":
                     try {
-                        if (!(data[1] == null) || !(data[2] == null)) {
-                            if (this.isAlpha(data[1]) || data[2].matches("[0-9]+")) {
+                        if (!(data[1] == null) && !(data[2] == null)) {
+                            if (this.isAlpha(data[1]) && data[2].matches("[0-9]+")) {
                                 countryName = data[1];
                                 numberOfArmies = Integer.parseInt(data[2]);
                                 boolean check = player.reinforce(game, countryName, numberOfArmies);
@@ -535,6 +549,112 @@ public class Command {
 
                 default:
                     System.out.println("Invalid command - either use reinforce or showmap commands in reinforcement phase.");
+                    break;
+            }
+        } else if (game.getGamePhase().equals(Phase.ATTACK)) {
+            switch (commandName){
+                case "attack":
+                    try{
+                        if(data[1].equals("-noattack")){
+                            System.out.println("Player do not want to perform attack");
+                            game.setGamePhase(Phase.FORTIFICATION);
+                        }else if(data.length == 4){
+                            if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null)){
+                                if(this.isAlpha(data[1]) && this.isAlpha(data[2]) && data[3].matches("[1-3]")){
+                                    fromCountry = data[1];
+                                    toCountry = data[2];
+                                    numberOfDice = Integer.parseInt(data[3]);
+                                    attackCommandExecuted = true;
+                                }
+                            }
+                        }else if(data.length == 5){
+                            if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null) && !(data[4] == null)){
+                                if(this.isAlpha(data[1]) && this.isAlpha(data[2]) && data[3].matches("[1-3]") && data[4].equals("-allout")){
+                                    fromCountry = data[1];
+                                    toCountry = data[2];
+                                    numberOfDice = Integer.parseInt(data[3]);
+                                    isAttackAllOut = true;
+                                    attackCommandExecuted = true;
+                                }
+                            }
+
+                        }
+                    }catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                " or 'attack -noattack'");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                " or 'attack -noattack'");
+                    } catch (Exception e) {
+                        System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                " or 'attack -noattack'");
+                    }
+                    break;
+
+                case "defend":
+                    try {
+                        if(attackCommandExecuted) {
+                            if (!(data[1] == null)) {
+                                if (data[1].matches("[1-2]")) {
+                                /*boolean check = player.attack(fromCountry,toCountry,numberOfDice,isAttackAllOut);
+                                    if(check){
+
+                                    }else{
+
+                                    }*/
+                                }else {
+                                    System.out.println("Enter valid number of dice. Enter either 1 or 2.");
+                                }
+                            }else{
+                                System.out.println("Invalid command - it should be of the form 'defend numdice'. ");
+                            }
+                        }else{
+                            System.out.println("Before defend command, enter 'attack countrynamefrom countynameto numdice –allout'. ");
+                        }
+                    }catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("Invalid command - it should be of the form 'defend numdice'. ");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid command - it should be of the form 'defend numdice'.");
+                    } catch (Exception e) {
+                        System.out.println("Invalid command - it should be of the form 'defend numdice'.");
+                    }
+                    break;
+
+                case "attackmove":
+                    try{
+                        if(attackSuccess){
+                            if(!(data[1] == null)){
+                                if(data[1].matches("[0-9]+")){
+                                    numberOfArmies = Integer.parseInt(data[1]);
+                                    /*boolean check = attackmove(numberOfArmies);
+                                    if(check){
+
+                                    }else{
+
+                                    }*/
+                                }else {
+                                    System.out.println("Enter valid number");
+                                }
+                            }else {
+                                System.out.println("Invalid command - it should be of the form 'attackmove num'. ");
+                            }
+                        }else{
+                            System.out.println("Player did not counquered any country, so invalid command");
+                        }
+                    }catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("Invalid command - it should be of the form 'attackmove num'. ");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid command - it should be of the form 'attackmove num'.");
+                    } catch (Exception e) {
+                        System.out.println("Invalid command - it should be of the form 'attackmove num'.");
+                    }
+
+                case "showmap":
+                    mapView.showMap(game.getMap(), game.getPlayers());
+                    break;
+
+                default:
+                    System.out.println("Invalid command - either use attack/defend/showmap command.");
                     break;
             }
         } else if (game.getGamePhase().equals(Phase.FORTIFICATION)) {

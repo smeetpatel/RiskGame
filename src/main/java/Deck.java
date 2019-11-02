@@ -46,7 +46,7 @@ public class Deck {
         cardType = new String[]{"Infantry", "Cavalary", "Artillery"};
         for (int i = 0; i < countries.size(); i++) {
             card = new Card(cardType[i % 3], countries.get(i));
-            //System.out.println(countries.get(i) + " " + cardType[i % 3]);
+            //System.out.println(countries.get(i).getCountryName() + " " + cardType[i % 3]);
             deck.add(card);
         }
     }

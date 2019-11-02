@@ -44,6 +44,12 @@ public enum Phase {
     REINFORCEMENT,
 
     /**
+     * Player can attack on its adjacent countries.
+     * Player can choose number of dice for attack operation
+     */
+    ATTACK,
+
+    /**
      * Player fortifies one of the owned countries if a legal move is allowed.
      * Phase ends when player successfully fortifies or decides to not foritfy.
      */
