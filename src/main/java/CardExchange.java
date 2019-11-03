@@ -7,13 +7,20 @@ public class CardExchange {
     /**
      * number armies player will get after card exchange operation.
      */
-    int cardExchangeArmies = 0;
+    int cardExchangeArmies;
 
     /**
      * creation of object of a deck class.
      */
-    Deck deck = new Deck();
+    Deck deck;
 
+    /**
+     * Constructor to create CardExchange object.
+     */
+    public CardExchange(){
+        cardExchangeArmies = 0;
+        deck = new Deck();
+    }
     /**
      * This method will perform trade in operation of cards.
      *

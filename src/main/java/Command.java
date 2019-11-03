@@ -460,7 +460,7 @@ public class Command {
                     if (gameAction.placeAll(game)) {
                         System.out.println("Armies placed successfully");
                     }
-                    game.setGamePhase(Phase.CARDEXCHANGE);
+
                     break;
 
                 case "showmap":
@@ -479,6 +479,7 @@ public class Command {
                             if (player.getOwnedCards().size() < 5) {
                                 System.out.println("Player do not want to perform card exchange operation or player do " +
                                         "not have enough cards to exchange.");
+
                                 game.setGamePhase(Phase.REINFORCEMENT);
                             } else {
                                 System.out.println("Player has to exchange the cards.");

@@ -114,6 +114,28 @@ public class Player {
 	}
 
 	/**
+	 * This method returns the cards owned by player.
+	 * @return ownedCards number of cards owned by player
+	 */
+	public ArrayList<Card> getOwnedCards(){
+		return this.ownedCards;
+	}
+
+	/**
+	 * This method adds the card earned by the player.
+	 * @param card object of Card
+	 */
+	public void setOwnedCards(Card card){
+		this.ownedCards.add(card);
+	}
+
+	/**
+	 * This method removes the card from owned cards after trade in process.
+	 * @param card object of Card
+	 */
+	public void removeOwnedCards(Card card){ this.ownedCards.remove(card); }
+
+	/**
 	 * This function allow player to place armies
 	 * @param game Represents the state of the game
 	 * @param countryName Reinforce armies here
@@ -192,26 +214,6 @@ public class Player {
 		game.setGamePhase((Phase.TURNEND));
 	}
 
-	/**
-	 * This method returns the cards owned by player.
-	 * @return ownedCards number of cards owned by player
-	 */
-	public ArrayList<Card> getOwnedCards(){
-		return this.ownedCards;
-	}
 
-	/**
-	 * This method adds the card earned by the player.
-	 * @param card object of Card
-	 */
-	public void setOwnedCards(Card card){
-		this.ownedCards.add(card);
-	}
-
-	/**
-	 * This method removes the card from owned cards after trade in process.
-	 * @param card object of Card
-	 */
-	public void removeOwnedCards(Card card){ this.ownedCards.remove(card); }
 }
 
