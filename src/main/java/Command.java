@@ -417,7 +417,7 @@ public class Command {
                     boolean check = gameAction.populateCountries(game, game.getPlayers());
                     if (check) {
                         System.out.println("Countries allocated amongst the players");
-                        gameAction.armyDistribution(game, this);
+                        //gameAction.armyDistribution(game, this);
                     } else {
                         System.out.println("Minimum two players are required to play the game.");
                     }
