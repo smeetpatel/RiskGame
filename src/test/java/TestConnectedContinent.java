@@ -1,7 +1,7 @@
 package test.java;
 
-import main.java.GameMap;
-import main.java.MapValidation;
+import main.java.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,23 +12,29 @@ import org.junit.Test;
 public class TestConnectedContinent {
     MapValidation mvr;
     GameMap map;
+    GameData game;
+    GameActions gameActions;
 
     /**
      * Set up the context
+     * Initialize the objects
      */
     @Before
     public void before(){
         mvr = new MapValidation();
-        map = new GameMap("world.map");
+        map = new GameMap("createdMap.map");
+        game = new GameData();
+        gameActions = new GameActions();
     }
 
     /**
-     * Test if tests are rightly identified or not
+     * This test method tests that continents are connected or not
      */
     @Test
     public void testConnectedContinent(){
-        /*map = rcmd.editMap("world.map");
+        gameActions.editMap(game,"world.map");
         boolean check = mvr.continentConnectivityCheck(map);
-        assertEquals(true,check);*/
+        Assert.assertEquals(true,check);
+
     }
 }

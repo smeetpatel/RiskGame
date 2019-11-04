@@ -25,6 +25,7 @@ public class TestConnectedMap {
 
     /**
      * Test if tests are rightly identified or not
+     * This test method checks that given map is connected graph or not
      */
     @Test
     public void testConnectedMap(){

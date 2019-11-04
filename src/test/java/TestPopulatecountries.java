@@ -43,6 +43,7 @@ public class TestPopulatecountries {
 
     /**
      * Test if tests are rightly identified or not
+     * This test method checks the number of countries player gets in populatecountry method
      */
     @Test
     public void testPopulateCountries() {

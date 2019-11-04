@@ -37,6 +37,7 @@ public class TestNeighbor {
 
     /**
      * Test if tests are rightly identified or not
+     * This test method checks that given country is present in given graph or not for remove
      */
     @Test
     public void testNeighbor(){
