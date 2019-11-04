@@ -620,6 +620,19 @@ public class Command {
                                     toCountry = data[2];
                                     numberOfDice = Integer.parseInt(data[3]);
                                     attackCommandExecuted = true;
+                                    if(gameAction.areNeighbors(game, fromCountry, toCountry)){
+                                        if(gameAction.hasEnoughArmies(game, fromCountry)){
+                                            if(gameAction.diceValid(game, fromCountry, numberOfDice)){
+
+                                            } else {
+                                                System.out.println(numberOfDice + " dice rolls not possible for attack from " + fromCountry);
+                                            }
+                                        } else {
+                                            System.out.println(fromCountry + " does not have enough armies to attack. Attack not possible.");
+                                        }
+                                    } else {
+                                        System.out.println(fromCountry + " and " + toCountry + " are not neighbors. Attack not possible.");
+                                    }
                                 }
                             } else {
                                 System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +

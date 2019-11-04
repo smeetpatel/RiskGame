@@ -469,4 +469,51 @@ public class GameActions extends Observable{
     public void initializeCEV(Player player) {
         notifyObservers(player);
     }
+
+    /**
+     * Checks if two countries are neighbors or not.
+     * @param game Represents the state of the game
+     * @param fromCountry First country
+     * @param toCountry Second country
+     * @return true if both countries are neighbors, else false.
+     */
+    public boolean areNeighbors(GameData game, String fromCountry, String toCountry) {
+        Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
+        if(country.getNeighbours().containsKey(toCountry.toLowerCase()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if attack from argument country is possible or not.
+     * @param game Represents the state of the game
+     * @param fromCountry Attacking country
+     * @return true if attack is possible, else false.
+     */
+    public boolean hasEnoughArmies(GameData game, String fromCountry) {
+        Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
+        if(country.getNumberOfArmies()>1){
+            return true;
+        } else {
+             return false;
+        }
+    }
+
+    /**
+     * Checks if the argument number of dice can be rolled for attack from argument country.
+     * @param game Represents the state of the game
+     * @param fromCountry Attacking country
+     * @param numberOfDice Proposed number of dice rolls
+     * @return true if attack is possible, else false.
+     */
+    public boolean diceValid(GameData game, String fromCountry, int numberOfDice) {
+        Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
+        if(country.getNumberOfArmies()>numberOfDice){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
