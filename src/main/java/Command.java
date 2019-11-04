@@ -465,13 +465,14 @@ public class Command {
                                         System.out.println("You don't own this country. Please allocate army in your country.");
                                     }
                                 }
-                                gameAction.isAllArmyPlaced(game);
-                                PhaseView phaseView = new PhaseView();
-                                phaseView.setVisible(true);
-                                phaseView.setSize(600, 600);
-                                phaseView.setDefaultCloseOperation(3);
-                                player.attach(phaseView);
-                                game.attach(phaseView);
+                                if(gameAction.isAllArmyPlaced(game)) {
+                                    PhaseView phaseView = new PhaseView();
+                                    phaseView.setVisible(true);
+                                    phaseView.setSize(600, 600);
+                                    phaseView.setDefaultCloseOperation(3);
+                                    player.attach(phaseView);
+                                    game.attach(phaseView);
+                                }
                             } else
                                 System.out.println("Invalid country name");
                         }
@@ -507,7 +508,7 @@ public class Command {
             switch (commandName) {
                 case "exchangecards":
                     try {
-                        if (data[1].equals("none")) {
+                        if (data[1].equals("-none")) {
                             if(gameAction.noCardExchange(game, player)){
                                 System.out.println("Player do not want to perform card exchange operation or player do " +
                                         "not have enough cards to exchange.");
@@ -531,7 +532,7 @@ public class Command {
                                         cardIndex.add(thirdCard);
                                         Collections.sort(cardIndex);
                                         CardExchange ce = new CardExchange();
-                                        boolean check = ce.cardTradeIn(player, cardIndex);
+                                        boolean check = ce.cardTradeIn(game, player, cardIndex);
                                         if (check) {
                                             System.out.println("Card Exchange successfully occured");
                                             game.setGamePhase(Phase.REINFORCEMENT);
@@ -545,8 +546,10 @@ public class Command {
                             }
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'exchangecards num num num -none'");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'exchangecards num num num -none'");
                     }
                     break;
@@ -758,7 +761,7 @@ public class Command {
 
     public void playerChangeEvent(Player player) {
         gameAction.assignReinforcementArmies(game, player);
-        CardExchangeView cardExchangeView = new CardExchangeView();
+        cardExchangeView = new CardExchangeView();
         cardExchangeView.setVisible(true);
         cardExchangeView.setSize(600, 600);
         player.attach(cardExchangeView);

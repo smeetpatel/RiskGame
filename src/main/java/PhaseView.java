@@ -81,6 +81,9 @@ public class PhaseView extends JFrame implements Observer{
     }
 
     public void update(Observable o){
+        if(!(o instanceof GameData)){
+            return;
+        }
         GameData game = (GameData) o;
         if(game.getGamePhase()==Phase.CARDEXCHANGE){
             currentPhase = game.getGamePhase();

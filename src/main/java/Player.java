@@ -84,7 +84,9 @@ public class Player extends Observable{
 	 * @param ownedArmies number of armies owned by players
 	 */
 	public void setOwnedArmies(int ownedArmies) {
+
 		this.ownedArmies = ownedArmies;
+		notifyObservers(this);
 	}
 
 	/**

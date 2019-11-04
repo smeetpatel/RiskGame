@@ -51,7 +51,7 @@ public class TestReinforceArmies {
         boolean checkagain,check;
         gameActions.editMap(game, "ameroki.map");
         check = gameActions.populateCountries(game,players);
-        checkagain = GameActions.assignReinforcementArmies(player2);
+        checkagain = gameActions.assignReinforcementArmies(game, player2);
         int totalReinforcementArmies = (int) (player2.getOwnedCountries().size() / 3);
         assertEquals(totalReinforcementArmies,player2.getOwnedArmies());
     }

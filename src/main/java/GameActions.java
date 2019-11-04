@@ -340,15 +340,16 @@ public class GameActions extends Observable{
      * @param game Represents the state of the game.
      * @return true if successful, else false
      */
-    public void isAllArmyPlaced(GameData game) {
+    public boolean isAllArmyPlaced(GameData game) {
         Iterator<Player> itr = game.getPlayers().listIterator();
         while (itr.hasNext()) {
             Player p = itr.next();
             if (p.getOwnedArmies() > 0) {
-                return;
+                return false;
             }
         }
         game.setGamePhase(Phase.CARDEXCHANGE);
+        return true;
     }
 
     /**
