@@ -60,6 +60,7 @@ public class GameMap {
 		this.continents = new HashMap<String, Continent>();
 		this.countries = new HashMap<String, Country>();
 		this.valid = false;
+
 	}
 
 	/**
@@ -210,6 +211,7 @@ public class GameMap {
 	public boolean removeCountry(String countryName) {
 		//check if argument country exists or not
 		if(this.countries.containsKey(countryName.toLowerCase())) {
+
 			Country country = this.countries.get(countryName.toLowerCase());
 			ArrayList<Country> tempList = new ArrayList<Country>();
 

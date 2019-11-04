@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import main.java.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,6 +21,8 @@ public class TestPopulatecountries {
     Player player2;
     GameMap map;
     ArrayList<Player> players;
+    GameData gameData;
+    GameActions gameActions;
     //StartUp stp;
 
     /**
@@ -34,6 +37,8 @@ public class TestPopulatecountries {
         players = new ArrayList<Player>();
         players.add(player1);
         players.add(player2);
+        gameData = new GameData();
+        gameActions = new GameActions();
     }
 
     /**
@@ -41,9 +46,10 @@ public class TestPopulatecountries {
      */
     @Test
     public void testPopulateCountries() {
-        //stp = new StartUp();
-       // boolean check = stp.populateCountries(map, players);
-        //assertEquals(true,check);
+
+        gameActions.editMap(gameData,"createdMap.map");
+        boolean check = gameActions.populateCountries(gameData,players);
+        Assert.assertEquals(2,player1.getOwnedCountries().size());
     }
 
 }

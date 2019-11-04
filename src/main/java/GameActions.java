@@ -13,7 +13,6 @@ import java.util.Scanner;
  * Class performs background operations for playing Risk.
  */
 public class GameActions extends Observable{
-
     /**
      * Loads map as GameMap object for editing.
      * If the map file does not exist, creates a new GameMap object to add information.
@@ -21,6 +20,7 @@ public class GameActions extends Observable{
      * @param game    Representing game state
      * @param mapName Name of the map to be searched/created
      */
+
     public void editMap(GameData game, String mapName) {
         //Check if file exists
         String filePath = "src/main/resources/maps/" + mapName;
@@ -55,6 +55,8 @@ public class GameActions extends Observable{
             map = lm.readMap(filePath);
             map.setMapName(mapName);
             game.setMap(map);
+
+            // Creation of Deck.
             ArrayList<Country> countries = new ArrayList<>(map.getCountries().values());
             Deck deck = new Deck(countries);
             if (validateMap(map) == MapValidityStatus.VALIDMAP) {

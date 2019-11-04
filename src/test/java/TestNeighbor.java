@@ -1,6 +1,9 @@
 package test.java;
 
+import main.java.GameActions;
+import main.java.GameData;
 import main.java.GameMap;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,6 +18,8 @@ public class TestNeighbor {
     GameMap map;
     String countryName;
     String neighborCountrynName;
+    GameActions gameActions;
+    GameData game;
     //MapEditor rcmd;
 
     /**
@@ -22,10 +27,12 @@ public class TestNeighbor {
      */
     @Before
     public void before(){
-        map = new GameMap("ameroki.map");
+        map = new GameMap("createdMap.map");
         //rcmd = new MapEditor();
-        countryName = "siberia";
-        neighborCountrynName = "egypt";
+        countryName = "china";
+        neighborCountrynName = "india";
+        game = new GameData();
+        gameActions = new GameActions();
     }
 
     /**
@@ -34,9 +41,9 @@ public class TestNeighbor {
     @Test
     public void testNeighbor(){
 
-        /*map = rcmd.editMap("ameroki.map");
-        System.out.println(map.getMapName());
-        boolean check = rcmd.removeNeighbor(map, countryName, neighborCountrynName);
-        assertEquals(true,check);*/
+        gameActions.editMap(game, "createdMap.map");
+        boolean check = game.getMap().removeNeighbor(countryName, neighborCountrynName);
+        Assert.assertEquals(true,check);
+
     }
 }
