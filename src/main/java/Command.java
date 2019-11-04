@@ -485,19 +485,27 @@ public class Command {
                             }
                         } else {
                             if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
-                                if (data[1].matches("[0-9]+") && data[2].matches("[0-9]+") && data[3].matches("[0-9]+")) {
-                                    ArrayList<Integer> cardIndex = new ArrayList<Integer>();
-                                    cardIndex.add(Integer.parseInt(data[1]));
-                                    cardIndex.add(Integer.parseInt(data[2]));
-                                    cardIndex.add(Integer.parseInt(data[3]));
-                                    Collections.sort(cardIndex);
-                                    CardExchange ce = new CardExchange();
-                                    boolean check = ce.cardTradeIn(player, cardIndex);
-                                    if (check) {
-                                        System.out.println("Card Exchange successfully occured");
-                                        game.setGamePhase(Phase.REINFORCEMENT);
-                                    } else {
-                                        System.out.println("Failure of Card Exchange");
+                                if (data[1].matches("[1-9]+") && data[2].matches("[1-9]+") && data[3].matches("[1-9]+")) {
+                                    int firstCard = Integer.parseInt(data[1]);
+                                    int secondCard = Integer.parseInt(data[2]);
+                                    int thirdCard = Integer.parseInt(data[3]);
+                                    int totalCards = player.getOwnedCards().size();
+                                    if (firstCard <= totalCards && secondCard <= totalCards && thirdCard <= totalCards) {
+                                        ArrayList<Integer> cardIndex = new ArrayList<Integer>();
+                                        cardIndex.add(firstCard);
+                                        cardIndex.add(secondCard);
+                                        cardIndex.add(thirdCard);
+                                        Collections.sort(cardIndex);
+                                        CardExchange ce = new CardExchange();
+                                        boolean check = ce.cardTradeIn(player, cardIndex);
+                                        if (check) {
+                                            System.out.println("Card Exchange successfully occured");
+                                            game.setGamePhase(Phase.REINFORCEMENT);
+                                        } else {
+                                            System.out.println("Failure of Card Exchange");
+                                        }
+                                    }else {
+                                        System.out.println("Index number of card is wrong");
                                     }
                                 }
                             }

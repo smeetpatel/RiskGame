@@ -77,4 +77,8 @@ public class Deck {
             System.out.println(c.cardCountry.getCountryName()+" "+c.cardType);
     }
 
+    public int getDeckSize(){
+        return deck.size();
+    }
+
 }

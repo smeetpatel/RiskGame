@@ -1,6 +1,9 @@
 package test.java;
 
+import main.java.GameActions;
+import main.java.GameData;
 import main.java.GameMap;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,14 +17,19 @@ public class TestCountry {
 
     GameMap map;
     String countryName;
+    GameData game;
+    GameActions gameActions;
+
 
     /**
      * Set up the context
      */
     @Before
     public void before(){
-        map = new GameMap("ameroki.map");
-        countryName = "siberia";
+        map = new GameMap("createdMap.map");
+        countryName = "india";
+        game = new GameData();
+        gameActions = new GameActions();
     }
 
     /**
@@ -30,10 +38,8 @@ public class TestCountry {
     @Test
     public void testCountry(){
 
-        /*map = rcmd.editMap("ameroki.map");
-        System.out.println(map.getMapName());
-        System.out.println(map.getCountries().size());
-        boolean check = rcmd.removeCountry(map, countryName);
-        assertEquals(true,check);*/
+        gameActions.editMap(game, "createdMap.map");
+        boolean check = game.getMap().removeCountry(countryName);
+        Assert.assertEquals(true,check);
     }
 }

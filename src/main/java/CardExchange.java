@@ -70,12 +70,22 @@ public class CardExchange {
      * @param cardIndex stores the arraylist of card index
      */
     public void checkForOwnedCardCountry(Player player, ArrayList<Integer> cardIndex) {
+        boolean countryFound = false;
         for (int i = 0; i < 3; i++) {
-            Country country = player.getOwnedCards().get(cardIndex.get(i) - 1).cardCountry; // fetch the country object from player's card.
-            for (Country c : player.getOwnedCountries().values()) {
-                if (c == country) {
-                    player.setOwnedArmies(player.getOwnedArmies() + 2);
-                    break;
+            if (!countryFound) {
+                System.out.println("inside function");
+                Country country = player.getOwnedCards().get(cardIndex.get(i) - 1).cardCountry; // fetch the country object from player's card.
+                System.out.println(country.getCountryName());
+                for (Country c : player.getOwnedCountries().values()) {
+                    System.out.println("before if");
+                    System.out.println(c.getCountryName());
+                    if (c.getCountryName().equals(country.getCountryName())) {
+                        System.out.println("inside if");
+                        player.setOwnedArmies(player.getOwnedArmies() + 2);
+                        System.out.println("break EXECUTED");
+                        countryFound = true;
+                        break;
+                    }
                 }
             }
         }
