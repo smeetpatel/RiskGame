@@ -458,4 +458,12 @@ public class GameActions extends Observable{
         game.setGamePhase(Phase.CARDEXCHANGE);
         game.setActivePlayer(null);
     }
+
+    /**
+     * Displays player's cards at the beginning of the card exchange phase.
+     * @param player currently active player
+     */
+    public void initializeCEV(Player player) {
+        notifyObservers(player);
+    }
 }

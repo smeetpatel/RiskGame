@@ -56,8 +56,7 @@ public class PlayRisk {
             }
         }
 
-		//reset traversal counter
-		traversalCounter = 0;
+		traversalCounter = 0;	//reset traversal counter
 		while(true){
 			player = cmd.game.getPlayers().get(traversalCounter);
 			System.out.println(player.getPlayerName() + "'s turn");
