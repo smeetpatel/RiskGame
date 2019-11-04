@@ -37,6 +37,11 @@ public class Command {
     PhaseView phaseView;
 
     /**
+     * Represents possible attack options for a player.
+     */
+    AttackView attackView;
+
+    /**
      * Represents the 'Player domination view'
      */
     PlayerDominationView playerDominationView;
@@ -52,6 +57,7 @@ public class Command {
     public Command() {
         game = new GameData();
         mapView = new MapView();
+        attackView = new AttackView();
         gameAction = new GameActions();
     }
 
@@ -535,7 +541,6 @@ public class Command {
                                         boolean check = ce.cardTradeIn(game, player, cardIndex);
                                         if (check) {
                                             System.out.println("Card Exchange successfully occured");
-                                            game.setGamePhase(Phase.REINFORCEMENT);
                                         } else {
                                             System.out.println("Failure of Card Exchange");
                                         }
@@ -569,7 +574,10 @@ public class Command {
                                 boolean check = player.reinforce(game, countryName, numberOfArmies);
                                 if (check) {
                                     if (player.getOwnedArmies() == 0) {
-                                        System.out.println("Reinforcement phase successfully ended. Begin fortification now.");
+                                        System.out.println("Reinforcement phase successfully ended. Begin attack now.");
+                                        if(player.isAttackPossible()){
+                                           attackView.canAttack(player);
+                                        }
                                     }
                                 } else {
                                     if (player.getOwnedArmies() < numberOfArmies) {
@@ -582,8 +590,10 @@ public class Command {
                                 System.out.println("Invalid command - invalid characters in command");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'reinforce countryName num'");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'reinforce countryName num'");
                     }
                     break;
@@ -601,8 +611,8 @@ public class Command {
                 case "attack":
                     try{
                         if(data[1].equals("-noattack")){
+                            player.attack(game);
                             System.out.println("Player do not want to perform attack");
-                            game.setGamePhase(Phase.FORTIFICATION);
                         }else if(data.length == 4){
                             if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null)){
                                 if(this.isAlpha(data[1]) && this.isAlpha(data[2]) && data[3].matches("[1-3]")){
@@ -611,6 +621,9 @@ public class Command {
                                     numberOfDice = Integer.parseInt(data[3]);
                                     attackCommandExecuted = true;
                                 }
+                            } else {
+                                System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                        " or 'attack -noattack'");
                             }
                         }else if(data.length == 5){
                             if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null) && !(data[4] == null)){
@@ -620,9 +633,19 @@ public class Command {
                                     numberOfDice = Integer.parseInt(data[3]);
                                     isAttackAllOut = true;
                                     attackCommandExecuted = true;
+                                } else{
+                                    System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                            " or 'attack -noattack'");
                                 }
                             }
+                            else{
+                                System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                        " or 'attack -noattack'");
+                            }
 
+                        } else {
+                            System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                    " or 'attack -noattack'");
                         }
                     }catch (ArrayIndexOutOfBoundsException e) {
                         System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +

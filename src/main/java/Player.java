@@ -198,6 +198,30 @@ public class Player extends Observable{
 	}
 
 	//TODO: Add attack method
+	public boolean attack(GameData game, String countryFrom, String countryTo, int numDice, boolean allOut){
+		return false;
+	}
+
+	/**
+	 * Marks that player does not want to attack and changes the gamephase.
+	 * @param game Represents the current state of the game.
+	 */
+	public void attack(GameData game){
+		game.setGamePhase(Phase.FORTIFICATION);
+	}
+
+	public boolean isAttackPossible() {
+		boolean attackPossible = false;
+		for(Country country : this.ownedCountries.values()) {
+			for(Country neighbor : country.getNeighbours().values()){
+				if(country.getNumberOfArmies()>1 && !(this.ownedCountries.containsKey(neighbor.getCountryName().toLowerCase()))){
+					attackPossible = true;
+				}
+			}
+		}
+		return attackPossible;
+	}
+
 	//TODO: Add fortification method
 	public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num)
 	{

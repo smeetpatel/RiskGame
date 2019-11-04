@@ -80,6 +80,9 @@ public class PlayRisk {
 			while(gamePhase!=Phase.TURNEND){
 				if(gamePhase==Phase.REINFORCEMENT){
 					System.out.println("Reinforcement armies: " + player.getOwnedArmies());
+				} else if(gamePhase==Phase.ATTACK) {
+					System.out.println("Attack phase");
+					//printCanAttack(player);
 				}
 				command = read.nextLine();
 				gamePhase = cmd.parseCommand(player, command);
@@ -89,7 +92,6 @@ public class PlayRisk {
 			if (traversalCounter >= numberOfPlayers) {
 				traversalCounter = 0;
 			}
-
 		}
 	}
 	
