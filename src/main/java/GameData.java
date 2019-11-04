@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Class holds the data required to maintain the state of the game.
  */
-public class GameData {
+public class GameData extends Observable{
 
     /**
      * Stores the map being edited or the map being played on depending on the user's choice.
@@ -23,6 +23,10 @@ public class GameData {
      */
     private ArrayList<Player> players;
 
+    /**
+     * Stores currently active player.
+     */
+    private Player activePlayer;
 
     /**
      * Constructor to initialize the game data.
@@ -31,6 +35,7 @@ public class GameData {
         map = new GameMap();
         gamePhase = Phase.NULL;
         players = new ArrayList<Player>();
+        activePlayer = null;
     }
 
     /**
@@ -62,8 +67,15 @@ public class GameData {
      * @param gamePhase new phase of the game.
      */
     public void setGamePhase(Phase gamePhase) {
-        this.gamePhase = gamePhase;
 
+        this.gamePhase = gamePhase;
+        if(this.gamePhase==Phase.REINFORCEMENT){
+            notifyObservers(this);
+        } else if (this.gamePhase == Phase.ATTACK) {
+            notifyObservers(this);
+        } else if (this.gamePhase == Phase.FORTIFICATION) {
+            notifyObservers(this);
+        }
     }
 
     /**
@@ -82,5 +94,22 @@ public class GameData {
         this.players = players;
     }
 
+    /**
+     * Get currently active player.
+     * @return returns currently active player.
+     */
+    public Player getActivePlayer(){
+        return this.activePlayer;
+    }
 
+    /**
+     * Set the currently active player.
+     * @param player currently active player.
+     */
+   public void setActivePlayer(Player player){
+        this.activePlayer = player;
+        if(player!=null){
+            notifyObservers(this);
+        }
+   }
 }

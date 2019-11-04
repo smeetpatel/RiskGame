@@ -12,8 +12,7 @@ import java.util.Scanner;
 /**
  * Class performs background operations for playing Risk.
  */
-public class GameActions {
-    public GameActions(){}
+public class GameActions extends Observable{
     /**
      * Loads map as GameMap object for editing.
      * If the map file does not exist, creates a new GameMap object to add information.
@@ -381,12 +380,26 @@ public class GameActions {
     }
 
     /**
+     * Checks if no card exchange is valid move or not.
+     */
+    public boolean noCardExchange(GameData game, Player player){
+        //game.setActivePlayer(player);
+        if (player.getOwnedCards().size() < 5){
+            game.setGamePhase(Phase.REINFORCEMENT);
+            //GameActions.assignReinforcementArmies(player);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * This function is to assign armies to player for reinforcement
      *
      * @param player Player playing the move
      * @return true if successful, else false
      */
-    public static boolean assignReinforcementArmies(Player player) {
+    public boolean assignReinforcementArmies(GameData game, Player player) {
         int totalControlValue = 0;
         int totalReinforcementArmies;
         if (player.getOwnedCountries().size() >= 9) {
@@ -401,7 +414,58 @@ public class GameActions {
         } else {
             totalReinforcementArmies = 3;
         }
-        player.setOwnedArmies(totalReinforcementArmies);
+        player.setOwnedArmies(player.getOwnedArmies() + totalReinforcementArmies);
+        game.setActivePlayer(player);
         return true;
+    }
+
+    /**
+     * Responsible for
+     * 1) Maintaining player turns
+     * 2) Calling reinforcement, attack, and fortification methods of player in proper order.
+     */
+    public void playerTurns(GameData game){
+        Player player;
+        int numberOfPlayers = game.getPlayers().size();
+        int traversalCounter = 0;
+        while(true){
+            player = game.getPlayers().get(traversalCounter);
+        }
+    }
+
+    /**
+     * Calculates the percentage of the map controlled by the argument player.
+     * @param game Represents the state of the game.
+     * @param player Calculates percentage of the map controlled for this player.
+     */
+    public void calculateMapControlled(GameData game, Player player){
+        player.setMapControlled(((double)player.getOwnedCountries().size()/(double)game.getMap().getCountries().size())*100);
+    }
+
+    /**
+     * Calculates the percentage of the map controlled by all the player at the beginning of the
+     * @param game Represents the state of the game.
+     */
+    public void initalizaMapContolValue(GameData game){
+        for(int i = 0; i<game.getPlayers().size(); i++){
+            this.calculateMapControlled(game, game.getPlayers().get(i));
+        }
+    }
+
+    /**
+     * Sets gamephase to CARDEXCHANGE for the next player and sets active player as null when the turn ends for one player.
+     * @param game Represents the state of the game.
+     */
+    public void turnEnd(GameData game) {
+        game.setGamePhase(Phase.CARDEXCHANGE);
+        game.setActivePlayer(null);
+    }
+
+    /**
+     * Displays player's cards at the beginning of the card exchange phase.
+     * @param player currently active player
+     */
+    public void initializeCEV(Player player) {
+        notifyObservers(player);
     }
 }

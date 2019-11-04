@@ -7,7 +7,7 @@ import java.util.*;
  * @author Jasmine
  *
  */
-public class Player {
+public class Player extends Observable{
 	/**
 	 * Name of the player
 	 */
@@ -40,6 +40,10 @@ public class Player {
 	private ArrayList<Card> ownedCards;
 
 	/**
+	 * Represents the percentage of map controlled.
+	 */
+	private double mapControlled;
+	/**
 	 * Creates a player with the argument player name and sets default value for rest of the player fields.
 	 * @param playerName name of player
 	 */
@@ -49,6 +53,7 @@ public class Player {
 		this.ownedCountries = new HashMap<String, Country>();
 		this.ownedContinents = new HashMap<String, Continent>();
 		this.ownedCards = new ArrayList<Card>();
+		this.mapControlled = 0.0f;
 	}
 	/**
 	 * Getter method to return player name entered by user
@@ -114,6 +119,45 @@ public class Player {
 	}
 
 	/**
+	 * This method returns the cards owned by player.
+	 * @return ownedCards number of cards owned by player
+	 */
+	public ArrayList<Card> getOwnedCards(){
+		return this.ownedCards;
+	}
+
+	/**
+	 * This method adds the card earned by the player.
+	 * @param card object of Card
+	 */
+	public void setOwnedCards(Card card){
+		this.ownedCards.add(card);
+	}
+
+	/**
+	 * This method removes the card from owned cards after trade in process.
+	 * @param card object of Card
+	 */
+	public void removeOwnedCards(Card card){ this.ownedCards.remove(card); }
+
+	/**
+	 * Returns the percentage of map controlled by the player.
+	 * @return returns the percentage of map controlled by the player.
+	 */
+	public double getMapControlled(){
+		return this.mapControlled;
+	}
+
+	/**
+	 * Sets the percentage of the map controlled by the player.
+	 * @param mapControlled current percentage of the map controlled by the player.
+	 */
+	public void setMapControlled(double mapControlled){
+		this.mapControlled = mapControlled;
+		notifyObservers(this);
+	}
+
+	/**
 	 * This function allow player to place armies
 	 * @param game Represents the state of the game
 	 * @param countryName Reinforce armies here
@@ -122,6 +166,7 @@ public class Player {
 	 */
 	public boolean reinforce(GameData game, String countryName, int num)
 	{
+		game.setActivePlayer(this);
 		if(this.ownedCountries.containsKey(countryName.toLowerCase()))
 		{
 			if(this.ownedArmies >= num)
@@ -131,6 +176,7 @@ public class Player {
 				existingArmies += num;
 				c.setNumberOfArmies(existingArmies);
 				this.setOwnedArmies(this.ownedArmies-num);
+				notifyObservers(Integer.toString(num) + " armies reinforced at " + countryName +". Remaining reinforcement armies: " + Integer.toString(this.ownedArmies) + "\n");
 				if(this.ownedArmies==0) {
 					game.setGamePhase(Phase.ATTACK);
 				}
@@ -138,11 +184,13 @@ public class Player {
 			}
 			else
 			{
+				notifyObservers(this.playerName + " doesn't have " + num + " armies to reinforce. Invalid command.");
 				return false;
 			}
 		}
 		else
 		{
+			notifyObservers(countryName + " not owned by " + this.playerName +". Invalid command.\n");
 			return false;
 		}
 	}
@@ -166,20 +214,25 @@ public class Player {
 						int toArmies = this.ownedCountries.get(toCountry.toLowerCase()).getNumberOfArmies();
 						toArmies += num;
 						this.ownedCountries.get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+						notifyObservers(this.playerName + " fortified " + toCountry + " with " + num + " armies from " + fromCountry +". " + this.playerName + "'s turn ends now.");
 						game.setGamePhase(Phase.TURNEND);
 						return FortificationCheck.FORTIFICATIONSUCCESS;
 					} else {
+						notifyObservers("No path from " + fromCountry + " to " + toCountry + ". Fortification failed.");
 						return FortificationCheck.PATHFAIL;
 					}
 				} else {
+					notifyObservers("Not enough armies in " + fromCountry + " to fortify " + toCountry + " with " + num + " armies. Fortification failed.");
 					return FortificationCheck.ARMYCOUNTFAIL;
 				}
 			} else {
+				notifyObservers(this.playerName + " does not own " + toCountry + ". Fortification failed.");
 				return FortificationCheck.TOCOUNTRYFAIL;
 			}
 		}
 		else
 		{
+			notifyObservers(this.playerName + " does not own  " + fromCountry + ". Fortification failed.");
 			return FortificationCheck.FROMCOUNTRYFAIL;
 		}
 	}
@@ -189,29 +242,7 @@ public class Player {
 	 * @param game Represents current state of the game.
 	 */
 	public void fortify(GameData game){
+		notifyObservers(this.playerName + " decided to not fortify any country. " + this.playerName + "'s turn ends now.");
 		game.setGamePhase((Phase.TURNEND));
 	}
-
-	/**
-	 * This method returns the cards owned by player.
-	 * @return ownedCards number of cards owned by player
-	 */
-	public ArrayList<Card> getOwnedCards(){
-		return this.ownedCards;
-	}
-
-	/**
-	 * This method adds the card earned by the player.
-	 * @param card object of Card
-	 */
-	public void setOwnedCards(Card card){
-		this.ownedCards.add(card);
-	}
-
-	/**
-	 * This method removes the card from owned cards after trade in process.
-	 * @param card object of Card
-	 */
-	public void removeOwnedCards(Card card){ this.ownedCards.remove(card); }
 }
-
