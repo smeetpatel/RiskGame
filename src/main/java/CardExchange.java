@@ -27,7 +27,8 @@ public class CardExchange {
      * @param player object of player
      */
 
-    public boolean cardTradeIn(Player player, ArrayList<Integer> cardIndex) {
+    public boolean cardTradeIn(GameData game, Player player, ArrayList<Integer> cardIndex) {
+        //game.setActivePlayer(player);
         if (cardIndex.get(0) != cardIndex.get(1) && cardIndex.get(1) != cardIndex.get(2) && cardIndex.get(2) != cardIndex.get(0)) {
             System.out.println(cardIndex);
             if (player.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(player.getOwnedCards().get(cardIndex.get(1) - 1).cardType) &&
@@ -37,6 +38,7 @@ public class CardExchange {
                 player.setOwnedArmies(player.getOwnedArmies() + cardExchangeArmies);
                 addCardIntoDeck(player, cardIndex);
                 removeCardFromPlayer(player, cardIndex);
+                game.setGamePhase(Phase.REINFORCEMENT);
                 return true;
             } else if (!player.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(player.getOwnedCards().get(cardIndex.get(1) - 1).cardType) &&
                     !player.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(player.getOwnedCards().get(cardIndex.get(2) - 1).cardType) &&
@@ -46,6 +48,7 @@ public class CardExchange {
                 player.setOwnedArmies(player.getOwnedArmies() + cardExchangeArmies);
                 addCardIntoDeck(player, cardIndex);
                 removeCardFromPlayer(player, cardIndex);
+                game.setGamePhase(Phase.REINFORCEMENT);
                 return true;
             } else {
                 System.out.println("You do not have cards that could be exchanged.");

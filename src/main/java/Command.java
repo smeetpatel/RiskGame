@@ -31,6 +31,8 @@ public class Command {
      */
     public static boolean attackSuccess = false;
 
+    PhaseView phaseView;
+
     /**
      * Initializes the variables and objects required to play the game and act on user commands.
      */
@@ -417,6 +419,8 @@ public class Command {
                     boolean check = gameAction.populateCountries(game, game.getPlayers());
                     if (check) {
                         System.out.println("Countries allocated amongst the players");
+                        //PhaseView phaseView = new PhaseView();
+                        //game.attach(phaseView);
                         //gameAction.armyDistribution(game, this);
                     } else {
                         System.out.println("Minimum two players are required to play the game.");
@@ -446,6 +450,12 @@ public class Command {
                                     }
                                 }
                                 gameAction.isAllArmyPlaced(game);
+                                PhaseView phaseView = new PhaseView();
+                                phaseView.setVisible(true);
+                                phaseView.setSize(600, 600);
+                                phaseView.setDefaultCloseOperation(3);
+                                player.attach(phaseView);
+                                game.attach(phaseView);
                             } else
                                 System.out.println("Invalid country name");
                         }
@@ -459,6 +469,12 @@ public class Command {
                 case "placeall":
                     if (gameAction.placeAll(game)) {
                         System.out.println("Armies placed successfully");
+                        PhaseView phaseView = new PhaseView();
+                        phaseView.setVisible(true);
+                        phaseView.setSize(600, 600);
+                        phaseView.setDefaultCloseOperation(3);
+                        player.attach(phaseView);
+                        game.attach(phaseView);
                     }
 
                     break;
@@ -476,11 +492,9 @@ public class Command {
                 case "exchangecards":
                     try {
                         if (data[1].equals("none")) {
-                            if (player.getOwnedCards().size() < 5) {
+                            if(gameAction.noCardExchange(game, player)){
                                 System.out.println("Player do not want to perform card exchange operation or player do " +
                                         "not have enough cards to exchange.");
-
-                                game.setGamePhase(Phase.REINFORCEMENT);
                             } else {
                                 System.out.println("Player has to exchange the cards.");
                             }
@@ -493,10 +507,9 @@ public class Command {
                                     cardIndex.add(Integer.parseInt(data[3]));
                                     Collections.sort(cardIndex);
                                     CardExchange ce = new CardExchange();
-                                    boolean check = ce.cardTradeIn(player, cardIndex);
+                                    boolean check = ce.cardTradeIn(game, player, cardIndex);
                                     if (check) {
                                         System.out.println("Card Exchange successfully occured");
-                                        game.setGamePhase(Phase.REINFORCEMENT);
                                     } else {
                                         System.out.println("Failure of Card Exchange");
                                     }
@@ -705,5 +718,13 @@ public class Command {
             }
         }
         return game.getGamePhase();
+    }
+
+    public void playerChangeEvent(Player player) {
+        gameAction.assignReinforcementArmies(game, player);
+    }
+
+    public void turnEndEvent() {
+        gameAction.turnEnd(game);
     }
 }

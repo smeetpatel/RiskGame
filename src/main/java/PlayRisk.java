@@ -39,6 +39,7 @@ public class PlayRisk {
 			gamePhase = cmd.parseCommand(null, command);
 		}while(gamePhase!=Phase.ARMYALLOCATION);
 
+		//start the game by looping through the players
         numberOfPlayers = cmd.game.getPlayers().size();
         traversalCounter = 0;
 		while(gamePhase!=Phase.CARDEXCHANGE){
@@ -55,9 +56,44 @@ public class PlayRisk {
             }
         }
 
-		//start the game by looping through the players
+		//reset traversal counter
 		traversalCounter = 0;
-		while(true) {
+		while(true){
+			player = cmd.game.getPlayers().get(traversalCounter);
+			System.out.println(player.getPlayerName() + "'s turn");
+			System.out.println("Reinforcement phase");
+			cmd.playerChangeEvent(player);
+			while (player.getOwnedCards().size()>2) {
+				while (player.getOwnedCards().size() > 4) {
+					System.out.println("You have 5 cards or more, you have to exchange cards");
+					ce.printPlayersCards(player);
+					command = read.nextLine();
+					gamePhase = cmd.parseCommand(player, command);
+				}
+				System.out.println("Would you like to exchange your card to get more armies?");
+				ce.printPlayersCards(player);
+				command = read.nextLine();
+				gamePhase = cmd.parseCommand(player,command);
+			}
+			command = "exchangecards none";
+			gamePhase = cmd.parseCommand(player,command);
+
+			while(gamePhase!=Phase.TURNEND){
+				if(gamePhase==Phase.REINFORCEMENT){
+					System.out.println("Reinforcement armies: " + player.getOwnedArmies());
+				}
+				command = read.nextLine();
+				gamePhase = cmd.parseCommand(player, command);
+			}
+			cmd.turnEndEvent();
+			traversalCounter++;
+			if (traversalCounter >= numberOfPlayers) {
+				traversalCounter = 0;
+			}
+
+		}
+
+		/*while(true) {
 			while(traversalCounter<numberOfPlayers) {
 				player = cmd.game.getPlayers().get(traversalCounter);
 				System.out.println(player.getPlayerName() + "'s turn");
@@ -90,7 +126,7 @@ public class PlayRisk {
 				traversalCounter++;
 			}
 			traversalCounter = 0;
-		}		
+		}	*/
 	}
 	
 	/**

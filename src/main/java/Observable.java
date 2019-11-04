@@ -30,9 +30,15 @@ public class Observable {
     /**
      * Notifies the observers.
      */
-    public void notifyObservers(Observable observable){
+    public void notifyObservers(Observable o){
         for(Observer observer : observers){
-            observer.update(observable);
+            observer.update(o);
+        }
+    }
+
+    public void notifyObservers(String message){
+        for(Observer observer : observers){
+            observer.update(message);
         }
     }
 }

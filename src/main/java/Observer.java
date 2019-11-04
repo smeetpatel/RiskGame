@@ -9,4 +9,8 @@ public interface Observer {
      * @param o Observable object
      */
     public void update(Observable o);
+
+    public void update(String message);
+
+   // public void update(Observable o, GameData game, String message);
 }

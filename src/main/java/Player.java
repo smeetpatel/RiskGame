@@ -7,7 +7,7 @@ import java.util.*;
  * @author Jasmine
  *
  */
-public class Player {
+public class Player extends Observable{
 	/**
 	 * Name of the player
 	 */
@@ -144,6 +144,7 @@ public class Player {
 	 */
 	public boolean reinforce(GameData game, String countryName, int num)
 	{
+		game.setActivePlayer(this);
 		if(this.ownedCountries.containsKey(countryName.toLowerCase()))
 		{
 			if(this.ownedArmies >= num)
@@ -153,6 +154,7 @@ public class Player {
 				existingArmies += num;
 				c.setNumberOfArmies(existingArmies);
 				this.setOwnedArmies(this.ownedArmies-num);
+				notifyObservers(Integer.toString(num) + " armies reinforced at " + countryName +". Remaining reinforcement armies: " + Integer.toString(this.ownedArmies) + "\n");
 				if(this.ownedArmies==0) {
 					game.setGamePhase(Phase.ATTACK);
 				}
@@ -160,11 +162,13 @@ public class Player {
 			}
 			else
 			{
+				notifyObservers(this.playerName + " doesn't have " + num + " armies to reinforce. Invalid command.");
 				return false;
 			}
 		}
 		else
 		{
+			notifyObservers(countryName + " not owned by " + this.playerName +". Invalid command.\n");
 			return false;
 		}
 	}
@@ -188,20 +192,25 @@ public class Player {
 						int toArmies = this.ownedCountries.get(toCountry.toLowerCase()).getNumberOfArmies();
 						toArmies += num;
 						this.ownedCountries.get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+						notifyObservers(this.playerName + " fortified " + toCountry + " with " + num + " armies from " + fromCountry +". " + this.playerName + "'s turn ends now.");
 						game.setGamePhase(Phase.TURNEND);
 						return FortificationCheck.FORTIFICATIONSUCCESS;
 					} else {
+						notifyObservers("No path from " + fromCountry + " to " + toCountry + ". Fortification failed.");
 						return FortificationCheck.PATHFAIL;
 					}
 				} else {
+					notifyObservers("Not enough armies in " + fromCountry + " to fortify " + toCountry + " with " + num + " armies. Fortification failed.");
 					return FortificationCheck.ARMYCOUNTFAIL;
 				}
 			} else {
+				notifyObservers(this.playerName + " does not own " + toCountry + ". Fortification failed.");
 				return FortificationCheck.TOCOUNTRYFAIL;
 			}
 		}
 		else
 		{
+			notifyObservers(this.playerName + " does not own  " + fromCountry + ". Fortification failed.");
 			return FortificationCheck.FROMCOUNTRYFAIL;
 		}
 	}
@@ -211,9 +220,7 @@ public class Player {
 	 * @param game Represents current state of the game.
 	 */
 	public void fortify(GameData game){
+		notifyObservers(this.playerName + " decided to not fortify any country. " + this.playerName + "'s turn ends now.");
 		game.setGamePhase((Phase.TURNEND));
 	}
-
-
 }
-
