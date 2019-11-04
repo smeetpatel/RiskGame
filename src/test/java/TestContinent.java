@@ -1,6 +1,9 @@
 package test.java;
 
+import main.java.GameActions;
+import main.java.GameData;
 import main.java.GameMap;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,6 +16,8 @@ public class TestContinent {
     GameMap map;
     String continentName;
     int controlValue;
+    GameActions gameActions;
+    GameData game;
 
     /**
      * Set up the context
@@ -21,6 +26,8 @@ public class TestContinent {
     public void before(){
         map = new GameMap("ameroki.map");
         continentName = "azio";
+        gameActions = new GameActions();
+        game = new GameData();
     }
 
     /**
@@ -29,10 +36,8 @@ public class TestContinent {
     @Test
     public void testContinent(){
 
-        /*map = rcmd.editMap("ameroki.map");
-        System.out.println(map.getMapName());
-        System.out.println(map.getContinents().size());
-        boolean check = rcmd.removeContinent(map, continentName);
-        assertEquals(true,check);*/
+        gameActions.editMap(game, "ameroki.map");
+        boolean check = game.getMap().removeContinent(continentName);
+        Assert.assertEquals(true,check);
     }
 }

@@ -27,7 +27,7 @@ public class GameData {
     /**
      * Constructor to initialize the game data.
      */
-    GameData(){
+    public GameData(){
         map = new GameMap();
         gamePhase = Phase.NULL;
         players = new ArrayList<Player>();

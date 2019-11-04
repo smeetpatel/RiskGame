@@ -3,6 +3,7 @@ package test.java;
 import static org.junit.Assert.*;
 
 import main.java.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +22,8 @@ public class TestReinforceArmies {
     //StartUp stp;
     Phase gamePhase;
     Command cmd;
+    GameActions gameActions;
+    GameData game;
     //Reinforcement rfc;
 
     /**
@@ -30,12 +33,13 @@ public class TestReinforceArmies {
     public void before(){
         player1 = new Player("tirth");
         player2 = new Player("smeet");
-        map = new GameMap("world.map");
+        map = new GameMap("ameroki.map");
         players = new ArrayList<Player>();
         players.add(player1);
         players.add(player2);
         gamePhase = Phase.STARTUP;
-
+        gameActions = new GameActions();
+        game = new GameData();
     }
 
     /**
@@ -43,15 +47,13 @@ public class TestReinforceArmies {
      */
     @Test
     public void testReinforceArmies(){
-        //stp = new StartUp();
         cmd = new Command();
-        boolean checkagain = false;
-       // boolean check = stp.populateCountries(map, players);
-        /*if(check){
-            checkagain = Reinforcement.assignReinforcementArmies(player1);
-        }
-
-        assertEquals(true,checkagain);*/
+        boolean checkagain,check;
+        gameActions.editMap(game, "ameroki.map");
+        check = gameActions.populateCountries(game,players);
+        checkagain = GameActions.assignReinforcementArmies(player2);
+        int totalReinforcementArmies = (int) (player2.getOwnedCountries().size() / 3);
+        assertEquals(totalReinforcementArmies,player2.getOwnedArmies());
     }
 }
 
