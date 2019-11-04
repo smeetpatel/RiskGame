@@ -428,10 +428,32 @@ public class GameActions extends Observable{
         int traversalCounter = 0;
         while(true){
             player = game.getPlayers().get(traversalCounter);
-
         }
     }
 
+    /**
+     * Calculates the percentage of the map controlled by the argument player.
+     * @param game Represents the state of the game.
+     * @param player Calculates percentage of the map controlled for this player.
+     */
+    public void calculateMapControlled(GameData game, Player player){
+        player.setMapControlled(((double)player.getOwnedCountries().size()/(double)game.getMap().getCountries().size())*100);
+    }
+
+    /**
+     * Calculates the percentage of the map controlled by all the player at the beginning of the
+     * @param game Represents the state of the game.
+     */
+    public void initalizaMapContolValue(GameData game){
+        for(int i = 0; i<game.getPlayers().size(); i++){
+            this.calculateMapControlled(game, game.getPlayers().get(i));
+        }
+    }
+
+    /**
+     * Sets gamephase to CARDEXCHANGE for the next player and sets active player as null when the turn ends for one player.
+     * @param game Represents the state of the game.
+     */
     public void turnEnd(GameData game) {
         game.setGamePhase(Phase.CARDEXCHANGE);
         game.setActivePlayer(null);

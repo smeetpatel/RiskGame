@@ -40,6 +40,10 @@ public class Player extends Observable{
 	private ArrayList<Card> ownedCards;
 
 	/**
+	 * Represents the percentage of map controlled.
+	 */
+	private double mapControlled;
+	/**
 	 * Creates a player with the argument player name and sets default value for rest of the player fields.
 	 * @param playerName name of player
 	 */
@@ -49,6 +53,7 @@ public class Player extends Observable{
 		this.ownedCountries = new HashMap<String, Country>();
 		this.ownedContinents = new HashMap<String, Continent>();
 		this.ownedCards = new ArrayList<Card>();
+		this.mapControlled = 0.0f;
 	}
 	/**
 	 * Getter method to return player name entered by user
@@ -134,6 +139,23 @@ public class Player extends Observable{
 	 * @param card object of Card
 	 */
 	public void removeOwnedCards(Card card){ this.ownedCards.remove(card); }
+
+	/**
+	 * Returns the percentage of map controlled by the player.
+	 * @return returns the percentage of map controlled by the player.
+	 */
+	public double getMapControlled(){
+		return this.mapControlled;
+	}
+
+	/**
+	 * Sets the percentage of the map controlled by the player.
+	 * @param mapControlled current percentage of the map controlled by the player.
+	 */
+	public void setMapControlled(double mapControlled){
+		this.mapControlled = mapControlled;
+		notifyObservers(this);
+	}
 
 	/**
 	 * This function allow player to place armies

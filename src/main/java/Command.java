@@ -419,9 +419,12 @@ public class Command {
                     boolean check = gameAction.populateCountries(game, game.getPlayers());
                     if (check) {
                         System.out.println("Countries allocated amongst the players");
-                        //PhaseView phaseView = new PhaseView();
-                        //game.attach(phaseView);
-                        //gameAction.armyDistribution(game, this);
+                        PlayerDominationView playerDominationView = new PlayerDominationView();
+                        playerDominationView.setVisible(true);
+                        playerDominationView.setSize(600, 600);
+                        playerDominationView.setDefaultCloseOperation(3);
+                        attachToPlayers(playerDominationView);
+                        gameAction.initalizaMapContolValue(game);
                     } else {
                         System.out.println("Minimum two players are required to play the game.");
                     }
@@ -718,6 +721,12 @@ public class Command {
             }
         }
         return game.getGamePhase();
+    }
+
+    private void attachToPlayers(PlayerDominationView playerDominationView) {
+        for(Player player : game.getPlayers()){
+            player.attach(playerDominationView);
+        }
     }
 
     public void playerChangeEvent(Player player) {
