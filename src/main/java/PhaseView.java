@@ -84,6 +84,7 @@ public class PhaseView extends JFrame implements Observer{
         if(!(o instanceof GameData)){
             return;
         }
+
         GameData game = (GameData) o;
         if(game.getGamePhase()==Phase.CARDEXCHANGE){
             currentPhase = game.getGamePhase();
@@ -101,6 +102,7 @@ public class PhaseView extends JFrame implements Observer{
             phaseText.setText("Fortification");
             logText.setText(null);
         }
+
     }
 
     public void update(String message){

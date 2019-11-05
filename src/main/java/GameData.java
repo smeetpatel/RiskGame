@@ -29,6 +29,11 @@ public class GameData extends Observable{
     private Player activePlayer;
 
     /**
+     * Stores the deck of cards.
+     */
+    private Deck deck;
+
+    /**
      * Constructor to initialize the game data.
      */
     public GameData(){
@@ -36,6 +41,7 @@ public class GameData extends Observable{
         gamePhase = Phase.NULL;
         players = new ArrayList<Player>();
         activePlayer = null;
+        deck = new Deck();
     }
 
     /**
@@ -112,4 +118,27 @@ public class GameData extends Observable{
             notifyObservers(this);
         }
    }
+
+    /**
+     * Gets the deck of card.
+     * @return Returns the deck of card.
+     */
+    public Deck getDeck() {
+        return deck;
+    }
+
+    /**
+     * Sets the deck of card.
+     * @param deck Deck of card for the game.
+     */
+    public void setDeck(Deck deck) {
+        this.deck = deck;
+    }
+
+    /**
+     * Remove player
+     */
+    public void removePlayer(Player p){
+        this.players.remove(p);
+    }
 }

@@ -26,33 +26,46 @@ public class Command {
      */
     public GameActions gameAction;
 
-    /**
-     * Make it true when player conquered the attacked country.
-     */
-    public static boolean attackSuccess = false;
 
     /**
      * Represents the 'Phase view'
      */
-    PhaseView phaseView;
+    public PhaseView phaseView;
+
+    /**
+     * Represents possible attack options for a player.
+     */
+    public AttackView attackView;
 
     /**
      * Represents the 'Player domination view'
      */
-    PlayerDominationView playerDominationView;
+    public PlayerDominationView playerDominationView;
+
+    /**
+     * Helps access methods responsible for
+     */
+    CardExchange ce;
 
     /**
      * Represents the 'Card exchange view'
      */
-    CardExchangeView cardExchangeView;
+    public CardExchangeView cardExchangeView;
 
+    /**
+     * Represents the state of the game when an attack is declared or carried out.
+     */
+    public AttackData attackData;
     /**
      * Initializes the variables and objects required to play the game and act on user commands.
      */
     public Command() {
         game = new GameData();
         mapView = new MapView();
+        attackView = new AttackView();
         gameAction = new GameActions();
+        ce = new CardExchange();
+        attackData = new AttackData();
     }
 
     /**
@@ -89,7 +102,6 @@ public class Command {
         int controlValue = 0;
         int numberOfArmies = 0;
         int armiesToFortify = 0;
-        int numberOfDice = 0;
 
         String mapName = null;
         String continentName = null;
@@ -100,9 +112,6 @@ public class Command {
         String toCountry = null;
         String[] data = newCommand.split("\\s+");
         String commandName = data[0];
-
-        boolean isAttackAllOut = false;
-        boolean attackCommandExecuted = false;
 
         if (game.getGamePhase().equals(Phase.NULL)) {
             switch (commandName) {
@@ -531,11 +540,9 @@ public class Command {
                                         cardIndex.add(secondCard);
                                         cardIndex.add(thirdCard);
                                         Collections.sort(cardIndex);
-                                        CardExchange ce = new CardExchange();
                                         boolean check = ce.cardTradeIn(game, player, cardIndex);
                                         if (check) {
                                             System.out.println("Card Exchange successfully occured");
-                                            game.setGamePhase(Phase.REINFORCEMENT);
                                         } else {
                                             System.out.println("Failure of Card Exchange");
                                         }
@@ -553,7 +560,6 @@ public class Command {
                         System.out.println("Invalid command - it should be of the form 'exchangecards num num num -none'");
                     }
                     break;
-
                 default:
                     System.out.println("Invalid command - use exchangecards command.");
                     break;
@@ -569,7 +575,12 @@ public class Command {
                                 boolean check = player.reinforce(game, countryName, numberOfArmies);
                                 if (check) {
                                     if (player.getOwnedArmies() == 0) {
-                                        System.out.println("Reinforcement phase successfully ended. Begin fortification now.");
+                                        System.out.println("Reinforcement phase successfully ended. Begin attack now.");
+                                        if(player.isAttackPossible()){
+                                           attackView.canAttack(player);
+                                        } else {
+                                            gameAction.endAttack(game);
+                                        }
                                     }
                                 } else {
                                     if (player.getOwnedArmies() < numberOfArmies) {
@@ -582,8 +593,10 @@ public class Command {
                                 System.out.println("Invalid command - invalid characters in command");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'reinforce countryName num'");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'reinforce countryName num'");
                     }
                     break;
@@ -601,85 +614,207 @@ public class Command {
                 case "attack":
                     try{
                         if(data[1].equals("-noattack")){
-                            System.out.println("Player do not want to perform attack");
-                            game.setGamePhase(Phase.FORTIFICATION);
-                        }else if(data.length == 4){
-                            if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null)){
-                                if(this.isAlpha(data[1]) && this.isAlpha(data[2]) && data[3].matches("[1-3]")){
-                                    fromCountry = data[1];
-                                    toCountry = data[2];
-                                    numberOfDice = Integer.parseInt(data[3]);
-                                    attackCommandExecuted = true;
+                            if(!attackData.getSendConqueringTroops()){
+                                gameAction.endAttack(game);
+                                if(attackData.getTerritoriesConquered()>0){
+                                    player.setOwnedCards(game.getDeck().withdrawCard());
                                 }
+                                attackData.resetAttack();
+                                System.out.println("Player do not want to perform attack");
+                            } else {
+                                System.out.println("Must move army to just conquered country first. Use 'attackmove num' command.");
                             }
-                        }else if(data.length == 5){
-                            if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null) && !(data[4] == null)){
-                                if(this.isAlpha(data[1]) && this.isAlpha(data[2]) && data[3].matches("[1-3]") && data[4].equals("-allout")){
-                                    fromCountry = data[1];
-                                    toCountry = data[2];
-                                    numberOfDice = Integer.parseInt(data[3]);
-                                    isAttackAllOut = true;
-                                    attackCommandExecuted = true;
+                        }else if(data.length == 4){
+                            if(!attackData.getSendConqueringTroops()){
+                                if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null)){
+                                    if(this.isAlpha(data[1]) && this.isAlpha(data[2]) && data[3].matches("[1-3]")){
+                                        attackData.setFromCountry(data[1]);
+                                        attackData.setToCountry(data[2]);
+                                        attackData.setNumberOfDice(Integer.parseInt(data[3]));
+                                        if(gameAction.areNeighbors(game, attackData.getFromCountry(), attackData.getToCountry())){
+                                            if(gameAction.hasEnoughArmies(game, attackData.getFromCountry())){
+                                                if(gameAction.diceValid(game, attackData.getFromCountry(), attackData.getNumberOfDice(), true)){
+                                                    attackData.setCanAttack(true);
+                                                } else {
+                                                    System.out.println(attackData.getNumberOfDice() + " dice rolls not possible for attack from " + attackData.getFromCountry());
+                                                }
+                                            } else {
+                                                System.out.println(attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.");
+                                            }
+                                        } else {
+                                            System.out.println(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors. Attack not possible.");
+                                        }
+                                    }
+                                } else {
+                                    System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                            " or 'attack -noattack'");
                                 }
+                            } else {
+                                System.out.println("Must move army to just conquered country first. Use 'attackmove num' command.");
                             }
 
+                        }else if(data.length == 5){
+                            if(!attackData.getSendConqueringTroops()){
+                                if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null) && !(data[4] == null)){
+                                    if(this.isAlpha(data[1]) && this.isAlpha(data[2]) && data[3].matches("[1-3]") && data[4].equals("-allout")){
+                                        attackData.setFromCountry(data[1]);
+                                        attackData.setToCountry(data[2]);
+                                        attackData.setNumberOfDice(Integer.parseInt(data[3]));
+                                        if(gameAction.areNeighbors(game, attackData.getFromCountry(), attackData.getToCountry())){
+                                            if(gameAction.hasEnoughArmies(game, attackData.getFromCountry())){
+                                                if(gameAction.diceValid(game, attackData.getFromCountry(), attackData.getNumberOfDice(), true)){
+                                                    Player p = gameAction.getOwner(game, attackData.getToCountry());
+                                                    do{
+                                                        attackData.setNumberOfDice(gameAction.getMaxDiceRolls(game, attackData.getFromCountry(), "attacker"));
+                                                        int defendDice = gameAction.getMaxDiceRolls(game, attackData.getFromCountry(), "defender");
+                                                        if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
+                                                            System.out.println(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
+                                                            attackData.setSendConqueringTroops(true);
+                                                            if(p.getOwnedCountries().size()==0){
+                                                                gameAction.getAllCards(player, p);
+                                                                game.removePlayer(p);
+                                                                if(player.getOwnedCards().size()>=6){
+                                                                    gameAction.setAttackCardExchange(game);
+                                                                    cardExchangeView = new CardExchangeView();
+                                                                    cardExchangeView.setVisible(true);
+                                                                    cardExchangeView.setSize(600, 600);
+                                                                    player.attach(cardExchangeView);
+                                                                    gameAction.initializeCEV(player);
+                                                                }
+                                                            }
+                                                        } else {
+                                                            if(player.isAttackPossible()){
+                                                                attackView.canAttack(player);
+                                                            } else {
+                                                                gameAction.endAttack(game);
+                                                            }
+                                                        }
+                                                    } while(!attackData.getSendConqueringTroops() && gameAction.getMaxDiceRolls(game, attackData.getFromCountry(), "attacker")!=0);
+                                                    if(attackData.getSendConqueringTroops()){
+                                                        gameAction.calculateMapControlled(game, player);
+                                                        gameAction.calculateMapControlled(game, p);
+                                                    }
+                                                } else {
+                                                    System.out.println(attackData.getNumberOfDice() + " dice rolls not possible for attack from " + attackData.getFromCountry());
+                                                }
+                                            } else {
+                                                System.out.println(attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.");
+                                            }
+                                        } else {
+                                            System.out.println(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors. Attack not possible.");
+                                        }
+                                    } else{
+                                        System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                                " or 'attack -noattack'");
+                                    }
+                                }
+                                else{
+                                    System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                            " or 'attack -noattack'");
+                                }
+                            } else {
+                                System.out.println("Must move army to just conquered country first. Use 'attackmove num' command.");
+                            }
+                        } else {
+                            System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
+                                    " or 'attack -noattack'");
                         }
                     }catch (ArrayIndexOutOfBoundsException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
                                 " or 'attack -noattack'");
                     } catch (NumberFormatException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
                                 " or 'attack -noattack'");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
                                 " or 'attack -noattack'");
                     }
                     break;
-
                 case "defend":
                     try {
-                        if(attackCommandExecuted) {
-                            if (!(data[1] == null)) {
-                                if (data[1].matches("[1-2]")) {
-                                /*boolean check = player.attack(fromCountry,toCountry,numberOfDice,isAttackAllOut);
-                                    if(check){
-
-                                    }else{
-
-                                    }*/
-                                attackCommandExecuted = false;
-                                }else {
-                                    System.out.println("Enter valid number of dice. Enter either 1 or 2.");
+                        if(!attackData.getSendConqueringTroops()){
+                            if(attackData.getCanAttack()) {
+                                if (!(data[1] == null)) {
+                                    if (data[1].matches("[1-2]")) {
+                                        Player p = gameAction.getOwner(game, attackData.getToCountry());
+                                        int defendDice = Integer.parseInt(data[1]);
+                                        if(gameAction.diceValid(game, attackData.getToCountry(), defendDice, false)) {
+                                            if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
+                                                System.out.println(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
+                                                gameAction.calculateMapControlled(game, player);
+                                                gameAction.calculateMapControlled(game, p);
+                                                attackData.setSendConqueringTroops(true);
+                                                if(p.getOwnedCountries().size()==0){
+                                                    gameAction.getAllCards(player, p);
+                                                    game.removePlayer(p);
+                                                    if(player.getOwnedCards().size()>=6){
+                                                        gameAction.setAttackCardExchange(game);
+                                                        cardExchangeView = new CardExchangeView();
+                                                        cardExchangeView.setVisible(true);
+                                                        cardExchangeView.setSize(600, 600);
+                                                        player.attach(cardExchangeView);
+                                                        gameAction.initializeCEV(player);
+                                                    }
+                                                }
+                                            } else {
+                                                if(player.isAttackPossible()){
+                                                    attackView.canAttack(player);
+                                                } else {
+                                                    gameAction.endAttack(game);
+                                                }
+                                            }
+                                            attackData.setCanAttack(false);
+                                        } else {
+                                            System.out.println(p.getPlayerName() + " does not have enough armies to roll dice " + defendDice + " times.");
+                                            if(player.isAttackPossible()){
+                                                    attackView.canAttack(player);
+                                            }
+                                        }
+                                    }else {
+                                        System.out.println("Enter valid number of dice. Enter either 1 or 2.");
+                                    }
+                                }else{
+                                    System.out.println("Invalid command - it should be of the form 'defend numdice'. ");
                                 }
                             }else{
-                                System.out.println("Invalid command - it should be of the form 'defend numdice'. ");
+                                System.out.println("Before defend command, enter 'attack countrynamefrom countynameto numdice –allout'. ");
                             }
-                        }else{
-                            System.out.println("Before defend command, enter 'attack countrynamefrom countynameto numdice –allout'. ");
+                        } else {
+                            System.out.println("Must move army to just conquered country first. Use 'attackmove num' command.");
                         }
                     }catch (ArrayIndexOutOfBoundsException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'defend numdice'. ");
                     } catch (NumberFormatException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'defend numdice'.");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'defend numdice'.");
                     }
                     break;
 
                 case "attackmove":
                     try{
-                        if(attackSuccess){
+                        if(attackData.getSendConqueringTroops()){
                             if(!(data[1] == null)){
                                 if(data[1].matches("[0-9]+")){
                                     numberOfArmies = Integer.parseInt(data[1]);
-                                    /*boolean check = attackmove(numberOfArmies);
-                                    if(check){
-
-                                    }else{
-
-                                    }*/
+                                    if(player.moveArmy(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), numberOfArmies)){
+                                        attackData.setSendConqueringTroops(false);
+                                        if(player.isAttackPossible()){
+                                            attackView.canAttack(player);
+                                        } else {
+                                            gameAction.endAttack(game);
+                                        }
+                                    } else {
+                                        System.out.println("Move at least " + attackData.getNumberOfDice() + " armies to " + attackData.getToCountry());
+                                    }
                                 }else {
-                                    System.out.println("Enter valid number");
+                                    System.out.println("Enter valid number of armies");
                                 }
                             }else {
                                 System.out.println("Invalid command - it should be of the form 'attackmove num'. ");
@@ -694,15 +829,57 @@ public class Command {
                     } catch (Exception e) {
                         System.out.println("Invalid command - it should be of the form 'attackmove num'.");
                     }
+                    break;
 
                 case "showmap":
                     mapView.showMap(game.getMap(), game.getPlayers());
                     break;
 
                 default:
-                    System.out.println("Invalid command - either use attack/defend/showmap command.");
+                    System.out.println("Invalid command - either use attack/defend/attackmove/showmap command.");
                     break;
             }
+        } else if (game.getGamePhase().equals(Phase.ATTACKCARDEXCHANGE)){
+            switch (commandName) {
+                case "exchangecards":
+                    try{
+                        if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
+                            if (data[1].matches("[1-9]+") && data[2].matches("[1-9]+") && data[3].matches("[1-9]+")) {
+                                int firstCard = Integer.parseInt(data[1]);
+                                int secondCard = Integer.parseInt(data[2]);
+                                int thirdCard = Integer.parseInt(data[3]);
+                                int totalCards = player.getOwnedCards().size();
+                                if (firstCard <= totalCards && secondCard <= totalCards && thirdCard <= totalCards) {
+                                    ArrayList<Integer> cardIndex = new ArrayList<Integer>();
+                                    cardIndex.add(firstCard);
+                                    cardIndex.add(secondCard);
+                                    cardIndex.add(thirdCard);
+                                    Collections.sort(cardIndex);
+                                    boolean check = ce.cardTradeIn(game, player, cardIndex);
+                                    if (check) {
+                                        System.out.println("Card Exchange successfully occurred");
+                                        gameAction.continueCardExchange()
+                                    } else {
+                                        System.out.println("Failure of Card Exchange");
+                                    }
+                                }else {
+                                    System.out.println("Index number of card is wrong");
+                                }
+                            }
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        e.printStackTrace();
+                        System.out.println("Invalid command - it should be of the form 'exchangecards num num num -none'");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        System.out.println("Invalid command - it should be of the form 'exchangecards num num num -none'");
+                    }
+                    break;
+                default:
+                    System.out.println("Invalid command - use 'exchangecards num num num' command only.");
+                    break;
+            }
+
         } else if (game.getGamePhase().equals(Phase.FORTIFICATION)) {
             switch (commandName) {
                 case "fortify":

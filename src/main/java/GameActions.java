@@ -62,6 +62,7 @@ public class GameActions extends Observable{
             if (validateMap(map) == MapValidityStatus.VALIDMAP) {
                 map.setValid(true);
                 game.setGamePhase(Phase.STARTUP);
+                game.getDeck().createDeck(game.getMap().getCountries().values());
             } else {
                 map.setValid(false);
                 game.setGamePhase(Phase.NULL);
@@ -468,5 +469,124 @@ public class GameActions extends Observable{
      */
     public void initializeCEV(Player player) {
         notifyObservers(player);
+    }
+
+    /**
+     * Checks if two countries are neighbors or not.
+     * @param game Represents the state of the game
+     * @param fromCountry First country
+     * @param toCountry Second country
+     * @return true if both countries are neighbors, else false.
+     */
+    public boolean areNeighbors(GameData game, String fromCountry, String toCountry) {
+        Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
+        if(country.getNeighbours().containsKey(toCountry.toLowerCase())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if attack from argument country is possible or not.
+     * @param game Represents the state of the game
+     * @param fromCountry Attacking country
+     * @return true if attack is possible, else false.
+     */
+    public boolean hasEnoughArmies(GameData game, String fromCountry) {
+        Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
+        if(country.getNumberOfArmies()>1){
+            return true;
+        } else {
+             return false;
+        }
+    }
+
+    /**
+     * Checks if the argument number of dice can be rolled for attack from argument country.
+     * @param game Represents the state of the game
+     * @param countryName Attacking country
+     * @param numberOfDice Proposed number of dice rolls
+     * @return true if attack is possible, else false.
+     */
+    public boolean diceValid(GameData game, String countryName, int numberOfDice, boolean attack) {
+        Country country = game.getMap().getCountries().get(countryName.toLowerCase());
+        if(attack){
+            if(country.getNumberOfArmies()>numberOfDice){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if(country.getNumberOfArmies()>=numberOfDice){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Returns the owner of the country.
+     * @param game Represents the state of the game
+     * @param countryName Country whose owner is to be found
+     * @return Player owning the argument country, null if no player owns the country.
+     */
+    public Player getOwner(GameData game, String countryName) {
+        for(Player p : game.getPlayers()){
+            if(p.getOwnedCountries().containsKey(countryName.toLowerCase())){
+                return p;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Marks the end of the attack phase.
+     * @param game Represents the state of the game.
+     */
+    public void endAttack(GameData game) {
+        game.setGamePhase(Phase.FORTIFICATION);
+    }
+
+    int getMaxDiceRolls(GameData game, String fromCountry, String role){
+        Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
+        if(role.equals("attacker")){
+            if(country.getNumberOfArmies()>=4){
+                return 3;
+            } else if (country.getNumberOfArmies()>=3) {
+                return 2;
+            } else  if(country.getNumberOfArmies() >= 2){
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            if(country.getNumberOfArmies()>=2) {
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+
+    }
+
+    /**
+     * Argument player gets all the cards of the player p when player p leaves the game.
+     * @param player winning player
+     * @param p player getting out of the game
+     */
+    public void getAllCards(Player player, Player p) {
+        for(Card card : p.getOwnedCards()) {
+            player.setOwnedCards(card);
+        }
+    }
+
+    /**
+     * Sets attack card exchange mode for when the attacking player gets all the cards of the player getting out the game.
+     * @param game Represents the state of the game
+     */
+    public void setAttackCardExchange(GameData game) {
+        game.setGamePhase(Phase.ATTACKCARDEXCHANGE);
     }
 }

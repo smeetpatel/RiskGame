@@ -1,5 +1,6 @@
 package main.java;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * This class assign player attributes and maintain HashMaps for countries
@@ -134,13 +135,17 @@ public class Player extends Observable{
 	 */
 	public void setOwnedCards(Card card){
 		this.ownedCards.add(card);
+		//TODO: Notify observers of the cards removed
 	}
 
 	/**
 	 * This method removes the card from owned cards after trade in process.
 	 * @param card object of Card
 	 */
-	public void removeOwnedCards(Card card){ this.ownedCards.remove(card); }
+	public void removeOwnedCards(Card card){
+		this.ownedCards.remove(card);
+		//TODO: Notify observers of the cards added
+	}
 
 	/**
 	 * Returns the percentage of map controlled by the player.
@@ -197,8 +202,99 @@ public class Player extends Observable{
 		}
 	}
 
-	//TODO: Add attack method
-	//TODO: Add fortification method
+	/**
+	 * Attacks the argument country.
+	 * @param game Represents the state of the game.
+	 * @param countryFrom Country doing the attack
+	 * @param countryTo Country that is defending
+	 * @param numberOfDice Number of dice attacker wishes to roll
+	 * @param defendDice Number of dice defender wishes to roll
+	 * @param defendingPlayer Player owning the defending country
+	 * @return true if successful in conquering, else false.
+	 */
+	public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
+		Country attackingCountry = game.getMap().getCountries().get(countryFrom.toLowerCase());
+		Country defendingCountry = game.getMap().getCountries().get(countryTo.toLowerCase());
+		int[] attackerDiceRolls = new int[numberOfDice];
+		int[] defenderDiceRolls = new int[defendDice];
+
+		//roll the dices
+		for(int i = 0; i<numberOfDice; i++){
+			int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+			attackerDiceRolls[i] = randomNum;
+		}
+		for(int i = 0; i<defendDice; i++){
+			int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+			defenderDiceRolls[i] = randomNum;
+		}
+
+		//sort the dice roll result
+		Arrays.sort(attackerDiceRolls);
+		Arrays.sort(defenderDiceRolls);
+
+		//compare dice results
+		for(int i=1; i<=defendDice; i++){
+			if(defenderDiceRolls[defenderDiceRolls.length-i]>=attackerDiceRolls[attackerDiceRolls.length-i]){
+				attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies()-1);
+				//this.setOwnedArmies(this.ownedArmies-1);
+				notifyObservers(this.playerName + " lost 1 army at " + countryFrom + ".\n");
+			} else {
+				defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()-1);
+				//defendingPlayer.setOwnedArmies(defendingPlayer.getOwnedArmies()-1);
+				notifyObservers(defendingPlayer.getPlayerName() + " lost 1 army at " + countryTo + ".\n");
+			}
+			if(defendingCountry.getNumberOfArmies()==0){
+				this.ownedCountries.put(countryTo.toLowerCase(), defendingCountry);
+				defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
+				notifyObservers(this.playerName + " conquered " + countryTo + ".\n");
+				if(defendingPlayer.getOwnedCountries().size()==0){
+					notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + this.playerName + " gets all his/her cards.");
+				}
+				return true;
+			}
+			if(i>=numberOfDice){
+				break;
+			}
+		}
+		return false;
+	}
+
+	public boolean isAttackPossible() {
+		boolean attackPossible = false;
+		for(Country country : this.ownedCountries.values()) {
+			for(Country neighbor : country.getNeighbours().values()){
+				if(country.getNumberOfArmies()>1 && !(this.ownedCountries.containsKey(neighbor.getCountryName().toLowerCase()))){
+					attackPossible = true;
+				}
+			}
+		}
+		return attackPossible;
+	}
+
+	/**
+	 * Method to move army to the conquered territory.
+	 * @param game Represents the state of the game.
+	 * @param fromCountry Attacking country
+	 * @param toCountry Conquered country
+	 * @param numberOfDice Number of dice rolled when conquering the territory
+	 * @param numberOfArmies Number of armies to transfer to newly conquered territory.
+	 * @return true if successful, else false.
+	 */
+	public boolean moveArmy(GameData game, String fromCountry, String toCountry, int numberOfDice, int numberOfArmies) {
+		Country attackingCountry = game.getMap().getCountries().get(fromCountry.toLowerCase());
+		Country defendingCountry = game.getMap().getCountries().get(toCountry.toLowerCase());
+		if(numberOfArmies<numberOfDice){
+			return false;
+		}
+		if(numberOfArmies>=attackingCountry.getNumberOfArmies()){
+			return false;
+		}
+		attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies()-numberOfArmies);
+		defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()+numberOfArmies);
+		notifyObservers(this.playerName + " moved " + numberOfArmies + " armies from " + fromCountry + " to " + toCountry + ".");
+		return true;
+	}
+
 	public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num)
 	{
 		MapValidation mv = new MapValidation();
