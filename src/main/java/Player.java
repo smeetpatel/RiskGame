@@ -135,13 +135,17 @@ public class Player extends Observable{
 	 */
 	public void setOwnedCards(Card card){
 		this.ownedCards.add(card);
+		//TODO: Notify observers of the cards removed
 	}
 
 	/**
 	 * This method removes the card from owned cards after trade in process.
 	 * @param card object of Card
 	 */
-	public void removeOwnedCards(Card card){ this.ownedCards.remove(card); }
+	public void removeOwnedCards(Card card){
+		this.ownedCards.remove(card);
+		//TODO: Notify observers of the cards added
+	}
 
 	/**
 	 * Returns the percentage of map controlled by the player.
@@ -242,8 +246,10 @@ public class Player extends Observable{
 			if(defendingCountry.getNumberOfArmies()==0){
 				this.ownedCountries.put(countryTo.toLowerCase(), defendingCountry);
 				defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
-				this.
 				notifyObservers(this.playerName + " conquered " + countryTo + ".\n");
+				if(defendingPlayer.getOwnedCountries().size()==0){
+					notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + this.playerName + " gets all his/her cards.");
+				}
 				return true;
 			}
 			if(i>=numberOfDice){

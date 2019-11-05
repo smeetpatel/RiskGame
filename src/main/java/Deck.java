@@ -1,6 +1,9 @@
 package main.java;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * It will implement deck of card.
@@ -33,22 +36,7 @@ public class Deck {
      * This default constructor will initialize the deck of cards.
      */
     public Deck() {
-        deck = new ArrayList<>();
-    }
-
-    /**
-     * This constructor will create deck from list of countries.
-     *
-     * @param countries list of countires
-     */
-    public Deck(ArrayList<Country> countries) {
-        deck = new ArrayList<>();
-        cardType = new String[]{"Infantry", "Cavalary", "Artillery"};
-        for (int i = 0; i < countries.size(); i++) {
-            card = new Card(cardType[i % 3], countries.get(i));
-            //System.out.println(countries.get(i).getCountryName() + " " + cardType[i % 3]);
-            deck.add(card);
-        }
+        deck = new ArrayList<Card>();
     }
 
     /**
@@ -81,4 +69,13 @@ public class Deck {
         return deck.size();
     }
 
+    public void createDeck(Collection<Country> countries) {
+        cardType = new String[]{"Infantry", "Cavalary", "Artillery"};
+        int i = 0;
+        for(Country country : countries){
+            card = new Card(cardType[i%3], country);
+            deck.add(card);
+            i++;
+        }
+    }
 }

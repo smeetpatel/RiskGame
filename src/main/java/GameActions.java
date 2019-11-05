@@ -62,6 +62,7 @@ public class GameActions extends Observable{
             if (validateMap(map) == MapValidityStatus.VALIDMAP) {
                 map.setValid(true);
                 game.setGamePhase(Phase.STARTUP);
+                game.getDeck().createDeck(game.getMap().getCountries().values());
             } else {
                 map.setValid(false);
                 game.setGamePhase(Phase.NULL);
@@ -568,5 +569,24 @@ public class GameActions extends Observable{
             }
         }
 
+    }
+
+    /**
+     * Argument player gets all the cards of the player p when player p leaves the game.
+     * @param player winning player
+     * @param p player getting out of the game
+     */
+    public void getAllCards(Player player, Player p) {
+        for(Card card : p.getOwnedCards()) {
+            player.setOwnedCards(card);
+        }
+    }
+
+    /**
+     * Sets attack card exchange mode for when the attacking player gets all the cards of the player getting out the game.
+     * @param game Represents the state of the game
+     */
+    public void setAttackCardExchange(GameData game) {
+        game.setGamePhase(Phase.ATTACKCARDEXCHANGE);
     }
 }

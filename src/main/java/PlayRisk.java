@@ -82,8 +82,11 @@ public class PlayRisk {
 					System.out.println("Reinforcement armies: " + player.getOwnedArmies());
 				} else if(gamePhase==Phase.ATTACK) {
 					System.out.println("Attack phase");
-					//printCanAttack(player);
 				}
+				else if(gamePhase==Phase.ATTACKCARDEXCHANGE){
+				    System.out.println("You have to exchange cards till you have 4 or fewer cards. Use command 'exchangecards num num num' only.");
+                    System.out.println("You will be redirected to move armies to conquered country once you have 4 or less cards.");
+                }
 				command = read.nextLine();
 				gamePhase = cmd.parseCommand(player, command);
 			}

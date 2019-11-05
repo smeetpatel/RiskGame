@@ -6,6 +6,8 @@ public class AttackData {
     private String toCountry;
     private boolean canAttack;
     private boolean sendConqueringTroops;
+    private int territoriesConquered;
+    private boolean cardExchange;
 
     public AttackData(){
         this.numberOfDice = 0;
@@ -13,6 +15,8 @@ public class AttackData {
         this.toCountry = "";
         this.canAttack = false;
         this.sendConqueringTroops = false;
+        this.territoriesConquered = 0;
+        this.cardExchange = false;
     }
 
     public int getNumberOfDice() {
@@ -53,5 +57,30 @@ public class AttackData {
 
     public void setSendConqueringTroops(boolean sendConqueringTroops) {
         this.sendConqueringTroops = sendConqueringTroops;
+    }
+
+    public int getTerritoriesConquered() {
+        return territoriesConquered;
+    }
+
+    public void setTerritoriesConquered(int territoriesConquered) {
+        this.territoriesConquered = territoriesConquered;
+    }
+
+    public boolean isCardExchange() {
+        return cardExchange;
+    }
+
+    public void setCardExchange(boolean cardExchange) {
+        this.cardExchange = cardExchange;
+    }
+
+    public void resetAttack(){
+        this.numberOfDice = 0;
+        this.fromCountry = "";
+        this.toCountry = "";
+        this.canAttack = false;
+        this.sendConqueringTroops = false;
+        this.territoriesConquered = 0;
     }
 }

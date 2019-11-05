@@ -50,6 +50,12 @@ public enum Phase {
     ATTACK,
 
     /**
+     * Player has received more than six cards by defeating a player and forcing him/her out of the game.
+     * Needs to exchange the cards right away.
+     */
+    ATTACKCARDEXCHANGE,
+
+    /**
      * Player fortifies one of the owned countries if a legal move is allowed.
      * Phase ends when player successfully fortifies or decides to not foritfy.
      */

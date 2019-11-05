@@ -30,7 +30,7 @@ public class CardExchange {
     public boolean cardTradeIn(GameData game, Player player, ArrayList<Integer> cardIndex) {
         //game.setActivePlayer(player);
         if (cardIndex.get(0) != cardIndex.get(1) && cardIndex.get(1) != cardIndex.get(2) && cardIndex.get(2) != cardIndex.get(0)) {
-            System.out.println(cardIndex);
+            //System.out.println(cardIndex);
             if (player.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(player.getOwnedCards().get(cardIndex.get(1) - 1).cardType) &&
                     player.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(player.getOwnedCards().get(cardIndex.get(2) - 1).cardType)) {
                 checkForOwnedCardCountry(player, cardIndex);
@@ -83,16 +83,16 @@ public class CardExchange {
         boolean countryFound = false;
         for (int i = 0; i < 3; i++) {
             if (!countryFound) {
-                System.out.println("inside function");
+                //System.out.println("inside function");
                 Country country = player.getOwnedCards().get(cardIndex.get(i) - 1).cardCountry; // fetch the country object from player's card.
                 System.out.println(country.getCountryName());
                 for (Country c : player.getOwnedCountries().values()) {
-                    System.out.println("before if");
-                    System.out.println(c.getCountryName());
+                    //System.out.println("before if");
+                    //System.out.println(c.getCountryName());
                     if (c.getCountryName().equals(country.getCountryName())) {
-                        System.out.println("inside if");
+                        //System.out.println("inside if");
                         player.setOwnedArmies(player.getOwnedArmies() + 2);
-                        System.out.println("break EXECUTED");
+                        //System.out.println("break EXECUTED");
                         countryFound = true;
                         break;
                     }
