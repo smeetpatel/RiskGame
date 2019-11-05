@@ -81,26 +81,31 @@ public class PhaseView extends JFrame implements Observer{
     }
 
     public void update(Observable o){
-        if(!(o instanceof GameData)){
+        /*if(!(o instanceof GameData)){
             return;
+        }*/
+        if(o instanceof  GameData){
+            GameData game = (GameData) o;
+            if(game.getGamePhase()==Phase.CARDEXCHANGE){
+                currentPhase = game.getGamePhase();
+                phaseText.setText("Reinforcement");
+                playerText.setText(game.getActivePlayer().getPlayerName());
+                logText.setText(null);
+                logText.insert("Reinforcement armies before card exchange: " + Integer.toString(game.getActivePlayer().getOwnedArmies()) + "\n", 0);
+            } else if(game.getGamePhase()==Phase.REINFORCEMENT){
+                phaseText.setText("Reinforcement");
+                logText.insert("Final reinforcement armies gained: " + Integer.toString(game.getActivePlayer().getOwnedArmies()) + "\n", 0);
+            } else if(game.getGamePhase()==Phase.ATTACK){
+                phaseText.setText("Attack");
+                logText.setText(null);
+            } else if(game.getGamePhase()==Phase.FORTIFICATION){
+                phaseText.setText("Fortification");
+                logText.setText(null);
+            }
+        } else if(o instanceof Player) {
+            Player player = (GameData)
         }
-        GameData game = (GameData) o;
-        if(game.getGamePhase()==Phase.CARDEXCHANGE){
-            currentPhase = game.getGamePhase();
-            phaseText.setText("Reinforcement");
-            playerText.setText(game.getActivePlayer().getPlayerName());
-            logText.setText(null);
-            logText.insert("Reinforcement armies before card exchange: " + Integer.toString(game.getActivePlayer().getOwnedArmies()) + "\n", 0);
-        } else if(game.getGamePhase()==Phase.REINFORCEMENT){
-            phaseText.setText("Reinforcement");
-            logText.insert("Final reinforcement armies gained: " + Integer.toString(game.getActivePlayer().getOwnedArmies()) + "\n", 0);
-        } else if(game.getGamePhase()==Phase.ATTACK){
-            phaseText.setText("Attack");
-            logText.setText(null);
-        } else if(game.getGamePhase()==Phase.FORTIFICATION){
-            phaseText.setText("Fortification");
-            logText.setText(null);
-        }
+
     }
 
     public void update(String message){

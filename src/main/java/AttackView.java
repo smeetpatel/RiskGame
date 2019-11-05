@@ -1,6 +1,13 @@
 package main.java;
 
+/**
+ * Responsible for printing possible attack options for a player.
+ */
 public class AttackView {
+    /**
+     * Prints the countries with the continent it belongs to, neighbors of the country, and army strength for the argument player.
+     * @param player player in the attack phase.
+     */
     public void canAttack(Player player){
         System.out.format("%25s%25s%35s\n", "Continents", "Country", "Country's neighbors");
         System.out.format("%85s\n", "-------------------------------------------------------------------------------------------");

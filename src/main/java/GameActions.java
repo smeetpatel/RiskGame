@@ -504,16 +504,47 @@ public class GameActions extends Observable{
     /**
      * Checks if the argument number of dice can be rolled for attack from argument country.
      * @param game Represents the state of the game
-     * @param fromCountry Attacking country
+     * @param countryName Attacking country
      * @param numberOfDice Proposed number of dice rolls
      * @return true if attack is possible, else false.
      */
-    public boolean diceValid(GameData game, String fromCountry, int numberOfDice) {
-        Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
-        if(country.getNumberOfArmies()>numberOfDice){
-            return true;
+    public boolean diceValid(GameData game, String countryName, int numberOfDice, boolean attack) {
+        Country country = game.getMap().getCountries().get(countryName.toLowerCase());
+        if(attack){
+            if(country.getNumberOfArmies()>numberOfDice){
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            if(country.getNumberOfArmies()>=numberOfDice){
+                return true;
+            } else {
+                return false;
+            }
         }
+    }
+
+    /**
+     * Returns the owner of the country.
+     * @param game Represents the state of the game
+     * @param countryName Country whose owner is to be found
+     * @return Player owning the argument country, null if no player owns the country.
+     */
+    public Player getOwner(GameData game, String countryName) {
+        for(Player p : game.getPlayers()){
+            if(p.getOwnedCountries().containsKey(countryName.toLowerCase())){
+                return p;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Marks the end of the attack phase.
+     * @param game Represents the state of the game.
+     */
+    public void endAttack(GameData game) {
+        game.setGamePhase(Phase.FORTIFICATION);
     }
 }
