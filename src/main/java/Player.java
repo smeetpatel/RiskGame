@@ -206,10 +206,9 @@ public class Player extends Observable{
 	 * @param numberOfDice Number of dice attacker wishes to roll
 	 * @param defendDice Number of dice defender wishes to roll
 	 * @param defendingPlayer Player owning the defending country
-	 * @param allOut Indicates whether player wants to attack all out or not.
 	 * @return true if successful in conquering, else false.
 	 */
-	public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer, boolean allOut){
+	public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
 		Country attackingCountry = game.getMap().getCountries().get(countryFrom.toLowerCase());
 		Country defendingCountry = game.getMap().getCountries().get(countryTo.toLowerCase());
 		int[] attackerDiceRolls = new int[numberOfDice];
@@ -233,17 +232,19 @@ public class Player extends Observable{
 		for(int i=1; i<=defendDice; i++){
 			if(defenderDiceRolls[defenderDiceRolls.length-i]>=attackerDiceRolls[attackerDiceRolls.length-i]){
 				attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies()-1);
-				this.setOwnedArmies(this.ownedArmies-1);
+				//this.setOwnedArmies(this.ownedArmies-1);
+				notifyObservers(this.playerName + " lost 1 army at " + countryFrom + ".\n");
 			} else {
 				defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()-1);
-				defendingPlayer.setOwnedArmies(defendingPlayer.getOwnedArmies()-1);
+				//defendingPlayer.setOwnedArmies(defendingPlayer.getOwnedArmies()-1);
+				notifyObservers(defendingPlayer.getPlayerName() + " lost 1 army at " + countryTo + ".\n");
 			}
 			if(defendingCountry.getNumberOfArmies()==0){
 				this.ownedCountries.put(countryTo.toLowerCase(), defendingCountry);
 				defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
-				//TODO: update map controlled for both players
+				this.
+				notifyObservers(this.playerName + " conquered " + countryTo + ".\n");
 				return true;
-				//break;
 			}
 			if(i>=numberOfDice){
 				break;
@@ -284,11 +285,10 @@ public class Player extends Observable{
 		}
 		attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies()-numberOfArmies);
 		defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()+numberOfArmies);
-		//TODO: notify observers
+		notifyObservers(this.playerName + " moved " + numberOfArmies + " armies from " + fromCountry + " to " + toCountry + ".");
 		return true;
 	}
 
-	//TODO: Add fortification method
 	public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num)
 	{
 		MapValidation mv = new MapValidation();

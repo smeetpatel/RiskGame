@@ -30,23 +30,27 @@ public class Command {
     /**
      * Represents the 'Phase view'
      */
-    PhaseView phaseView;
+    public PhaseView phaseView;
 
     /**
      * Represents possible attack options for a player.
      */
-    AttackView attackView;
+    public AttackView attackView;
 
     /**
      * Represents the 'Player domination view'
      */
-    PlayerDominationView playerDominationView;
+    public PlayerDominationView playerDominationView;
 
     /**
      * Represents the 'Card exchange view'
      */
-    CardExchangeView cardExchangeView;
+    public CardExchangeView cardExchangeView;
 
+    /**
+     * Represents the state of the game when an attack is declared or carried out.
+     */
+    public AttackData attackData;
     /**
      * Initializes the variables and objects required to play the game and act on user commands.
      */
@@ -55,6 +59,7 @@ public class Command {
         mapView = new MapView();
         attackView = new AttackView();
         gameAction = new GameActions();
+        attackData = new AttackData();
     }
 
     /**
@@ -91,7 +96,6 @@ public class Command {
         int controlValue = 0;
         int numberOfArmies = 0;
         int armiesToFortify = 0;
-        int numberOfDice = 0;
 
         String mapName = null;
         String continentName = null;
@@ -102,11 +106,6 @@ public class Command {
         String toCountry = null;
         String[] data = newCommand.split("\\s+");
         String commandName = data[0];
-
-        boolean isAttackAllOut = false;
-        boolean attackCommandExecuted = false;
-        boolean canAttack = false;
-        boolean attackSuccess = false;
 
         if (game.getGamePhase().equals(Phase.NULL)) {
             switch (commandName) {
@@ -611,33 +610,31 @@ public class Command {
                 case "attack":
                     try{
                         if(data[1].equals("-noattack")){
-                            if(!attackSuccess){
+                            if(!attackData.getSendConqueringTroops()){
                                 gameAction.endAttack(game);
                                 System.out.println("Player do not want to perform attack");
                             } else {
                                 System.out.println("Must move army to just conquered country first. Use 'attackmove num' command.");
                             }
                         }else if(data.length == 4){
-                            if(!attackSuccess){
+                            if(!attackData.getSendConqueringTroops()){
                                 if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null)){
                                     if(this.isAlpha(data[1]) && this.isAlpha(data[2]) && data[3].matches("[1-3]")){
-                                        fromCountry = data[1];
-                                        toCountry = data[2];
-                                        numberOfDice = Integer.parseInt(data[3]);
-                                        attackCommandExecuted = true;
-                                        canAttack = false;
-                                        if(gameAction.areNeighbors(game, fromCountry, toCountry)){
-                                            if(gameAction.hasEnoughArmies(game, fromCountry)){
-                                                if(gameAction.diceValid(game, fromCountry, numberOfDice, true)){
-                                                    canAttack = true;
+                                        attackData.setFromCountry(data[1]);
+                                        attackData.setToCountry(data[2]);
+                                        attackData.setNumberOfDice(Integer.parseInt(data[3]));
+                                        if(gameAction.areNeighbors(game, attackData.getFromCountry(), attackData.getToCountry())){
+                                            if(gameAction.hasEnoughArmies(game, attackData.getFromCountry())){
+                                                if(gameAction.diceValid(game, attackData.getFromCountry(), attackData.getNumberOfDice(), true)){
+                                                    attackData.setCanAttack(true);
                                                 } else {
-                                                    System.out.println(numberOfDice + " dice rolls not possible for attack from " + fromCountry);
+                                                    System.out.println(attackData.getNumberOfDice() + " dice rolls not possible for attack from " + attackData.getFromCountry());
                                                 }
                                             } else {
-                                                System.out.println(fromCountry + " does not have enough armies to attack. Attack not possible.");
+                                                System.out.println(attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.");
                                             }
                                         } else {
-                                            System.out.println(fromCountry + " and " + toCountry + " are not neighbors. Attack not possible.");
+                                            System.out.println(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors. Attack not possible.");
                                         }
                                     }
                                 } else {
@@ -649,27 +646,42 @@ public class Command {
                             }
 
                         }else if(data.length == 5){
-                            if(!attackSuccess){
+                            if(!attackData.getSendConqueringTroops()){
                                 if(!(data[1] == null) && !(data[2] == null) && !(data[3] == null) && !(data[4] == null)){
                                     if(this.isAlpha(data[1]) && this.isAlpha(data[2]) && data[3].matches("[1-3]") && data[4].equals("-allout")){
-                                        fromCountry = data[1];
-                                        toCountry = data[2];
-                                        numberOfDice = Integer.parseInt(data[3]);
-                                        isAttackAllOut = true;
-                                        attackCommandExecuted = true;
-                                        canAttack = false;
-                                        if(gameAction.areNeighbors(game, fromCountry, toCountry)){
-                                            if(gameAction.hasEnoughArmies(game, fromCountry)){
-                                                if(gameAction.diceValid(game, fromCountry, numberOfDice)){
-                                                    canAttack = true;
+                                        attackData.setFromCountry(data[1]);
+                                        attackData.setToCountry(data[2]);
+                                        attackData.setNumberOfDice(Integer.parseInt(data[3]));
+                                        if(gameAction.areNeighbors(game, attackData.getFromCountry(), attackData.getToCountry())){
+                                            if(gameAction.hasEnoughArmies(game, attackData.getFromCountry())){
+                                                if(gameAction.diceValid(game, attackData.getFromCountry(), attackData.getNumberOfDice(), true)){
+                                                    Player p = gameAction.getOwner(game, attackData.getToCountry());
+                                                    do{
+                                                        attackData.setNumberOfDice(gameAction.getMaxDiceRolls(game, attackData.getFromCountry(), "attacker"));
+                                                        int defendDice = gameAction.getMaxDiceRolls(game, attackData.getFromCountry(), "defender");
+                                                        if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
+                                                            System.out.println(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
+                                                            attackData.setSendConqueringTroops(true);
+                                                        } else {
+                                                            if(player.isAttackPossible()){
+                                                                attackView.canAttack(player);
+                                                            } else {
+                                                                gameAction.endAttack(game);
+                                                            }
+                                                        }
+                                                    } while(!attackData.getSendConqueringTroops() && gameAction.getMaxDiceRolls(game, attackData.getFromCountry(), "attacker")!=0);
+                                                    if(attackData.getSendConqueringTroops()){
+                                                        gameAction.calculateMapControlled(game, player);
+                                                        gameAction.calculateMapControlled(game, p);
+                                                    }
                                                 } else {
-                                                    System.out.println(numberOfDice + " dice rolls not possible for attack from " + fromCountry);
+                                                    System.out.println(attackData.getNumberOfDice() + " dice rolls not possible for attack from " + attackData.getFromCountry());
                                                 }
                                             } else {
-                                                System.out.println(fromCountry + " does not have enough armies to attack. Attack not possible.");
+                                                System.out.println(attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.");
                                             }
                                         } else {
-                                            System.out.println(fromCountry + " and " + toCountry + " are not neighbors. Attack not possible.");
+                                            System.out.println(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors. Attack not possible.");
                                         }
                                     } else{
                                         System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
@@ -688,29 +700,33 @@ public class Command {
                                     " or 'attack -noattack'");
                         }
                     }catch (ArrayIndexOutOfBoundsException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
                                 " or 'attack -noattack'");
                     } catch (NumberFormatException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
                                 " or 'attack -noattack'");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
                                 " or 'attack -noattack'");
                     }
                     break;
                 case "defend":
                     try {
-                        if(!attackSuccess){
-                            if(attackCommandExecuted) {
+                        if(!attackData.getSendConqueringTroops()){
+                            if(attackData.getCanAttack()) {
                                 if (!(data[1] == null)) {
                                     if (data[1].matches("[1-2]")) {
-                                        Player p = gameAction.getOwner(game, toCountry);
+                                        Player p = gameAction.getOwner(game, attackData.getToCountry());
                                         int defendDice = Integer.parseInt(data[1]);
-                                        if(gameAction.diceValid(game, toCountry, defendDice, false)) {
-                                            if(player.attack(game, fromCountry, toCountry, numberOfDice, defendDice, p, isAttackAllOut)){
-                                                System.out.println(player.getPlayerName() + " has successfully conquered " + toCountry);
-                                                attackSuccess = true;
-                                                attackCommandExecuted = false; //after attack
+                                        if(gameAction.diceValid(game, attackData.getToCountry(), defendDice, false)) {
+                                            if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
+                                                System.out.println(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
+                                                gameAction.calculateMapControlled(game, player);
+                                                gameAction.calculateMapControlled(game, p);
+                                                attackData.setSendConqueringTroops(true);
                                             } else {
                                                 if(player.isAttackPossible()){
                                                     attackView.canAttack(player);
@@ -718,6 +734,7 @@ public class Command {
                                                     gameAction.endAttack(game);
                                                 }
                                             }
+                                            attackData.setCanAttack(false);
                                         } else {
                                             System.out.println(p.getPlayerName() + " does not have enough armies to roll dice " + defendDice + " times.");
                                             if(player.isAttackPossible()){
@@ -737,29 +754,32 @@ public class Command {
                             System.out.println("Must move army to just conquered country first. Use 'attackmove num' command.");
                         }
                     }catch (ArrayIndexOutOfBoundsException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'defend numdice'. ");
                     } catch (NumberFormatException e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'defend numdice'.");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         System.out.println("Invalid command - it should be of the form 'defend numdice'.");
                     }
                     break;
 
                 case "attackmove":
                     try{
-                        if(attackSuccess){
+                        if(attackData.getSendConqueringTroops()){
                             if(!(data[1] == null)){
                                 if(data[1].matches("[0-9]+")){
                                     numberOfArmies = Integer.parseInt(data[1]);
-                                    if(player.moveArmy(game, fromCountry, toCountry, numberOfDice, numberOfArmies)){
-                                        attackSuccess = false;
+                                    if(player.moveArmy(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), numberOfArmies)){
+                                        attackData.setSendConqueringTroops(false);
                                         if(player.isAttackPossible()){
                                             attackView.canAttack(player);
                                         } else {
                                             gameAction.endAttack(game);
                                         }
                                     } else {
-                                        System.out.println("Move at least " + numberOfDice + " armies to " + toCountry);
+                                        System.out.println("Move at least " + attackData.getNumberOfDice() + " armies to " + attackData.getToCountry());
                                     }
                                 }else {
                                     System.out.println("Enter valid number of armies");
@@ -777,13 +797,14 @@ public class Command {
                     } catch (Exception e) {
                         System.out.println("Invalid command - it should be of the form 'attackmove num'.");
                     }
+                    break;
 
                 case "showmap":
                     mapView.showMap(game.getMap(), game.getPlayers());
                     break;
 
                 default:
-                    System.out.println("Invalid command - either use attack/defend/showmap command.");
+                    System.out.println("Invalid command - either use attack/defend/attackmove/showmap command.");
                     break;
             }
         } else if (game.getGamePhase().equals(Phase.FORTIFICATION)) {

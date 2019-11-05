@@ -479,7 +479,7 @@ public class GameActions extends Observable{
      */
     public boolean areNeighbors(GameData game, String fromCountry, String toCountry) {
         Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
-        if(country.getNeighbours().containsKey(toCountry.toLowerCase()) {
+        if(country.getNeighbours().containsKey(toCountry.toLowerCase())) {
             return true;
         } else {
             return false;
@@ -546,5 +546,27 @@ public class GameActions extends Observable{
      */
     public void endAttack(GameData game) {
         game.setGamePhase(Phase.FORTIFICATION);
+    }
+
+    int getMaxDiceRolls(GameData game, String fromCountry, String role){
+        Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
+        if(role.equals("attacker")){
+            if(country.getNumberOfArmies()>=4){
+                return 3;
+            } else if (country.getNumberOfArmies()>=3) {
+                return 2;
+            } else  if(country.getNumberOfArmies() >= 2){
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            if(country.getNumberOfArmies()>=2) {
+                return 2;
+            } else {
+                return 1;
+            }
+        }
+
     }
 }
