@@ -60,7 +60,6 @@ public class GameMap {
 		this.continents = new HashMap<String, Continent>();
 		this.countries = new HashMap<String, Country>();
 		this.valid = false;
-
 	}
 
 	/**

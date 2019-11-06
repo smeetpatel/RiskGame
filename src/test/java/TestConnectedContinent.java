@@ -1,7 +1,7 @@
 package test.java;
 
-import main.java.GameMap;
-import main.java.MapValidation;
+import main.java.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,8 +10,20 @@ import org.junit.Test;
  *
  */
 public class TestConnectedContinent {
+    /**
+     * Helps access methods of MapValidation class.
+     */
     MapValidation mvr;
-    GameMap map;
+
+    /**
+     * To help load the map.
+     */
+    GameActions gameActions;
+
+    /**
+     * Represents the state of the game.
+     */
+    GameData game;
 
     /**
      * Set up the context
@@ -19,16 +31,29 @@ public class TestConnectedContinent {
     @Before
     public void before(){
         mvr = new MapValidation();
-        map = new GameMap("world.map");
+        gameActions = new GameActions();
+        game = new GameData();
     }
 
     /**
-     * Test if tests are rightly identified or not
+     * Tests if correctly identifies connected continents to be connected sub-graph or not.
      */
     @Test
-    public void testConnectedContinent(){
-        /*map = rcmd.editMap("world.map");
-        boolean check = mvr.continentConnectivityCheck(map);
-        assertEquals(true,check);*/
+    public void testConnectedContinent1(){
+        gameActions.loadMap(game, "world.map");
+        boolean check = mvr.continentConnectivityCheck(game.getMap());
+        Assert.assertEquals(true,check);
+    }
+
+    /**
+     * Tests if correctly identifies unconnected continents to be unconnected sub-graph or not.
+     */
+    @Test
+    public void testConnectedContinent2(){
+        gameActions.loadMap(game, "world.map");
+        Country country = new Country("dummy", "Asia");
+        game.getMap().getContinents().get("asia").getCountries().put("dummy", country);
+        boolean check = mvr.continentConnectivityCheck(game.getMap());
+        Assert.assertEquals(false,check);
     }
 }
