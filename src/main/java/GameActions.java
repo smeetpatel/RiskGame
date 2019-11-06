@@ -57,8 +57,8 @@ public class GameActions extends Observable{
             game.setMap(map);
 
             // Creation of Deck.
-            ArrayList<Country> countries = new ArrayList<>(map.getCountries().values());
-            Deck deck = new Deck(countries);
+            //ArrayList<Country> countries = new ArrayList<>(map.getCountries().values());
+            //Deck deck = new Deck(countries);
             if (validateMap(map) == MapValidityStatus.VALIDMAP) {
                 map.setValid(true);
                 game.setGamePhase(Phase.STARTUP);
@@ -166,7 +166,6 @@ public class GameActions extends Observable{
     public MapValidityStatus validateMap(GameMap map) {
         MapValidation mv = new MapValidation();
         if (!mv.notEmptyContinent(map)) {
-
             return MapValidityStatus.EMPTYCONTINENT;
         } else if (!mv.isGraphConnected(mv.createGraph(map))) {
 
@@ -588,5 +587,13 @@ public class GameActions extends Observable{
      */
     public void setAttackCardExchange(GameData game) {
         game.setGamePhase(Phase.ATTACKCARDEXCHANGE);
+    }
+
+    public boolean continueCardExchange(GameData game, Player player) {
+        if(player.getOwnedCards().size()>4) {
+            return true;
+        }
+        game.setGamePhase(Phase.ATTACK);
+        return false;
     }
 }

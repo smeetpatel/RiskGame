@@ -136,6 +136,7 @@ public class Player extends Observable{
 	public void setOwnedCards(Card card){
 		this.ownedCards.add(card);
 		//TODO: Notify observers of the cards removed
+		notifyObservers(this);
 	}
 
 	/**
@@ -145,6 +146,7 @@ public class Player extends Observable{
 	public void removeOwnedCards(Card card){
 		this.ownedCards.remove(card);
 		//TODO: Notify observers of the cards added
+		notifyObservers(this);
 	}
 
 	/**
@@ -217,7 +219,8 @@ public class Player extends Observable{
 		Country defendingCountry = game.getMap().getCountries().get(countryTo.toLowerCase());
 		int[] attackerDiceRolls = new int[numberOfDice];
 		int[] defenderDiceRolls = new int[defendDice];
-
+		int attackerArmiesLost = 0;
+		int defenderArmiesLost = 0;
 		//roll the dices
 		for(int i = 0; i<numberOfDice; i++){
 			int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
@@ -236,14 +239,19 @@ public class Player extends Observable{
 		for(int i=1; i<=defendDice; i++){
 			if(defenderDiceRolls[defenderDiceRolls.length-i]>=attackerDiceRolls[attackerDiceRolls.length-i]){
 				attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies()-1);
-				//this.setOwnedArmies(this.ownedArmies-1);
-				notifyObservers(this.playerName + " lost 1 army at " + countryFrom + ".\n");
+				attackerArmiesLost++;
 			} else {
 				defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()-1);
-				//defendingPlayer.setOwnedArmies(defendingPlayer.getOwnedArmies()-1);
+				defenderArmiesLost++;
 				notifyObservers(defendingPlayer.getPlayerName() + " lost 1 army at " + countryTo + ".\n");
 			}
 			if(defendingCountry.getNumberOfArmies()==0){
+				if(attackerArmiesLost>0){
+					notifyObservers(this.playerName + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
+				}
+				if(defenderArmiesLost>0){
+					notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
+				}
 				this.ownedCountries.put(countryTo.toLowerCase(), defendingCountry);
 				defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
 				notifyObservers(this.playerName + " conquered " + countryTo + ".\n");
@@ -255,6 +263,12 @@ public class Player extends Observable{
 			if(i>=numberOfDice){
 				break;
 			}
+		}
+		if(attackerArmiesLost>0){
+			notifyObservers(this.playerName + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
+		}
+		if(defenderArmiesLost>0){
+			notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
 		}
 		return false;
 	}
@@ -342,5 +356,49 @@ public class Player extends Observable{
 	public void fortify(GameData game){
 		notifyObservers(this.playerName + " decided to not fortify any country. " + this.playerName + "'s turn ends now.");
 		game.setGamePhase((Phase.TURNEND));
+	}
+
+	/**
+	 * Exchanges cards.
+	 */
+	public boolean cardExchange(GameData game, ArrayList<Integer> cardIndex) {
+		int numberOfArmies = 0;
+		if (cardIndex.get(0) != cardIndex.get(1) && cardIndex.get(1) != cardIndex.get(2) && cardIndex.get(2) != cardIndex.get(0)){
+			if ((this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(1) - 1).cardType) &&
+					this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType)) || (!this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(1) - 1).cardType) &&
+					!this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType) &&
+					!this.getOwnedCards().get(cardIndex.get(1) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType))) {
+
+				numberOfArmies = checkForOwnedCardCountry(cardIndex, numberOfArmies);
+				game.setCardsDealt(game.getCardsDealt()+1);
+				numberOfArmies += (game.getCardsDealt()*5);
+				this.setOwnedArmies(this.getOwnedArmies() + numberOfArmies);
+				for (int i = 0; i < cardIndex.size(); i++) {
+					game.getDeck().addCard(this.getOwnedCards().get(cardIndex.get(i) - 1));
+				}
+				for (int i = cardIndex.size() - 1; i >= 0; i--) {
+					this.removeOwnedCards(this.getOwnedCards().get(cardIndex.get(i) - 1));
+				}
+				game.setGamePhase(Phase.REINFORCEMENT);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public int checkForOwnedCardCountry(ArrayList<Integer> cardIndex, int numberOfArmies){
+		boolean countryFound = false;
+		for (int i = 0; i < 3; i++) {
+			if (!countryFound) {
+				Country country = this.getOwnedCards().get(cardIndex.get(i) - 1).cardCountry;
+				if(this.ownedCountries.containsKey(country.getCountryName().toLowerCase())){
+					return numberOfArmies+2;
+				}
+			}
+		}
+		return numberOfArmies;
 	}
 }

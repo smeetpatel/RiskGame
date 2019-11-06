@@ -34,6 +34,11 @@ public class GameData extends Observable{
     private Deck deck;
 
     /**
+     * Represents number of cards dealt.
+     */
+    private int cardsDealt;
+
+    /**
      * Constructor to initialize the game data.
      */
     public GameData(){
@@ -42,6 +47,7 @@ public class GameData extends Observable{
         players = new ArrayList<Player>();
         activePlayer = null;
         deck = new Deck();
+        cardsDealt = 0;
     }
 
     /**
@@ -133,6 +139,14 @@ public class GameData extends Observable{
      */
     public void setDeck(Deck deck) {
         this.deck = deck;
+    }
+
+    public int getCardsDealt() {
+        return cardsDealt;
+    }
+
+    public void setCardsDealt(int cardsDealt) {
+        this.cardsDealt = cardsDealt;
     }
 
     /**

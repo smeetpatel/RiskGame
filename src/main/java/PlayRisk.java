@@ -24,8 +24,6 @@ public class PlayRisk {
 		Player player;
 		PlayRisk game = new PlayRisk();
 		CardExchange ce = new CardExchange();
-		//GameData gameData = new GameData();
-
 
 		System.out.println("Welcome to Risk Game");
 		System.out.println("To continue, select a map from the below mentioned existing maps or create a new one.");
@@ -92,7 +90,7 @@ public class PlayRisk {
 			}
 			cmd.turnEndEvent();
 			traversalCounter++;
-			if (traversalCounter >= numberOfPlayers) {
+			if (traversalCounter >= cmd.game.getPlayers().size()) {
 				traversalCounter = 0;
 			}
 		}

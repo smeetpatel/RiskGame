@@ -43,11 +43,6 @@ public class Command {
     public PlayerDominationView playerDominationView;
 
     /**
-     * Helps access methods responsible for
-     */
-    CardExchange ce;
-
-    /**
      * Represents the 'Card exchange view'
      */
     public CardExchangeView cardExchangeView;
@@ -64,7 +59,6 @@ public class Command {
         mapView = new MapView();
         attackView = new AttackView();
         gameAction = new GameActions();
-        ce = new CardExchange();
         attackData = new AttackData();
     }
 
@@ -540,13 +534,12 @@ public class Command {
                                         cardIndex.add(secondCard);
                                         cardIndex.add(thirdCard);
                                         Collections.sort(cardIndex);
-                                        boolean check = ce.cardTradeIn(game, player, cardIndex);
-                                        if (check) {
-                                            System.out.println("Card Exchange successfully occured");
+                                        if(player.cardExchange(game, cardIndex)){
+                                            System.out.println("Card Exchange successfully occurred");
                                         } else {
-                                            System.out.println("Failure of Card Exchange");
+                                            System.out.println("Invalid exchange command.");
                                         }
-                                    }else {
+                                    } else {
                                         System.out.println("Index number of card is wrong");
                                     }
                                 }
@@ -855,12 +848,18 @@ public class Command {
                                     cardIndex.add(secondCard);
                                     cardIndex.add(thirdCard);
                                     Collections.sort(cardIndex);
-                                    boolean check = ce.cardTradeIn(game, player, cardIndex);
-                                    if (check) {
+                                    if(player.cardExchange(game, cardIndex)){
                                         System.out.println("Card Exchange successfully occurred");
-                                        gameAction.continueCardExchange()
+                                        if(!gameAction.continueCardExchange(game, player)) {
+                                            System.out.println("Required card exchange completed. Continue with attack phase. First, move armies to conquered armies.");
+                                            player.detach(cardExchangeView);
+                                            cardExchangeView.setVisible(false);
+                                            cardExchangeView.dispose();
+                                        } else {
+                                            System.out.println("You still need to exchange cards till you have four or lesser number of cards.");
+                                        }
                                     } else {
-                                        System.out.println("Failure of Card Exchange");
+                                        System.out.println("Invalid exchange command.");
                                     }
                                 }else {
                                     System.out.println("Index number of card is wrong");
@@ -879,7 +878,6 @@ public class Command {
                     System.out.println("Invalid command - use 'exchangecards num num num' command only.");
                     break;
             }
-
         } else if (game.getGamePhase().equals(Phase.FORTIFICATION)) {
             switch (commandName) {
                 case "fortify":
