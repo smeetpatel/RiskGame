@@ -21,6 +21,7 @@ public class TestContinent {
 
     /**
      * Set up the context
+     * Initialize the objects and parameters
      */
     @Before
     public void before(){
@@ -32,6 +33,7 @@ public class TestContinent {
 
     /**
      * Test if tests are rightly identified or not
+     * This test method checks that given continent is present in given graph or not for remove
      */
     @Test
     public void testContinent(){

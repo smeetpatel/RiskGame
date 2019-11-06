@@ -14,7 +14,7 @@ public class TestConnectedContinent {
      * Helps access methods of MapValidation class.
      */
     MapValidation mvr;
-
+  
     /**
      * To help load the map.
      */
@@ -27,6 +27,7 @@ public class TestConnectedContinent {
 
     /**
      * Set up the context
+     * Initialize the objects
      */
     @Before
     public void before(){

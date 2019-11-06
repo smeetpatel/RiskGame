@@ -243,6 +243,10 @@ public class GameActions extends Observable{
         return true;
     }
 
+    /**
+     * This method places initially one army to each country owned by the player
+     * @param players List of player
+     */
     public void placeInitialArmies(ArrayList<Player> players) {
         for (Player player : players) {
             if (player.getOwnedArmies() > 0) {

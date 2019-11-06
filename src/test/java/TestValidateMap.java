@@ -39,7 +39,7 @@ public class TestValidateMap {
     public void testValidateMap() {
 
         map = new GameMap("createdMap.map");
-        gameActions.loadMap(game, "luca.map");
+        //gameActions.loadMap(game, "luca.map");
         mapValidityStatus = gameActions.validateMap(map);
         Assert.assertEquals(MapValidityStatus.VALIDMAP, mapValidityStatus);
 

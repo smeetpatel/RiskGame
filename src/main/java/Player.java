@@ -315,6 +315,7 @@ public class Player extends Observable{
 		{
 			if(this.ownedCountries.containsKey(toCountry.toLowerCase()))
 			{
+				System.out.println(this.ownedCountries.get(fromCountry.toLowerCase()).getNumberOfArmies());
 				if((this.ownedCountries.get(fromCountry.toLowerCase()).getNumberOfArmies()- num)>=1)
 				{
 					if(mv.fortificationConnectivityCheck(this, fromCountry, toCountry))

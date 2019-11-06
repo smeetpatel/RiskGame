@@ -23,6 +23,7 @@ public class TestEditMap {
 
     /**
      * Test if tests are rightly identified or not
+     * This test method checks that edit map method
      */
     @Test
     public void testEditMap(){
