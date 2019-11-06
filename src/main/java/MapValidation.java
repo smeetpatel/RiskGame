@@ -71,7 +71,7 @@ public class MapValidation {
 		
 		//add Edges based on neighbors of each countries
 		for(Country country : map.getCountries().values()) {
-			for(Country neighbor : map.getCountries().values()) {
+			for(Country neighbor : country.getNeighbours().values()) {
 				mapGraph.addEdge(country, neighbor);
 			}
 		}

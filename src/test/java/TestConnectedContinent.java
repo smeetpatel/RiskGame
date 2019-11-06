@@ -10,10 +10,20 @@ import org.junit.Test;
  *
  */
 public class TestConnectedContinent {
+    /**
+     * Helps access methods of MapValidation class.
+     */
     MapValidation mvr;
-    GameMap map;
-    GameData game;
+  
+    /**
+     * To help load the map.
+     */
     GameActions gameActions;
+
+    /**
+     * Represents the state of the game.
+     */
+    GameData game;
 
     /**
      * Set up the context
@@ -22,19 +32,29 @@ public class TestConnectedContinent {
     @Before
     public void before(){
         mvr = new MapValidation();
-        map = new GameMap("createdMap.map");
-        game = new GameData();
         gameActions = new GameActions();
+        game = new GameData();
     }
 
     /**
-     * This test method tests that continents are connected or not
+     * Tests if correctly identifies connected continents to be connected sub-graph or not.
      */
     @Test
-    public void testConnectedContinent(){
-        gameActions.editMap(game,"world.map");
-        boolean check = mvr.continentConnectivityCheck(map);
+    public void testConnectedContinent1(){
+        gameActions.loadMap(game, "world.map");
+        boolean check = mvr.continentConnectivityCheck(game.getMap());
         Assert.assertEquals(true,check);
+    }
 
+    /**
+     * Tests if correctly identifies unconnected continents to be unconnected sub-graph or not.
+     */
+    @Test
+    public void testConnectedContinent2(){
+        gameActions.loadMap(game, "world.map");
+        Country country = new Country("dummy", "Asia");
+        game.getMap().getContinents().get("asia").getCountries().put("dummy", country);
+        boolean check = mvr.continentConnectivityCheck(game.getMap());
+        Assert.assertEquals(false,check);
     }
 }

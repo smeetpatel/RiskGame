@@ -48,7 +48,7 @@ public class Continent {
 	 * @param continentName Name of the continent
 	 * @param controlValue Control value for this continent
 	 */
-	Continent(String continentName, int controlValue){
+	public Continent(String continentName, int controlValue){
 		this.continentName = continentName;
 		this.inMapIndex = LoadMap.inMapIndex;
 		this.controlValue = controlValue;
@@ -63,7 +63,7 @@ public class Continent {
 	 * @param controlValue Control value for this continent
 	 * @param colorCode Color code in case using GUI
 	 */
-	Continent(String continentName, String controlValue, String colorCode){
+	public Continent(String continentName, String controlValue, String colorCode){
 		this.continentName = continentName;
 		this.inMapIndex = LoadMap.inMapIndex;
 		this.controlValue = Integer.parseInt(controlValue);

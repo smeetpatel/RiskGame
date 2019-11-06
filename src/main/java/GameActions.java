@@ -168,7 +168,6 @@ public class GameActions extends Observable{
         if (!mv.notEmptyContinent(map)) {
             return MapValidityStatus.EMPTYCONTINENT;
         } else if (!mv.isGraphConnected(mv.createGraph(map))) {
-
             return MapValidityStatus.UNCONNECTEDGRAPH;
         } else if (!mv.continentConnectivityCheck(map)) {
             return MapValidityStatus.UNCONNECTEDCONTINENT;

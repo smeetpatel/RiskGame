@@ -1,7 +1,7 @@
 package test.java;
 
-import main.java.GameMap;
-import main.java.MapValidation;
+import main.java.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,27 +11,53 @@ import org.junit.Test;
  */
 public class TestConnectedMap {
 
+    /**
+     * Helps access methods of MapValidation class.
+     */
     MapValidation mvr;
-    GameMap map;
+
+    /**
+     * To help load the map.
+     */
+    GameActions gameActions;
+
+    /**
+     * Represents the state of the game.
+     */
+    GameData game;
 
     /**
      * Set up the context
      */
     @Before
     public void before(){
-        map = new GameMap("world.map");
         mvr = new MapValidation();
+        gameActions = new GameActions();
+        game = new GameData();
     }
 
     /**
-     * Test if tests are rightly identified or not
-     * This test method checks that given map is connected graph or not
+     * Tests if correctly identifies valid map or not.
+     */
+    @Test
+    public void testConnectedMap1(){
+        gameActions.loadMap(game, "world.map");
+        boolean check = mvr.isGraphConnected(mvr.createGraph(game.getMap()));
+        Assert.assertEquals(true,check);
+    }
+
+    /**
+     * Tests if correctly identifies invalid map or not.
      */
     @Test
     public void testConnectedMap(){
-        /*map = rcmd.editMap("world.map");
-        //boolean check = rcmd.saveMap(map,"naee.map");
-        boolean check = mvr.isGraphConnected(mvr.createGraph(map));
-        assertEquals(true,check);*/
+        gameActions.loadMap(game, "world.map");
+        Continent continent = new Continent("dummy", "9", "000");
+        game.getMap().getContinents().put("dummy", continent);
+        Country country = new Country("dummysecond", "dummy");
+        game.getMap().getContinents().get("dummy").getCountries().put("dummysecond", country);
+        game.getMap().getCountries().put("dummysecond", country);
+        boolean check = mvr.isGraphConnected(mvr.createGraph(game.getMap()));
+        Assert.assertEquals(false,check);
     }
 }
