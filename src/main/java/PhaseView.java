@@ -106,6 +106,7 @@ public class PhaseView extends JFrame implements Observer{
     }
 
     public void update(String message){
+
         logText.insert(message, 0);
     }
 }

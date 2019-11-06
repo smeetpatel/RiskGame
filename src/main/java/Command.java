@@ -469,11 +469,14 @@ public class Command {
                                     }
                                 }
                                 if(gameAction.isAllArmyPlaced(game)) {
-                                    PhaseView phaseView = new PhaseView();
+                                    phaseView = new PhaseView();
                                     phaseView.setVisible(true);
                                     phaseView.setSize(600, 600);
                                     phaseView.setDefaultCloseOperation(3);
-                                    player.attach(phaseView);
+                                    for(Player p : game.getPlayers()){
+                                        p.attach(phaseView);
+                                    }
+                                    //player.attach(phaseView);
                                     game.attach(phaseView);
                                 }
                             } else
@@ -489,11 +492,13 @@ public class Command {
                 case "placeall":
                     if (gameAction.placeAll(game)) {
                         System.out.println("Armies placed successfully");
-                        PhaseView phaseView = new PhaseView();
+                        phaseView = new PhaseView();
                         phaseView.setVisible(true);
                         phaseView.setSize(600, 600);
                         phaseView.setDefaultCloseOperation(3);
-                        player.attach(phaseView);
+                        for(Player p : game.getPlayers()){
+                            p.attach(phaseView);
+                        }
                         game.attach(phaseView);
                     }
 
@@ -662,7 +667,15 @@ public class Command {
                                                         int defendDice = gameAction.getMaxDiceRolls(game, attackData.getFromCountry(), "defender");
                                                         if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
                                                             System.out.println(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
+                                                            if(player.getOwnedCountries().size()==game.getMap().getCountries().size()){
+                                                                gameAction.endGame(game);
+                                                                return game.getGamePhase();
+                                                            }
+                                                            gameAction.checkContinentOwnership(game, player);
+                                                            //move troops to newly conquered country
                                                             attackData.setSendConqueringTroops(true);
+                                                            attackData.setTerritoriesConquered(attackData.getTerritoriesConquered()+1);
+                                                            //get cards
                                                             if(p.getOwnedCountries().size()==0){
                                                                 gameAction.getAllCards(player, p);
                                                                 game.removePlayer(p);
@@ -737,8 +750,14 @@ public class Command {
                                         if(gameAction.diceValid(game, attackData.getToCountry(), defendDice, false)) {
                                             if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
                                                 System.out.println(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
+                                                if(player.getOwnedCountries().size()==game.getMap().getCountries().size()){
+                                                    gameAction.endGame(game);
+                                                    return game.getGamePhase();
+                                                }
                                                 gameAction.calculateMapControlled(game, player);
                                                 gameAction.calculateMapControlled(game, p);
+                                                gameAction.checkContinentOwnership(game, player);
+                                                attackData.setTerritoriesConquered(attackData.getTerritoriesConquered()+1);
                                                 attackData.setSendConqueringTroops(true);
                                                 if(p.getOwnedCountries().size()==0){
                                                     gameAction.getAllCards(player, p);

@@ -243,7 +243,6 @@ public class Player extends Observable{
 			} else {
 				defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()-1);
 				defenderArmiesLost++;
-				notifyObservers(defendingPlayer.getPlayerName() + " lost 1 army at " + countryTo + ".\n");
 			}
 			if(defendingCountry.getNumberOfArmies()==0){
 				if(attackerArmiesLost>0){
