@@ -43,11 +43,6 @@ public class Command {
     public PlayerDominationView playerDominationView;
 
     /**
-     * Helps access methods responsible for
-     */
-    CardExchange ce;
-
-    /**
      * Represents the 'Card exchange view'
      */
     public CardExchangeView cardExchangeView;
@@ -64,7 +59,6 @@ public class Command {
         mapView = new MapView();
         attackView = new AttackView();
         gameAction = new GameActions();
-        ce = new CardExchange();
         attackData = new AttackData();
     }
 
@@ -475,11 +469,14 @@ public class Command {
                                     }
                                 }
                                 if(gameAction.isAllArmyPlaced(game)) {
-                                    PhaseView phaseView = new PhaseView();
+                                    phaseView = new PhaseView();
                                     phaseView.setVisible(true);
                                     phaseView.setSize(600, 600);
                                     phaseView.setDefaultCloseOperation(3);
-                                    player.attach(phaseView);
+                                    for(Player p : game.getPlayers()){
+                                        p.attach(phaseView);
+                                    }
+                                    //player.attach(phaseView);
                                     game.attach(phaseView);
                                 }
                             } else
@@ -495,11 +492,13 @@ public class Command {
                 case "placeall":
                     if (gameAction.placeAll(game)) {
                         System.out.println("Armies placed successfully");
-                        PhaseView phaseView = new PhaseView();
+                        phaseView = new PhaseView();
                         phaseView.setVisible(true);
                         phaseView.setSize(600, 600);
                         phaseView.setDefaultCloseOperation(3);
-                        player.attach(phaseView);
+                        for(Player p : game.getPlayers()){
+                            p.attach(phaseView);
+                        }
                         game.attach(phaseView);
                     }
 
@@ -540,13 +539,12 @@ public class Command {
                                         cardIndex.add(secondCard);
                                         cardIndex.add(thirdCard);
                                         Collections.sort(cardIndex);
-                                        boolean check = ce.cardTradeIn(game, player, cardIndex);
-                                        if (check) {
-                                            System.out.println("Card Exchange successfully occured");
+                                        if(player.cardExchange(game, cardIndex)){
+                                            System.out.println("Card Exchange successfully occurred");
                                         } else {
-                                            System.out.println("Failure of Card Exchange");
+                                            System.out.println("Invalid exchange command.");
                                         }
-                                    }else {
+                                    } else {
                                         System.out.println("Index number of card is wrong");
                                     }
                                 }
@@ -669,7 +667,15 @@ public class Command {
                                                         int defendDice = gameAction.getMaxDiceRolls(game, attackData.getFromCountry(), "defender");
                                                         if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
                                                             System.out.println(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
+                                                            if(player.getOwnedCountries().size()==game.getMap().getCountries().size()){
+                                                                gameAction.endGame(game);
+                                                                return game.getGamePhase();
+                                                            }
+                                                            gameAction.checkContinentOwnership(game, player);
+                                                            //move troops to newly conquered country
                                                             attackData.setSendConqueringTroops(true);
+                                                            attackData.setTerritoriesConquered(attackData.getTerritoriesConquered()+1);
+                                                            //get cards
                                                             if(p.getOwnedCountries().size()==0){
                                                                 gameAction.getAllCards(player, p);
                                                                 game.removePlayer(p);
@@ -744,8 +750,14 @@ public class Command {
                                         if(gameAction.diceValid(game, attackData.getToCountry(), defendDice, false)) {
                                             if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
                                                 System.out.println(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
+                                                if(player.getOwnedCountries().size()==game.getMap().getCountries().size()){
+                                                    gameAction.endGame(game);
+                                                    return game.getGamePhase();
+                                                }
                                                 gameAction.calculateMapControlled(game, player);
                                                 gameAction.calculateMapControlled(game, p);
+                                                gameAction.checkContinentOwnership(game, player);
+                                                attackData.setTerritoriesConquered(attackData.getTerritoriesConquered()+1);
                                                 attackData.setSendConqueringTroops(true);
                                                 if(p.getOwnedCountries().size()==0){
                                                     gameAction.getAllCards(player, p);
@@ -855,12 +867,18 @@ public class Command {
                                     cardIndex.add(secondCard);
                                     cardIndex.add(thirdCard);
                                     Collections.sort(cardIndex);
-                                    boolean check = ce.cardTradeIn(game, player, cardIndex);
-                                    if (check) {
+                                    if(player.cardExchange(game, cardIndex)){
                                         System.out.println("Card Exchange successfully occurred");
-                                        gameAction.continueCardExchange()
+                                        if(!gameAction.continueCardExchange(game, player)) {
+                                            System.out.println("Required card exchange completed. Continue with attack phase. First, move armies to conquered armies.");
+                                            player.detach(cardExchangeView);
+                                            cardExchangeView.setVisible(false);
+                                            cardExchangeView.dispose();
+                                        } else {
+                                            System.out.println("You still need to exchange cards till you have four or lesser number of cards.");
+                                        }
                                     } else {
-                                        System.out.println("Failure of Card Exchange");
+                                        System.out.println("Invalid exchange command.");
                                     }
                                 }else {
                                     System.out.println("Index number of card is wrong");
@@ -879,7 +897,6 @@ public class Command {
                     System.out.println("Invalid command - use 'exchangecards num num num' command only.");
                     break;
             }
-
         } else if (game.getGamePhase().equals(Phase.FORTIFICATION)) {
             switch (commandName) {
                 case "fortify":

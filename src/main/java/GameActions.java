@@ -47,7 +47,7 @@ public class GameActions extends Observable{
      */
     public boolean loadMap(GameData game, String mapName) {
         //check if file exists
-        String filePath = "maps/" + mapName;
+        String filePath = "src/main/resources/maps/" + mapName;
         GameMap map;
         File f = new File(filePath);
         if (f.exists()) {
@@ -57,8 +57,8 @@ public class GameActions extends Observable{
             game.setMap(map);
 
             // Creation of Deck.
-            ArrayList<Country> countries = new ArrayList<>(map.getCountries().values());
-            Deck deck = new Deck(countries);
+            //ArrayList<Country> countries = new ArrayList<>(map.getCountries().values());
+            //Deck deck = new Deck(countries);
             if (validateMap(map) == MapValidityStatus.VALIDMAP) {
                 map.setValid(true);
                 game.setGamePhase(Phase.STARTUP);
@@ -166,7 +166,6 @@ public class GameActions extends Observable{
     public MapValidityStatus validateMap(GameMap map) {
         MapValidation mv = new MapValidation();
         if (!mv.notEmptyContinent(map)) {
-
             return MapValidityStatus.EMPTYCONTINENT;
         } else if (!mv.isGraphConnected(mv.createGraph(map))) {
 
@@ -417,6 +416,11 @@ public class GameActions extends Observable{
             } else {
                 totalReinforcementArmies = (int) (player.getOwnedCountries().size() / 3);
             }
+        } else if(player.getOwnedContinents().size() > 0){
+            for (Continent c : player.getOwnedContinents().values()) {
+                totalControlValue += c.getControlValue();
+            }
+            totalReinforcementArmies = 3 + totalControlValue;
         } else {
             totalReinforcementArmies = 3;
         }
@@ -592,5 +596,39 @@ public class GameActions extends Observable{
      */
     public void setAttackCardExchange(GameData game) {
         game.setGamePhase(Phase.ATTACKCARDEXCHANGE);
+    }
+
+    public boolean continueCardExchange(GameData game, Player player) {
+        if(player.getOwnedCards().size()>4) {
+            return true;
+        }
+        game.setGamePhase(Phase.ATTACK);
+        return false;
+    }
+
+
+    public void endGame(GameData game) {
+        game.setGamePhase(Phase.QUIT);
+    }
+
+    /**
+     * Checks if player owns entire continent or not.
+     * @param game Represents the state of the game.
+     * @param player Argument player
+     */
+    public void checkContinentOwnership(GameData game, Player player) {
+        boolean addContinent = true;
+        for(Continent continent : game.getMap().getContinents().values()){
+            for(Country country : continent.getCountries().values()){
+                if(!player.getOwnedCountries().containsKey(country.getCountryName().toLowerCase())) {
+                    addContinent = false;
+                    break;
+                }
+            }
+            if(addContinent){
+                player.getOwnedContinents().put(continent.getContinentName().toLowerCase(), continent);
+            }
+            addContinent = true;
+        }
     }
 }

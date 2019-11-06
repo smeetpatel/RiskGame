@@ -23,9 +23,6 @@ public class PlayRisk {
 		Phase gamePhase;
 		Player player;
 		PlayRisk game = new PlayRisk();
-		CardExchange ce = new CardExchange();
-		//GameData gameData = new GameData();
-
 
 		System.out.println("Welcome to Risk Game");
 		System.out.println("To continue, select a map from the below mentioned existing maps or create a new one.");
@@ -57,6 +54,7 @@ public class PlayRisk {
         }
 
 		traversalCounter = 0;	//reset traversal counter
+		int index = 0;
 		while(true){
 			player = cmd.game.getPlayers().get(traversalCounter);
 			System.out.println(player.getPlayerName() + "'s turn");
@@ -65,12 +63,20 @@ public class PlayRisk {
 			while (player.getOwnedCards().size()>2) {
 				while (player.getOwnedCards().size() > 4) {
 					System.out.println("You have 5 cards or more, you have to exchange cards");
-					ce.printPlayersCards(player);
+					for(Card card : player.getOwnedCards()){
+						System.out.println(index + ". " + card.cardCountry + " - " + card.cardType);
+						index++;
+					}
+					index = 0;
 					command = read.nextLine();
 					gamePhase = cmd.parseCommand(player, command);
 				}
 				System.out.println("Would you like to exchange your card to get more armies?");
-				ce.printPlayersCards(player);
+				for(Card card : player.getOwnedCards()){
+					System.out.println(index + ". " + card.cardCountry + " - " + card.cardType);
+					index++;
+				}
+				index = 0;
 				command = read.nextLine();
 				gamePhase = cmd.parseCommand(player,command);
 			}
@@ -89,10 +95,14 @@ public class PlayRisk {
                 }
 				command = read.nextLine();
 				gamePhase = cmd.parseCommand(player, command);
+				if(gamePhase==Phase.QUIT){
+					System.out.println(player.getPlayerName() + " won the game.\n");
+					System.exit(0);
+				}
 			}
 			cmd.turnEndEvent();
 			traversalCounter++;
-			if (traversalCounter >= numberOfPlayers) {
+			if (traversalCounter >= cmd.game.getPlayers().size()) {
 				traversalCounter = 0;
 			}
 		}
