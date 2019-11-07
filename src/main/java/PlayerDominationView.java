@@ -3,6 +3,9 @@ package main.java;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Responsible for player domination view
+ */
 public class PlayerDominationView extends JFrame implements Observer{
     private JLabel playerNameLabel;
     private JLabel mapContolledLabel;
@@ -33,6 +36,9 @@ public class PlayerDominationView extends JFrame implements Observer{
     private JTextField player6ArmiesText;
     private JTextField player6ContinentsText;
 
+    /**
+     * Initialize the components for the player domination view
+     */
     public PlayerDominationView() {
         initComponents();
     }
@@ -242,6 +248,10 @@ public class PlayerDominationView extends JFrame implements Observer{
         setLocationRelativeTo(getOwner());
     }
 
+    /**
+     * notifies for the player domination view
+     * @param o Observable object
+     */
     public void update(Observable o){
         Player player = (Player) o;
         if(player.getPlayerName().equals(player1Text.getText()) || player1Text.getText().equals("")){

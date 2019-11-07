@@ -947,12 +947,19 @@ public class Command {
         return game.getGamePhase();
     }
 
+    /**
+     * Stores the player for the domination view
+     */
     private void attachToPlayers() {
         for(Player player : game.getPlayers()){
             player.attach(playerDominationView);
         }
     }
 
+    /**
+     * event occur when player's turn changed
+     * @param player object of player
+     */
     public void playerChangeEvent(Player player) {
         gameAction.assignReinforcementArmies(game, player);
         cardExchangeView = new CardExchangeView();
@@ -962,6 +969,9 @@ public class Command {
         gameAction.initializeCEV(player);
     }
 
+    /**
+     * method for turn end of player
+     */
     public void turnEndEvent() {
         gameAction.turnEnd(game);
     }

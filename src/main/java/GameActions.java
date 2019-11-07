@@ -597,6 +597,12 @@ public class GameActions extends Observable{
         game.setGamePhase(Phase.ATTACKCARDEXCHANGE);
     }
 
+    /**
+     * method for cards exchange when player has more then 4 cards
+     * @param game object of GameData
+     * @param player object of player
+     * @return true if continue card exchange else false
+     */
     public boolean continueCardExchange(GameData game, Player player) {
         if(player.getOwnedCards().size()>4) {
             return true;
@@ -605,7 +611,10 @@ public class GameActions extends Observable{
         return false;
     }
 
-
+    /**
+     * set the phase for end of the game
+     * @param game object os GameData
+     */
     public void endGame(GameData game) {
         game.setGamePhase(Phase.QUIT);
     }

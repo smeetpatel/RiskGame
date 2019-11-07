@@ -272,6 +272,10 @@ public class Player extends Observable{
 		return false;
 	}
 
+	/**
+	 * check whether the attack is possible or not
+	 * @return true if attack is possible otherwise false
+	 */
 	public boolean isAttackPossible() {
 		boolean attackPossible = false;
 		for(Country country : this.ownedCountries.values()) {
@@ -308,6 +312,14 @@ public class Player extends Observable{
 		return true;
 	}
 
+	/**
+	 * perform the fortification operation of the game
+	 * @param game represents state of the game
+	 * @param fromCountry country from armies send
+	 * @param toCountry country to armies placed
+	 * @param num total number of armies to send from one country to another country
+	 * @return status of the fortification phase
+	 */
 	public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num)
 	{
 		MapValidation mv = new MapValidation();
@@ -389,6 +401,12 @@ public class Player extends Observable{
 		}
 	}
 
+	/**
+	 * in card exchange, checks that player own the country which indicated on the card
+	 * @param cardIndex indexes of the selected cards
+	 * @param numberOfArmies number of armies player will get if match found
+	 * @return number of armies after check of match for country
+	 */
 	public int checkForOwnedCardCountry(ArrayList<Integer> cardIndex, int numberOfArmies){
 		boolean countryFound = false;
 		for (int i = 0; i < 3; i++) {

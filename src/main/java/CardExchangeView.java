@@ -3,6 +3,9 @@ package main.java;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Represents the card exchange view
+ */
 public class CardExchangeView extends JFrame implements Observer{
 
     private JLabel cardsLabel;
@@ -27,10 +30,16 @@ public class CardExchangeView extends JFrame implements Observer{
     private JLabel card10Label;
     private JTextField card10Text;
 
+    /**
+     * default constructor to access the methods of this class
+     */
     public CardExchangeView() {
         initComponents();
     }
 
+    /**
+     * initialize the components for the view
+     */
     private void initComponents() {
         cardsLabel = new JLabel();
         card1Label = new JLabel();
@@ -180,6 +189,9 @@ public class CardExchangeView extends JFrame implements Observer{
         setLocationRelativeTo(getOwner());
     }
 
+    /**
+     * This method is to show no of cards player owned
+     */
     public void update(Observable o){
         Player player = (Player) o;
         int i = 1;

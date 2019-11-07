@@ -141,10 +141,18 @@ public class GameData extends Observable{
         this.deck = deck;
     }
 
+    /**
+     * set the trade in phase of card exchange
+     * @return trade in phase number
+     */
     public int getCardsDealt() {
         return cardsDealt;
     }
 
+    /**
+     * set the phse for card trade in phase
+     * @param cardsDealt trade in phase number
+     */
     public void setCardsDealt(int cardsDealt) {
         this.cardsDealt = cardsDealt;
     }

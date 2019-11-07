@@ -59,16 +59,18 @@ public class Deck {
         return withdrawCard;
     }
 
-    // For testing purpose.
-    public void print() {
-        for (Card c : deck)
-            System.out.println(c.cardCountry.getCountryName()+" "+c.cardType);
-    }
-
+    /**
+     * get the size of a deck
+     * @return number of cards in the deck
+     */
     public int getDeckSize(){
         return deck.size();
     }
 
+    /**
+     * method for creation of deck
+     * @param countries list of countries
+     */
     public void createDeck(Collection<Country> countries) {
         cardType = new String[]{"Infantry", "Cavalary", "Artillery"};
         int i = 0;

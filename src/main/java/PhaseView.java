@@ -16,6 +16,9 @@ public class PhaseView extends JFrame implements Observer{
     private JTextArea logText;
     Phase currentPhase;
 
+    /**
+     * Initialize the components for the phase view
+     */
     public PhaseView() {
 
         initComponents();
@@ -80,6 +83,10 @@ public class PhaseView extends JFrame implements Observer{
         setLocationRelativeTo(getOwner());
     }
 
+    /**
+     * notifies by the phase change
+     * @param o Observable object
+     */
     public void update(Observable o){
         if(!(o instanceof GameData)){
             return;
