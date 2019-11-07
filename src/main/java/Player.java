@@ -327,7 +327,6 @@ public class Player extends Observable{
 		{
 			if(this.ownedCountries.containsKey(toCountry.toLowerCase()))
 			{
-				System.out.println(this.ownedCountries.get(fromCountry.toLowerCase()).getNumberOfArmies());
 				if((this.ownedCountries.get(fromCountry.toLowerCase()).getNumberOfArmies()- num)>=1)
 				{
 					if(mv.fortificationConnectivityCheck(this, fromCountry, toCountry))
@@ -375,11 +374,20 @@ public class Player extends Observable{
 	 */
 	public boolean cardExchange(GameData game, ArrayList<Integer> cardIndex) {
 		int numberOfArmies = 0;
+		for(int i : cardIndex){
+			if(i<=0 || i>this.ownedCards.size()){
+				return false;
+			}
+		}
 		if (cardIndex.get(0) != cardIndex.get(1) && cardIndex.get(1) != cardIndex.get(2) && cardIndex.get(2) != cardIndex.get(0)){
 			if ((this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(1) - 1).cardType) &&
-					this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType)) || (!this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(1) - 1).cardType) &&
+					this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType)) ||
+					(!this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(1) - 1).cardType) &&
 					!this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType) &&
-					!this.getOwnedCards().get(cardIndex.get(1) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType))) {
+					!this.getOwnedCards().get(cardIndex.get(1) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType)) ||
+					((this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(1) - 1).cardType) && this.getOwnedCards().get(cardIndex.get(2) - 1).cardType.equals("WildCard")) ||
+							(this.getOwnedCards().get(cardIndex.get(1) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType) && this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals("WildCard"))	||
+							(this.getOwnedCards().get(cardIndex.get(0) - 1).cardType.equals(this.getOwnedCards().get(cardIndex.get(2) - 1).cardType) && this.getOwnedCards().get(cardIndex.get(1) - 1).cardType.equals("WildCard")))) {
 
 				numberOfArmies = checkForOwnedCardCountry(cardIndex, numberOfArmies);
 				game.setCardsDealt(game.getCardsDealt()+1);
@@ -391,7 +399,9 @@ public class Player extends Observable{
 				for (int i = cardIndex.size() - 1; i >= 0; i--) {
 					this.removeOwnedCards(this.getOwnedCards().get(cardIndex.get(i) - 1));
 				}
-				game.setGamePhase(Phase.REINFORCEMENT);
+				if(this.ownedCards.size()<3){
+					game.setGamePhase(Phase.REINFORCEMENT);
+				}
 				return true;
 			} else {
 				return false;
@@ -412,8 +422,10 @@ public class Player extends Observable{
 		for (int i = 0; i < 3; i++) {
 			if (!countryFound) {
 				Country country = this.getOwnedCards().get(cardIndex.get(i) - 1).cardCountry;
-				if(this.ownedCountries.containsKey(country.getCountryName().toLowerCase())){
-					return numberOfArmies+2;
+				if(country!=null){
+					if(this.ownedCountries.containsKey(country.getCountryName().toLowerCase())){
+						return numberOfArmies+2;
+					}
 				}
 			}
 		}
