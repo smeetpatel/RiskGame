@@ -17,28 +17,50 @@ import org.junit.Test;
 
 public class TestPopulatecountries {
 
-    Player player1;
-    Player player2;
-    GameMap map;
-    ArrayList<Player> players;
-    GameData gameData;
+    /**
+     * Represents the state of the game
+     */
+    GameData game;
+
+    /**
+     * To help load the map.
+     */
     GameActions gameActions;
-    //StartUp stp;
+
+    /**
+     * Player 1
+     */
+    Player player1;
+
+    /**
+     * Player 2
+     */
+    Player player2;
+
+    /**
+     * List of players in the game.
+     */
+    ArrayList<Player> players;
 
     /**
      * Set up the context
      */
     @Before
     public void before() {
+        //initialize required references
+        gameActions = new GameActions();
+        game = new GameData();
 
-        player1 = new Player("tirth");
-        player2 = new Player("smeet");
-        map = new GameMap("world.map");
+        //load the map
+        gameActions.loadMap(game, "createdMap.map");
+
+        //create players and them to the map
         players = new ArrayList<Player>();
+        player1 = new Player("Smeet");
+        player2 = new Player("Tirth");
         players.add(player1);
         players.add(player2);
-        gameData = new GameData();
-        gameActions = new GameActions();
+        game.setPlayers(players);
     }
 
     /**
@@ -47,11 +69,8 @@ public class TestPopulatecountries {
      */
     @Test
     public void testPopulateCountries() {
-
-        gameActions.editMap(gameData,"createdMap.map");
-        boolean check = gameActions.populateCountries(gameData,players);
+        boolean check = gameActions.populateCountries(game,players);
         Assert.assertEquals(2,player1.getOwnedCountries().size());
     }
-
 }
 

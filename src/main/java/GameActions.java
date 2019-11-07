@@ -225,7 +225,7 @@ public class GameActions extends Observable{
      */
     public boolean populateCountries(GameData game, ArrayList<Player> players) {
         int numberOfPlayers = players.size();
-        if (players.size() < 2) {
+        if (players.size() < 2 || players.size() > 6) {
             return false;
         }
         int counter = 0;
@@ -481,13 +481,14 @@ public class GameActions extends Observable{
     /**
      * Checks if two countries are neighbors or not.
      * @param game Represents the state of the game
+     * @param player Attacking player
      * @param fromCountry First country
      * @param toCountry Second country
      * @return true if both countries are neighbors, else false.
      */
-    public boolean areNeighbors(GameData game, String fromCountry, String toCountry) {
+    public boolean areNeighbors(GameData game, Player player, String fromCountry, String toCountry) {
         Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
-        if(country.getNeighbours().containsKey(toCountry.toLowerCase())) {
+        if(country.getNeighbours().containsKey(toCountry.toLowerCase()) && !player.getOwnedCountries().containsKey(toCountry.toString())) {
             return true;
         } else {
             return false;
@@ -519,13 +520,13 @@ public class GameActions extends Observable{
     public boolean diceValid(GameData game, String countryName, int numberOfDice, boolean attack) {
         Country country = game.getMap().getCountries().get(countryName.toLowerCase());
         if(attack){
-            if(country.getNumberOfArmies()>numberOfDice){
+            if(country.getNumberOfArmies()>numberOfDice && numberOfDice > 0){
                 return true;
             } else {
                 return false;
             }
         } else {
-            if(country.getNumberOfArmies()>=numberOfDice){
+            if(country.getNumberOfArmies()>=numberOfDice && numberOfDice < 3 && numberOfDice > 0){
                 return true;
             } else {
                 return false;

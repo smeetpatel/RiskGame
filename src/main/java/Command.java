@@ -442,7 +442,7 @@ public class Command {
                         attachToPlayers();
                         gameAction.initalizaMapContolValue(game);
                     } else {
-                        System.out.println("Minimum two players are required to play the game.");
+                        System.out.println("Minimum two players are required to play the game. Maximum six players.");
                     }
                     break;
 
@@ -629,7 +629,7 @@ public class Command {
                                         attackData.setFromCountry(data[1]);
                                         attackData.setToCountry(data[2]);
                                         attackData.setNumberOfDice(Integer.parseInt(data[3]));
-                                        if(gameAction.areNeighbors(game, attackData.getFromCountry(), attackData.getToCountry())){
+                                        if(gameAction.areNeighbors(game, player, attackData.getFromCountry(), attackData.getToCountry())){
                                             if(gameAction.hasEnoughArmies(game, attackData.getFromCountry())){
                                                 if(gameAction.diceValid(game, attackData.getFromCountry(), attackData.getNumberOfDice(), true)){
                                                     attackData.setCanAttack(true);
@@ -640,7 +640,7 @@ public class Command {
                                                 System.out.println(attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.");
                                             }
                                         } else {
-                                            System.out.println(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors. Attack not possible.");
+                                            System.out.println(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors or belong to the same player. Attack not possible.");
                                         }
                                     }
                                 } else {
@@ -658,7 +658,7 @@ public class Command {
                                         attackData.setFromCountry(data[1]);
                                         attackData.setToCountry(data[2]);
                                         attackData.setNumberOfDice(Integer.parseInt(data[3]));
-                                        if(gameAction.areNeighbors(game, attackData.getFromCountry(), attackData.getToCountry())){
+                                        if(gameAction.areNeighbors(game, player, attackData.getFromCountry(), attackData.getToCountry())){
                                             if(gameAction.hasEnoughArmies(game, attackData.getFromCountry())){
                                                 if(gameAction.diceValid(game, attackData.getFromCountry(), attackData.getNumberOfDice(), true)){
                                                     Player p = gameAction.getOwner(game, attackData.getToCountry());
@@ -707,7 +707,7 @@ public class Command {
                                                 System.out.println(attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.");
                                             }
                                         } else {
-                                            System.out.println(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors. Attack not possible.");
+                                            System.out.println(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors or belong to the same player. Attack not possible.");
                                         }
                                     } else{
                                         System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +

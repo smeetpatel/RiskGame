@@ -13,11 +13,15 @@ import org.junit.Test;
  */
 public class TestContinent {
 
-    GameMap map;
-    String continentName;
-    int controlValue;
-    GameActions gameActions;
+    /**
+     * Represents the state of the game
+     */
     GameData game;
+
+    /**
+     * To help load the map.
+     */
+    GameActions gameActions;
 
     /**
      * Set up the context
@@ -25,21 +29,28 @@ public class TestContinent {
      */
     @Before
     public void before(){
-        map = new GameMap("ameroki.map");
-        continentName = "azio";
         gameActions = new GameActions();
         game = new GameData();
+        gameActions.loadMap(game, "ameroki.map");
     }
 
     /**
-     * Test if tests are rightly identified or not
-     * This test method checks that given continent is present in given graph or not for remove
+     * Tests if continent is rightly removed or not
      */
     @Test
-    public void testContinent(){
+    public void testContinent1(){
+        String continentName = "azio";
+        game.getMap().removeContinent(continentName);
+        Assert.assertFalse(game.getMap().getContinents().containsKey(continentName.toLowerCase()));
+    }
 
-        gameActions.editMap(game, "ameroki.map");
-        boolean check = game.getMap().removeContinent(continentName);
-        Assert.assertEquals(true,check);
+    /**
+     * Tests if continent is rightly added or not
+     */
+    @Test
+    public void testContinent2(){
+        String continentName = "newcontinent";
+        game.getMap().addContinent(continentName, 9);
+        Assert.assertTrue(game.getMap().getContinents().containsKey(continentName.toLowerCase()));
     }
 }

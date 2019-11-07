@@ -8,6 +8,7 @@ import main.java.Continent;
 import main.java.Country;
 import main.java.GameMap;
 import org.jgrapht.*;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.*;
 import org.jgrapht.traverse.*;
 import org.jgrapht.alg.connectivity.*;
@@ -162,15 +163,13 @@ public class MapValidation {
 				}
 			}
 		}
+
+
 		Country countryStart = player.getOwnedCountries().get(fromCountry.toLowerCase());
-		Iterator<String> iterator = new DepthFirstIterator<>(subGraph);
-		ArrayList<String> arr = new ArrayList<String>();
-        while (iterator.hasNext()) {
-        	String uri = iterator.next();
-        	arr.add(uri);
-        }
-        if(arr.contains(countryStart.getCountryName().toLowerCase()) && arr.contains(toCountry.toLowerCase()))
-        	return true;
-		return false;
+		Country countryEnd = player.getOwnedCountries().get(toCountry.toLowerCase());
+		DijkstraShortestPath dsp = new DijkstraShortestPath(subGraph);
+		if(DijkstraShortestPath.findPathBetween(subGraph, fromCountry.toLowerCase(), toCountry.toLowerCase())==null)
+			return false;
+		return true;
 	}
 }	

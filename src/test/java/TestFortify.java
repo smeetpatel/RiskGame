@@ -1,6 +1,7 @@
 package test.java;
 
 import main.java.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,57 +10,113 @@ import java.util.HashMap;
 
 public class TestFortify {
 
+    /**
+     * Represents the state of the game
+     */
     GameData game;
-    Player player1;
-    Player player2;
-    GameMap map;
-    ArrayList<Player> players;
-    FortificationCheck fortificationCheck;
-    String toCountry;
-    String fromCountry;
-    int numOfArmies;
+
+    /**
+     * To help load the map.
+     */
     GameActions gameActions;
-    HashMap<String,Country> nn;
 
+    /**
+     * Player 1
+     */
+    Player player1;
 
+    /**
+     * Player 2
+     */
+    Player player2;
+
+    /**
+     * Set up the context
+     * Initialize the objects and parameters
+     */
     @Before
     public void before(){
-        player1 = new Player("tirth");
-        player2 = new Player("smeet");
-        map = new GameMap("createdMap.map");
-        players = new ArrayList<Player>();
+        //initialize required references
+        gameActions = new GameActions();
+        game = new GameData();
+
+        //load the map
+        gameActions.loadMap(game, "testmapthird.map");
+
+        //create players and them to the map
+        ArrayList<Player> players = new ArrayList<Player>();
+        player1 = new Player("Smeet");
+        player2 = new Player("Tirth");
         players.add(player1);
         players.add(player2);
-        game = new GameData();
-        gameActions = new GameActions();
-        toCountry  = "china";
-        fromCountry = "india";
-        numOfArmies = 4;
-        Country co1 = new Country("china", "asia");
-        Country co2 = new Country("india", "asia");
-        nn = new HashMap<String, Country>();
-        //nn.put(co1.getCountryName(),co1);
-        //nn.put(co2.getCountryName(),co2);
-        //player1.setOwnedCountries(nn);
-        //player1.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(10);
-        //System.out.println(co2.getNumberOfArmies());
-        //game.setPlayers(players);
+        game.setPlayers(players);
 
-        //Country co3 = new Country("sluci", "azio");
+        //set correct phase for calling fortify method
+        game.setGamePhase(Phase.FORTIFICATION);
+
+        //assign countries between players
+        player1.getOwnedCountries().put("india", game.getMap().getCountries().get("india"));
+        player1.getOwnedCountries().put("china", game.getMap().getCountries().get("china"));
+        player1.getOwnedCountries().put("canada", game.getMap().getCountries().get("canada"));
+        player1.getOwnedCountries().put("nz", game.getMap().getCountries().get("nz"));
+        player2.getOwnedCountries().put("aussie", game.getMap().getCountries().get("aussie"));
+
+        //assign number of armies in each country
+        game.getMap().getCountries().get("india").setNumberOfArmies(9);
+        game.getMap().getCountries().get("china").setNumberOfArmies(3);
+        game.getMap().getCountries().get("canada").setNumberOfArmies(1);
     }
 
+    /**
+     * Tests if correctly identifies that player does not own origin country for fortification or not.
+     */
     @Test
-    public void testFortify(){
+    public void testFortify1(){
+        int numberOfArmies = 1;
+        FortificationCheck fortificationCheck = player1.fortify(game, "usa", "china", numberOfArmies);
+        Assert.assertEquals(fortificationCheck.FROMCOUNTRYFAIL, fortificationCheck);
+    }
 
-        gameActions.editMap(game,"createdMap.map");
-        boolean check = gameActions.populateCountries(game,players);
-        //game.setGamePhase(Phase.FORTIFICATION);
-        System.out.println(player1.getOwnedArmies());
-        gameActions.placeAll(game);
-        System.out.println(player1.getOwnedArmies());
-        System.out.println(player1.getOwnedCountries().get(fromCountry.toLowerCase()).getCountryName());
-        System.out.println(player1.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies());
-        fortificationCheck = player1.fortify(game,toCountry,fromCountry,numOfArmies);
-        System.out.println(fortificationCheck);
+    /**
+     * Tests if correctly identifies that player does not own destination country for fortification or not.
+     */
+    @Test
+    public void testFortify2(){
+        int numberOfArmies = 1;
+        FortificationCheck fortificationCheck = player1.fortify(game, "india", "usa", numberOfArmies);
+        Assert.assertEquals(fortificationCheck.TOCOUNTRYFAIL, fortificationCheck);
+    }
+
+    /**
+     * Tests if correctly identifies that player does not own have enough armies for reinforcement or not.
+     */
+    @Test
+    public void testFortify3(){
+        int numberOfArmies = 9;
+        FortificationCheck fortificationCheck = player1.fortify(game, "india", "china", numberOfArmies);
+        Assert.assertEquals(fortificationCheck.ARMYCOUNTFAIL, fortificationCheck);
+        numberOfArmies = 1;
+        fortificationCheck = player1.fortify(game, "canada", "india", numberOfArmies);
+        Assert.assertEquals(fortificationCheck.ARMYCOUNTFAIL, fortificationCheck);
+    }
+
+    /**
+     * Tests if correctly identifies that there is no path between origin and destination country made of armies owned by player.
+     */
+    @Test
+    public void testFortify4(){
+        int numberOfArmies = 1;
+        FortificationCheck fortificationCheck = player1.fortify(game, "india", "nz", numberOfArmies);
+        Assert.assertEquals(fortificationCheck.PATHFAIL, fortificationCheck);
+    }
+
+    /**
+     * Tests if correctly identifies successful fortification move or not.
+     */
+    @Test
+    public void testFortify5(){
+        int numberOfArmies = 1;
+        FortificationCheck fortificationCheck = player1.fortify(game, "india", "canada", numberOfArmies);
+        Assert.assertEquals(fortificationCheck.FORTIFICATIONSUCCESS, fortificationCheck);
     }
 }

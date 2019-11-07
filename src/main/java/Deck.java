@@ -72,10 +72,14 @@ public class Deck {
     public void createDeck(Collection<Country> countries) {
         cardType = new String[]{"Infantry", "Cavalary", "Artillery"};
         int i = 0;
+        Card wildCard1 = new Card("WildCard", null);
+        Card wildCard2 = new Card("WildCard", null);
+        deck.add(wildCard1);
         for(Country country : countries){
             card = new Card(cardType[i%3], country);
             deck.add(card);
             i++;
         }
+        deck.add(wildCard1);
     }
 }
