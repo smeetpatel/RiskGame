@@ -202,25 +202,65 @@ public class CardExchangeView extends JFrame implements Observer {
         int i = 1;
         for(Card c : player.getOwnedCards()){
             if(i==1){
-                card1Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card1Text.setText(c.getCardType());
+                } else {
+                    card1Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             } else if(i==2){
-                card2Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card2Text.setText(c.getCardType());
+                } else {
+                    card2Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             } else if(i==3){
-                card3Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card3Text.setText(c.getCardType());
+                } else {
+                    card3Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             } else if(i==4){
-                card4Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card4Text.setText(c.getCardType());
+                } else {
+                    card4Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             } else if(i==5){
-                card5Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card5Text.setText(c.getCardType());
+                } else {
+                    card5Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             } else if(i==6){
-                card6Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card6Text.setText(c.getCardType());
+                } else {
+                    card6Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             } else if(i==7){
-                card7Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card7Text.setText(c.getCardType());
+                } else {
+                    card7Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             } else if(i==8){
-                card8Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card8Text.setText(c.getCardType());
+                } else {
+                    card8Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             } else if(i==9){
-                card9Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card9Text.setText(c.getCardType());
+                } else {
+                    card9Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             } else if(i==10){
-                card10Text.setText(c.getCardType() + " - " + c.getCardCountry());
+                if(c.getCardCountry()==null){
+                    card10Text.setText(c.getCardType());
+                } else {
+                    card10Text.setText(c.getCardType() + " - " + c.getCardCountry().getCountryName());
+                }
             }
             i++;
         }

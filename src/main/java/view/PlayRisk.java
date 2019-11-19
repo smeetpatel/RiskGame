@@ -59,7 +59,7 @@ public class PlayRisk {
         }
 
 		traversalCounter = 0;	//reset traversal counter
-		int index = 0;
+		int index = 1;
 		while(true){
 			player = cmd.game.getPlayers().get(traversalCounter);
 			System.out.println(player.getPlayerName() + "'s turn");
@@ -72,18 +72,18 @@ public class PlayRisk {
 						System.out.println(index + ". " + card.getCardCountry() + " - " + card.getCardType());
 						index++;
 					}
-					index = 0;
+					index = 1;
 					command = read.nextLine();
-					gamePhase = cmd.parseCommand(player, command);
+					gamePhase = cmd.parseCommand(player,command);
 				}
 				System.out.println("Would you like to exchange your card to get more armies?");
 				for(Card card : player.getOwnedCards()){
 					System.out.println(index + ". " + card.getCardCountry() + " - " + card.getCardType());
 					index++;
 				}
-				index = 0;
+				index = 1;
 				command = read.nextLine();
-				gamePhase = cmd.parseCommand(player,command);
+				gamePhase = cmd.parseCommand(player, command);
 			}
 			command = "exchangecards -none";
 			gamePhase = cmd.parseCommand(player,command);

@@ -556,6 +556,7 @@ public class GameActions extends Observable{
      * @param game Represents the state of the game.
      */
     public void endAttack(GameData game) {
+        System.out.println("Cannot attack anymore. Begin fortification now.");
         game.setGamePhase(Phase.FORTIFICATION);
     }
 

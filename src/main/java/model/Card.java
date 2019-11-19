@@ -44,7 +44,6 @@ public class Card {
      *
      * @return object of country
      */
-
     public Country getCardCountry(){
         return cardCountry;
     }
@@ -53,7 +52,6 @@ public class Card {
      *
      * @return name of country and type of card
      */
-
     public String getCard(){
         return cardCountry+" - "+ cardType;
     }
