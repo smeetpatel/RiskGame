@@ -1,2 +1,5 @@
-main.java
+main.java.controller
+main.java.model
+main.java.view
 test.java
+test.java.modelTests

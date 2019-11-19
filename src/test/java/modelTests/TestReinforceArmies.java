@@ -215,5 +215,19 @@ public class TestReinforceArmies {
         boolean check = player1.cardExchange(game, cardIndex);
         Assert.assertEquals(false, check);
     }
+
+    /**
+     * Test if invalid card indexes are detected or not.
+     */
+    @Test
+    public void testReinforceArmies7(){
+        ArrayList<Integer> cardIndex = new ArrayList<Integer>();
+        cardIndex.add(5);
+        cardIndex.add(1);
+        cardIndex.add(6);
+        Collections.sort(cardIndex);
+        boolean check = player1.cardExchange(game, cardIndex);
+        Assert.assertEquals(true, check);
+    }
 }
 

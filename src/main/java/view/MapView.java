@@ -24,12 +24,12 @@ public class MapView {
         boolean printCountryName = true;
         for(Continent continent : map.getContinents().values()) {
             if(continent.getCountries().size()==0) {
-                System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), "", "");
+                System.out.format("\n%25s%25s%25s\n", continent.getContinentName()+"-"+continent.getControlValue(), "", "");
             }
             for(Country country : continent.getCountries().values()) {
                 if(country.getNeighbours().size()==0) {
                     if(printContinentName && printCountryName) {
-                        System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), country.getCountryName(), "");
+                        System.out.format("\n%25s%25s%25s\n", continent.getContinentName()+"-"+continent.getControlValue(), country.getCountryName(), "");
                         printContinentName = false;
                         printCountryName = false;
                     }
@@ -40,7 +40,7 @@ public class MapView {
                 }
                 for(Country neighbor : country.getNeighbours().values()) {
                     if(printContinentName && printCountryName) {
-                        System.out.format("\n%25s%25s%25s\n", continent.getContinentName(), country.getCountryName(), neighbor.getCountryName());
+                        System.out.format("\n%25s%25s%25s\n", continent.getContinentName()+"-"+continent.getControlValue(), country.getCountryName(), neighbor.getCountryName());
                         printContinentName = false;
                         printCountryName = false;
                     }

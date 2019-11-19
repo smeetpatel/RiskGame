@@ -90,7 +90,7 @@ public class Command {
     /**
      * Function responsible for parsing user command and calling appropriate method.
      *
-     * @param player     Player playing the move
+     * @param player Player playing the move
      * @param newCommand Command to be interpreted
      * @return next game phase
      */
@@ -544,6 +544,16 @@ public class Command {
                                         Collections.sort(cardIndex);
                                         if(player.cardExchange(game, cardIndex)){
                                             System.out.println("Card Exchange successfully occurred");
+                                            if(player.getOwnedCards().size()<=2){
+                                                if(gameAction.noCardExchange(game, player)){
+                                                    System.out.println("Player do not want to perform card exchange operation or player do " +
+                                                            "not have enough cards to exchange.");
+                                                    player.detach(cardExchangeView);
+                                                    cardExchangeView.setVisible(false);
+                                                    cardExchangeView.dispose();
+                                                }
+                                            }
+
                                         } else {
                                             System.out.println("Invalid exchange command.");
                                         }
@@ -647,8 +657,8 @@ public class Command {
                                         }
                                     }
                                 } else {
-                                    System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
-                                            " or 'attack -noattack'");
+                                    System.out.println("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                            " or 'attack noattack'");
                                 }
                             } else {
                                 System.out.println("Must move army to just conquered country first. Use 'attackmove num' command.");
@@ -695,6 +705,10 @@ public class Command {
                                                             if(player.isAttackPossible()){
                                                                 attackView.canAttack(player);
                                                             } else {
+                                                                if(attackData.getTerritoriesConquered()>0){
+                                                                    player.setOwnedCards(game.getDeck().withdrawCard());
+                                                                }
+                                                                attackData.resetAttack();
                                                                 gameAction.endAttack(game);
                                                             }
                                                         }
@@ -713,33 +727,33 @@ public class Command {
                                             System.out.println(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors or belong to the same player. Attack not possible.");
                                         }
                                     } else{
-                                        System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
-                                                " or 'attack -noattack'");
+                                        System.out.println("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                                " or 'attack noattack'");
                                     }
                                 }
                                 else{
-                                    System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
-                                            " or 'attack -noattack'");
+                                    System.out.println("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                            " or 'attack noattack'");
                                 }
                             } else {
                                 System.out.println("Must move army to just conquered country first. Use 'attackmove num' command.");
                             }
                         } else {
-                            System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
-                                    " or 'attack -noattack'");
+                            System.out.println("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                    " or 'attack noattack'");
                         }
                     }catch (ArrayIndexOutOfBoundsException e) {
                         e.printStackTrace();
-                        System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
-                                " or 'attack -noattack'");
+                        System.out.println("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                " or 'attack noattack'");
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
-                        System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
-                                " or 'attack -noattack'");
+                        System.out.println("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                " or 'attack noattack'");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        System.out.println("Invalid command - it should be of the form 'attack countrynamefrom countynameto numdice –allout'" +
-                                " or 'attack -noattack'");
+                        System.out.println("Invalid command. It should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                " or 'attack noattack'");
                     }
                     break;
                 case "defend":
@@ -778,6 +792,10 @@ public class Command {
                                                 if(player.isAttackPossible()){
                                                     attackView.canAttack(player);
                                                 } else {
+                                                    if(attackData.getTerritoriesConquered()>0){
+                                                        player.setOwnedCards(game.getDeck().withdrawCard());
+                                                    }
+                                                    attackData.resetAttack();
                                                     gameAction.endAttack(game);
                                                 }
                                             }
@@ -795,7 +813,7 @@ public class Command {
                                     System.out.println("Invalid command - it should be of the form 'defend numdice'. ");
                                 }
                             }else{
-                                System.out.println("Before defend command, enter 'attack countrynamefrom countynameto numdice –allout'. ");
+                                System.out.println("Before defend command, enter 'attack countrynamefrom countynameto numdice allout'. ");
                             }
                         } else {
                             System.out.println("Must move army to just conquered country first. Use 'attackmove num' command.");
@@ -823,6 +841,10 @@ public class Command {
                                         if(player.isAttackPossible()){
                                             attackView.canAttack(player);
                                         } else {
+                                            if(attackData.getTerritoriesConquered()>0){
+                                                player.setOwnedCards(game.getDeck().withdrawCard());
+                                            }
+                                            attackData.resetAttack();
                                             gameAction.endAttack(game);
                                         }
                                     } else {
