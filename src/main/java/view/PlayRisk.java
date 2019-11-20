@@ -2,6 +2,7 @@ package main.java.view;
 
 import main.java.controller.Controller;
 import main.java.controller.MapController;
+import main.java.controller.StartUpController;
 import main.java.model.Card;
 import main.java.model.Phase;
 import main.java.model.Player;
@@ -115,9 +116,14 @@ public class PlayRisk {
 		}
 	}*/
 	public static void main(String[] args) {
+		int numberOfPlayers;
+		int traversalCounter;
+
 		String command;
 		String message;
+
 		boolean validCommand = false;
+		Player player;
 		Controller controller;
 		PlayRisk game = new PlayRisk();
 		Scanner read = new Scanner(System.in);
@@ -151,7 +157,33 @@ public class PlayRisk {
 							System.out.println(message);
 						}while(controller.getGame().getGamePhase()!=Phase.STARTUP);
 
+						//now add game players and populate countries
 						controller = new StartUpController(controller.getGame());
+						do{
+							command = read.nextLine();
+							message = controller.parseCommand(null, command);
+							System.out.println(message);
+						}while(controller.getGame().getGamePhase()!=Phase.ARMYALLOCATION);
+
+						//allow players to place initial armies
+						numberOfPlayers = controller.getGame().getPlayers().size();
+						traversalCounter = 0;
+						while(controller.getGame().getGamePhase()!=Phase.CARDEXCHANGE){
+							player = controller.getGame().getPlayers().get(traversalCounter);
+							//TODO: execute following code only if player is human
+							System.out.println(player.getPlayerName() + "'s turn to place army");
+							int originalArmies = player.getOwnedArmies();
+							command = read.nextLine();
+							message = controller.parseCommand(player, command);
+							System.out.println(message);
+							if (!command.equalsIgnoreCase("showmap") && originalArmies > player.getOwnedArmies()) {
+								traversalCounter++;
+								if (traversalCounter >= numberOfPlayers) {
+									traversalCounter = 0;
+								}
+							}
+						}
+
 
 					} else {
 
