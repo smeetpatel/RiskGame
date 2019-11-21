@@ -213,7 +213,6 @@ public class PlayRisk {
 								index = 1;
 								command = read.nextLine();
 								message = controller.parseCommand(player, command);
-								//System.out.println(message);
 							}
 							command = "exchangecards -none";
 							message = controller.parseCommand(player,command);
@@ -237,14 +236,12 @@ public class PlayRisk {
 									System.exit(0);
 								}
 							}
-							controller.turnEndEvent();
+							((TurnController) controller).turnEndEvent();
 							traversalCounter++;
-							if (traversalCounter >= controller.ge.getPlayers().size()) {
+							if (traversalCounter >= controller.getGame().getPlayers().size()) {
 								traversalCounter = 0;
 							}
 						}
-
-
 					} else {
 						System.out.println("Invalid choice");
 
