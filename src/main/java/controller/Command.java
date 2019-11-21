@@ -54,6 +54,7 @@ public class Command {
      * Represents the state of the game when an attack is declared or carried out.
      */
     public AttackData attackData;
+
     /**
      * Initializes the variables and objects required to play the game and act on user commands.
      */
