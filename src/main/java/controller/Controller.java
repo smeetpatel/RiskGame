@@ -7,17 +7,17 @@ import main.java.model.Player;
 /**
  * Represents the essential qualities each controller will have.
  */
-public interface Controller {
+public class Controller {
 
     /**
      * Holds the data related to the game.
      */
-    GameData game;
+    public GameData game;
 
     /**
      * Helps access methods related to background operations of the game such as loading/editing map, calculating the number of reinforcement armies, etc.
      */
-    GameActions gameAction;
+    public GameActions gameAction;
 
     /**
      * Function responsible for parsing user command and calling appropriate method.
@@ -26,10 +26,10 @@ public interface Controller {
      * @param newCommand Command to be interpreted
      * @return appropriate response message
      */
-    String parseCommand(Player player, String newCommand){};
+    public String parseCommand(Player player, String newCommand){return "";};
 
     /**
      * Get game data.
      */
-    GameData getGame(){};
+    public GameData getGame(){return null;};
 }

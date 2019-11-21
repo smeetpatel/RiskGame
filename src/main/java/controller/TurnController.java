@@ -11,7 +11,7 @@ import java.util.Collections;
 /**
  * Manages commands related to three phases of each turn of the game.
  */
-public class TurnController implements Controller{
+public class TurnController extends Controller{
 
     /**
      * Helps access methods to view map.
@@ -36,7 +36,7 @@ public class TurnController implements Controller{
     /**
      * Intializes required class variables.
      */
-    public StartUpController(GameData game){
+    public TurnController(GameData game){
         this.game = game;
         gameAction = new GameActions();
         mapView = new MapView();
@@ -57,7 +57,65 @@ public class TurnController implements Controller{
         String toCountry;
         String[] data = newCommand.split("\\s+");
         String commandName = data[0];
-        if (game.getGamePhase().equals(Phase.REINFORCEMENT)) {
+        if (game.getGamePhase().equals(Phase.CARDEXCHANGE)) {
+            switch (commandName) {
+                case "exchangecards":
+                    try {
+                        if (data[1].equals("-none")) {
+                            if(gameAction.noCardExchange(game, player)){
+                                message = "Player do not want to perform card exchange operation or player do " +
+                                        "not have enough cards to exchange.";
+                                player.detach(cardExchangeView);
+                                cardExchangeView.setVisible(false);
+                                cardExchangeView.dispose();
+                            } else {
+                                message = "Player has to exchange the cards.";
+                            }
+                        } else {
+                            if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
+                                if (data[1].matches("[1-9]+") && data[2].matches("[1-9]+") && data[3].matches("[1-9]+")) {
+                                    int firstCard = Integer.parseInt(data[1]);
+                                    int secondCard = Integer.parseInt(data[2]);
+                                    int thirdCard = Integer.parseInt(data[3]);
+                                    int totalCards = player.getOwnedCards().size();
+                                    if (firstCard <= totalCards && secondCard <= totalCards && thirdCard <= totalCards) {
+                                        ArrayList<Integer> cardIndex = new ArrayList<Integer>();
+                                        cardIndex.add(firstCard);
+                                        cardIndex.add(secondCard);
+                                        cardIndex.add(thirdCard);
+                                        Collections.sort(cardIndex);
+                                        if(player.cardExchange(game, cardIndex)){
+                                            message = "Card Exchange successfully occurred";
+                                            if(player.getOwnedCards().size()<=2){
+                                                if(gameAction.noCardExchange(game, player)){
+                                                    message = "Player do not want to perform card exchange operation or player do " +
+                                                            "not have enough cards to exchange.";
+                                                    player.detach(cardExchangeView);
+                                                    cardExchangeView.setVisible(false);
+                                                    cardExchangeView.dispose();
+                                                }
+                                            }
+
+                                        } else {
+                                            message = "Invalid exchange command.";
+                                        }
+                                    } else {
+                                        message = "Index number of card is wrong";
+                                    }
+                                }
+                            }
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        message = "Invalid command - it should be of the form 'exchangecards num num num -none'";
+                    } catch (Exception e) {
+                        message = "Invalid command - it should be of the form 'exchangecards num num num -none'";
+                    }
+                    break;
+                default:
+                    message = "Invalid command - use exchangecards command.";
+                    break;
+            }
+        } else if (game.getGamePhase().equals(Phase.REINFORCEMENT)) {
             switch (commandName) {
                 case "reinforce":
                     try {
@@ -163,7 +221,7 @@ public class TurnController implements Controller{
                                                             message = player.getPlayerName() + " has successfully conquered " + attackData.getToCountry();
                                                             if(player.getOwnedCountries().size()==game.getMap().getCountries().size()){
                                                                 gameAction.endGame(game);
-                                                                return game.getGamePhase();
+                                                                return message;
                                                             }
                                                             gameAction.checkContinentOwnership(game, player);
                                                             //move troops to newly conquered country
@@ -247,7 +305,7 @@ public class TurnController implements Controller{
                                                 message = player.getPlayerName() + " has successfully conquered " + attackData.getToCountry();
                                                 if(player.getOwnedCountries().size()==game.getMap().getCountries().size()){
                                                     gameAction.endGame(game);
-                                                    return game.getGamePhase();
+                                                    return message;
                                                 }
                                                 gameAction.calculateMapControlled(game, player);
                                                 gameAction.calculateMapControlled(game, p);
@@ -445,6 +503,14 @@ public class TurnController implements Controller{
             }
         }
         return message;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameData getGame() {
+        return game;
     }
 
     /**

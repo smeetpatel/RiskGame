@@ -15,103 +15,6 @@ import java.util.Scanner;
  */
 public class PlayRisk {
 
-	/**
-	 * Responsible for playing the game.
-	 * Covers tasks ranging from 'map editing' to 'actual game play'.
-	 * Responsible for only interacting with the user and passing the user command for appropriate action.
-	 * @param args Command line arguments
-	 */
-	/*public static void main(String[] args) {
-		int numberOfPlayers;
-		int traversalCounter;
-		String command;
-		Phase gamePhase;
-		Player player;
-		PlayRisk game = new PlayRisk();
-
-		System.out.println("Welcome to Risk Game");
-		System.out.println("To continue, select a map from the below mentioned existing maps or create a new one.");
-		game.printMapNames();
-
-		//read first command
-		Command cmd = new Command();
-		Scanner read = new Scanner(System.in);
-		do{
-			command = read.nextLine();
-			gamePhase = cmd.parseCommand(null, command);
-		}while(gamePhase!=Phase.ARMYALLOCATION);
-
-		//start the game by looping through the players
-        numberOfPlayers = cmd.game.getPlayers().size();
-        traversalCounter = 0;
-		while(gamePhase!=Phase.CARDEXCHANGE){
-            player = cmd.game.getPlayers().get(traversalCounter);
-            System.out.println(player.getPlayerName() + "'s turn to place army");
-            int originalArmies = player.getOwnedArmies();
-            command = read.nextLine();
-            gamePhase = cmd.parseCommand(player, command);
-            if (!command.equalsIgnoreCase("showmap") && originalArmies > player.getOwnedArmies()) {
-                traversalCounter++;
-                if (traversalCounter >= numberOfPlayers) {
-                    traversalCounter = 0;
-                }
-            }
-        }
-
-		traversalCounter = 0;	//reset traversal counter
-		int index = 1;
-		while(true){
-			player = cmd.game.getPlayers().get(traversalCounter);
-			System.out.println(player.getPlayerName() + "'s turn");
-			System.out.println("Reinforcement phase");
-			cmd.playerChangeEvent(player);
-			while (player.getOwnedCards().size()>2) {
-				while (player.getOwnedCards().size() > 4) {
-					System.out.println("You have 5 cards or more, you have to exchange cards");
-					for(Card card : player.getOwnedCards()){
-						System.out.println(index + ". " + card.getCardCountry() + " - " + card.getCardType());
-						index++;
-					}
-					index = 1;
-					command = read.nextLine();
-					gamePhase = cmd.parseCommand(player,command);
-				}
-				System.out.println("Would you like to exchange your card to get more armies?");
-				for(Card card : player.getOwnedCards()){
-					System.out.println(index + ". " + card.getCardCountry() + " - " + card.getCardType());
-					index++;
-				}
-				index = 1;
-				command = read.nextLine();
-				gamePhase = cmd.parseCommand(player, command);
-			}
-			command = "exchangecards -none";
-			gamePhase = cmd.parseCommand(player,command);
-
-			while(gamePhase!=Phase.TURNEND){
-				if(gamePhase==Phase.REINFORCEMENT){
-					System.out.println("Reinforcement armies: " + player.getOwnedArmies());
-				} else if(gamePhase==Phase.ATTACK) {
-					System.out.println("Attack phase");
-				}
-				else if(gamePhase==Phase.ATTACKCARDEXCHANGE){
-				    System.out.println("You have to exchange cards till you have 4 or fewer cards. Use command 'exchangecards num num num' only.");
-                    System.out.println("You will be redirected to move armies to conquered country once you have 4 or less cards.");
-                }
-				command = read.nextLine();
-				gamePhase = cmd.parseCommand(player, command);
-				if(gamePhase==Phase.QUIT){
-					System.out.println(player.getPlayerName() + " won the game.\n");
-					System.exit(0);
-				}
-			}
-			cmd.turnEndEvent();
-			traversalCounter++;
-			if (traversalCounter >= cmd.game.getPlayers().size()) {
-				traversalCounter = 0;
-			}
-		}
-	}*/
 	public static void main(String[] args) {
 		int numberOfPlayers;
 		int traversalCounter;
@@ -182,7 +85,7 @@ public class PlayRisk {
 						}
 
 						//let each player play all three phases of the game in round-robin fashion.
-						controller = new TurnController(game);
+						controller = new TurnController(controller.getGame());
 						traversalCounter = 0;	//reset traversal counter
 						int index = 1;
 						while(controller.getGame().getGamePhase()!=Phase.QUIT){
@@ -247,7 +150,6 @@ public class PlayRisk {
 
 					}
 				}
-
 			} else if (command.equals("2")){
 				//TODO: code for tournament mode goes here
 				validCommand = true;

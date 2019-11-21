@@ -6,7 +6,7 @@ import main.java.view.MapView;
 /**
  * Responsible for handling user commands related to editing/loading a map.
  */
-public class MapController implements Controller{
+public class MapController extends Controller{
 
     /**
      * Helps access methods to view map.
@@ -29,7 +29,7 @@ public class MapController implements Controller{
     public String parseCommand(Player player, String newCommand){
         int controlValue;
 
-        String message;
+        String message = "";
         String mapName;
         String continentName;
         String countryName;
@@ -317,7 +317,7 @@ public class MapController implements Controller{
                 case "validatemap":
                     MapValidityStatus mvs = gameAction.validateMap(game.getMap());
                     if (mvs == MapValidityStatus.VALIDMAP) {
-                        message = "Valid map."
+                        message = "Valid map.";
                     } else if (mvs == MapValidityStatus.EMPTYCONTINENT) {
                         message = "Invalid map - empty continent present.";
                     } else if (mvs == MapValidityStatus.UNCONNECTEDGRAPH) {

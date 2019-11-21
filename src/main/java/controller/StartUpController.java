@@ -11,7 +11,7 @@ import main.java.view.PlayerDominationView;
 /**
  * Manages start-up related commands for the game.
  */
-public class StartUpController implements Controller{
+public class StartUpController extends Controller{
 
     /**
      * Helps access methods to view map.
@@ -177,6 +177,14 @@ public class StartUpController implements Controller{
             }
         }
         return message;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GameData getGame() {
+        return game;
     }
 
     /**
