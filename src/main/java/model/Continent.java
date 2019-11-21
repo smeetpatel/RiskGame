@@ -13,6 +13,7 @@ import java.util.HashMap;
  *
  */
 public class Continent {
+
 	/**
 	 * Represents the name of the continent.
 	 */
