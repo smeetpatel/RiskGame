@@ -5,12 +5,13 @@ import main.java.model.GameData;
 import main.java.model.Phase;
 import main.java.model.Player;
 import main.java.view.MapView;
+import main.java.view.PhaseView;
 import main.java.view.PlayerDominationView;
 
 /**
  * Manages start-up related commands for the game.
  */
-public class StartUpController implements  Controller{
+public class StartUpController implements Controller{
 
     /**
      * Helps access methods to view map.
@@ -21,6 +22,11 @@ public class StartUpController implements  Controller{
      * Represents the 'Player domination view'
      */
     public PlayerDominationView playerDominationView;
+
+    /**
+     * Represents the 'Phase view'
+     */
+    public PhaseView phaseView;
 
     /**
      * Intializes required class variables.
@@ -38,6 +44,7 @@ public class StartUpController implements  Controller{
     public String parseCommand(Player player, String newCommand) {
         String message = "";
         String playerName;
+        String countryName;
         String[] data = newCommand.split("\\s+");
         String commandName = data[0];
 
@@ -108,7 +115,68 @@ public class StartUpController implements  Controller{
                     break;
             }
             return message;
+        } else if(game.getGamePhase().equals(Phase.ARMYALLOCATION)) {
+            switch (commandName) {
+                case "placearmy":
+                    try {
+                        if (!(data[1] == "")) {
+                            if (this.isAlpha(data[1])) {
+                                countryName = data[1];
+                                if (!gameAction.placeArmy(player, countryName)) {
+                                    if (player.getOwnedArmies() <= 0) {
+                                        message = "Invalid command - player does not own armies to assign.";
+                                    } else {
+                                        message = "You don't own this country. Please allocate army in your country.";
+                                    }
+                                }
+                                if(gameAction.isAllArmyPlaced(game)) {
+                                    message = "Armies placed successfully";
+                                    phaseView = new PhaseView();
+                                    phaseView.setVisible(true);
+                                    phaseView.setSize(600, 600);
+                                    phaseView.setDefaultCloseOperation(3);
+                                    for(Player p : game.getPlayers()){
+                                        p.attach(phaseView);
+                                    }
+                                    //player.attach(phaseView);
+                                    game.attach(phaseView);
+                                }
+                            } else {
+                                message = "Invalid country name";
+                            }
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        message = "Invalid command - it should be of the form 'placearmy countryname'";
+                    } catch (Exception e) {
+                        message = "Invalid command - it should be of the form 'placearmy countryname'";
+                    }
+                    break;
+
+                case "placeall":
+                    if (gameAction.placeAll(game)) {
+                        message = "Armies placed successfully";
+                        phaseView = new PhaseView();
+                        phaseView.setVisible(true);
+                        phaseView.setSize(600, 600);
+                        phaseView.setDefaultCloseOperation(3);
+                        for(Player p : game.getPlayers()){
+                            p.attach(phaseView);
+                        }
+                        game.attach(phaseView);
+                    }
+
+                    break;
+
+                case "showmap":
+                    mapView.showMap(game.getMap(), game.getPlayers());
+                    break;
+
+                default:
+                    message = "Invalid command - use placearmy/placeall/showmap commands to first allocate the assigned armies.";
+                    break;
+            }
         }
+        return message;
     }
 
     /**
@@ -118,5 +186,16 @@ public class StartUpController implements  Controller{
         for(Player player : game.getPlayers()){
             player.attach(playerDominationView);
         }
+    }
+
+    /**
+     * Ensures string matches the defined criteria.
+     *
+     * @param s input string
+     * @return true if valid match, else false
+     */
+    public boolean isAlpha(String s) {
+
+        return s != null && s.matches("^[a-zA-Z-_]*$");
     }
 }

@@ -1,12 +1,9 @@
 package main.java.view;
 
-import main.java.controller.Controller;
-import main.java.controller.MapController;
-import main.java.controller.StartUpController;
+import main.java.controller.*;
 import main.java.model.Card;
 import main.java.model.Phase;
 import main.java.model.Player;
-import main.java.controller.Command;
 
 import java.io.File;
 import java.util.Scanner;
@@ -165,7 +162,7 @@ public class PlayRisk {
 							System.out.println(message);
 						}while(controller.getGame().getGamePhase()!=Phase.ARMYALLOCATION);
 
-						//allow players to place initial armies
+						//allow players to place all the initial armies
 						numberOfPlayers = controller.getGame().getPlayers().size();
 						traversalCounter = 0;
 						while(controller.getGame().getGamePhase()!=Phase.CARDEXCHANGE){
@@ -184,9 +181,71 @@ public class PlayRisk {
 							}
 						}
 
+						//let each player play all three phases of the game in round-robin fashion.
+						controller = new TurnController(game);
+						traversalCounter = 0;	//reset traversal counter
+						int index = 1;
+						while(controller.getGame().getGamePhase()!=Phase.QUIT){
+							player = controller.getGame().getPlayers().get(traversalCounter);
+							//TODO: Do user interaction only if human player
+							System.out.println(player.getPlayerName() + "'s turn");
+							System.out.println("Reinforcement phase");
+							((TurnController) controller).playerChangeEvent(player);
+
+							//card exchange takes place
+							while (player.getOwnedCards().size()>2) {
+								while (player.getOwnedCards().size() > 4) {
+									System.out.println("You have 5 cards or more, you have to exchange cards");
+									for(Card card : player.getOwnedCards()){
+										System.out.println(index + ". " + card.getCardCountry() + " - " + card.getCardType());
+										index++;
+									}
+									index = 1;
+									command = read.nextLine();
+									message = controller.parseCommand(player,command);
+									System.out.println(message);
+								}
+								System.out.println("Would you like to exchange your card to get more armies?");
+								for(Card card : player.getOwnedCards()){
+									System.out.println(index + ". " + card.getCardCountry() + " - " + card.getCardType());
+									index++;
+								}
+								index = 1;
+								command = read.nextLine();
+								message = controller.parseCommand(player, command);
+								//System.out.println(message);
+							}
+							command = "exchangecards -none";
+							message = controller.parseCommand(player,command);
+							System.out.println(message);
+
+							//loop through all three phases of the player
+							while(controller.getGame().getGamePhase()!=Phase.TURNEND){
+								if(controller.getGame().getGamePhase()==Phase.REINFORCEMENT){
+									System.out.println("Reinforcement armies: " + player.getOwnedArmies());
+								} else if(controller.getGame().getGamePhase()==Phase.ATTACK) {
+									System.out.println("Attack phase");
+								}
+								else if(controller.getGame().getGamePhase()==Phase.ATTACKCARDEXCHANGE){
+									System.out.println("You have to exchange cards till you have 4 or fewer cards. Use command 'exchangecards num num num' only.");
+									System.out.println("You will be redirected to move armies to conquered country once you have 4 or less cards.");
+								}
+								command = read.nextLine();
+								message = controller.parseCommand(player, command);
+								if(controller.getGame().getGamePhase()==Phase.QUIT){
+									System.out.println(player.getPlayerName() + " won the game.\n");
+									System.exit(0);
+								}
+							}
+							controller.turnEndEvent();
+							traversalCounter++;
+							if (traversalCounter >= controller.ge.getPlayers().size()) {
+								traversalCounter = 0;
+							}
+						}
+
 
 					} else {
-
 						System.out.println("Invalid choice");
 
 					}
