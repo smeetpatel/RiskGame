@@ -17,7 +17,8 @@ public class LoadMap {
 	 * Tracks the index value of continents, new or existing, to later facilitate writing them to
 	 * map files following domaination's conventions.
 	 */
-	public static int inMapIndex = 1;
+	//public static int inMapIndex = 1;
+	private int inMapIndex = 1;
 
 	/**
 	 * Represents the game map.
@@ -47,6 +48,22 @@ public class LoadMap {
 	 */
 	public void setMap(GameMap map) {
 		this.map = map;
+	}
+
+	/**
+	 * Gets the inMapIndex value for the continent
+	 * @return returns index value of the continent in the map
+	 */
+	public int getInMapIndex() {
+		return inMapIndex;
+	}
+
+	/**
+	 * Sets the in map index value for the continent
+	 * @param inMapIndex index value of the continent in the map
+	 */
+	public void setInMapIndex(int inMapIndex) {
+		this.inMapIndex = inMapIndex;
 	}
 
 	/**
@@ -100,8 +117,8 @@ public class LoadMap {
 				
 				//Check if continent already exists in the map
 				if(!continentExists && Integer.parseInt(continentString[1])>=0) {
-					map.getContinents().put(continentString[0].toLowerCase(), new Continent(continentString[0], continentString[1], continentString[2]));
-					inMapIndex++;
+					map.getContinents().put(continentString[0].toLowerCase(), new Continent(continentString[0], continentString[1], continentString[2], this.inMapIndex));
+					this.inMapIndex++;
 				} 
 				else {
 					//terminate the program if continent already exists
@@ -114,7 +131,7 @@ public class LoadMap {
 		catch(IOException e) {
 			e.printStackTrace();
 		}
-		inMapIndex = 1;
+		this.inMapIndex = 1;
 		return reader;
 	}
 	

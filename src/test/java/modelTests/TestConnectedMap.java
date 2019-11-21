@@ -52,7 +52,7 @@ public class TestConnectedMap {
     @Test
     public void testConnectedMap(){
         gameActions.loadMap(game, "world.map");
-        Continent continent = new Continent("dummy", "9", "000");
+        Continent continent = new Continent("dummy", "9", "000", 1);
         game.getMap().getContinents().put("dummy", continent);
         Country country = new Country("dummysecond", "dummy");
         game.getMap().getContinents().get("dummy").getCountries().put("dummysecond", country);

@@ -152,6 +152,7 @@ public class PlayRisk {
 				}
 			} else if (command.equals("2")){
 				//TODO: code for tournament mode goes here
+				//TODO: call tournament controller here
 				validCommand = true;
 			} else {
 				System.out.println("Invalid choice");

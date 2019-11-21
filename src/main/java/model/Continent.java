@@ -49,7 +49,8 @@ public class Continent {
 	 */
 	public Continent(String continentName, int controlValue){
 		this.continentName = continentName;
-		this.inMapIndex = LoadMap.inMapIndex;
+		//this.inMapIndex = LoadMap.inMapIndex;
+		this.inMapIndex = 0;
 		this.controlValue = controlValue;
 		this.colorCode = "000";
 		this.countries = new HashMap<String, Country>();
@@ -61,10 +62,11 @@ public class Continent {
 	 * @param continentName Name of the continent
 	 * @param controlValue Control value for this continent
 	 * @param colorCode Color code in case using GUI
+	 * @param inMapIndex Index value fo the continent as per the file read in Domination file format
 	 */
-	public Continent(String continentName, String controlValue, String colorCode){
+	public Continent(String continentName, String controlValue, String colorCode, int inMapIndex){
 		this.continentName = continentName;
-		this.inMapIndex = LoadMap.inMapIndex;
+		this.inMapIndex = inMapIndex;
 		this.controlValue = Integer.parseInt(controlValue);
 		this.colorCode = colorCode;
 		this.countries = new HashMap<String, Country>();
