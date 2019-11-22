@@ -112,7 +112,7 @@ public class GameActions extends Observable{
      * @param playerName Name of the player
      * @return true if successful in adding the player, else false
      */
-    public boolean addPlayer(ArrayList<Player> players, String playerName) {
+    public boolean addPlayer(ArrayList<Player> players, String playerName, String playerStrategy) {
         if (players.size() == 6) {
             return false;
         }
@@ -122,7 +122,7 @@ public class GameActions extends Observable{
                 return false;
             }
         }
-        players.add(new Player(playerName));
+        players.add(new Player(playerName,playerStrategy));
         return true;
     }
 

@@ -2,6 +2,7 @@ package main.java.view;
 
 import main.java.controller.*;
 import main.java.model.Card;
+import main.java.model.GameData;
 import main.java.model.Phase;
 import main.java.model.Player;
 

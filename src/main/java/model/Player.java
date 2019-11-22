@@ -44,12 +44,28 @@ public class Player extends Observable{
 	 * Represents the percentage of map controlled.
 	 */
 	private double mapControlled;
+
+	/**
+	 * Represents the strategy of the player
+	 */
+	private String playerStrategy;
+
+	/**
+	 * Represents player is bot or not
+	 */
+	private boolean isBot = true;
+
+	public PlayerStrategy strategy;
 	/**
 	 * Creates a player with the argument player name and sets default value for rest of the player fields.
 	 * @param playerName name of player
 	 */
-	 public Player(String playerName){
+	 public Player(String playerName, String playerStrategy){
 		this.playerName = playerName;
+		this.playerStrategy = playerStrategy;
+		if(playerStrategy.equals("human")){
+			isBot = false;
+		}
 		this.ownedArmies = 0;
 		this.ownedCountries = new HashMap<String, Country>();
 		this.ownedContinents = new HashMap<String, Continent>();
@@ -72,6 +88,21 @@ public class Player extends Observable{
 		this.playerName = playerName;
 	}
 
+	/**
+	 * getter method to return player strategy entered by user
+	 * @return playerStrategy
+	 */
+	public String getPlayerStrategy(){
+		return this.playerStrategy;
+	}
+
+	public boolean getIsBot(){
+		return isBot;
+	}
+
+	public Player getCurrentPlayer(){
+		return this;
+	}
 	/**
 	 * This function gets the number of initial armies
 	 * @return ownedArmies
@@ -430,5 +461,76 @@ public class Player extends Observable{
 			}
 		}
 		return numberOfArmies;
+	}
+
+	public void botTurn(Player player, GameData game){
+		switch (player.getPlayerStrategy()){
+			case "aggresive":
+				aggresivePlayerTurn(player, game);
+				break;
+			case "benevolent":
+				benevolentPlayerTurn(player, game);
+				break;
+			case "random":
+				randomPlayerTurn(player, game);
+				break;
+			case "cheater":
+				cheaterPlayerTurn(player, game);
+				break;
+			default:
+				break;
+		}
+	}
+
+	public void setStrategy(PlayerStrategy strategy) {
+		this.strategy = strategy;
+	}
+
+	public PlayerStrategy getStrategy(){
+		return strategy;
+	}
+
+	public void aggresivePlayerTurn(Player player, GameData game){
+
+	}
+
+	public void benevolentPlayerTurn(Player player, GameData game){
+
+		setStrategy(new BenevolentPlayer());
+		Country weakestCountry = getWeakestCountry(player);
+
+		if(weakestCountry != null){
+			performReinforce(weakestCountry, game, player);
+		}
+
+	}
+
+	private void performReinforce(Country weakestCountry, GameData game, Player player) {
+		this.strategy.reinforce(game, weakestCountry, player);
+	}
+
+	public void randomPlayerTurn(Player player, GameData game){
+
+	}
+
+	public void cheaterPlayerTurn(Player player, GameData game){
+
+	}
+
+	public Country getWeakestCountry(Player player){
+		Collection<Country> countries = player.getOwnedCountries().values();
+		Country weakest_country = null;
+		int min_army = 500;
+		for (Country country : countries) {
+			int army = country.getNumberOfArmies();
+			if (army < min_army) {
+				min_army = army;
+				weakest_country = country;
+			}
+		}
+		if (weakest_country == null) {
+			weakest_country = getOwnedCountries().get(0);
+		}
+		return weakest_country;
 	}
 }

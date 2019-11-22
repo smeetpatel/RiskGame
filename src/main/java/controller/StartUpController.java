@@ -44,6 +44,7 @@ public class StartUpController extends Controller{
     public String parseCommand(Player player, String newCommand) {
         String message = "";
         String playerName;
+        String playerStrategy;
         String countryName;
         String[] data = newCommand.split("\\s+");
         String commandName = data[0];
@@ -54,11 +55,14 @@ public class StartUpController extends Controller{
                     try {
                         for (int i = 1; i < data.length; i++) {
                             if (data[i].equals("-add")) {
-                                if (data[i + 1].matches("[a-zA-Z0-9]+")) {
+                                if (data[i + 1].matches("[a-zA-Z0-9]+") && (data[i+2].matches("human") ||
+                                        data[i+2].matches("aggressive") || data[i+2].matches("benevolent")
+                                        || data[i+2].matches("random") || data[i+2].matches("cheater"))){
                                     playerName = data[i + 1];
-                                    boolean check = gameAction.addPlayer(game.getPlayers(), playerName);
+                                    playerStrategy = data[i+2];
+                                    boolean check = gameAction.addPlayer(game.getPlayers(), playerName, playerStrategy);
                                     if (check) {
-                                        message = "Player " + playerName + " successfully added";
+                                        message = "Player " + playerName +"  with Strategy "+playerStrategy+ " successfully added";
                                     } else {
                                         if (game.getPlayers().size() == 6) {
                                             message = "Can not add any more player. Maximum 6 players can play.";
@@ -67,7 +71,7 @@ public class StartUpController extends Controller{
                                         }
                                     }
                                 } else {
-                                    message = "Invalid player name";
+                                    message = "Invalid player name or player strategy";
                                 }
                             } else if (data[i].equals("-remove")) {
                                 if (data[i + 1].matches("[a-zA-Z0-9]+")) {
