@@ -25,12 +25,15 @@ public class GameActions extends Observable{
 
     public void editMap(GameData game, String mapName) {
         //Check if file exists
-        String filePath = "src/main/resources/maps/" + mapName;
+        String filePath = "src/main/resources/maps/" + game.getMapType() + "/" + mapName;
         GameMap map;
         File f = new File(filePath);
         if (f.exists()) {
-            LoadMap lm = new LoadMap();
-            map = lm.readMap(filePath);
+            if(game.getMapType().equals("domination")){
+                map = (new LoadMap()).readMap(filePath);
+            } else {
+                map = (new MapAdapter(new LoadConquestMap())).readMap(filePath);
+            }
             map.setMapName(mapName);
         } else {
             map = new GameMap(mapName);
@@ -49,12 +52,15 @@ public class GameActions extends Observable{
      */
     public boolean loadMap(GameData game, String mapName) {
         //check if file exists
-        String filePath = "src/main/resources/maps/" + mapName;
+        String filePath = "src/main/resources/maps/" + game.getMapType() + "/" + mapName;
         GameMap map;
         File f = new File(filePath);
         if (f.exists()) {
-            LoadMap lm = new LoadMap();
-            map = lm.readMap(filePath);
+            if(game.getMapType().equals("domination")){
+                map = (new LoadMap()).readMap(filePath);
+            } else {
+                map = (new MapAdapter(new LoadConquestMap())).readMap(filePath);
+            }
             map.setMapName(mapName);
             game.setMap(map);
 
@@ -74,85 +80,6 @@ public class GameActions extends Observable{
             return false;
         }
         return true;
-    }
-
-    /**
-     * Saves GameMap object as ".map" file following Domination game format
-     *
-     * @param map      GameMap object representing the map to be saved
-     * @param fileName Name with which map file is to be saved
-     * @return true if successful, else false indicating invalid command
-     * @throws IOException
-     */
-    public boolean saveMap(GameMap map, String fileName) {
-        //Check if map is valid or not
-        if (validateMap(map) == MapValidityStatus.VALIDMAP) {
-            try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/maps/" + fileName + ".map"));
-                int continentIndex = 1;    //to track continent index in "map" file
-                int countryIndex = 1; //to track country index in "map" file
-                HashMap<Integer, String> indexToCountry = new HashMap<Integer, String>(); //to get in country name corresponding to in map index to be in compliance with Domination format
-                HashMap<String, Integer> countryToIndex = new HashMap<String, Integer>(); //to get in map index to be in compliance with Domination format
-
-                //write preliminary basic information
-                writer.write("name " + fileName + " Map");
-                writer.newLine();
-                writer.newLine();
-                writer.write("[files]");
-                writer.newLine();
-                writer.newLine();
-                //writer.newLine();
-                writer.flush();
-
-                //write information about all the continents
-                writer.write("[continents]");
-                writer.newLine();
-                for (Continent continent : map.getContinents().values()) {
-                    writer.write(continent.getContinentName() + " " + Integer.toString(continent.getControlValue()) + " " + continent.getColorCode());
-                    writer.newLine();
-                    writer.flush();
-                    continent.setInMapIndex(continentIndex);
-                    continentIndex++;
-                }
-                writer.newLine();
-
-                //write information about all the countries
-                writer.write("[countries]");
-                writer.newLine();
-                for (Country country : map.getCountries().values()) {
-                    writer.write(Integer.toString(countryIndex) + " " + country.getCountryName() + " " + Integer.toString(map.getContinents().get(country.getInContinent().toLowerCase()).getInMapIndex()) + " " + country.getxCoOrdinate() + " " + country.getyCoOrdinate());
-                    writer.newLine();
-                    writer.flush();
-                    indexToCountry.put(countryIndex, country.getCountryName().toLowerCase());
-                    countryToIndex.put(country.getCountryName().toLowerCase(), countryIndex);
-                    countryIndex++;
-                }
-                writer.newLine();
-                //countryIndex = 1;
-
-                //write information about all the borders
-                writer.write("[borders]");
-                writer.newLine();
-                //writer.newLine();
-                writer.flush();
-                for (int i = 1; i < countryIndex; i++) {
-                    String countryName = indexToCountry.get(i);
-                    Country c = map.getCountries().get(countryName.toLowerCase());
-                    writer.write(Integer.toString(i) + " ");
-                    for (Country neighbor : c.getNeighbours().values()) {
-                        writer.write(Integer.toString(countryToIndex.get(neighbor.getCountryName().toLowerCase())) + " ");
-                        writer.flush();
-                    }
-                    writer.newLine();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**

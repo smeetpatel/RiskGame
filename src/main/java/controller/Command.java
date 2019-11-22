@@ -306,7 +306,12 @@ public class Command {
                         if (!(data[1] == "")) {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
-                                boolean check = gameAction.saveMap(game.getMap(), mapName);
+                                boolean check = false;
+                                if(game.getMapType().equals("domination")){
+                                    check = (new LoadMap()).saveMap(game.getMap(), mapName);
+                                } else {
+                                    check = (new MapAdapter(new LoadConquestMap())).saveMap(game.getMap(), mapName);
+                                }
                                 if (check) {
                                     System.out.println("Map file saved successfully as " + mapName + ".map");
                                 } else {
