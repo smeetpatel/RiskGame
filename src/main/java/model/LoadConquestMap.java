@@ -1,6 +1,9 @@
 package main.java.model;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -51,8 +54,7 @@ public class LoadConquestMap implements ConquestMap{
     }
 
     /**
-     * Reads the continents from the ".map" files.
-     * Exits the program if error of duplicate continents is found.
+     * {@inheritDoc}
      * @param reader Stream starting from continents section of ".map" file
      * @param map Represents the game map
      * @return BufferedReader stream at the point where it has finished reading continents
@@ -151,51 +153,7 @@ public class LoadConquestMap implements ConquestMap{
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * @param map      GameMap object representing the map to be saved
-     * @param fileName Name with which map file is to be saved
-     * @return
-     */
     public boolean saveMap(GameMap map, String fileName){
-        GameActions gameActions = new GameActions();
-        if (gameActions.validateMap(map) == MapValidityStatus.VALIDMAP){
-            try{
-                BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/maps/conquest/" + fileName + ".map"));
-                writer.write("[Map]");
-                writer.newLine();
-                writer.newLine();
-                writer.flush();
-
-                //write information about all the continents
-                writer.write("[Continents]");
-                writer.newLine();
-                for (Continent continent : map.getContinents().values()) {
-                    writer.write(continent.getContinentName() + "=" + continent.getControlValue());
-                    writer.newLine();
-                    writer.flush();
-                }
-                writer.newLine();
-
-                //write information about all the countries
-                writer.write("[Territories]");
-                writer.newLine();
-                for (Country country : map.getCountries().values()) {
-                    String countryString = country.getCountryName() + "," + country.getxCoOrdinate() + "," + country.getyCoOrdinate() + "," + country.getInContinent();
-                    for(Country neighbor : country.getNeighbours().values()){
-                        countryString += "," + neighbor.getCountryName();
-                    }
-                    writer.write(countryString);
-                    writer.newLine();
-                    writer.flush();
-                }
-                writer.newLine();
-                return true;
-            } catch(IOException e){
-                return false;
-            }
-        } else {
-            return false;
-        }
+        return true;
     }
 }

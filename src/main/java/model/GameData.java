@@ -13,11 +13,6 @@ public class GameData extends Observable{
     private GameMap map;
 
     /**
-     * Represents the type of the map, i.e. whether it is a map of 'Domination' format or of 'Conquest' format
-     */
-    private String mapType;
-
-    /**
      * Stores the current phase of the game.
      */
     private Phase gamePhase;
@@ -47,7 +42,6 @@ public class GameData extends Observable{
      */
     public GameData(){
         map = new GameMap();
-        mapType = "";
         gamePhase = Phase.NULL;
         players = new ArrayList<Player>();
         activePlayer = null;
@@ -69,22 +63,6 @@ public class GameData extends Observable{
      */
     public void setMap(GameMap map) {
         this.map = map;
-    }
-
-    /**
-     * Gets the type of the map, i.e. 'Domination' type or 'Conquest' type
-     * @return Returns type of the map
-     */
-    public String getMapType() {
-        return mapType;
-    }
-
-    /**
-     * Sets the type of the map, i.e. 'Domination' type or 'Conquest' type
-     * @param mapType Type of the map
-     */
-    public void setMapType(String mapType) {
-        this.mapType = mapType;
     }
 
     /**

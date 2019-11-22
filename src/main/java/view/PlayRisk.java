@@ -48,14 +48,6 @@ public class PlayRisk {
 
 						validCommand = true;
 						controller = new MapController();
-						System.out.println("Enter 1 to play with 'Domination' type map or 2 to play with 'Conquest' type map");
-						command = read.nextLine();
-						//TODO: complete choice of map part
-						if(command.equals("1")){
-							((MapController) controller).registerMapType("domination");
-						} else if (command.equals("2")){
-							((MapController) controller).registerMapType("conquest");
-						}
 						System.out.println("To continue, select a map from the below mentioned existing maps or create a new one.");
 						game.printMapNames();
 
@@ -173,7 +165,6 @@ public class PlayRisk {
 	 * Prints names of existing map files in maps folder.
 	 */
 	private void printMapNames() {
-
 		File folder = new File("src/main/resources/maps/");
 		File[] files = folder.listFiles();
 		
