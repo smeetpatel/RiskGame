@@ -90,7 +90,24 @@ public class Country {
 		this.yCoOrdinate = Integer.parseInt(yCoOrdinate);
 		this.numberOfArmies = 0;
 	}
-	
+
+	/**
+	 * Creates country object as per the argument parameters.
+	 * Used when reading from ".map" files.
+	 * @param countryName Name of the country
+	 * @param xCoOrdinate x-co-ordinate on GUI map
+	 * @param yCoOrdinate y-co-ordinate on GUI map
+	 * @param inContinent Represents the name of the continent the country belongs to
+	 */
+	public Country(String countryName, String xCoOrdinate, String yCoOrdinate, String inContinent){
+		this.index = 0;
+		this.countryName = countryName;
+		this.inContinent = inContinent;
+		this.neighbours = new HashMap<String, Country>();
+		this.xCoOrdinate = Integer.parseInt(xCoOrdinate);
+		this.yCoOrdinate = Integer.parseInt(yCoOrdinate);
+		this.numberOfArmies = 0;
+	}
 	/**
 	 * Returns the index of this country in the ".map" file as per Domination's conventions
 	 * @return returns the index of this country in the ".map" file as per Domination's conventions
