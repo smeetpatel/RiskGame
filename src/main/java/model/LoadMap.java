@@ -11,59 +11,6 @@ import java.util.HashMap;
  */
 public class LoadMap {
 	/**
-	 * Tracks the index value of continents, new or existing, to later facilitate writing them to
-	 * map files following domaination's conventions.
-	 */
-	//public static int inMapIndex = 1;
-	private int inMapIndex = 1;
-
-	/**
-	 * Represents the game map.
-	 */
-	private GameMap map;
-
-	/**
-	 * Stores list of countries in the map.
-	 * Facilitates reading neighbors of a country written following the rules of ".map" files of domination file format
-	 * HashMap has
-	 * 1) Key: integer value representing the index of the country in ".map" file of domination file format
-	 * 2) Value: corresponding Country object
-	 */
-	private HashMap<Integer, Country> listOfCountries; //temporary HashMap to facilitate reading .map files
-
-	/**
-	 * Getter method for getting the game map.
-	 * @return GameMap object that is created.
-	 */
-	public GameMap getMap() {
-		return this.map;
-	}
-	
-	/**
-	 * Setter method for setting the game map.
-	 * @param map GameMap object to be set.
-	 */
-	public void setMap(GameMap map) {
-		this.map = map;
-	}
-
-	/**
-	 * Gets the inMapIndex value for the continent
-	 * @return returns index value of the continent in the map
-	 */
-	public int getInMapIndex() {
-		return inMapIndex;
-	}
-
-	/**
-	 * Sets the in map index value for the continent
-	 * @param inMapIndex index value of the continent in the map
-	 */
-	public void setInMapIndex(int inMapIndex) {
-		this.inMapIndex = inMapIndex;
-	}
-
-	/**
 	 * Reads the ".map" file and creates a GameMap object accordingly.
 	 * Performs basic validation checks too.
 	 * @param mapName Name of the map file to be read
@@ -71,19 +18,20 @@ public class LoadMap {
 	 * @throws FileNotFoundException, IOException
 	 */
 	public GameMap readMap(String mapName) {
-		map = new GameMap(mapName);
-		listOfCountries = new HashMap<Integer, Country>();
+		int inMapIndex = 1;
+		GameMap map = new GameMap(mapName);
+		HashMap<Integer, Country> listOfCountries = new HashMap<Integer, Country>();
 		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(mapName));
 			String s;
 			while ((s = reader.readLine()) != null) {
 				if(s.equals("[continents]"))
-					reader = readContinents(reader);
+					reader = readContinents(reader, map, inMapIndex);
 				if(s.equals("[countries]"))
-					reader = readCountries(reader);
+					reader = readCountries(reader, map, listOfCountries);
 				if(s.equals("[borders]"))
-					reader = readBorders(reader);
+					reader = readBorders(reader, listOfCountries);
 			}   
 			reader.close();
 		}
@@ -105,7 +53,7 @@ public class LoadMap {
 	 * @return BufferedReader stream at the point where it has finished reading continents
 	 * @throws IOException
 	 */
-	private BufferedReader readContinents(BufferedReader reader) {
+	private BufferedReader readContinents(BufferedReader reader, GameMap map, int inMapIndex) {
 		String s;
 		boolean continentExists = false;
 		try {
@@ -114,8 +62,8 @@ public class LoadMap {
 				
 				//Check if continent already exists in the map
 				if(!continentExists && Integer.parseInt(continentString[1])>=0) {
-					map.getContinents().put(continentString[0].toLowerCase(), new Continent(continentString[0], continentString[1], continentString[2], this.inMapIndex));
-					this.inMapIndex++;
+					map.getContinents().put(continentString[0].toLowerCase(), new Continent(continentString[0], continentString[1], continentString[2], inMapIndex));
+					inMapIndex++;
 				} 
 				else {
 					//terminate the program if continent already exists
@@ -128,7 +76,6 @@ public class LoadMap {
 		catch(IOException e) {
 			e.printStackTrace();
 		}
-		this.inMapIndex = 1;
 		return reader;
 	}
 	
@@ -139,7 +86,7 @@ public class LoadMap {
 	 * @return BufferedReader stream at the point where it has finished reading countries
 	 * @throws IOException
 	 */
-	private BufferedReader readCountries(BufferedReader reader) {
+	private BufferedReader readCountries(BufferedReader reader, GameMap map, HashMap<Integer, Country> listOfCountries) {
 		String s;
 		try {
 			while(!((s = reader.readLine()).equals(""))) {
@@ -154,7 +101,7 @@ public class LoadMap {
 						System.out.println("This continent does not exist.");
 						System.exit(-1);
 					}
-					addToContinentMap(newCountry);	//Add country to the appropriate continent in the map. Terminate if duplicate entry.
+					addToContinentMap(newCountry, map);	//Add country to the appropriate continent in the map. Terminate if duplicate entry.
 					listOfCountries.put(newCountry.getIndex(), newCountry);
 				}
 				catch(NullPointerException e) {
@@ -177,7 +124,7 @@ public class LoadMap {
 	 * @return BufferedReader stream at the end of file
 	 * @throws IOException
 	 */
-	private BufferedReader readBorders(BufferedReader reader) {
+	private BufferedReader readBorders(BufferedReader reader, HashMap<Integer, Country> listOfCountries) {
 		String s;
 		try {
 			while((s = reader.readLine()) != null) {
@@ -194,7 +141,7 @@ public class LoadMap {
 					}
 					
 					for(int i=1; i<borderString.length; i++) {
-						addNeighbour(argumentCountry, borderString[i]);
+						addNeighbour(argumentCountry, borderString[i], listOfCountries);
 					}
 				}
 			}
@@ -210,7 +157,7 @@ public class LoadMap {
 	 * If duplicate country, exits the program throwing error.
 	 * @param newCountry Country to be registered with the corresponding continent
 	 */
-	private void addToContinentMap(Country newCountry) {
+	private void addToContinentMap(Country newCountry, GameMap map) {
 		
 		if(!MapValidation.doesCountryExist(map, newCountry.getCountryName())) {
 			//newCountry.printCountry();
@@ -233,7 +180,7 @@ public class LoadMap {
 	 * @param argumentCountry Country to which neighbor is to be registered.
 	 * @param stringIndex Index of the country to be added as a neighbor to the argument country
 	 */
-	private void addNeighbour(Country argumentCountry, String stringIndex) {
+	private void addNeighbour(Country argumentCountry, String stringIndex, HashMap<Integer, Country> listOfCountries) {
 		int borderIndex = Integer.parseInt(stringIndex);
 		Country neighbourCountry = new Country();
 		try {
