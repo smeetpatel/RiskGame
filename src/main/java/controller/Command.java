@@ -1,5 +1,6 @@
 package main.java.controller;
 
+import com.sun.javafx.sg.prism.NGAmbientLight;
 import main.java.model.*;
 import main.java.view.*;
 
@@ -402,7 +403,8 @@ public class Command {
                             if (data[i].equals("-add")) {
                                 if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                     playerName = data[i + 1];
-                                    boolean check = gameAction.addPlayer(game.getPlayers(), playerName);
+                                    String strty = null;
+                                    boolean check = gameAction.addPlayer(game.getPlayers(), playerName, strty);
                                     if (check) {
                                         System.out.println("Player " + playerName + " successfully added");
                                     } else {
@@ -1000,5 +1002,10 @@ public class Command {
      */
     public void turnEndEvent() {
         gameAction.turnEnd(game);
+    }
+
+    public void botCommand(Player player){
+        player.botTurn(player, game);
+
     }
 }
