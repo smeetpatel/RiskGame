@@ -21,24 +21,25 @@ public class BenevolentPlayer extends Player {
 
     @Override
     public boolean reinforce(GameData game, String country, int num) {
-        boolean checkForReinforce = gameActions.assignReinforcementArmies(game, player);
-        boolean checkforCardExchange = player.cardExchange(game,null);
-        if (checkForReinforce && checkforCardExchange) {
-            game.setActivePlayer(player);
-            weakestCountry = getWeakestCountry(player).getCountryName();
 
-            if (player.getOwnedArmies() > 0) {
-                Country c = player.getOwnedCountries().get(weakestCountry.toLowerCase());
-                int existingArmies = c.getNumberOfArmies();
-                existingArmies += player.getOwnedArmies();
-                c.setNumberOfArmies(existingArmies);
-                player.setOwnedArmies(player.getOwnedArmies());
-                notifyObservers(Integer.toString(player.getOwnedArmies()) + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + Integer.toString(player.getOwnedArmies()) + "\n");
-                game.setGamePhase(Phase.ATTACK);
-            } else {
-                notifyObservers(player.getPlayerName() + " doesn't have " + player.getOwnedArmies() + " armies to reinforce. Invalid command.");
-            }
+        gameActions.assignReinforcementArmies(game, player);
+        player.cardExchange(game, null);
+
+        game.setActivePlayer(player);
+        weakestCountry = getWeakestCountry(player).getCountryName();
+
+        if (player.getOwnedArmies() > 0) {
+            Country c = player.getOwnedCountries().get(weakestCountry.toLowerCase());
+            int existingArmies = c.getNumberOfArmies();
+            existingArmies += player.getOwnedArmies();
+            c.setNumberOfArmies(existingArmies);
+            player.setOwnedArmies(player.getOwnedArmies());
+            notifyObservers(Integer.toString(player.getOwnedArmies()) + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + Integer.toString(player.getOwnedArmies()) + "\n");
+            game.setGamePhase(Phase.ATTACK);
+        } else {
+            notifyObservers(player.getPlayerName() + " doesn't have " + player.getOwnedArmies() + " armies to reinforce. Invalid command.");
         }
+
         return true;
     }
 
@@ -46,22 +47,33 @@ public class BenevolentPlayer extends Player {
     @Override
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer) {
 
+        gameActions.endAttack(game);
         return true;
     }
 
     @Override
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num) {
 
-        int fromArmies = player.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies();
-        int toArmies = player.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
-        toArmies += (fromArmies-1);
-        fromArmies = 1;
-        player.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
-        player.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
-        notifyObservers(player.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry +". " + player.getPlayerName() + "'s turn ends now.");
-        game.setGamePhase(Phase.TURNEND);
-        return FortificationCheck.FORTIFICATIONSUCCESS;
+        String fortifyData = fortifyData(player);
 
+        if(!fortifyData.equals("No connectivity found")) {
+            String[] splitted = fortifyData.split("\\s+");
+            fromCountry = splitted[0];
+            toCountry = splitted[1];
+
+            int fromArmies = player.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies();
+            int toArmies = player.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
+            toArmies += (fromArmies - 1);
+            fromArmies = 1;
+            player.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
+            player.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+            notifyObservers(player.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry + ". " + player.getPlayerName() + "'s turn ends now.");
+            game.setGamePhase(Phase.TURNEND);
+            return FortificationCheck.FORTIFICATIONSUCCESS;
+        }else{
+            player.fortify(game);
+            return FortificationCheck.PATHFAIL;
+        }
     }
 
     public String fortifyData(Player player) {
@@ -102,10 +114,10 @@ public class BenevolentPlayer extends Player {
             for (int j = 0; j < lengthSources; j++) {
                 check = mv.fortificationConnectivityCheck(player, sourceCountries[j].getCountryName(), targetCountries[i].getCountryName());
                 if (check) {
-                    fromAndToCountries = sourceCountries[j].getCountryName()+" "+targetCountries[i].getCountryName();
-                }/*else {
+                    fromAndToCountries = sourceCountries[j].getCountryName() + " " + targetCountries[i].getCountryName();
+                }else {
                     fromAndToCountries = "No connectivity found";
-                }*/
+                }
             }
         }
         return fromAndToCountries;
