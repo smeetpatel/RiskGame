@@ -39,12 +39,14 @@ public class BenevolentPlayer extends Player {
                 notifyObservers(player.getPlayerName() + " doesn't have " + player.getOwnedArmies() + " armies to reinforce. Invalid command.");
             }
         }
+        return true;
     }
 
 
     @Override
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer) {
 
+        return true;
     }
 
     @Override
@@ -54,10 +56,15 @@ public class BenevolentPlayer extends Player {
         int toArmies = player.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
         toArmies += (fromArmies-1);
         fromArmies = 1;
+        player.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
+        player.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+        notifyObservers(player.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry +". " + player.getPlayerName() + "'s turn ends now.");
+        game.setGamePhase(Phase.TURNEND);
+        return FortificationCheck.FORTIFICATIONSUCCESS;
 
     }
 
-    public void fortifyData(Player player) {
+    public String fortifyData(Player player) {
 
         Collection<Country> countries = player.getOwnedCountries().values();
         Country[] targetCountries = countries.toArray(new Country[0]);
@@ -90,15 +97,18 @@ public class BenevolentPlayer extends Player {
 
         MapValidation mv = new MapValidation();
         boolean check;
+        String fromAndToCountries = null;
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < lengthSources; j++) {
                 check = mv.fortificationConnectivityCheck(player, sourceCountries[j].getCountryName(), targetCountries[i].getCountryName());
                 if (check) {
-
-                }
+                    fromAndToCountries = sourceCountries[j].getCountryName()+" "+targetCountries[i].getCountryName();
+                }/*else {
+                    fromAndToCountries = "No connectivity found";
+                }*/
             }
         }
-
+        return fromAndToCountries;
     }
 
     public Country getWeakestCountry(Player player) {
