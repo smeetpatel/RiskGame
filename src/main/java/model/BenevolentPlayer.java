@@ -50,6 +50,11 @@ public class BenevolentPlayer extends Player {
     @Override
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num) {
 
+        int fromArmies = player.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies();
+        int toArmies = player.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
+        toArmies += (fromArmies-1);
+        fromArmies = 1;
+
     }
 
     public void fortifyData(Player player) {
