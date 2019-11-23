@@ -22,7 +22,7 @@ public class BenevolentPlayer extends Player {
     public boolean reinforce(GameData game, String country, int num) {
 
         gameActions.assignReinforcementArmies(game, this);
-        this.cardExchange(game, null);
+        addCardExchangeArmies(game);
 
         game.setActivePlayer(this);
         weakestCountry = getWeakestCountry(this).getCountryName();
@@ -114,6 +114,7 @@ public class BenevolentPlayer extends Player {
                 check = mv.fortificationConnectivityCheck(player, sourceCountries[j].getCountryName(), targetCountries[i].getCountryName());
                 if (check) {
                     fromAndToCountries = sourceCountries[j].getCountryName() + " " + targetCountries[i].getCountryName();
+                    break;
                 }else {
                     fromAndToCountries = "No connectivity found";
                 }

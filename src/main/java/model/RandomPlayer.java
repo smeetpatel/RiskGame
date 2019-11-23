@@ -1,5 +1,8 @@
 package main.java.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -29,7 +32,8 @@ public class RandomPlayer extends Player{
     public boolean reinforce(GameData game, String countryName, int num){
 
         Random random = new Random();
-        Country randomCountry = this.getOwnedCountries().get(random.nextInt(this.getOwnedCountries().size()));
+        ArrayList<Country> countries = (ArrayList<Country>) this.getOwnedCountries().values();
+        Country randomCountry = countries.get(random.nextInt(this.getOwnedCountries().size()));
 
         gameActions.assignReinforcementArmies(game, this);
         this.cardExchange(game, null);
@@ -73,6 +77,26 @@ public class RandomPlayer extends Player{
      * @return
      */
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num){
+
+        boolean check;
+        MapValidation mv = new MapValidation();
+
+        ArrayList<Country> targetCountries = (ArrayList<Country>) this.getOwnedCountries().values();
+        ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
+        Collections.shuffle(targetCountries);
+        Collections.shuffle(sourceCountries);
+
+        for (int i = 0; i < targetCountries.size(); i++) {
+            for (int j = 0; j < sourceCountries.size(); j++) {
+                check = mv.fortificationConnectivityCheck(this, sourceCountries.get(j).getCountryName(), targetCountries.get(i).getCountryName());
+                if (check) {
+                    fromCountry =
+                }else {
+                    fromAndToCountries = "No connectivity found";
+                }
+            }
+        }
+
         return FortificationCheck.FORTIFICATIONSUCCESS;
     }
 }
