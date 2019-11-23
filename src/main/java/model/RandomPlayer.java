@@ -64,21 +64,26 @@ public class RandomPlayer extends Player{
      */
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
 
+        boolean check = false;
         Random random = new Random();
         ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
-        countryFrom = sourceCountries.get(random.nextInt(sourceCountries.size())).getCountryName();
 
-        ArrayList<Country> sourceNeighbourCountries = (ArrayList<Country>) this.getOwnedCountries().get(countryFrom).getNeighbours().values();
+        while (!check) {
+            countryFrom = sourceCountries.get(random.nextInt(sourceCountries.size())).getCountryName();
 
-        for(Country c: sourceNeighbourCountries){
-            if(!this.getOwnedCountries().containsKey(c)){
-                countryTo = c.getCountryName();
-                break;
+            ArrayList<Country> sourceNeighbourCountries = (ArrayList<Country>) this.getOwnedCountries().get(countryFrom).getNeighbours().values();
+
+            for (Country c : sourceNeighbourCountries) {
+                if (!this.getOwnedCountries().containsKey(c)) {
+                    countryTo = c.getCountryName();
+                    check = true;
+                }else {
+                    check = false;
+                }
             }
         }
-
-        numberOfDice = 3;
-        defendDice = 2;
+        numberOfDice = gameActions.getMaxDiceRolls(game, countryFrom, "attacker");
+        defendDice = gameActions.getMaxDiceRolls(game, countryTo, "defender");
 
         Country attackingCountry = game.getMap().getCountries().get(countryFrom.toLowerCase());
         Country defendingCountry = game.getMap().getCountries().get(countryTo.toLowerCase());
