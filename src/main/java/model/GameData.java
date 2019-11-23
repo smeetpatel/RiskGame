@@ -13,6 +13,11 @@ public class GameData extends Observable{
     private GameMap map;
 
     /**
+     * Represents the type of the map.
+     */
+    private String mapType;
+
+    /**
      * Stores the current phase of the game.
      */
     private Phase gamePhase;
@@ -63,6 +68,23 @@ public class GameData extends Observable{
      */
     public void setMap(GameMap map) {
         this.map = map;
+    }
+
+    /**
+     * Gets the type of the map
+     * @return Type of the map, i.e. 'Conquest' format map or 'Domination' format map
+     */
+    public String getMapType() {
+        return mapType;
+    }
+
+    /**
+     * Sets the type of the map
+     * @param mapType Type of the map, i.e. 'Conquest' format map or 'Domination' format map
+     *
+     */
+    public void setMapType(String mapType) {
+        this.mapType = mapType;
     }
 
     /**
