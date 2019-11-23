@@ -1,5 +1,7 @@
 package main.java.model;
 
+import java.util.Collection;
+
 public class BenevolentPlayer extends Observable implements PlayerStrategy {
 
     private int ownedArmies;
@@ -33,5 +35,22 @@ public class BenevolentPlayer extends Observable implements PlayerStrategy {
     @Override
     public void fortify(GameData game, String fromCountry, String toCountry, Player currentPlayer) {
 
+    }
+
+    public Country getWeakestCountry(Player player){
+        Collection<Country> countries = player.getOwnedCountries().values();
+        Country weakest_country = null;
+        int min_army = 500;
+        for (Country country : countries) {
+            int army = country.getNumberOfArmies();
+            if (army < min_army) {
+                min_army = army;
+                weakest_country = country;
+            }
+        }
+        if (weakest_country == null) {
+            weakest_country = getOwnedCountries().get(0);
+        }
+        return weakest_country;
     }
 }

@@ -1,14 +1,10 @@
 package main.java.model;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * This class assign player attributes and maintain HashMaps for countries
- * and continents owned by them.
- * @author Jasmine
- *
- */
-public class Player extends Observable{
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public abstract class Player extends Observable{
+
 	/**
 	 * Name of the player
 	 */
@@ -46,32 +42,49 @@ public class Player extends Observable{
 	private double mapControlled;
 
 	/**
-	 * Represents the strategy of the player
-	 */
-	private String playerStrategy;
-
-	/**
-	 * Represents player is bot or not
-	 */
-	private boolean isBot = true;
-
-	public PlayerStrategy strategy;
-	/**
 	 * Creates a player with the argument player name and sets default value for rest of the player fields.
 	 * @param playerName name of player
 	 */
-	 public Player(String playerName, String playerStrategy){
+	public Player(String playerName){
 		this.playerName = playerName;
-		this.playerStrategy = playerStrategy;
-		if(playerStrategy.equals("human")){
-			isBot = false;
-		}
 		this.ownedArmies = 0;
 		this.ownedCountries = new HashMap<String, Country>();
 		this.ownedContinents = new HashMap<String, Continent>();
 		this.ownedCards = new ArrayList<Card>();
 		this.mapControlled = 0.0f;
 	}
+
+	/**
+	 * This function allow player to place armies
+	 * @param game Represents the state of the game
+	 * @param countryName Reinforce armies here
+	 * @param num Reinforce this many armies
+	 * @return true if successful, else false
+	 */
+	public abstract boolean reinforce(GameData game, String countryName, int num);
+
+	/**
+	 * Attacks the argument country.
+	 * @param game Represents the state of the game.
+	 * @param countryFrom Country doing the attack
+	 * @param countryTo Country that is defending
+	 * @param numberOfDice Number of dice attacker wishes to roll
+	 * @param defendDice Number of dice defender wishes to roll
+	 * @param defendingPlayer Player owning the defending country
+	 * @return true if successful in conquering, else false.
+	 */
+	public abstract boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer);
+
+	/**
+	 * perform the fortification operation of the game
+	 * @param game represents state of the game
+	 * @param fromCountry country from armies send
+	 * @param toCountry country to armies placed
+	 * @param num total number of armies to send from one country to another country
+	 * @return status of the fortification phase
+	 */
+	public abstract FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num);
+
 	/**
 	 * Getter method to return player name entered by user
 	 * @return playerName
@@ -88,21 +101,6 @@ public class Player extends Observable{
 		this.playerName = playerName;
 	}
 
-	/**
-	 * getter method to return player strategy entered by user
-	 * @return playerStrategy
-	 */
-	public String getPlayerStrategy(){
-		return this.playerStrategy;
-	}
-
-	public boolean getIsBot(){
-		return isBot;
-	}
-
-	public Player getCurrentPlayer(){
-		return this;
-	}
 	/**
 	 * This function gets the number of initial armies
 	 * @return ownedArmies
@@ -128,28 +126,13 @@ public class Player extends Observable{
 	public HashMap<String, Country> getOwnedCountries(){
 		return this.ownedCountries;
 	}
+
 	/**
 	 * This method sets the countries owned by players as a Hash map
 	 * @param ownedCountries number of countries owned by players
 	 */
 	public void setOwnedCountries(HashMap<String, Country> ownedCountries){
 		this.ownedCountries = ownedCountries;
-	}
-
-	/**
-	 * This method returns the continents owned by players
-	 * @return ownedContinents
-	 */
-	public HashMap<String, Continent> getOwnedContinents(){
-		return this.ownedContinents;
-	}
-
-	/**
-	 * This method sets the continents owned by players as a Hash map
-	 * @param ownedContinents number of continents owned by players
-	 */
-	public void setOwnedContinents(HashMap<String, Continent> ownedContinents) {
-		this.ownedContinents = ownedContinents;
 	}
 
 	/**
@@ -198,112 +181,6 @@ public class Player extends Observable{
 	}
 
 	/**
-	 * This function allow player to place armies
-	 * @param game Represents the state of the game
-	 * @param countryName Reinforce armies here
-	 * @param num Reinforce this many armies
-	 * @return true if successful, else false
-	 */
-	public boolean reinforce(GameData game, String countryName, int num)
-	{
-		game.setActivePlayer(this);
-		if(this.ownedCountries.containsKey(countryName.toLowerCase()))
-		{
-			if(this.ownedArmies >= num)
-			{
-				Country c= this.ownedCountries.get(countryName.toLowerCase());
-				int existingArmies = c.getNumberOfArmies();
-				existingArmies += num;
-				c.setNumberOfArmies(existingArmies);
-				this.setOwnedArmies(this.ownedArmies-num);
-				notifyObservers(Integer.toString(num) + " armies reinforced at " + countryName +". Remaining reinforcement armies: " + Integer.toString(this.ownedArmies) + "\n");
-				if(this.ownedArmies==0) {
-					game.setGamePhase(Phase.ATTACK);
-				}
-				return true;
-			}
-			else
-			{
-				notifyObservers(this.playerName + " doesn't have " + num + " armies to reinforce. Invalid command.");
-				return false;
-			}
-		}
-		else
-		{
-			notifyObservers(countryName + " not owned by " + this.playerName +". Invalid command.\n");
-			return false;
-		}
-	}
-
-	/**
-	 * Attacks the argument country.
-	 * @param game Represents the state of the game.
-	 * @param countryFrom Country doing the attack
-	 * @param countryTo Country that is defending
-	 * @param numberOfDice Number of dice attacker wishes to roll
-	 * @param defendDice Number of dice defender wishes to roll
-	 * @param defendingPlayer Player owning the defending country
-	 * @return true if successful in conquering, else false.
-	 */
-	public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
-		Country attackingCountry = game.getMap().getCountries().get(countryFrom.toLowerCase());
-		Country defendingCountry = game.getMap().getCountries().get(countryTo.toLowerCase());
-		int[] attackerDiceRolls = new int[numberOfDice];
-		int[] defenderDiceRolls = new int[defendDice];
-		int attackerArmiesLost = 0;
-		int defenderArmiesLost = 0;
-		//roll the dices
-		for(int i = 0; i<numberOfDice; i++){
-			int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-			attackerDiceRolls[i] = randomNum;
-		}
-		for(int i = 0; i<defendDice; i++){
-			int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-			defenderDiceRolls[i] = randomNum;
-		}
-
-		//sort the dice roll result
-		Arrays.sort(attackerDiceRolls);
-		Arrays.sort(defenderDiceRolls);
-
-		//compare dice results
-		for(int i=1; i<=defendDice; i++){
-			if(defenderDiceRolls[defenderDiceRolls.length-i]>=attackerDiceRolls[attackerDiceRolls.length-i]){
-				attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies()-1);
-				attackerArmiesLost++;
-			} else {
-				defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()-1);
-				defenderArmiesLost++;
-			}
-			if(defendingCountry.getNumberOfArmies()==0){
-				if(attackerArmiesLost>0){
-					notifyObservers(this.playerName + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
-				}
-				if(defenderArmiesLost>0){
-					notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
-				}
-				this.ownedCountries.put(countryTo.toLowerCase(), defendingCountry);
-				defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
-				notifyObservers(this.playerName + " conquered " + countryTo + ".\n");
-				if(defendingPlayer.getOwnedCountries().size()==0){
-					notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + this.playerName + " gets all his/her cards.");
-				}
-				return true;
-			}
-			if(i>=numberOfDice){
-				break;
-			}
-		}
-		if(attackerArmiesLost>0){
-			notifyObservers(this.playerName + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
-		}
-		if(defenderArmiesLost>0){
-			notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
-		}
-		return false;
-	}
-
-	/**
 	 * check whether the attack is possible or not
 	 * @return true if attack is possible otherwise false
 	 */
@@ -344,54 +221,6 @@ public class Player extends Observable{
 	}
 
 	/**
-	 * perform the fortification operation of the game
-	 * @param game represents state of the game
-	 * @param fromCountry country from armies send
-	 * @param toCountry country to armies placed
-	 * @param num total number of armies to send from one country to another country
-	 * @return status of the fortification phase
-	 */
-	public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num)
-	{
-		MapValidation mv = new MapValidation();
-		if(this.ownedCountries.containsKey(fromCountry.toLowerCase()))
-		{
-			if(this.ownedCountries.containsKey(toCountry.toLowerCase()))
-			{
-				if((this.ownedCountries.get(fromCountry.toLowerCase()).getNumberOfArmies()- num)>=1)
-				{
-					if(mv.fortificationConnectivityCheck(this, fromCountry, toCountry))
-					{
-						int fromArmies = this.ownedCountries.get(fromCountry.toLowerCase()).getNumberOfArmies();
-						fromArmies -= num;
-						this.ownedCountries.get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
-						int toArmies = this.ownedCountries.get(toCountry.toLowerCase()).getNumberOfArmies();
-						toArmies += num;
-						this.ownedCountries.get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
-						notifyObservers(this.playerName + " fortified " + toCountry + " with " + num + " armies from " + fromCountry +". " + this.playerName + "'s turn ends now.");
-						game.setGamePhase(Phase.TURNEND);
-						return FortificationCheck.FORTIFICATIONSUCCESS;
-					} else {
-						notifyObservers("No path from " + fromCountry + " to " + toCountry + ". Fortification failed.");
-						return FortificationCheck.PATHFAIL;
-					}
-				} else {
-					notifyObservers("Not enough armies in " + fromCountry + " to fortify " + toCountry + " with " + num + " armies. Fortification failed.");
-					return FortificationCheck.ARMYCOUNTFAIL;
-				}
-			} else {
-				notifyObservers(this.playerName + " does not own " + toCountry + ". Fortification failed.");
-				return FortificationCheck.TOCOUNTRYFAIL;
-			}
-		}
-		else
-		{
-			notifyObservers(this.playerName + " does not own  " + fromCountry + ". Fortification failed.");
-			return FortificationCheck.FROMCOUNTRYFAIL;
-		}
-	}
-
-	/**
 	 * Used to mark end of a player's turn when player decides to not fortify.
 	 * @param game Represents current state of the game.
 	 */
@@ -414,8 +243,8 @@ public class Player extends Observable{
 			if ((this.getOwnedCards().get(cardIndex.get(0) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(1) - 1).getCardType()) &&
 					this.getOwnedCards().get(cardIndex.get(0) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(2) - 1).getCardType())) ||
 					(!this.getOwnedCards().get(cardIndex.get(0) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(1) - 1).getCardType()) &&
-					!this.getOwnedCards().get(cardIndex.get(0) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(2) - 1).getCardType()) &&
-					!this.getOwnedCards().get(cardIndex.get(1) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(2) - 1).getCardType())) ||
+							!this.getOwnedCards().get(cardIndex.get(0) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(2) - 1).getCardType()) &&
+							!this.getOwnedCards().get(cardIndex.get(1) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(2) - 1).getCardType())) ||
 					((this.getOwnedCards().get(cardIndex.get(0) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(1) - 1).getCardType()) && this.getOwnedCards().get(cardIndex.get(2) - 1).getCardType().equals("WildCard")) ||
 							(this.getOwnedCards().get(cardIndex.get(1) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(2) - 1).getCardType()) && this.getOwnedCards().get(cardIndex.get(0) - 1).getCardType().equals("WildCard"))	||
 							(this.getOwnedCards().get(cardIndex.get(0) - 1).getCardType().equals(this.getOwnedCards().get(cardIndex.get(2) - 1).getCardType()) && this.getOwnedCards().get(cardIndex.get(1) - 1).getCardType().equals("WildCard")))) {
@@ -461,76 +290,5 @@ public class Player extends Observable{
 			}
 		}
 		return numberOfArmies;
-	}
-
-	public void botTurn(Player player, GameData game){
-		switch (player.getPlayerStrategy()){
-			case "aggresive":
-				aggresivePlayerTurn(player, game);
-				break;
-			case "benevolent":
-				benevolentPlayerTurn(player, game);
-				break;
-			case "random":
-				randomPlayerTurn(player, game);
-				break;
-			case "cheater":
-				cheaterPlayerTurn(player, game);
-				break;
-			default:
-				break;
-		}
-	}
-
-	public void setStrategy(PlayerStrategy strategy) {
-		this.strategy = strategy;
-	}
-
-	public PlayerStrategy getStrategy(){
-		return strategy;
-	}
-
-	public void aggresivePlayerTurn(Player player, GameData game){
-
-	}
-
-	public void benevolentPlayerTurn(Player player, GameData game){
-
-		setStrategy(new BenevolentPlayer());
-		Country weakestCountry = getWeakestCountry(player);
-
-		if(weakestCountry != null){
-			performReinforce(weakestCountry, game, player);
-		}
-
-	}
-
-	private void performReinforce(Country weakestCountry, GameData game, Player player) {
-		this.strategy.reinforce(game, weakestCountry, player);
-	}
-
-	public void randomPlayerTurn(Player player, GameData game){
-
-	}
-
-	public void cheaterPlayerTurn(Player player, GameData game){
-
-	}
-
-	public Country getWeakestCountry(Player player){
-		Collection<Country> countries = player.getOwnedCountries().values();
-		Country weakest_country = null;
-		int min_army = 500;
-		for (Country country : countries) {
-			int army = country.getNumberOfArmies();
-			if (army < min_army) {
-				min_army = army;
-				weakest_country = country;
-			}
-		}
-		if (weakest_country == null) {
-			weakest_country = getOwnedCountries().get(0);
-		}
-		return weakest_country;
 	}
 }
