@@ -1,9 +1,7 @@
 package main.java.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Represents the random player.
@@ -65,7 +63,79 @@ public class RandomPlayer extends Player{
      * @return
      */
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
-        return true;
+
+        Random random = new Random();
+        ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
+        countryFrom = sourceCountries.get(random.nextInt(sourceCountries.size())).getCountryName();
+
+        ArrayList<Country> sourceNeighbourCountries = (ArrayList<Country>) this.getOwnedCountries().get(countryFrom).getNeighbours().values();
+
+        for(Country c: sourceNeighbourCountries){
+            if(!this.getOwnedCountries().containsKey(c)){
+                countryTo = c.getCountryName();
+                break;
+            }
+        }
+
+        numberOfDice = 3;
+        defendDice = 2;
+
+        Country attackingCountry = game.getMap().getCountries().get(countryFrom.toLowerCase());
+        Country defendingCountry = game.getMap().getCountries().get(countryTo.toLowerCase());
+        int[] attackerDiceRolls = new int[numberOfDice];
+        int[] defenderDiceRolls = new int[defendDice];
+        int attackerArmiesLost = 0;
+        int defenderArmiesLost = 0;
+        //roll the dices
+        for(int i = 0; i<numberOfDice; i++){
+            int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+            attackerDiceRolls[i] = randomNum;
+        }
+        for(int i = 0; i<defendDice; i++){
+            int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+            defenderDiceRolls[i] = randomNum;
+        }
+
+        //sort the dice roll result
+        Arrays.sort(attackerDiceRolls);
+        Arrays.sort(defenderDiceRolls);
+
+        //compare dice results
+        for(int i=1; i<=defendDice; i++){
+            if(defenderDiceRolls[defenderDiceRolls.length-i]>=attackerDiceRolls[attackerDiceRolls.length-i]){
+                attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies()-1);
+                attackerArmiesLost++;
+            } else {
+                defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()-1);
+                defenderArmiesLost++;
+            }
+            if(defendingCountry.getNumberOfArmies()==0){
+                if(attackerArmiesLost>0){
+                    notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
+                }
+                if(defenderArmiesLost>0){
+                    notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
+                }
+                getOwnedCountries().put(countryTo.toLowerCase(), defendingCountry);
+                defendingCountry.setOwnerPlayer(this);
+                defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
+                notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
+                if(defendingPlayer.getOwnedCountries().size()==0){
+                    notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
+                }
+                return true;
+            }
+            if(i>=numberOfDice){
+                break;
+            }
+        }
+        if(attackerArmiesLost>0){
+            notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
+        }
+        if(defenderArmiesLost>0){
+            notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
+        }
+        return false;
     }
 
     /**
