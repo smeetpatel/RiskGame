@@ -2,9 +2,7 @@ package main.java.model;
 
 import java.util.Collection;
 
-public class BenevolentPlayer extends Observable implements PlayerStrategy {
-
-    private int ownedArmies;
+public class BenevolentPlayer extends Player {
 
     @Override
     public void reinforce(GameData game, Country weakestCountry, Player player) {
