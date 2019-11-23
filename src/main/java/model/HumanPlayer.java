@@ -93,6 +93,7 @@ public class HumanPlayer extends Player {
                     notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
                 }
                 getOwnedCountries().put(countryTo.toLowerCase(), defendingCountry);
+                defendingCountry.setOwnerPlayer(this);
                 defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
                 notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
                 if(defendingPlayer.getOwnedCountries().size()==0){

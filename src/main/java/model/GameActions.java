@@ -294,6 +294,7 @@ public class GameActions extends Observable{
         int counter = 0;
         for (Country c : game.getMap().getCountries().values()) {
             Player p = players.get(counter);
+            c.setOwnerPlayer(p);
             p.getOwnedCountries().put(c.getCountryName().toLowerCase(), c);
             if (counter >= numberOfPlayers - 1)
                 counter = 0;
