@@ -6,6 +6,14 @@ package main.java.model;
 public class AggressivePlayer extends Player{
 
     /**
+     * Creates an aggressive player.
+     * @param playerName Name of the player
+     */
+    public AggressivePlayer(String playerName){
+        super(playerName);
+    }
+
+    /**
      * {@inheritDoc}
      * @param game Represents the state of the game
      * @param countryName Reinforce armies here
@@ -13,6 +21,11 @@ public class AggressivePlayer extends Player{
      * @return
      */
     public boolean reinforce(GameData game, String countryName, int num){
+        GameActions gameActions = new GameActions();
+        gameActions.assignReinforcementArmies(game, this);
+
+        //check if card exchange is possible, if yes do it.
+        addCardExchangeArmies(game);
         return true;
     }
 
