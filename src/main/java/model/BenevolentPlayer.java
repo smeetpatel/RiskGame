@@ -4,33 +4,47 @@ import java.util.Collection;
 
 public class BenevolentPlayer extends Player {
 
+    BenevolentPlayer benevolentPlayer;
+    Player player;
+    String weakestCountry;
+
+    /**
+     * Creates a player with the argument player name and sets default value for rest of the player fields.
+     *
+     * @param playerName name of player
+     */
+    public BenevolentPlayer(String playerName) {
+        super(playerName);
+        player = new BenevolentPlayer(playerName);
+    }
+
     @Override
-    public void reinforce(GameData game, Country weakestCountry, Player player) {
+    public boolean reinforce(GameData game, String country, int num) {
         setOwnedArmies(player.getOwnedArmies());
         game.setActivePlayer(player);
+        weakestCountry = getWeakestCountry(player).getCountryName();
 
-        if (getOwnedArmies() > 0) {
-            int existingArmies = weakestCountry.getNumberOfArmies();
-            existingArmies += getOwnedArmies();
-            weakestCountry.setNumberOfArmies(existingArmies);
-            player.setOwnedArmies(player.getOwnedArmies() - ownedArmies);
-            notifyObservers(Integer.toString(ownedArmies) + " armies reinforced at " + weakestCountry.getCountryName() + ". Remaining reinforcement armies: " + Integer.toString(player.getOwnedArmies()) + "\n");
-            if (this.ownedArmies == 0) {
-                game.setGamePhase(Phase.ATTACK);
-            }
+        if (player.getOwnedArmies() > 0) {
+            Country c = player.getOwnedCountries().get(weakestCountry.toLowerCase());
+            int existingArmies = c.getNumberOfArmies();
+            existingArmies += player.getOwnedArmies();
+            c.setNumberOfArmies(existingArmies);
+            player.setOwnedArmies(player.getOwnedArmies());
+            notifyObservers(Integer.toString(player.getOwnedArmies()) + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + Integer.toString(player.getOwnedArmies()) + "\n");
+            game.setGamePhase(Phase.ATTACK);
         } else {
-            notifyObservers(player.getPlayerName() + " doesn't have " + ownedArmies + " armies to reinforce. Invalid command.");
+            notifyObservers(player.getPlayerName() + " doesn't have " + player.getOwnedArmies() + " armies to reinforce. Invalid command.");
         }
     }
 
 
     @Override
-    public void attack() {
+    public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer) {
 
     }
 
     @Override
-    public void fortify(GameData game, String fromCountry, String toCountry, Player currentPlayer) {
+    public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num){
 
     }
 
