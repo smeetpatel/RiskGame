@@ -1,9 +1,27 @@
 package main.java.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
+
 /**
  * Represents the random player.
  */
 public class RandomPlayer extends Player{
+
+    //Player player;
+    GameActions gameActions;
+    /**
+     * Creates a player with the argument player name and sets default value for rest of the player fields.
+     *
+     * @param playerName name of player
+     */
+    public RandomPlayer(String playerName) {
+        super(playerName);
+        //player = new RandomPlayer(playerName);
+    }
+
     /**
      * {@inheritDoc}
      * @param game Represents the state of the game
@@ -12,6 +30,27 @@ public class RandomPlayer extends Player{
      * @return
      */
     public boolean reinforce(GameData game, String countryName, int num){
+
+        Random random = new Random();
+        ArrayList<Country> countries = (ArrayList<Country>) this.getOwnedCountries().values();
+        Country randomCountry = countries.get(random.nextInt(this.getOwnedCountries().size()));
+
+        gameActions.assignReinforcementArmies(game, this);
+        this.cardExchange(game, null);
+
+        game.setActivePlayer(this);
+
+        if (this.getOwnedArmies() > 0) {
+
+            int existingArmies = randomCountry.getNumberOfArmies();
+            existingArmies += this.getOwnedArmies();
+            randomCountry.setNumberOfArmies(existingArmies);
+            this.setOwnedArmies(this.getOwnedArmies());
+            notifyObservers(Integer.toString(this.getOwnedArmies()) + " armies reinforced at " + randomCountry + ". Remaining reinforcement armies: " + Integer.toString(this.getOwnedArmies()) + "\n");
+            game.setGamePhase(Phase.ATTACK);
+        } else {
+            notifyObservers(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
+        }
         return true;
     }
 
@@ -38,6 +77,26 @@ public class RandomPlayer extends Player{
      * @return
      */
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num){
+
+        boolean check;
+        MapValidation mv = new MapValidation();
+
+        ArrayList<Country> targetCountries = (ArrayList<Country>) this.getOwnedCountries().values();
+        ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
+        Collections.shuffle(targetCountries);
+        Collections.shuffle(sourceCountries);
+
+        for (int i = 0; i < targetCountries.size(); i++) {
+            for (int j = 0; j < sourceCountries.size(); j++) {
+                check = mv.fortificationConnectivityCheck(this, sourceCountries.get(j).getCountryName(), targetCountries.get(i).getCountryName());
+                if (check) {
+                    fromCountry =
+                }else {
+                    fromAndToCountries = "No connectivity found";
+                }
+            }
+        }
+
         return FortificationCheck.FORTIFICATIONSUCCESS;
     }
 }
