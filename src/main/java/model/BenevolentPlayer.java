@@ -2,19 +2,16 @@ package main.java.model;
 
 import java.util.Collection;
 
-public class BenevolentPlayer extends Observable implements PlayerStrategy {
-
-    private int ownedArmies;
+public class BenevolentPlayer extends Player {
 
     @Override
     public void reinforce(GameData game, Country weakestCountry, Player player) {
-        ownedArmies = player.getOwnedArmies();
-
+        setOwnedArmies(player.getOwnedArmies());
         game.setActivePlayer(player);
 
-        if (this.ownedArmies > 0) {
+        if (getOwnedArmies() > 0) {
             int existingArmies = weakestCountry.getNumberOfArmies();
-            existingArmies += ownedArmies;
+            existingArmies += getOwnedArmies();
             weakestCountry.setNumberOfArmies(existingArmies);
             player.setOwnedArmies(player.getOwnedArmies() - ownedArmies);
             notifyObservers(Integer.toString(ownedArmies) + " armies reinforced at " + weakestCountry.getCountryName() + ". Remaining reinforcement armies: " + Integer.toString(player.getOwnedArmies()) + "\n");

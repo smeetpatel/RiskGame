@@ -29,7 +29,7 @@ public class GameActions extends Observable{
         GameMap map;
         File f = new File(filePath);
         if (f.exists()) {
-            LoadMap lm = new LoadMap();
+            LoadDominationMap lm = new LoadDominationMap();
             map = lm.readMap(filePath);
             map.setMapName(mapName);
         } else {
@@ -53,7 +53,7 @@ public class GameActions extends Observable{
         GameMap map;
         File f = new File(filePath);
         if (f.exists()) {
-            LoadMap lm = new LoadMap();
+            LoadDominationMap lm = new LoadDominationMap();
             map = lm.readMap(filePath);
             map.setMapName(mapName);
             game.setMap(map);
@@ -195,7 +195,26 @@ public class GameActions extends Observable{
                 return false;
             }
         }
-        players.add(new Player(playerName,playerStrategy));
+
+        switch(playerStrategy){
+            case "human":
+                players.add(new HumanPlayer());
+                break;
+            case "aggresive":
+                players.add(new AggressivePlayer());
+                break;
+            case "benevolent":
+                players.add(new BenevolentPlayer());
+                break;
+            case "random":
+                players.add(new RandomPlayer());
+                break;
+            case "cheater":
+                players.add(new CheaterPlayer());
+                break;
+            default:
+                return false;
+        }
         return true;
     }
 

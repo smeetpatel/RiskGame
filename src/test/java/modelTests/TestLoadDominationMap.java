@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestLoadMap {
+public class TestLoadDominationMap {
     /**
      * Represents the state of the game
      */

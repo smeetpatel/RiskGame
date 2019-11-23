@@ -20,7 +20,7 @@ import test.java.modelTests.*;
         TestEmptyContinent.class,
         TestFortify.class,
         TestGamePlayer.class,
-        TestLoadMap.class,
+        TestLoadDominationMap.class,
         TestPopulatecountries.class,
         TestNeighbor.class,
         TestReinforceArmies.class,
