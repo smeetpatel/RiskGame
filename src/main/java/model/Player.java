@@ -136,6 +136,22 @@ public abstract class Player extends Observable{
 	}
 
 	/**
+	 * This method returns the continents owned by the player
+	 * @return Continents owned by the player
+	 */
+	public HashMap<String, Continent> getOwnedContinents() {
+		return ownedContinents;
+	}
+
+	/**
+	 * This method sets the continents owned by the player
+	 * @param ownedContinents Current set of continents owned by the player.
+	 */
+	public void setOwnedContinents(HashMap<String, Continent> ownedContinents) {
+		this.ownedContinents = ownedContinents;
+	}
+
+	/**
 	 * This method returns the cards owned by player.
 	 * @return ownedCards number of cards owned by player
 	 */
