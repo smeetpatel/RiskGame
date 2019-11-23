@@ -1,5 +1,6 @@
 package main.java.controller;
 
+import com.sun.javafx.sg.prism.NGAmbientLight;
 import main.java.model.*;
 import main.java.view.*;
 
@@ -306,12 +307,7 @@ public class Command {
                         if (!(data[1] == "")) {
                             if (this.isMapNameValid(data[1])) {
                                 mapName = data[1];
-                                boolean check = false;
-                                if(game.getMapType().equals("domination")){
-                                    check = (new LoadMap()).saveMap(game.getMap(), mapName);
-                                } else {
-                                    check = (new MapAdapter(new LoadConquestMap())).saveMap(game.getMap(), mapName);
-                                }
+                                boolean check = gameAction.saveMap(game.getMap(), mapName);
                                 if (check) {
                                     System.out.println("Map file saved successfully as " + mapName + ".map");
                                 } else {
@@ -407,7 +403,8 @@ public class Command {
                             if (data[i].equals("-add")) {
                                 if (data[i + 1].matches("[a-zA-Z0-9]+")) {
                                     playerName = data[i + 1];
-                                    boolean check = gameAction.addPlayer(game.getPlayers(), playerName);
+                                    String strty = null;
+                                    boolean check = gameAction.addPlayer(game.getPlayers(), playerName, strty);
                                     if (check) {
                                         System.out.println("Player " + playerName + " successfully added");
                                     } else {
@@ -1005,5 +1002,10 @@ public class Command {
      */
     public void turnEndEvent() {
         gameAction.turnEnd(game);
+    }
+
+    public void botCommand(Player player){
+        player.botTurn(player, game);
+
     }
 }

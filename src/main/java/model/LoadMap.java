@@ -45,13 +45,11 @@ public class LoadMap {
 		}
 		return map;
 	}
-
+	
 	/**
 	 * Reads the continents from the ".map" files.
 	 * Exits the program if error of duplicate continents is found.
 	 * @param reader Stream starting from continents section of ".map" file
-	 * @param map Represents the map of the game.
-	 * @param inMapIndex Represents the index of the continent in the map.
 	 * @return BufferedReader stream at the point where it has finished reading continents
 	 * @throws IOException
 	 */
@@ -80,13 +78,11 @@ public class LoadMap {
 		}
 		return reader;
 	}
-
+	
 	/**
 	 * Reads the countries from the ".map" files.
 	 * Exits the program if duplicate country or in non-existent country.
 	 * @param reader Stream starting from countries section of ".map" file
-	 * @param map Represents the map of the game.
-	 * @param listOfCountries Represents the hashmap keyed with index of country in the map file and country object as value
 	 * @return BufferedReader stream at the point where it has finished reading countries
 	 * @throws IOException
 	 */
@@ -120,12 +116,11 @@ public class LoadMap {
 		}
 		return reader;
 	}
-
+	
 	/**
 	 * Reads the borders from the ".map" files.
 	 * Exits the programming error if attempted to add invalid neighbor or to an invalid country.
 	 * @param reader Stream starting from borders section of ".map" file
-	 * @param listOfCountries Represents the hashmap keyed with index of country in the map file and country object as value
 	 * @return BufferedReader stream at the end of file
 	 * @throws IOException
 	 */
@@ -161,7 +156,6 @@ public class LoadMap {
 	 * Registers this new country as part of its continent.
 	 * If duplicate country, exits the program throwing error.
 	 * @param newCountry Country to be registered with the corresponding continent
-	 * @param map Represents the map of the game.
 	 */
 	private void addToContinentMap(Country newCountry, GameMap map) {
 		
@@ -179,13 +173,12 @@ public class LoadMap {
 			System.exit(-1);
 		}
 	}
-
+	
 	/**
 	 * Registers the country at argument 'stringIndex' with the argumentCountry.
 	 * Exits the programming throwing error if invalid neighbor is found.
 	 * @param argumentCountry Country to which neighbor is to be registered.
 	 * @param stringIndex Index of the country to be added as a neighbor to the argument country
-	 * @param listOfCountries Represents the hashmap keyed with index of country in the map file and country object as value
 	 */
 	private void addNeighbour(Country argumentCountry, String stringIndex, HashMap<Integer, Country> listOfCountries) {
 		int borderIndex = Integer.parseInt(stringIndex);
@@ -215,7 +208,7 @@ public class LoadMap {
 		GameActions gameActions = new GameActions();
 		if (gameActions.validateMap(map) == MapValidityStatus.VALIDMAP) {
 			try {
-				BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/maps/domination/" + fileName + ".map"));
+				BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/maps/" + fileName + ".map"));
 				int continentIndex = 1;    //to track continent index in "map" file
 				int countryIndex = 1; //to track country index in "map" file
 				HashMap<Integer, String> indexToCountry = new HashMap<Integer, String>(); //to get in country name corresponding to in map index to be in compliance with Domination format
@@ -228,13 +221,14 @@ public class LoadMap {
 				writer.write("[files]");
 				writer.newLine();
 				writer.newLine();
+				//writer.newLine();
 				writer.flush();
 
 				//write information about all the continents
 				writer.write("[continents]");
 				writer.newLine();
 				for (Continent continent : map.getContinents().values()) {
-					writer.write(continent.getContinentName() + " " + continent.getControlValue() + " " + continent.getColorCode());
+					writer.write(continent.getContinentName() + " " + Integer.toString(continent.getControlValue()) + " " + continent.getColorCode());
 					writer.newLine();
 					writer.flush();
 					continent.setInMapIndex(continentIndex);
@@ -272,6 +266,7 @@ public class LoadMap {
 					writer.newLine();
 				}
 			} catch (IOException e) {
+				e.printStackTrace();
 				return false;
 			}
 			return true;
