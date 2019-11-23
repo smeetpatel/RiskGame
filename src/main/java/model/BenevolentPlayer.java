@@ -4,9 +4,7 @@ import java.util.Collection;
 
 public class BenevolentPlayer extends Player {
 
-    BenevolentPlayer benevolentPlayer;
     GameActions gameActions;
-    Player player;
     String weakestCountry;
 
     /**
@@ -16,28 +14,27 @@ public class BenevolentPlayer extends Player {
      */
     public BenevolentPlayer(String playerName) {
         super(playerName);
-        player = new BenevolentPlayer(playerName);
     }
 
     @Override
     public boolean reinforce(GameData game, String country, int num) {
 
-        gameActions.assignReinforcementArmies(game, player);
-        player.cardExchange(game, null);
+        gameActions.assignReinforcementArmies(game, this);
+        this.cardExchange(game, null);
 
-        game.setActivePlayer(player);
-        weakestCountry = getWeakestCountry(player).getCountryName();
+        game.setActivePlayer(this);
+        weakestCountry = getWeakestCountry(this).getCountryName();
 
-        if (player.getOwnedArmies() > 0) {
-            Country c = player.getOwnedCountries().get(weakestCountry.toLowerCase());
+        if (this.getOwnedArmies() > 0) {
+            Country c = this.getOwnedCountries().get(weakestCountry.toLowerCase());
             int existingArmies = c.getNumberOfArmies();
-            existingArmies += player.getOwnedArmies();
+            existingArmies += this.getOwnedArmies();
             c.setNumberOfArmies(existingArmies);
-            player.setOwnedArmies(player.getOwnedArmies());
-            notifyObservers(Integer.toString(player.getOwnedArmies()) + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + Integer.toString(player.getOwnedArmies()) + "\n");
+            this.setOwnedArmies(this.getOwnedArmies());
+            notifyObservers(Integer.toString(this.getOwnedArmies()) + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + Integer.toString(this.getOwnedArmies()) + "\n");
             game.setGamePhase(Phase.ATTACK);
         } else {
-            notifyObservers(player.getPlayerName() + " doesn't have " + player.getOwnedArmies() + " armies to reinforce. Invalid command.");
+            notifyObservers(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
         }
 
         return true;
@@ -54,24 +51,24 @@ public class BenevolentPlayer extends Player {
     @Override
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num) {
 
-        String fortifyData = fortifyData(player);
+        String fortifyData = fortifyData(this);
 
         if(!fortifyData.equals("No connectivity found")) {
             String[] splitted = fortifyData.split("\\s+");
             fromCountry = splitted[0];
             toCountry = splitted[1];
 
-            int fromArmies = player.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies();
-            int toArmies = player.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
+            int fromArmies = this.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies();
+            int toArmies = this.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
             toArmies += (fromArmies - 1);
             fromArmies = 1;
-            player.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
-            player.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
-            notifyObservers(player.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry + ". " + player.getPlayerName() + "'s turn ends now.");
+            this.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
+            this.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+            notifyObservers(this.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry + ". " + this.getPlayerName() + "'s turn ends now.");
             game.setGamePhase(Phase.TURNEND);
             return FortificationCheck.FORTIFICATIONSUCCESS;
         }else{
-            player.fortify(game);
+            this.fortify(game);
             return FortificationCheck.PATHFAIL;
         }
     }
