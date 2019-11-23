@@ -4,6 +4,7 @@ import java.util.Collection;
 
 public class BenevolentPlayer extends Player {
 
+    BenevolentPlayer benevolentPlayer;
     GameActions gameActions;
     String weakestCountry;
 
@@ -14,6 +15,7 @@ public class BenevolentPlayer extends Player {
      */
     public BenevolentPlayer(String playerName) {
         super(playerName);
+        
     }
 
     @Override
