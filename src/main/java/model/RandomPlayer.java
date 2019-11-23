@@ -78,25 +78,38 @@ public class RandomPlayer extends Player{
      */
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num){
 
-        boolean check;
+        boolean check = false;
         MapValidation mv = new MapValidation();
+        Random random = new Random();
+        int randomCounter = 0;
 
         ArrayList<Country> targetCountries = (ArrayList<Country>) this.getOwnedCountries().values();
         ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
-        Collections.shuffle(targetCountries);
-        Collections.shuffle(sourceCountries);
+        //Collections.shuffle(targetCountries);
+        //Collections.shuffle(sourceCountries);
 
-        for (int i = 0; i < targetCountries.size(); i++) {
-            for (int j = 0; j < sourceCountries.size(); j++) {
-                check = mv.fortificationConnectivityCheck(this, sourceCountries.get(j).getCountryName(), targetCountries.get(i).getCountryName());
-                if (check) {
-                    fromCountry =
-                }else {
-                    fromAndToCountries = "No connectivity found";
-                }
+        while (!check || randomCounter<25){
+            fromCountry = sourceCountries.get(random.nextInt(this.getOwnedCountries().size())).getCountryName();
+            toCountry = targetCountries.get(random.nextInt(this.getOwnedCountries().size())).getCountryName();
+            if(fromCountry != toCountry){
+                check = mv.fortificationConnectivityCheck(this, fromCountry, toCountry);
             }
+            randomCounter++;
         }
 
-        return FortificationCheck.FORTIFICATIONSUCCESS;
+        if(!check) {
+            this.fortify(game);
+            return FortificationCheck.PATHFAIL;
+        }else{
+            int fromArmies = this.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies();
+            int toArmies = this.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
+            toArmies += (fromArmies - 1);
+            fromArmies = 1;
+            this.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
+            this.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+            notifyObservers(this.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry + ". " + this.getPlayerName() + "'s turn ends now.");
+            game.setGamePhase(Phase.TURNEND);
+            return FortificationCheck.FORTIFICATIONSUCCESS;
+        }
     }
 }
