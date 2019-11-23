@@ -240,19 +240,19 @@ public class GameActions extends Observable{
 
         switch(playerStrategy){
             case "human":
-                players.add(new HumanPlayer());
+                players.add(new HumanPlayer(playerName));
                 break;
             case "aggresive":
-                players.add(new AggressivePlayer());
+                players.add(new AggressivePlayer(playerName));
                 break;
             case "benevolent":
-                players.add(new BenevolentPlayer());
+                players.add(new BenevolentPlayer(playerName));
                 break;
             case "random":
-                players.add(new RandomPlayer());
+                players.add(new RandomPlayer(playerName));
                 break;
             case "cheater":
-                players.add(new CheaterPlayer());
+                players.add(new CheaterPlayer(playerName));
                 break;
             default:
                 return false;

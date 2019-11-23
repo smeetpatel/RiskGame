@@ -9,6 +9,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class HumanPlayer extends Player {
 
     /**
+     * Creates a human player.
+     * @param playerName Name of the player
+     */
+    public HumanPlayer(String playerName){
+        super(playerName);
+    }
+
+    /**
      * {@inheritDoc}
      * @param game Represents the state of the game
      * @param countryName Reinforce armies here
@@ -26,7 +34,7 @@ public class HumanPlayer extends Player {
                 existingArmies += num;
                 c.setNumberOfArmies(existingArmies);
                 this.setOwnedArmies(getOwnedArmies()-num);
-                notifyObservers(Integer.toString(num) + " armies reinforced at " + countryName +". Remaining reinforcement armies: " + Integer.toString(this.ownedArmies) + "\n");
+                notifyObservers(num + " armies reinforced at " + countryName +". Remaining reinforcement armies: " + getOwnedArmies() + "\n");
                 if(getOwnedArmies()==0) {
                     game.setGamePhase(Phase.ATTACK);
                 }
@@ -97,7 +105,7 @@ public class HumanPlayer extends Player {
                 defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
                 notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
                 if(defendingPlayer.getOwnedCountries().size()==0){
-                    notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + this.playerName + " gets all his/her cards.");
+                    notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                 }
                 return true;
             }
@@ -113,7 +121,6 @@ public class HumanPlayer extends Player {
         }
         return false;
     }
-
 
     /**
      * {@inheritDoc}
@@ -139,7 +146,7 @@ public class HumanPlayer extends Player {
                         int toArmies = getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
                         toArmies += num;
                         getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
-                        notifyObservers(getPlayerName() + " fortified " + toCountry + " with " + num + " armies from " + fromCountry +". " + this.playerName + "'s turn ends now.");
+                        notifyObservers(getPlayerName() + " fortified " + toCountry + " with " + num + " armies from " + fromCountry +". " + getPlayerName() + "'s turn ends now.");
                         game.setGamePhase(Phase.TURNEND);
                         return FortificationCheck.FORTIFICATIONSUCCESS;
                     } else {
