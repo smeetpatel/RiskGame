@@ -1,6 +1,7 @@
 package main.java.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public abstract class Player extends Observable{
@@ -284,6 +285,42 @@ public abstract class Player extends Observable{
 			}
 		} else {
 			return false;
+		}
+	}
+
+	/**
+	 * Performs card exchange for bot players if a valid card exchange move is possible
+	 * @param game Represents the state of the game.
+	 */
+	public void addCardExchangeArmies(GameData game){
+		ArrayList<Integer> cardIndex = new ArrayList<Integer>();
+		boolean skipIterationFlag = false;
+		while(getOwnedCards()>2){
+			for(int i=1; i<=getOwnedCards()-2; i++){
+				for(int j=i+1; j<=getOwnedCards()-1; j++){
+					for(int k=j+1; k<=getOwnedCards(); k++){
+						cardIndex.add(i);
+						cardIndex.add(j);
+						cardIndex.add(k);
+						Collections.sort(cardIndex);
+						if(cardExchange(game, cardIndex)){
+							cardIndex.clear();
+							skipIterationFlag = true;
+							break;
+						} else {
+							cardIndex.clear();
+						}
+					}
+					if(skipIterationFlag){
+						break;
+					}
+				}
+				if (skipIterationFlag){
+					break;
+				}
+			}
+			skipIterationFlag = false;
+			continue;
 		}
 	}
 

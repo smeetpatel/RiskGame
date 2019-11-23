@@ -460,7 +460,6 @@ public class TurnController extends Controller{
                     try {
                         if (data[1].equals("none")) {
                             player.fortify(game);
-                            //player.detach(phaseView);
                             message = "Turn ends.";
                         } else if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
                             if (this.isAlpha(data[1]) || this.isAlpha(data[2]) || data[3].matches("[0-9]+")) {
