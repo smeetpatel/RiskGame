@@ -48,7 +48,8 @@ public class Country {
 	 * Number of armies in this country.
 	 */
 	private int numberOfArmies;
-	
+
+
 	/**
 	 * Create Country object with default values.
 	 */

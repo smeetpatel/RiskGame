@@ -506,6 +506,16 @@ public class TurnController extends Controller{
     }
 
     /**
+     * Carries out three phases for a bot player.
+     * @param player Bot player
+     */
+    public void botTurn(Player player){
+        player.reinforce(game, "", 0);
+        player.attack(game, "", "", 0, 0, null);
+        player.fortify(game, "", "", 0);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
