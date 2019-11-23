@@ -2,10 +2,7 @@ package main.java.model;
 
 import main.java.controller.Command;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,14 +26,49 @@ public class GameActions extends Observable{
         GameMap map;
         File f = new File(filePath);
         if (f.exists()) {
-            LoadDominationMap lm = new LoadDominationMap();
-            map = lm.readMap(filePath);
-            map.setMapName(mapName);
+            if(determineMapType("src/main/resources/maps/" + mapName)){
+                //Domination map
+                game.setMapType("domination");
+                LoadDominationMap lm = new LoadDominationMap();
+                map = lm.readMap(filePath);
+                map.setMapName(mapName);
+            } else {
+                //Conquest map
+                game.setMapType("conquest");
+                LoadConquestMap lm = new LoadConquestMap();
+                map = lm.readMap(filePath);
+                map.setMapName(mapName);
+            }
         } else {
+            game.setMapType("domination");
             map = new GameMap(mapName);
         }
         game.setMap(map);
         game.setGamePhase(Phase.EDITMAP);
+    }
+
+    /**
+     * Determines the type of the map.
+     * @param s map file path
+     * @return true if Domination style map, else false indicating Conquest style map
+     */
+    private String determineMapType(String s) {
+        try{
+            BufferedReader reader = new BufferedReader((new FileReader(s)));
+            String result = reader.readLine();
+            if(result.equals("[Map]")){
+                return false;
+            } else {
+                return true;
+            }
+        } catch(FileNotFoundException e) {
+            System.out.println("FileNotFoundException");
+            System.out.println(e.getMessage());
+        }
+        catch(IOException e) {
+            System.out.println("IOException");
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -53,9 +85,19 @@ public class GameActions extends Observable{
         GameMap map;
         File f = new File(filePath);
         if (f.exists()) {
-            LoadDominationMap lm = new LoadDominationMap();
-            map = lm.readMap(filePath);
-            map.setMapName(mapName);
+            if(determineMapType("src/main/resources/maps/" + mapName)){
+                //Domination map
+                game.setMapType("domination");
+                LoadDominationMap lm = new LoadDominationMap();
+                map = lm.readMap(filePath);
+                map.setMapName(mapName);
+            } else {
+                //Conquest map
+                game.setMapType("conquest");
+                LoadConquestMap lm = new LoadConquestMap();
+                map = lm.readMap(filePath);
+                map.setMapName(mapName);
+            }
             game.setMap(map);
 
             // Creation of Deck.
@@ -252,6 +294,7 @@ public class GameActions extends Observable{
         int counter = 0;
         for (Country c : game.getMap().getCountries().values()) {
             Player p = players.get(counter);
+            c.setOwnerPlayer(p);
             p.getOwnedCountries().put(c.getCountryName().toLowerCase(), c);
             if (counter >= numberOfPlayers - 1)
                 counter = 0;

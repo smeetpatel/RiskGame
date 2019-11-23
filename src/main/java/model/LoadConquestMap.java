@@ -1,9 +1,6 @@
 package main.java.model;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 
 /**
@@ -154,6 +151,49 @@ public class LoadConquestMap implements ConquestMap{
     }
 
     public boolean saveMap(GameMap map, String fileName){
-        return true;
+        GameActions gameActions = new GameActions();
+        if (gameActions.validateMap(map) == MapValidityStatus.VALIDMAP){
+            try{
+                BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/maps/" + fileName + ".map"));
+
+                //write preliminary information
+                writer.write("[Map]");
+                writer.newLine();
+                writer.newLine();
+                writer.flush();
+
+                //write information about all the continents
+                writer.write("[Continents]");
+                writer.newLine();
+                for (Continent continent : map.getContinents().values()) {
+                    writer.write(continent.getContinentName() + "=" + continent.getControlValue());
+                    writer.newLine();
+                    writer.flush();
+                }
+                writer.newLine();
+
+                //write information about countries and its neighbors
+                writer.write("[Territories]");
+                writer.newLine();
+                String s;
+                for(Country country : map.getCountries().values()){
+                    s = country.getCountryName() + "," + country.getxCoOrdinate() + "," + country.getyCoOrdinate() + "," + country.getInContinent();
+                    for(Country country : country.getNeighbours().values()){
+                        s += "," + country.getCountryName();
+                    }
+                    writer.write(s);
+                    writer.newLine();
+                    writer.flush();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+
+        } else {
+            return false;
+        }
     }
 }

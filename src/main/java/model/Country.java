@@ -48,7 +48,12 @@ public class Country {
 	 * Number of armies in this country.
 	 */
 	private int numberOfArmies;
-	
+
+	/**
+	 * Represents the player who currently owns the country.
+	 */
+	private Player ownerPlayer;
+
 	/**
 	 * Create Country object with default values.
 	 */
@@ -64,6 +69,7 @@ public class Country {
 		this.inContinent = inContinent;
 		this.neighbours = new HashMap<String, Country>();
 		this.numberOfArmies = 0;
+		this.ownerPlayer = null;
 	}
 	
 	/**
@@ -89,6 +95,7 @@ public class Country {
 		this.xCoOrdinate = Integer.parseInt(xCoOrdinate);
 		this.yCoOrdinate = Integer.parseInt(yCoOrdinate);
 		this.numberOfArmies = 0;
+		this.ownerPlayer = null;
 	}
 
 	/**
@@ -107,6 +114,7 @@ public class Country {
 		this.xCoOrdinate = Integer.parseInt(xCoOrdinate);
 		this.yCoOrdinate = Integer.parseInt(yCoOrdinate);
 		this.numberOfArmies = 0;
+		this.ownerPlayer = null;
 	}
 	/**
 	 * Returns the index of this country in the ".map" file as per Domination's conventions
@@ -187,5 +195,21 @@ public class Country {
 	 */
 	public void setNumberOfArmies(int numberOfArmies) {
 		this.numberOfArmies = numberOfArmies;
+	}
+
+	/**
+	 * Gets the player owning the country currently.
+	 * @return Player owning this country.
+	 */
+	public Player getOwnerPlayer() {
+		return ownerPlayer;
+	}
+
+	/**
+	 * Sets the player owning this country currently
+	 * @param ownerPlayer Player owning this country.
+	 */
+	public void setOwnerPlayer(Player ownerPlayer) {
+		this.ownerPlayer = ownerPlayer;
 	}
 }
