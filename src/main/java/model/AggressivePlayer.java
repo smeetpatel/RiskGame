@@ -155,6 +155,17 @@ public class AggressivePlayer extends Player{
      * @return
      */
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num){
+        Country destinationCountry = findCountryToFortify();
+        Country originCountry = findOriginCountry(destinationCountry);
+        if(originCountry == null){
+            fortify(game);
+            return FortificationCheck.FORTIFICATIONSUCCESS;
+        }
+        num = originCountry.getNumberOfArmies()-1;
+        destinationCountry.setNumberOfArmies(destinationCountry.getNumberOfArmies()+num);
+        originCountry.setNumberOfArmies(originCountry.getNumberOfArmies()-num);
+        notifyObservers(getPlayerName() + " fortified " + destinationCountry.getCountryName() + " with " + num + " armies from " + originCountry.getCountryName() +". " + getPlayerName() + "'s turn ends now.");
+        game.setGamePhase(Phase.TURNEND);
         return FortificationCheck.FORTIFICATIONSUCCESS;
     }
 
@@ -165,12 +176,12 @@ public class AggressivePlayer extends Player{
     public Country findStrongestCountry(){
         int maximumArmies = 0;
         int noNeighborMaximumArmies = 0;
-        Country countryToReinforce;
-        Country noNeighborCountryToReinforce;
+        Country countryToReinforce = null;
+        Country noNeighborCountryToReinforce = null;
         for(Country country : getOwnedCountries().values()){
             if(country.getNumberOfArmies()>maximumArmies){
                 for(Country neighbor : country.getNeighbours().values()){
-                    if(!getOwnedCountries().containsKey(neighbor.getCountryName())){
+                    if(!getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
                         maximumArmies = country.getNumberOfArmies();
                         countryToReinforce = country;
                         break;
@@ -199,10 +210,54 @@ public class AggressivePlayer extends Player{
             return null;
         }
         for(Country neighbor: attackingCountry.getNeighbours().values()){
-            if(!getOwnedCountries().containsKey(neighbor.getCountryName())){
+            if(!getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
                 return neighbor;
             }
         }
         return null;
+    }
+
+    /**
+     * Finds the country to fortify.
+     * @return Returns the country to fortify.
+     */
+    public Country findCountryToFortify(){
+        int numberOfNeighbors = 0;
+        int perCountryNeighbor;
+        Country fortifyCountry = null;
+        for(Country country : getOwnedCountries().values()){
+            perCountryNeighbor = 0;
+            for(Country neighbor : country.getNeighbours().values()){
+                if(!getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
+                    perCountryNeighbor++;
+                }
+            }
+            if(perCountryNeighbor>numberOfNeighbors){
+                numberOfNeighbors = perCountryNeighbor;
+                fortifyCountry = country;
+            }
+        }
+        return fortifyCountry;
+    }
+
+    /**
+     * Finds the country to fortify from.
+     * @param destinationCountry Country to fortify.
+     * @return Countyr to fortify from.
+     */
+    public Country findOriginCountry(Country destinationCountry){
+        MapValidation mv = new MapValidation();
+        int maxArmies = 0;
+        Country originCountry = null;
+        for(Country neighbor : destinationCountry.getNeighbours().values()){
+            if(getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
+                if(neighbor.getNumberOfArmies()>maxArmies && mv.fortificationConnectivityCheck(this, destinationCountry, neighbor)){
+                    maxArmies = neighbor.getNumberOfArmies();
+                    originCountry = neighbor
+
+                }
+            }
+        }
+        return originCountry;
     }
 }
