@@ -78,7 +78,7 @@ public class BenevolentPlayer extends Player {
      * @param fromCountry country from armies send
      * @param toCountry country to armies placed
      * @param num total number of armies to send from one country to another country
-     * @return true if fortification successful else false
+     * @return FortificationCheck.FORTIFICATIONSUCCESS if fortification successful
      */
     @Override
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num) {
@@ -101,7 +101,7 @@ public class BenevolentPlayer extends Player {
             return FortificationCheck.FORTIFICATIONSUCCESS;
         }else{
             this.fortify(game);
-            return FortificationCheck.PATHFAIL;
+            return FortificationCheck.FORTIFICATIONSUCCESS;
         }
     }
 
