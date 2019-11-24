@@ -151,6 +151,8 @@ public class PlayRisk {
 								traversalCounter = 0;
 							}
 						}
+
+						System.out.println(player.getPlayerName() + " has won the game.");
 					} else {
 						System.out.println("Invalid choice");
 

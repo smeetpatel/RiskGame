@@ -511,6 +511,9 @@ public class TurnController extends Controller{
     public void botTurn(Player player){
         player.reinforce(game, "", 0);
         player.attack(game, "", "", 0, 0, null);
+        if(game.getGamePhase()==Phase.QUIT){
+            return;
+        }
         player.fortify(game, "", "", 0);
     }
 
