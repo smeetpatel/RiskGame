@@ -25,6 +25,9 @@ public class HumanPlayer extends Player {
      */
     public boolean reinforce(GameData game, String countryName, int num){
         game.setActivePlayer(this);
+        if(num<0){
+            notifyObservers("You cannot reinforce with negative number of armies.");
+        }
         if(getOwnedCountries().containsKey(countryName.toLowerCase()))
         {
             if(getOwnedArmies() >= num)
@@ -34,7 +37,7 @@ public class HumanPlayer extends Player {
                 existingArmies += num;
                 c.setNumberOfArmies(existingArmies);
                 this.setOwnedArmies(getOwnedArmies()-num);
-                notifyObservers(num + " armies reinforced at " + countryName +". Remaining reinforcement armies: " + getOwnedArmies() + "\n");
+                notifyObservers(num + " armies reinforced at " + countryName + ". Remaining reinforcement armies: " + getOwnedArmies() + "\n");
                 if(getOwnedArmies()==0) {
                     game.setGamePhase(Phase.ATTACK);
                 }
@@ -132,6 +135,9 @@ public class HumanPlayer extends Player {
      */
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num){
         MapValidation mv = new MapValidation();
+        if(num<0){
+            return FortificationCheck.ARMYCOUNTFAIL;
+        }
         if(getOwnedCountries().containsKey(fromCountry.toLowerCase()))
         {
             if(getOwnedCountries().containsKey(toCountry.toLowerCase()))
