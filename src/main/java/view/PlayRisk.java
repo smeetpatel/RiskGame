@@ -160,6 +160,12 @@ public class PlayRisk {
 			    //tournament code
 				//TODO: code for tournament mode goes here
 				//TODO: call tournament controller here
+                controller = new TournamentController();
+                do{
+                    System.out.println("Enter a valid tournament command of the form 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'");
+                    command = read.nextLine();
+                    message = controller.parseCommand(null, command);
+                } while(!message.equals("success"));
 				validCommand = true;
 			} else {
 				System.out.println("Invalid choice");
