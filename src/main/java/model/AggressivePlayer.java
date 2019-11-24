@@ -256,9 +256,9 @@ public class AggressivePlayer extends Player{
         Country originCountry = null;
         for(Country neighbor : destinationCountry.getNeighbours().values()){
             if(getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
-                if(neighbor.getNumberOfArmies()>maxArmies && mv.fortificationConnectivityCheck(this, destinationCountry, neighbor)){
+                if(neighbor.getNumberOfArmies()>maxArmies && mv.fortificationConnectivityCheck(this, destinationCountry.getCountryName(), neighbor.getCountryName())){
                     maxArmies = neighbor.getNumberOfArmies();
-                    originCountry = neighbor
+                    originCountry = neighbor;
 
                 }
             }

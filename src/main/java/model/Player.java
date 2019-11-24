@@ -295,10 +295,10 @@ public abstract class Player extends Observable{
 	public void addCardExchangeArmies(GameData game){
 		ArrayList<Integer> cardIndex = new ArrayList<Integer>();
 		boolean skipIterationFlag = false;
-		while(getOwnedCards()>2){
-			for(int i=1; i<=getOwnedCards()-2; i++){
-				for(int j=i+1; j<=getOwnedCards()-1; j++){
-					for(int k=j+1; k<=getOwnedCards(); k++){
+		while(getOwnedCards().size()>2){
+			for(int i=1; i<=getOwnedCards().size()-2; i++){
+				for(int j=i+1; j<=getOwnedCards().size()-1; j++){
+					for(int k=j+1; k<=getOwnedCards().size(); k++){
 						cardIndex.add(i);
 						cardIndex.add(j);
 						cardIndex.add(k);

@@ -52,7 +52,7 @@ public class GameActions extends Observable{
      * @param s map file path
      * @return true if Domination style map, else false indicating Conquest style map
      */
-    private String determineMapType(String s) {
+    private boolean determineMapType(String s) {
         try{
             BufferedReader reader = new BufferedReader((new FileReader(s)));
             String result = reader.readLine();
@@ -69,6 +69,7 @@ public class GameActions extends Observable{
             System.out.println("IOException");
             System.out.println(e.getMessage());
         }
+        return false;
     }
 
     /**
