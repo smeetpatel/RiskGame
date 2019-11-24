@@ -8,7 +8,9 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class RandomPlayer extends Player {
 
-    //Player player;
+    /**
+     * Represents the object of GameActions class
+     */
     GameActions gameActions;
 
     /**
@@ -18,16 +20,14 @@ public class RandomPlayer extends Player {
      */
     public RandomPlayer(String playerName) {
         super(playerName);
-        //player = new RandomPlayer(playerName);
     }
 
     /**
-     * {@inheritDoc}
-     *
+     * Reinforcement phase for the random player
      * @param game        Represents the state of the game
      * @param countryName Reinforce armies here
      * @param num         Reinforce this many armies
-     * @return
+     * @return true if reinforcement successful else false
      */
     public boolean reinforce(GameData game, String countryName, int num) {
 
@@ -55,15 +55,14 @@ public class RandomPlayer extends Player {
     }
 
     /**
-     * {@inheritDoc}
-     *
+     * Represents the attack phase for random player
      * @param game            Represents the state of the game.
      * @param countryFrom     Country doing the attack
      * @param countryTo       Country that is defending
      * @param numberOfDice    Number of dice attacker wishes to roll
      * @param defendDice      Number of dice defender wishes to roll
      * @param defendingPlayer Player owning the defending country
-     * @return
+     * @return true if attack is successful else false
      */
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer) {
 
@@ -173,13 +172,12 @@ public class RandomPlayer extends Player {
     }
 
     /**
-     * {@inheritDoc}
-     *
+     * Fortification phase for random player
      * @param game        represents state of the game
      * @param fromCountry country from armies send
      * @param toCountry   country to armies placed
      * @param num         total number of armies to send from one country to another country
-     * @return
+     * @return FortificationCheck.FORTIFICATIONSUCCESS if fortification successful
      */
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num) {
 
@@ -204,7 +202,7 @@ public class RandomPlayer extends Player {
 
         if (!check) {
             this.fortify(game);
-            return FortificationCheck.PATHFAIL;
+            return FortificationCheck.FORTIFICATIONSUCCESS;
         } else {
             int fromArmies = this.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies();
             int toArmies = this.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
