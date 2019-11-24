@@ -146,6 +146,10 @@ public class MapValidation {
 	 * @return true if there exists a path matching required criteria, else false
 	 */
 	public boolean fortificationConnectivityCheck(Player player, String fromCountry, String toCountry) {
+		if(fromCountry==null || toCountry==null){
+			return false;
+		}
+
 		Graph<String, DefaultEdge> subGraph = new DefaultUndirectedGraph<>(DefaultEdge.class);
 		for(Country country : player.getOwnedCountries().values()) {
 			subGraph.addVertex(country.getCountryName().toLowerCase());
