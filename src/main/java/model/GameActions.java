@@ -705,4 +705,35 @@ public class GameActions extends Observable{
             addContinent = true;
         }
     }
+
+    /**
+     * Checks if the map with argument name exists or not.
+     * If it exists, it also checks if its valid or not.
+     * @param mapName Name of the map file to be checked.
+     * @return true if file exists and is a valid file, otherwise false.
+     */
+    public boolean isMapExists(String mapName){
+        String filePath = "src/main/resources/maps/" + mapName;
+        File f = new File(filePath);
+        if (f.exists()){
+            GameMap map = new GameMap();
+            if(determineMapType("src/main/resources/maps/" + mapName)){
+                //Domination map
+                LoadDominationMap lm = new LoadDominationMap();
+                map = lm.readMap(filePath);
+            } else {
+                //Conquest map
+                LoadConquestMap lm = new LoadConquestMap();
+                map = lm.readMap(filePath);
+            }
+            if (validateMap(map) == MapValidityStatus.VALIDMAP){
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            return false;
+        }
+    }
 }

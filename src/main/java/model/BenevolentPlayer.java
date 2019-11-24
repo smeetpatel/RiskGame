@@ -15,7 +15,6 @@ public class BenevolentPlayer extends Player {
      */
     public BenevolentPlayer(String playerName) {
         super(playerName);
-        
     }
 
     @Override
@@ -33,7 +32,7 @@ public class BenevolentPlayer extends Player {
             existingArmies += this.getOwnedArmies();
             c.setNumberOfArmies(existingArmies);
             this.setOwnedArmies(this.getOwnedArmies());
-            notifyObservers(Integer.toString(this.getOwnedArmies()) + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + Integer.toString(this.getOwnedArmies()) + "\n");
+            notifyObservers(this.getOwnedArmies() + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + this.getOwnedArmies() + "\n");
             game.setGamePhase(Phase.ATTACK);
         } else {
             notifyObservers(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
