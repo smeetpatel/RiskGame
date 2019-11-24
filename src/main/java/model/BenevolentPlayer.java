@@ -4,8 +4,14 @@ import java.util.Collection;
 
 public class BenevolentPlayer extends Player {
 
-    BenevolentPlayer benevolentPlayer;
+    /**
+     * Represents object of GameActions
+     */
     GameActions gameActions;
+
+    /**
+     * Represents the weakest country of the player
+     */
     String weakestCountry;
 
     /**
@@ -18,6 +24,13 @@ public class BenevolentPlayer extends Player {
         
     }
 
+    /**
+     * Reinforcement phase for the benevolent player
+     * @param game Represents the state of the game
+     * @param country Represents country on which armies placed
+     * @param num Reinforce this many armies
+     * @return true if reinforcement successful else false
+     */
     @Override
     public boolean reinforce(GameData game, String country, int num) {
 
@@ -42,7 +55,16 @@ public class BenevolentPlayer extends Player {
         return true;
     }
 
-
+    /**
+     * Attack pahse for the benevolent player
+     * @param game Represents the state of the game.
+     * @param countryFrom Country doing the attack
+     * @param countryTo Country that is defending
+     * @param numberOfDice Number of dice attacker wishes to roll
+     * @param defendDice Number of dice defender wishes to roll
+     * @param defendingPlayer Player owning the defending country
+     * @return true if attack is successful else false
+     */
     @Override
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer) {
 
@@ -50,6 +72,14 @@ public class BenevolentPlayer extends Player {
         return true;
     }
 
+    /**
+     * Fortification phase for benevolent player
+     * @param game represents state of the game
+     * @param fromCountry country from armies send
+     * @param toCountry country to armies placed
+     * @param num total number of armies to send from one country to another country
+     * @return true if fortification successful else false
+     */
     @Override
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num) {
 
@@ -75,6 +105,11 @@ public class BenevolentPlayer extends Player {
         }
     }
 
+    /**
+     * get the to and from country for fortification phase for benevolent player
+     * @param player Represents object of the player
+     * @return string contains fromCountry and toCountry separated by blank space
+     */
     public String fortifyData(Player player) {
 
         Collection<Country> countries = player.getOwnedCountries().values();
@@ -123,6 +158,11 @@ public class BenevolentPlayer extends Player {
         return fromAndToCountries;
     }
 
+    /**
+     * Get the weakest country of the player
+     * @param player Represents the object of the player
+     * @return object of weakest country of player
+     */
     public Country getWeakestCountry(Player player) {
         Collection<Country> countries = player.getOwnedCountries().values();
         Country weakest_country = null;
