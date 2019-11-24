@@ -5,6 +5,7 @@ import main.java.model.Phase;
 import main.java.model.Player;
 import main.java.view.PhaseView;
 import main.java.view.PlayerDominationView;
+import main.java.view.TournamentResultView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -130,6 +131,8 @@ public class TournamentController extends Controller {
             }
         }
         //return winner;
+        TournamentResultView tournamentResultView = new TournamentResultView();
+        tournamentResultView.displayTournamentResult(winner, mapFiles);
     }
 
     /**
