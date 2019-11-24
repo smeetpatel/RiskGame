@@ -176,6 +176,7 @@ public class AggressivePlayer extends Player{
     public Country findStrongestCountry(){
         int maximumArmies = 0;
         int noNeighborMaximumArmies = 0;
+
         Country countryToReinforce = null;
         Country noNeighborCountryToReinforce = null;
         for(Country country : getOwnedCountries().values()){
@@ -210,7 +211,11 @@ public class AggressivePlayer extends Player{
             return null;
         }
         for(Country neighbor: attackingCountry.getNeighbours().values()){
+
+          
+
             if(!getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
+
                 return neighbor;
             }
         }

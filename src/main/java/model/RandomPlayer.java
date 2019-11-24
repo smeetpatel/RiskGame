@@ -6,10 +6,11 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Represents the random player.
  */
-public class RandomPlayer extends Player{
+public class RandomPlayer extends Player {
 
     //Player player;
     GameActions gameActions;
+
     /**
      * Creates a player with the argument player name and sets default value for rest of the player fields.
      *
@@ -22,12 +23,13 @@ public class RandomPlayer extends Player{
 
     /**
      * {@inheritDoc}
-     * @param game Represents the state of the game
+     *
+     * @param game        Represents the state of the game
      * @param countryName Reinforce armies here
-     * @param num Reinforce this many armies
+     * @param num         Reinforce this many armies
      * @return
      */
-    public boolean reinforce(GameData game, String countryName, int num){
+    public boolean reinforce(GameData game, String countryName, int num) {
 
         Random random = new Random();
         ArrayList<Country> countries = (ArrayList<Country>) this.getOwnedCountries().values();
@@ -54,104 +56,132 @@ public class RandomPlayer extends Player{
 
     /**
      * {@inheritDoc}
-     * @param game Represents the state of the game.
-     * @param countryFrom Country doing the attack
-     * @param countryTo Country that is defending
-     * @param numberOfDice Number of dice attacker wishes to roll
-     * @param defendDice Number of dice defender wishes to roll
+     *
+     * @param game            Represents the state of the game.
+     * @param countryFrom     Country doing the attack
+     * @param countryTo       Country that is defending
+     * @param numberOfDice    Number of dice attacker wishes to roll
+     * @param defendDice      Number of dice defender wishes to roll
      * @param defendingPlayer Player owning the defending country
      * @return
      */
-    public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
+    public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer) {
+
+        int attackerArmiesLost = 0;
+        int defenderArmiesLost = 0;
+        int[] attackerDiceRolls;
+        int[] defenderDiceRolls;
 
         boolean check = false;
         Random random = new Random();
+        Country attackingCountry = null;
+        Country defendingCountry = null;
+        int randomcounter = 0;
+
         ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
 
-        while (!check) {
+        while (defendingCountry.equals(null) || randomcounter<25) {
             countryFrom = sourceCountries.get(random.nextInt(sourceCountries.size())).getCountryName();
+            attackingCountry = game.getMap().getCountries().get(countryFrom.toLowerCase());
+            defendingCountry = canAttack(attackingCountry);
+            randomcounter++;
+        }
 
-            ArrayList<Country> sourceNeighbourCountries = (ArrayList<Country>) this.getOwnedCountries().get(countryFrom).getNeighbours().values();
+        while((defendingCountry = canAttack(attackingCountry))!=null) {
 
-            for (Country c : sourceNeighbourCountries) {
-                if (!this.getOwnedCountries().containsKey(c)) {
-                    countryTo = c.getCountryName();
-                    check = true;
-                }else {
-                    check = false;
+            //get the defending player
+            defendingPlayer = defendingCountry.getOwnerPlayer();
+
+
+            numberOfDice = gameActions.getMaxDiceRolls(game, attackingCountry.getCountryName(), "attacker");
+            defendDice = gameActions.getMaxDiceRolls(game, defendingCountry.getCountryName(), "defender");
+
+
+            attackerDiceRolls = new int[numberOfDice];
+            defenderDiceRolls = new int[defendDice];
+
+            //roll the dices
+            for (int i = 0; i < numberOfDice; i++) {
+                int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+                attackerDiceRolls[i] = randomNum;
+            }
+            for (int i = 0; i < defendDice; i++) {
+                int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+                defenderDiceRolls[i] = randomNum;
+            }
+
+            //sort the dice roll result
+            Arrays.sort(attackerDiceRolls);
+            Arrays.sort(defenderDiceRolls);
+
+            //compare dice results
+            for (int i = 1; i <= defendDice; i++) {
+                if (defenderDiceRolls[defenderDiceRolls.length - i] >= attackerDiceRolls[attackerDiceRolls.length - i]) {
+                    attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies() - 1);
+                    attackerArmiesLost++;
+                } else {
+                    defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies() - 1);
+                    defenderArmiesLost++;
+                }
+                if (defendingCountry.getNumberOfArmies() == 0) {
+                    if (attackerArmiesLost > 0) {
+                        notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
+                    }
+                    if (defenderArmiesLost > 0) {
+                        notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
+                    }
+                    getOwnedCountries().put(countryTo.toLowerCase(), defendingCountry);
+                    defendingCountry.setOwnerPlayer(this);
+                    defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
+                    notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
+
+                    //move armies to conquered territory
+                    moveArmy(game, attackingCountry.getCountryName(), defendingCountry.getCountryName(), numberOfDice, numberOfDice);
+
+                    //check if player owns all the countries on the map
+                    if (getOwnedCountries().size() == game.getMap().getCountries().size()) {
+                        gameActions.endGame(game);
+                    }
+
+                    //check if player owns entire continent or not
+                    gameActions.checkContinentOwnership(game, this);
+
+                    if (defendingPlayer.getOwnedCountries().size() == 0) {
+                        notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
+                        gameActions.getAllCards(this, defendingPlayer);
+                        game.removePlayer(defendingPlayer);
+                        if (getOwnedCards().size() >= 6) {
+                            addCardExchangeArmies(game);
+                        }
+                    }
+                    return true;
+                }
+                if (i >= numberOfDice) {
+                    break;
                 }
             }
-        }
-        numberOfDice = gameActions.getMaxDiceRolls(game, countryFrom, "attacker");
-        defendDice = gameActions.getMaxDiceRolls(game, countryTo, "defender");
-
-        Country attackingCountry = game.getMap().getCountries().get(countryFrom.toLowerCase());
-        Country defendingCountry = game.getMap().getCountries().get(countryTo.toLowerCase());
-        int[] attackerDiceRolls = new int[numberOfDice];
-        int[] defenderDiceRolls = new int[defendDice];
-        int attackerArmiesLost = 0;
-        int defenderArmiesLost = 0;
-        //roll the dices
-        for(int i = 0; i<numberOfDice; i++){
-            int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-            attackerDiceRolls[i] = randomNum;
-        }
-        for(int i = 0; i<defendDice; i++){
-            int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-            defenderDiceRolls[i] = randomNum;
-        }
-
-        //sort the dice roll result
-        Arrays.sort(attackerDiceRolls);
-        Arrays.sort(defenderDiceRolls);
-
-        //compare dice results
-        for(int i=1; i<=defendDice; i++){
-            if(defenderDiceRolls[defenderDiceRolls.length-i]>=attackerDiceRolls[attackerDiceRolls.length-i]){
-                attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies()-1);
-                attackerArmiesLost++;
-            } else {
-                defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()-1);
-                defenderArmiesLost++;
+            if (attackerArmiesLost > 0) {
+                notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
             }
-            if(defendingCountry.getNumberOfArmies()==0){
-                if(attackerArmiesLost>0){
-                    notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
-                }
-                if(defenderArmiesLost>0){
-                    notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
-                }
-                getOwnedCountries().put(countryTo.toLowerCase(), defendingCountry);
-                defendingCountry.setOwnerPlayer(this);
-                defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
-                notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
-                if(defendingPlayer.getOwnedCountries().size()==0){
-                    notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
-                }
-                return true;
+            if (defenderArmiesLost > 0) {
+                notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
             }
-            if(i>=numberOfDice){
-                break;
-            }
+            attackerArmiesLost = 0;
+            defenderArmiesLost = 0;
         }
-        if(attackerArmiesLost>0){
-            notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
-        }
-        if(defenderArmiesLost>0){
-            notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
-        }
-        return false;
+        return true;
     }
 
     /**
      * {@inheritDoc}
-     * @param game represents state of the game
+     *
+     * @param game        represents state of the game
      * @param fromCountry country from armies send
-     * @param toCountry country to armies placed
-     * @param num total number of armies to send from one country to another country
+     * @param toCountry   country to armies placed
+     * @param num         total number of armies to send from one country to another country
      * @return
      */
-    public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num){
+    public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num) {
 
         boolean check = false;
         MapValidation mv = new MapValidation();
@@ -163,19 +193,19 @@ public class RandomPlayer extends Player{
         //Collections.shuffle(targetCountries);
         //Collections.shuffle(sourceCountries);
 
-        while (!check || randomCounter<25){
+        while (!check || randomCounter < 25) {
             fromCountry = sourceCountries.get(random.nextInt(this.getOwnedCountries().size())).getCountryName();
             toCountry = targetCountries.get(random.nextInt(this.getOwnedCountries().size())).getCountryName();
-            if(fromCountry != toCountry){
+            if (fromCountry != toCountry) {
                 check = mv.fortificationConnectivityCheck(this, fromCountry, toCountry);
             }
             randomCounter++;
         }
 
-        if(!check) {
+        if (!check) {
             this.fortify(game);
             return FortificationCheck.PATHFAIL;
-        }else{
+        } else {
             int fromArmies = this.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies();
             int toArmies = this.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
             toArmies += (fromArmies - 1);
@@ -187,4 +217,22 @@ public class RandomPlayer extends Player{
             return FortificationCheck.FORTIFICATIONSUCCESS;
         }
     }
+
+    /**
+     * Checks whether attack with argument country is possible or not.
+     * @param attackingCountry Country making the attack.
+     * @return country to attack
+     */
+    public Country canAttack(Country attackingCountry){
+        if(attackingCountry.getNumberOfArmies()==1){
+            return null;
+        }
+        for(Country neighbor: attackingCountry.getNeighbours().values()){
+            if(!getOwnedCountries().containsKey(neighbor.getCountryName())){
+                return neighbor;
+            }
+        }
+        return null;
+    }
 }
+
