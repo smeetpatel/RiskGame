@@ -14,6 +14,9 @@ import java.util.HashMap;
  */
 public class TournamentController extends Controller {
 
+    /**
+     * Represents object of GameActions Class
+     */
     GameActions gameActions;
 
     /**
@@ -27,6 +30,11 @@ public class TournamentController extends Controller {
         return s != null && s.matches("^[a-zA-Z.]*$");
     }
 
+    /**
+     * Ensures player strategy is valid
+     * @param s strategy of the player
+     * @return true if valid else false
+     */
     public boolean isPlayerStrategyValid(String s){
 
         String[] array = new String[]{"aggresive", "benevolent", "random", "cheater"};
@@ -38,6 +46,11 @@ public class TournamentController extends Controller {
         return false;
     }
 
+    /**
+     * Ensure that all strategies of player are distinct
+     * @param list list of player's strategy
+     * @return true if valid else false
+     */
     public boolean isPlayerStrategyDistinct(ArrayList<String> list){
 
         for(int i=0;i<list.size();i++){
@@ -50,6 +63,11 @@ public class TournamentController extends Controller {
         return true;
     }
 
+    /**
+     * Ensures that all maps exist
+     * @param list list of name of maps
+     * @return true if valid else false
+     */
     public boolean allMapExists(ArrayList<String> list){
         int counter=0;
         for(String s:list){
@@ -72,10 +90,10 @@ public class TournamentController extends Controller {
     }
 
     /**
-     * {@inheritDoc}
+     * Function responsible for handling command for tournament
      * @param player Player playing the move
      * @param newCommand Command to be interpreted
-     * @return winner of the tournament
+     * @return success if command is valid else appropriate message which indicates reason of failure
      */
     public String parseCommand(Player player, String newCommand){
 
