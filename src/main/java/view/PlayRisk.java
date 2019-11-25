@@ -165,6 +165,7 @@ public class PlayRisk {
                     System.out.println("Enter a valid tournament command of the form 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'");
                     command = read.nextLine();
                     message = controller.parseCommand(null, command);
+					System.out.println(message); // For debugging purpose **** It prints the message which shows any error or success message.
                 } while(!message.equals("success"));
 				validCommand = true;
 			} else {
