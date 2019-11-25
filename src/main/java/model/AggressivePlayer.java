@@ -25,11 +25,15 @@ public class AggressivePlayer extends Player{
      */
     public boolean reinforce(GameData game, String countryName, int num){
         GameActions gameActions = new GameActions();
+
+        //assign reinforcement armies and exchange cards if possible
         gameActions.assignReinforcementArmies(game, this);
-        //check if card exchange is possible, if yes do it.
         addCardExchangeArmies(game);
+
+        //find country to reinforce
         Country country = findStrongestCountry();
 
+        //perform reinforcement
         game.setActivePlayer(this);
         num = getOwnedArmies();
         country.setNumberOfArmies(country.getNumberOfArmies() + getOwnedArmies());
@@ -57,6 +61,8 @@ public class AggressivePlayer extends Player{
         int[] defenderDiceRolls;
 
         GameActions gameActions = new GameActions();
+
+        //find attacking and defending countries
         Country attackingCountry = findStrongestCountry();
         Country defendingCountry = canAttack(attackingCountry);
 
@@ -95,6 +101,8 @@ public class AggressivePlayer extends Player{
                     defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()-1);
                     defenderArmiesLost++;
                 }
+
+                //if defender loses the country, perform necessary actions
                 if(defendingCountry.getNumberOfArmies()==0){
                     if(attackerArmiesLost>0){
                         notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
@@ -110,9 +118,10 @@ public class AggressivePlayer extends Player{
                     //move armies to conquered territory
                     moveArmy(game, attackingCountry.getCountryName(), defendingCountry.getCountryName(), numberOfDice, numberOfDice);
 
-                    //check if player owns all the countries on the map
+                    //check if player has won the game or not
                     if(getOwnedCountries().size()==game.getMap().getCountries().size()){
                         gameActions.endGame(game);
+                        return true;
                     }
 
                     //check if player owns entire continent or not
@@ -256,9 +265,9 @@ public class AggressivePlayer extends Player{
         Country originCountry = null;
         for(Country neighbor : destinationCountry.getNeighbours().values()){
             if(getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
-                if(neighbor.getNumberOfArmies()>maxArmies && mv.fortificationConnectivityCheck(this, destinationCountry, neighbor)){
+                if(neighbor.getNumberOfArmies()>maxArmies && mv.fortificationConnectivityCheck(this, destinationCountry.getCountryName(), neighbor.getCountryName())){
                     maxArmies = neighbor.getNumberOfArmies();
-                    originCountry = neighbor
+                    originCountry = neighbor;
 
                 }
             }

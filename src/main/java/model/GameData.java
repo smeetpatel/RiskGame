@@ -184,4 +184,16 @@ public class GameData extends Observable{
     public void removePlayer(Player p){
         this.players.remove(p);
     }
+
+    /**
+     * Resets the game data
+     */
+    public void resetGameData(){
+        map = new GameMap();
+        gamePhase = Phase.NULL;
+        players = new ArrayList<Player>();
+        activePlayer = null;
+        deck = new Deck();
+        cardsDealt = 0;
+    }
 }

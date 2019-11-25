@@ -178,8 +178,8 @@ public class LoadConquestMap implements ConquestMap{
                 String s;
                 for(Country country : map.getCountries().values()){
                     s = country.getCountryName() + "," + country.getxCoOrdinate() + "," + country.getyCoOrdinate() + "," + country.getInContinent();
-                    for(Country country : country.getNeighbours().values()){
-                        s += "," + country.getCountryName();
+                    for(Country  neighbor : country.getNeighbours().values()){
+                        s += "," + neighbor.getCountryName();
                     }
                     writer.write(s);
                     writer.newLine();
