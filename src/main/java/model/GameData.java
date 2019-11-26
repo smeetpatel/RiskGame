@@ -54,6 +54,16 @@ public class GameData extends Observable{
         cardsDealt = 0;
     }
 
+    public GameData(GameMap map, String mapType, Phase gamePhase, ArrayList<Player> players, Player activePlayer, Deck deck, int cardsDealt){
+        this.map = map;
+        this.mapType = mapType;
+        this.gamePhase = gamePhase;
+        this.players = players;
+        this.activePlayer = activePlayer;
+        this.deck = deck;
+        this.cardsDealt = cardsDealt;
+    }
+
     /**
      * Get the map being edited or played on.
      * @return returns the map being edited or played on.
@@ -81,7 +91,6 @@ public class GameData extends Observable{
     /**
      * Sets the type of the map
      * @param mapType Type of the map, i.e. 'Conquest' format map or 'Domination' format map
-     *
      */
     public void setMapType(String mapType) {
         this.mapType = mapType;
@@ -171,7 +180,7 @@ public class GameData extends Observable{
     }
 
     /**
-     * set the phse for card trade in phase
+     * set the phase for card trade in phase
      * @param cardsDealt trade in phase number
      */
     public void setCardsDealt(int cardsDealt) {
