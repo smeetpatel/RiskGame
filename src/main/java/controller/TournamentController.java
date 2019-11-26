@@ -220,7 +220,6 @@ public class TournamentController extends Controller {
         //TODO Validation 6: Check that number of turns mentioned in the argument are between 10 to 50
         //TODO return appropriate string message in response to any failure. Make sure message makes reflect the occuring error.
         //TODO if command is valid, call playTournament method of TournamentController with appropriate arguments
-        return "";
     }
 
     /**
