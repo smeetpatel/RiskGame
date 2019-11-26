@@ -37,9 +37,19 @@ public class PlayRisk {
 					System.out.println("Enter 1 to load a saved game or 2 to edit/load map for new game.");
 					command = read.nextLine();
 					if(command.equals("1")){
-                        //loads game
+
+					    //loads game
 						validCommand = true;
-						//TODO: code for loading a saved game goes here
+						controller = new LoadGameController();
+                        System.out.println("To continue, select a game to load from the existing save games.");
+                        game.printSavedGames();
+                        do{
+                            command = read.nextLine();
+                            message = controller.parseCommand(null, command);
+                        } while(!message.equals("Loaded successfully"));
+
+
+
 
 					} else if(command.equals("2")){
                         //loads/edits a map
@@ -189,4 +199,15 @@ public class PlayRisk {
 		}
 		System.out.println();
 	}
+
+	private void printSavedGames(){
+        File folder = new File("src/main/resources/game/");
+        File[] files = folder.listFiles();
+
+        for(int i=0; i<files.length; i++) {
+            if(files[i].isFile())
+                System.out.print(files[i].getName() + " ");
+        }
+        System.out.println();
+    }
 }
