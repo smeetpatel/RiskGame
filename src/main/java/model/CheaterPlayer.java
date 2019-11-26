@@ -48,8 +48,8 @@ public class CheaterPlayer extends Player{
         HashMap<String,Country> conqueredCountries = new HashMap<String, Country>();
 
         for(Country country: this.getOwnedCountries().values()){
-            for(Country neighbour: country.getNeighbours().values()){
-                if(!this.getOwnedCountries().containsKey(neighbour)){
+            for(Country neighbour: country.getNeighbours()){
+                if(!this.getOwnedCountries().containsKey(neighbour.getCountryName().toLowerCase())){
                     conqueredCountries.put(neighbour.getCountryName(),neighbour);
                     neighbour.getOwnerPlayer().getOwnedCountries().remove(neighbour);
                 }
