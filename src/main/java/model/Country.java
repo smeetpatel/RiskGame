@@ -1,5 +1,6 @@
 package main.java.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -10,7 +11,7 @@ import java.util.HashMap;
  *
  */
 
-public class Country {
+public class Country implements Serializable {
 	/**
 	 * Index value of the country when saving to ".map" file of domination game format.
 	 */

@@ -1,5 +1,6 @@
 package main.java.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @author Smeet
  *
  */
-public class Continent {
+public class Continent implements Serializable {
 
 	/**
 	 * Represents the name of the continent.
