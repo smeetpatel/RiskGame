@@ -737,4 +737,51 @@ public class GameActions extends Observable{
             return false;
         }
     }
+
+    /**
+     * Saves risk game.
+     * @param game Represents the state of the game.
+     * @param fileName Name of the file saving the game.
+     */
+    public void saveGame(GameData game, String fileName){
+        GameDataBuilder gameDataBuilder = new GameDataBuilder();
+        gameDataBuilder.setMap(game.getMap());
+        gameDataBuilder.setMapType(game.getMapType());
+        gameDataBuilder.setGamePhase(game.getGamePhase());
+        gameDataBuilder.setPlayers(game.getPlayers());
+        gameDataBuilder.setActivePlayer(game.getActivePlayer());
+        gameDataBuilder.setDeck(game.getDeck());
+        gameDataBuilder.setCardsDealt((game.getCardsDealt()));
+
+        try{
+            FileOutputStream f = new FileOutputStream(new File("src/main/resources/game/" + fileName));
+            ObjectOutputStream o = new ObjectOutputStream((f));
+            o.writeObject(gameDataBuilder);
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Loads risk game.
+     * @param fileName Name of the file to be loaded.
+     * @return GameDataBuilder object to build GameData object.
+     */
+    public GameDataBuilder loadGame(String fileName){
+        GameDataBuilder gameDataBuilder = new GameDataBuilder();
+        try{
+            FileInputStream f = new FileInputStream((new File("src/main/resources/game/" + fileName)));
+            ObjectInputStream o = new ObjectInputStream((f));
+            gameDataBuilder = (GameDataBuilder) o.readObject();
+        } catch(FileNotFoundException e){
+            e.printStackTrace();
+        } catch(IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return gameDataBuilder;
+    }
 }

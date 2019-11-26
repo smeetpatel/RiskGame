@@ -1,11 +1,12 @@
 package main.java.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Class holds the data required to maintain the state of the game.
  */
-public class GameData extends Observable{
+public class GameData extends Observable implements Serializable {
 
     /**
      * Stores the map being edited or the map being played on depending on the user's choice.

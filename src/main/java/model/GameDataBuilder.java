@@ -1,11 +1,12 @@
 package main.java.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Responsible for building GameData object
  */
-public class GameDataBuilder {
+public class GameDataBuilder implements Serializable {
 
     /**
      * Stores the map being edited or the map being played on depending on the user's choice.
