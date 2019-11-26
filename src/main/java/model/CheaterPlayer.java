@@ -45,17 +45,16 @@ public class CheaterPlayer extends Player{
      */
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
 
-        HashMap<String,Country> conqueredCountries = new HashMap<String, Country>();
-
         for(Country country: this.getOwnedCountries().values()){
             for(Country neighbour: country.getNeighbours().values()){
                 if(!this.getOwnedCountries().containsKey(neighbour)){
-                    conqueredCountries.put(neighbour.getCountryName(),neighbour);
+                    country.getOwnerPlayer().getOwnedCountries().put(neighbour.getCountryName(),neighbour);
+                    neighbour.setOwnerPlayer(country.getOwnerPlayer());
                     neighbour.getOwnerPlayer().getOwnedCountries().remove(neighbour);
                 }
             }
         }
-        this.setOwnedCountries(conqueredCountries);
+
         return true;
     }
 
