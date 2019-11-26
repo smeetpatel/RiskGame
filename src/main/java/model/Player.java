@@ -1,10 +1,11 @@
 package main.java.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public abstract class Player extends Observable{
+public abstract class Player extends Observable implements Serializable {
 
 	/**
 	 * Name of the player

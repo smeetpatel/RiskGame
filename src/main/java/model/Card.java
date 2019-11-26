@@ -1,10 +1,12 @@
 package main.java.model;
 
+import java.io.Serializable;
+
 /** This class will perform operations on cards.
  * @author Tirth
  */
 
-public class Card {
+public class Card implements Serializable {
 
     /**
      * Type of card from Infantry, Cavalary and Artillery.

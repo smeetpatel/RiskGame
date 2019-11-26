@@ -530,6 +530,7 @@ public class TurnController extends Controller{
      * @param player object of player
      */
     public void playerChangeEvent(Player player) {
+        this.game.setActivePlayer(player);
         gameAction.assignReinforcementArmies(game, player);
         cardExchangeView = new CardExchangeView();
         cardExchangeView.setVisible(true);
