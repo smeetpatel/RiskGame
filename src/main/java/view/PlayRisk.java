@@ -48,7 +48,7 @@ public class PlayRisk {
                             message = controller.parseCommand(null, command);
                         } while(!message.equals("Loaded successfully"));
 
-
+                        controller = new TurnController(controller.getGame());
 
 
 					} else if(command.equals("2")){
