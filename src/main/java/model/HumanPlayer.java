@@ -26,6 +26,7 @@ public class HumanPlayer extends Player {
     public boolean reinforce(GameData game, String countryName, int num){
         game.setActivePlayer(this);
         if(num<0){
+            game.getLogger().info("You cannot reinforce with negative number of armies.");
             notifyObservers("You cannot reinforce with negative number of armies.");
         }
         if(getOwnedCountries().containsKey(countryName.toLowerCase()))
@@ -37,6 +38,7 @@ public class HumanPlayer extends Player {
                 existingArmies += num;
                 c.setNumberOfArmies(existingArmies);
                 this.setOwnedArmies(getOwnedArmies()-num);
+                game.getLogger().info(num + " armies reinforced at " + countryName + ". Remaining reinforcement armies: " + getOwnedArmies() + "\n");
                 notifyObservers(num + " armies reinforced at " + countryName + ". Remaining reinforcement armies: " + getOwnedArmies() + "\n");
                 if(getOwnedArmies()==0) {
                     game.setGamePhase(Phase.ATTACK);
@@ -45,12 +47,14 @@ public class HumanPlayer extends Player {
             }
             else
             {
+                game.getLogger().info(getPlayerName() + " doesn't have " + num + " armies to reinforce. Invalid command.");
                 notifyObservers(getPlayerName() + " doesn't have " + num + " armies to reinforce. Invalid command.");
                 return false;
             }
         }
         else
         {
+            game.getLogger().info(countryName + " not owned by " + getPlayerName() +". Invalid command.\n");
             notifyObservers(countryName + " not owned by " + getPlayerName() +". Invalid command.\n");
             return false;
         }
@@ -98,16 +102,20 @@ public class HumanPlayer extends Player {
             }
             if(defendingCountry.getNumberOfArmies()==0){
                 if(attackerArmiesLost>0){
+                    game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
                     notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
                 }
                 if(defenderArmiesLost>0){
+                    game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
                     notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
                 }
                 getOwnedCountries().put(countryTo.toLowerCase(), defendingCountry);
                 defendingCountry.setOwnerPlayer(this);
                 defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
+                game.getLogger().info(getPlayerName() + " conquered " + countryTo + ".\n");
                 notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
                 if(defendingPlayer.getOwnedCountries().size()==0){
+                    game.getLogger().info(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                     notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                 }
                 return true;
@@ -117,9 +125,11 @@ public class HumanPlayer extends Player {
             }
         }
         if(attackerArmiesLost>0){
+            game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
             notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
         }
         if(defenderArmiesLost>0){
+            game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
             notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
         }
         return false;
@@ -152,24 +162,29 @@ public class HumanPlayer extends Player {
                         int toArmies = getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
                         toArmies += num;
                         getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+                        game.getLogger().info(getPlayerName() + " fortified " + toCountry + " with " + num + " armies from " + fromCountry +". " + getPlayerName() + "'s turn ends now.");
                         notifyObservers(getPlayerName() + " fortified " + toCountry + " with " + num + " armies from " + fromCountry +". " + getPlayerName() + "'s turn ends now.");
                         game.setGamePhase(Phase.TURNEND);
                         return FortificationCheck.FORTIFICATIONSUCCESS;
                     } else {
+                        game.getLogger().info("No path from " + fromCountry + " to " + toCountry + ". Fortification failed.");
                         notifyObservers("No path from " + fromCountry + " to " + toCountry + ". Fortification failed.");
                         return FortificationCheck.PATHFAIL;
                     }
                 } else {
+                    game.getLogger().info("Not enough armies in " + fromCountry + " to fortify " + toCountry + " with " + num + " armies. Fortification failed.");
                     notifyObservers("Not enough armies in " + fromCountry + " to fortify " + toCountry + " with " + num + " armies. Fortification failed.");
                     return FortificationCheck.ARMYCOUNTFAIL;
                 }
             } else {
+                game.getLogger().info(getPlayerName() + " does not own " + toCountry + ". Fortification failed.");
                 notifyObservers(getPlayerName() + " does not own " + toCountry + ". Fortification failed.");
                 return FortificationCheck.TOCOUNTRYFAIL;
             }
         }
         else
         {
+            game.getLogger().info(getPlayerName() + " does not own  " + fromCountry + ". Fortification failed.");
             notifyObservers(getPlayerName() + " does not own  " + fromCountry + ". Fortification failed.");
             return FortificationCheck.FROMCOUNTRYFAIL;
         }

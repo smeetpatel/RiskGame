@@ -20,7 +20,9 @@ public class BenevolentPlayer extends Player {
      * @param playerName name of player
      */
     public BenevolentPlayer(String playerName) {
+
         super(playerName);
+        gameActions = new GameActions();
     }
 
     /**
@@ -45,9 +47,11 @@ public class BenevolentPlayer extends Player {
             existingArmies += this.getOwnedArmies();
             c.setNumberOfArmies(existingArmies);
             this.setOwnedArmies(this.getOwnedArmies());
+            game.getLogger().info(this.getOwnedArmies() + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + this.getOwnedArmies() + "\n");
             notifyObservers(this.getOwnedArmies() + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + this.getOwnedArmies() + "\n");
             game.setGamePhase(Phase.ATTACK);
         } else {
+            game.getLogger().info(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
             notifyObservers(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
         }
 
@@ -66,7 +70,7 @@ public class BenevolentPlayer extends Player {
      */
     @Override
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer) {
-
+        game.getLogger().info(this.getPlayerName() + " decides not to attack.");
         gameActions.endAttack(game);
         return true;
     }
@@ -95,10 +99,12 @@ public class BenevolentPlayer extends Player {
             fromArmies = 1;
             this.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
             this.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+            game.getLogger().info(this.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry + ". " + this.getPlayerName() + "'s turn ends now.");
             notifyObservers(this.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry + ". " + this.getPlayerName() + "'s turn ends now.");
             game.setGamePhase(Phase.TURNEND);
             return FortificationCheck.FORTIFICATIONSUCCESS;
         }else{
+            game.getLogger().info("No fortification.");
             this.fortify(game);
             return FortificationCheck.FORTIFICATIONSUCCESS;
         }

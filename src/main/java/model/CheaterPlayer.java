@@ -18,7 +18,9 @@ public class CheaterPlayer extends Player{
      * @param playerName name of player
      */
     public CheaterPlayer(String playerName) {
+
         super(playerName);
+        gameActions = new GameActions();
     }
 
     /**
@@ -32,6 +34,7 @@ public class CheaterPlayer extends Player{
 
         ArrayList<Country> countries = (ArrayList<Country>) this.getOwnedCountries().values();
         for(Country c:countries){
+            game.getLogger().info(this.getPlayerName() + " reinforced " + c.getCountryName() + " with " + c.getNumberOfArmies());
             c.setNumberOfArmies(c.getNumberOfArmies() * 2);
         }
 
@@ -57,6 +60,7 @@ public class CheaterPlayer extends Player{
                     this.getOwnedCountries().put(neighbour.getCountryName().toLowerCase(),neighbour);
                     neighbour.getOwnerPlayer().getOwnedCountries().remove(neighbour);
                     neighbour.setOwnerPlayer(this);
+                    game.getLogger().info(getPlayerName() + " conquered " + neighbour.getCountryName() + ".\n");
                     notifyObservers(getPlayerName() + " conquered " + neighbour.getCountryName() + ".\n");
 
                     //move armies to conquered territory
@@ -64,6 +68,7 @@ public class CheaterPlayer extends Player{
 
                     //check if player owns all the countries on the map
                     if (getOwnedCountries().size() == game.getMap().getCountries().size()) {
+                        game.getLogger().info(this.getPlayerName() + " has won the game.");
                         gameActions.endGame(game);
                         return true;
                     }
@@ -72,6 +77,7 @@ public class CheaterPlayer extends Player{
                     gameActions.checkContinentOwnership(game, this);
 
                     if (neighbour.getOwnerPlayer().getOwnedCountries().size() == 0) {
+                        game.getLogger().info(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                         notifyObservers(neighbour.getOwnerPlayer().getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                         gameActions.getAllCards(this, neighbour.getOwnerPlayer());
                         game.removePlayer(neighbour.getOwnerPlayer());
@@ -98,11 +104,13 @@ public class CheaterPlayer extends Player{
         for(Country country : this.getOwnedCountries().values()){
             for(Country neighbour : country.getNeighbours().values()){
                 if(!(this.getOwnedCountries().containsKey(neighbour.getCountryName().toLowerCase()))){
+                    game.getLogger().info(this.getPlayerName() + " fortified " + country.getCountryName() + " with " + country.getNumberOfArmies());
                     country.setNumberOfArmies(country.getNumberOfArmies() * 2);
                     break;
                 }
             }
         }
+        game.getLogger().info(this.getPlayerName() + "'s fortification move complete.");
         return FortificationCheck.FORTIFICATIONSUCCESS;
     }
 }

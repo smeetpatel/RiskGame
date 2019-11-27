@@ -135,10 +135,13 @@ public class GameData extends Observable implements Serializable {
 
         this.gamePhase = gamePhase;
         if(this.gamePhase==Phase.REINFORCEMENT){
+            this.logger.info(this.activePlayer.getPlayerName() + "'s reinforcement phase");
             notifyObservers(this);
         } else if (this.gamePhase == Phase.ATTACK) {
+            this.logger.info(this.activePlayer.getPlayerName() + "'s attack phase");
             notifyObservers(this);
         } else if (this.gamePhase == Phase.FORTIFICATION) {
+            this.logger.info(this.activePlayer.getPlayerName() + "'s fortification phase");
             notifyObservers(this);
         }
     }
@@ -174,6 +177,7 @@ public class GameData extends Observable implements Serializable {
    public void setActivePlayer(Player player){
         this.activePlayer = player;
         if(player!=null){
+            this.logger.info("Active player: " + player.getPlayerName() + "\n");
             notifyObservers(this);
         }
    }

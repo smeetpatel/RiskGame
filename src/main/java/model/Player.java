@@ -234,6 +234,7 @@ public abstract class Player extends Observable implements Serializable {
 		}
 		attackingCountry.setNumberOfArmies(attackingCountry.getNumberOfArmies()-numberOfArmies);
 		defendingCountry.setNumberOfArmies(defendingCountry.getNumberOfArmies()+numberOfArmies);
+		game.getLogger().info(this.playerName + " moved " + numberOfArmies + " armies from " + fromCountry + " to " + toCountry + ".");
 		notifyObservers(this.playerName + " moved " + numberOfArmies + " armies from " + fromCountry + " to " + toCountry + ".");
 		return true;
 	}
@@ -243,6 +244,7 @@ public abstract class Player extends Observable implements Serializable {
 	 * @param game Represents current state of the game.
 	 */
 	public void fortify(GameData game){
+		game.getLogger().info(this.playerName + " decided to not fortify any country. " + this.playerName + "'s turn ends now.");
 		notifyObservers(this.playerName + " decided to not fortify any country. " + this.playerName + "'s turn ends now.");
 		game.setGamePhase((Phase.TURNEND));
 	}

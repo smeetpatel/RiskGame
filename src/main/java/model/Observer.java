@@ -10,7 +10,10 @@ public interface Observer {
      */
     public void update(Observable o);
 
+    /**
+     * Function carrying out update work in response to some observed action.
+     * @param message Message to display on receive updates.
+     */
     public void update(String message);
 
-   // public void update(Observable o, GameData game, String message);
 }

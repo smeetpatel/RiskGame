@@ -19,7 +19,9 @@ public class RandomPlayer extends Player {
      * @param playerName name of player
      */
     public RandomPlayer(String playerName) {
+
         super(playerName);
+        gameActions = new GameActions();
     }
 
     /**
@@ -46,9 +48,11 @@ public class RandomPlayer extends Player {
             existingArmies += this.getOwnedArmies();
             randomCountry.setNumberOfArmies(existingArmies);
             this.setOwnedArmies(this.getOwnedArmies());
+            game.getLogger().info(Integer.toString(this.getOwnedArmies()) + " armies reinforced at " + randomCountry.getCountryName() + ". Remaining reinforcement armies: " + Integer.toString(this.getOwnedArmies()) + "\n");
             notifyObservers(Integer.toString(this.getOwnedArmies()) + " armies reinforced at " + randomCountry.getCountryName() + ". Remaining reinforcement armies: " + Integer.toString(this.getOwnedArmies()) + "\n");
             game.setGamePhase(Phase.ATTACK);
         } else {
+            game.getLogger().info(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
             notifyObservers(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
         }
         return true;
@@ -124,14 +128,17 @@ public class RandomPlayer extends Player {
                 }
                 if (defendingCountry.getNumberOfArmies() == 0) {
                     if (attackerArmiesLost > 0) {
+                        game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
                         notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
                     }
                     if (defenderArmiesLost > 0) {
+                        game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
                         notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
                     }
                     getOwnedCountries().put(countryTo.toLowerCase(), defendingCountry);
                     defendingCountry.setOwnerPlayer(this);
                     defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
+                    game.getLogger().info(getPlayerName() + " conquered " + countryTo + ".\n");
                     notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
 
                     //move armies to conquered territory
@@ -139,6 +146,7 @@ public class RandomPlayer extends Player {
 
                     //check if player owns all the countries on the map
                     if (getOwnedCountries().size() == game.getMap().getCountries().size()) {
+                        game.getLogger().info(this.getPlayerName() + " has won the game.");
                         gameActions.endGame(game);
                         return true;
                     }
@@ -147,6 +155,7 @@ public class RandomPlayer extends Player {
                     gameActions.checkContinentOwnership(game, this);
 
                     if (defendingPlayer.getOwnedCountries().size() == 0) {
+                        game.getLogger().info(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                         notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                         gameActions.getAllCards(this, defendingPlayer);
                         game.removePlayer(defendingPlayer);
@@ -161,9 +170,11 @@ public class RandomPlayer extends Player {
                 }
             }
             if (attackerArmiesLost > 0) {
+                game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
                 notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
             }
             if (defenderArmiesLost > 0) {
+                game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
                 notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
             }
             attackerArmiesLost = 0;
@@ -202,6 +213,7 @@ public class RandomPlayer extends Player {
         }
 
         if (!check) {
+            game.getLogger().info("No fortification");
             this.fortify(game);
             return FortificationCheck.FORTIFICATIONSUCCESS;
         } else {
@@ -211,6 +223,7 @@ public class RandomPlayer extends Player {
             fromArmies = 1;
             this.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
             this.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
+            game.getLogger().info(this.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry + ". " + this.getPlayerName() + "'s turn ends now.");
             notifyObservers(this.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry + ". " + this.getPlayerName() + "'s turn ends now.");
             game.setGamePhase(Phase.TURNEND);
             return FortificationCheck.FORTIFICATIONSUCCESS;
