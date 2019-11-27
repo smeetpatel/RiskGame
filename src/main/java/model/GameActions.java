@@ -1,6 +1,5 @@
 package main.java.model;
 
-import main.java.controller.Command;
 
 import java.io.*;
 import java.util.*;
@@ -236,26 +235,13 @@ public class GameActions extends Observable{
             }
         }
 
-        switch(playerStrategy){
-            case "human":
-                players.add(new HumanPlayer(playerName));
-                break;
-            case "aggresive":
-                players.add(new AggressivePlayer(playerName));
-                break;
-            case "benevolent":
-                players.add(new BenevolentPlayer(playerName));
-                break;
-            case "random":
-                players.add(new RandomPlayer(playerName));
-                break;
-            case "cheater":
-                players.add(new CheaterPlayer(playerName));
-                break;
-            default:
-                return false;
+        PlayerContext playerContext = new PlayerContext();
+        if(playerContext.setPlayerStrategy(playerName, playerStrategy)){
+            players.add(playerContext.getPlayer());
+            return true;
+        } else {
+            return false;
         }
-        return true;
     }
 
     /**
@@ -415,34 +401,6 @@ public class GameActions extends Observable{
         }
         game.setGamePhase(Phase.CARDEXCHANGE);
         return true;
-    }
-
-    /**
-     * Responsible for managing distribution of initial armies.
-     *
-     * @param game Represents the state of the game.
-     * @param cmd  Command object that maintains game state
-     */
-    public void armyDistribution(GameData game, Command cmd) {
-        Scanner sc = new Scanner(System.in);
-        int numberOfPlayers = game.getPlayers().size();
-        int playerTraversal = 0;
-        while (game.getGamePhase() != Phase.CARDEXCHANGE) {
-            while (game.getGamePhase() != Phase.CARDEXCHANGE) {
-                Player p = game.getPlayers().get(playerTraversal);
-                int originalArmies = p.getOwnedArmies();
-                System.out.println(p.getPlayerName() + "'s turn");
-                String command = sc.nextLine();
-                game.setGamePhase(cmd.parseCommand(p, command));
-                if (!command.contentEquals("showmap") && originalArmies > p.getOwnedArmies()) {
-                    playerTraversal++;
-                    if (playerTraversal >= numberOfPlayers) {
-                        playerTraversal = 0;
-                    }
-                }
-            }
-        }
-        game.setGamePhase(Phase.CARDEXCHANGE);
     }
 
     /**
