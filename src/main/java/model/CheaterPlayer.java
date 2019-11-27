@@ -7,6 +7,11 @@ import java.util.HashMap;
  * Represents the cheater player.
  */
 public class CheaterPlayer extends Player{
+
+    /**
+     * Represents object of GameActions class
+     */
+    GameActions gameActions;
     /**
      * Creates a player with the argument player name and sets default value for rest of the player fields.
      *
@@ -45,17 +50,36 @@ public class CheaterPlayer extends Player{
      */
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
 
-        HashMap<String,Country> conqueredCountries = new HashMap<String, Country>();
-
         for(Country country: this.getOwnedCountries().values()){
-            for(Country neighbour: country.getNeighbours()){
-                if(!this.getOwnedCountries().containsKey(neighbour.getCountryName().toLowerCase())){
-                    conqueredCountries.put(neighbour.getCountryName(),neighbour);
+
+            for(Country neighbour: country.getNeighbours().values()){
+                if(!this.getOwnedCountries().containsKey(neighbour)){
+                    this.getOwnedCountries().put(neighbour.getCountryName(),neighbour);
+                    neighbour.setOwnerPlayer(this);
                     neighbour.getOwnerPlayer().getOwnedCountries().remove(neighbour);
+                    notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
+                    //move armies to conquered territory
+                    moveArmy(game, country.getCountryName(), neighbour.getCountryName(), numberOfDice, country.getNumberOfArmies()-1);
+
+                    //check if player owns all the countries on the map
+                    if (getOwnedCountries().size() == game.getMap().getCountries().size()) {
+                        gameActions.endGame(game);
+                    }
+
+                    //check if player owns entire continent or not
+                    gameActions.checkContinentOwnership(game, this);
+
+                    if (neighbour.getOwnerPlayer().getOwnedCountries().size() == 0) {
+                        notifyObservers(neighbour.getOwnerPlayer().getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
+                        gameActions.getAllCards(this, neighbour.getOwnerPlayer());
+                        game.removePlayer(neighbour.getOwnerPlayer());
+                        if (getOwnedCards().size() >= 6) {
+                            addCardExchangeArmies(game);
+                        }
+                    }
                 }
             }
         }
-        this.setOwnedCountries(conqueredCountries);
         return true;
     }
 
