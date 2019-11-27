@@ -55,6 +55,7 @@ public class TurnController extends Controller{
         String countryName;
         String fromCountry;
         String toCountry;
+        String fileName;
         String[] data = newCommand.split("\\s+");
         String commandName = data[0];
         if (game.getGamePhase().equals(Phase.CARDEXCHANGE)) {
@@ -111,8 +112,25 @@ public class TurnController extends Controller{
                         message = "Invalid command - it should be of the form 'exchangecards num num num -none'";
                     }
                     break;
+
+                case "savegame":
+                    try{
+                        if(data.length == 2){
+                            if(isFileNameValid(data[1])) {
+                                fileName = data[1];
+                                gameAction.saveGame(this.game, fileName);
+                            }
+                        }else{
+                            message = "Invalid command. enter file name to save a game.";
+                        }
+
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        message = "Invalid Command, It should be 'savegame filename'";
+                    }
+                    break;
+
                 default:
-                    message = "Invalid command - use exchangecards command.";
+                    message = "Invalid command - use 'exchangecards command'.";
                     break;
             }
         } else if (game.getGamePhase().equals(Phase.REINFORCEMENT)) {
@@ -148,6 +166,22 @@ public class TurnController extends Controller{
                         message = "Invalid command - it should be of the form 'reinforce countryName num'";
                     } catch (Exception e) {
                         message = "Invalid command - it should be of the form 'reinforce countryName num'";
+                    }
+                    break;
+
+                case "savegame":
+                    try{
+                        if(data.length == 2){
+                            if(isFileNameValid(data[1])) {
+                                fileName = data[1];
+                                gameAction.saveGame(this.game, fileName);
+                            }
+                        }else{
+                            message = "Invalid command. enter file name to save a game.";
+                        }
+
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        message = "Invalid Command, It should be 'savegame filename'";
                     }
                     break;
 
@@ -401,6 +435,25 @@ public class TurnController extends Controller{
                     }
                     break;
 
+                case "savegame":
+                    try{
+                        if(!attackData.getSendConqueringTroops()){
+                            if(data.length == 2){
+                                if(isFileNameValid(data[1])) {
+                                    fileName = data[1];
+                                    gameAction.saveGame(this.game, fileName);
+                                }
+                            }else{
+                                message = "Invalid command. enter file name to save a game.";
+                            }
+                        } else {
+                            message = "Move army first to be able to save the game.";
+                        }
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        message = "Invalid Command, It should be 'savegame filename'";
+                    }
+                    break;
+
                 case "showmap":
                     mapView.showMap(game.getMap(), game.getPlayers());
                     break;
@@ -492,6 +545,22 @@ public class TurnController extends Controller{
                     }
                     break;
 
+                case "savegame":
+                    try{
+                        if(data.length == 2){
+                            if(isFileNameValid(data[1])) {
+                                fileName = data[1];
+                                gameAction.saveGame(this.game, fileName);
+                            }
+                        }else{
+                            message = "Invalid command. enter file name to save a game.";
+                        }
+
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        message = "Invalid Command, It should be 'savegame filename'";
+                    }
+                    break;
+
                 case "showmap":
                     mapView.showMap(game.getMap(), game.getPlayers());
                     break;
@@ -555,5 +624,14 @@ public class TurnController extends Controller{
     public boolean isAlpha(String s) {
 
         return s != null && s.matches("^[a-zA-Z-_]*$");
+    }
+
+    /**
+     * Checks if file name is valid or not.
+     * @param s File name.
+     * @return true if valid file name, else false.
+     */
+    public boolean isFileNameValid(String s) {
+        return s != null && s.matches("^[a-zA-Z.]*$");
     }
 }
