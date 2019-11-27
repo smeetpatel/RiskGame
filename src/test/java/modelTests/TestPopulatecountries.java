@@ -44,6 +44,7 @@ public class TestPopulatecountries {
     /**
      * Set up the context
      */
+    /*
     @Before
     public void before() {
         //initialize required references
@@ -60,16 +61,17 @@ public class TestPopulatecountries {
         players.add(player1);
         players.add(player2);
         game.setPlayers(players);
-    }
+    }*/
 
     /**
      * Test if tests are rightly identified or not
      * This test method checks the number of countries player gets in populatecountry method
      */
+    /*
     @Test
     public void testPopulateCountries() {
         boolean check = gameActions.populateCountries(game,players);
         Assert.assertEquals(2,player1.getOwnedCountries().size());
-    }
+    }*/
 }
 

@@ -33,6 +33,7 @@ public class TestFortify {
      * Set up the context
      * Initialize the objects and parameters
      */
+    /*
     @Before
     public void before(){
         //initialize required references
@@ -64,11 +65,12 @@ public class TestFortify {
         game.getMap().getCountries().get("india").setNumberOfArmies(9);
         game.getMap().getCountries().get("china").setNumberOfArmies(3);
         game.getMap().getCountries().get("canada").setNumberOfArmies(1);
-    }
+    }*/
 
     /**
      * Tests if correctly identifies that player does not own origin country for fortification or not.
      */
+    /*
     @Test
     public void testFortify1(){
         int numberOfArmies = 1;
@@ -79,16 +81,18 @@ public class TestFortify {
     /**
      * Tests if correctly identifies that player does not own destination country for fortification or not.
      */
+    /*
     @Test
     public void testFortify2(){
         int numberOfArmies = 1;
         FortificationCheck fortificationCheck = player1.fortify(game, "india", "usa", numberOfArmies);
         Assert.assertEquals(fortificationCheck.TOCOUNTRYFAIL, fortificationCheck);
-    }
+    }*/
 
     /**
      * Tests if correctly identifies that player does not own have enough armies for reinforcement or not.
      */
+    /*
     @Test
     public void testFortify3(){
         int numberOfArmies = 9;
@@ -97,25 +101,27 @@ public class TestFortify {
         numberOfArmies = 1;
         fortificationCheck = player1.fortify(game, "canada", "india", numberOfArmies);
         Assert.assertEquals(fortificationCheck.ARMYCOUNTFAIL, fortificationCheck);
-    }
+    }*/
 
     /**
      * Tests if correctly identifies that there is no path between origin and destination country made of armies owned by player.
      */
+    /*
     @Test
     public void testFortify4(){
         int numberOfArmies = 1;
         FortificationCheck fortificationCheck = player1.fortify(game, "india", "nz", numberOfArmies);
         Assert.assertEquals(fortificationCheck.PATHFAIL, fortificationCheck);
-    }
+    }*/
 
     /**
      * Tests if correctly identifies successful fortification move or not.
      */
+    /*
     @Test
     public void testFortify5(){
         int numberOfArmies = 1;
         FortificationCheck fortificationCheck = player1.fortify(game, "india", "canada", numberOfArmies);
         Assert.assertEquals(fortificationCheck.FORTIFICATIONSUCCESS, fortificationCheck);
-    }
+    }*/
 }

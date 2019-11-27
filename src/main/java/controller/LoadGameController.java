@@ -48,18 +48,22 @@ public class LoadGameController extends Controller{
                             createPlayerDominationView();
                             createPhaseView();
                             message = "Loaded successfully";
+                            this.game.getLogger().info("Game loaded successfully.");
                         }
                         //method call for load game and parse this filename as argument
                     }else{
                         message = "Invalid command. Enter file name to save a game.";
+                        this.game.getLogger().info(newCommand + " - Invalid command. Enter file name to save a game.");
                     }
 
                 }catch (ArrayIndexOutOfBoundsException e){
-                    message = "Invalid Command, It should be 'loadgame filename'";
+                    message = "Invalid Command. It should be 'loadgame filename'";
+                    this.game.getLogger().info(newCommand + " - Invalid command. It should be 'loadgame filename'");
                 }
                 break;
             default:
                 message = "Invalid Command. It should be of the form 'loadgame filename'";
+                this.game.getLogger().info(newCommand + " - Invalid command. It should be 'loadgame filename'");
                 break;
         }
         return message;

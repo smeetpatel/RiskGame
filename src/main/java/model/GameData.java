@@ -1,7 +1,11 @@
 package main.java.model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Class holds the data required to maintain the state of the game.
@@ -44,6 +48,11 @@ public class GameData extends Observable implements Serializable {
     private int cardsDealt;
 
     /**
+     * Logs the information related to the game.
+     */
+    Logger logger;
+
+    /**
      * Constructor to initialize the game data.
      */
     public GameData(){
@@ -53,6 +62,8 @@ public class GameData extends Observable implements Serializable {
         activePlayer = null;
         deck = new Deck();
         cardsDealt = 0;
+        logger = Logger.getLogger("MyLog");
+
     }
 
     public GameData(GameMap map, String mapType, Phase gamePhase, ArrayList<Player> players, Player activePlayer, Deck deck, int cardsDealt){
@@ -63,6 +74,17 @@ public class GameData extends Observable implements Serializable {
         this.activePlayer = activePlayer;
         this.deck = deck;
         this.cardsDealt = cardsDealt;
+        try{
+            FileHandler fh;
+            fh = new FileHandler("src/main/resources/game/" + this.map.getMapName() + ".log");
+            this.logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        }catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -189,6 +211,22 @@ public class GameData extends Observable implements Serializable {
     }
 
     /**
+     * Gets the logger to log information.
+     * @return Logger object to log information.
+     */
+    public Logger getLogger() {
+        return logger;
+    }
+
+    /**
+     * Sets the logger to a specific logger object.
+     * @param logger Logger object to set to.
+     */
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    /**
      * Remove player
      */
     public void removePlayer(Player p){
@@ -205,5 +243,22 @@ public class GameData extends Observable implements Serializable {
         activePlayer = null;
         deck = new Deck();
         cardsDealt = 0;
+    }
+
+    /**
+     * Sets up the logger file.
+     */
+    public void setUpLogger(){
+        try{
+            FileHandler fh;
+            fh = new FileHandler("src/main/resources/game/" + this.map.getMapName() + ".log");
+            this.logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        }catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -43,6 +43,7 @@ public class TestReinforcement {
      * Set up the context for the test
      * initialize the objects
      */
+    /*
     @Before
     public void before(){
         //initialize required references
@@ -65,27 +66,29 @@ public class TestReinforcement {
 
         //place all armies
         gameActions.placeAll(game);
-    }
+    }*/
 
     /**
      * This test method checks that reinforcement operation occures successfully or not
      */
+    /*
     @Test
     public void testReinforcement1(){
         gameActions.populateCountries(game,players);
         boolean check = player1.reinforce(game,"india",5);
         Assert.assertEquals(true,check);
-    }
+    }*/
 
     /**
      * This test method checks that country specified in reinforcement command is owned by that player or not for successful
      * reinforcement
      */
+    /*
     @Test
     public void testReinforcement2(){
         gameActions.editMap(game,"createdMap.map");
         gameActions.populateCountries(game,players);
         boolean check = player1.reinforce(game,"USA",5);
         Assert.assertEquals(true,check);
-    }
+    }*/
 }

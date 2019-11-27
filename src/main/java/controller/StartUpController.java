@@ -63,15 +63,19 @@ public class StartUpController extends Controller{
                                     boolean check = gameAction.addPlayer(game.getPlayers(), playerName, playerStrategy);
                                     if (check) {
                                         message = "Player " + playerName +"  with Strategy "+playerStrategy+ " successfully added";
+                                        this.game.getLogger().info("Player " + playerName +"  with Strategy "+playerStrategy+ " successfully added");
                                     } else {
                                         if (game.getPlayers().size() == 6) {
                                             message = "Can not add any more player. Maximum 6 players can play.";
+                                            this.game.getLogger().info("Can not add any more player. Maximum 6 players can play.");
                                         } else {
                                             message = "Player with same name already exists. Add player with different name.";
+                                            this.game.getLogger().info("Player with same name already exists. Add player with different name.");
                                         }
                                     }
                                 } else {
                                     message = "Invalid player name or player strategy";
+                                    this.game.getLogger().info("Invalid player name or player strategy");
                                 }
                             } else if (data[i].equals("-remove")) {
                                 if (data[i + 1].matches("[a-zA-Z0-9]+")) {
@@ -79,19 +83,24 @@ public class StartUpController extends Controller{
                                     boolean check = gameAction.removePlayer(game.getPlayers(), playerName);
                                     if (check){
                                         message = "Player " + playerName + " successfully removed";
+                                        this.game.getLogger().info("Player " + playerName + " successfully removed.");
                                     }
                                     else {
                                         message = "Player " + playerName + " does not exist";
+                                        this.game.getLogger().info("Player " + playerName + " does not exist");
                                     }
                                 } else{
                                     message = "Invalid player name";
+                                    this.game.getLogger().info("Invalid player name");
                                 }
                             }
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         message = "Invalid command - it should be of the form 'gameplayer -add playername -remove playername'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'gameplayer -add playername -remove playername'");
                     } catch (Exception e) {
                         message = "Invalid command - it should be of the form 'gameplayer -add playername -remove playername'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'gameplayer -add playername -remove playername'");
                     }
                     break;
 
@@ -99,6 +108,7 @@ public class StartUpController extends Controller{
                     boolean check = gameAction.populateCountries(game, game.getPlayers());
                     if (check) {
                         message = "Countries allocated amongst the players";
+                        this.game.getLogger().info("Countries allocated amongst the players");
                         playerDominationView = new PlayerDominationView();
                         playerDominationView.setVisible(true);
                         playerDominationView.setSize(600, 600);
@@ -107,6 +117,7 @@ public class StartUpController extends Controller{
                         gameAction.initalizaMapContolValue(game);
                     } else {
                         message = "Minimum two players are required to play the game. Maximum six players.";
+                        this.game.getLogger().info("Minimum two players are required to play the game. Maximum six players.");
                     }
                     break;
 
@@ -116,6 +127,7 @@ public class StartUpController extends Controller{
 
                 default:
                     message = "Invalid command - use gameplayer/populatecountries/placearmy/placeall/showmap commands in start up phase.";
+                    this.game.getLogger().info("Invalid command - use gameplayer/populatecountries/placearmy/placeall/showmap commands in start up phase.");
                     break;
             }
             return message;
@@ -129,12 +141,15 @@ public class StartUpController extends Controller{
                                 if (!gameAction.placeArmy(player, countryName)) {
                                     if (player.getOwnedArmies() <= 0) {
                                         message = "Invalid command - player does not own armies to assign.";
+                                        this.game.getLogger().info("Invalid command - player does not own armies to assign.");
                                     } else {
                                         message = "You don't own this country. Please allocate army in your country.";
+                                        this.game.getLogger().info("You don't own this country. Please allocate army in your country.");
                                     }
                                 }
                                 if(gameAction.isAllArmyPlaced(game)) {
                                     message = "Armies placed successfully";
+                                    this.game.getLogger().info("Armies placed successfully");
                                     phaseView = new PhaseView();
                                     phaseView.setVisible(true);
                                     phaseView.setSize(600, 600);
@@ -147,18 +162,22 @@ public class StartUpController extends Controller{
                                 }
                             } else {
                                 message = "Invalid country name";
+                                this.game.getLogger().info("Invalid country name");
                             }
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         message = "Invalid command - it should be of the form 'placearmy countryname'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'placearmy countryname'");
                     } catch (Exception e) {
                         message = "Invalid command - it should be of the form 'placearmy countryname'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'placearmy countryname'");
                     }
                     break;
 
                 case "placeall":
                     if (gameAction.placeAll(game)) {
                         message = "Armies placed successfully";
+                        this.game.getLogger().info("Armies placed successfully");
                         phaseView = new PhaseView();
                         phaseView.setVisible(true);
                         phaseView.setSize(600, 600);
@@ -177,6 +196,7 @@ public class StartUpController extends Controller{
 
                 default:
                     message = "Invalid command - use placearmy/placeall/showmap commands to first allocate the assigned armies.";
+                    this.game.getLogger().info("Invalid command - use placearmy/placeall/showmap commands to first allocate the assigned armies.");
                     break;
             }
         }
