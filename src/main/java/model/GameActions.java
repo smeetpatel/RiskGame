@@ -770,17 +770,17 @@ public class GameActions extends Observable{
      * @return GameDataBuilder object to build GameData object.
      */
     public GameDataBuilder loadGame(String fileName){
-        GameDataBuilder gameDataBuilder = new GameDataBuilder();
+        GameDataBuilder gameDataBuilder;
         try{
-            FileInputStream f = new FileInputStream((new File("src/main/resources/game/" + fileName)));
+            FileInputStream f = new FileInputStream((new File("src/main/resources/game/" + fileName + ".txt")));
             ObjectInputStream o = new ObjectInputStream((f));
             gameDataBuilder = (GameDataBuilder) o.readObject();
         } catch(FileNotFoundException e){
-            e.printStackTrace();
+            return null;
         } catch(IOException e) {
-            e.printStackTrace();
+            return null;
         } catch (ClassNotFoundException e){
-            e.printStackTrace();
+            return null;
         }
         return gameDataBuilder;
     }
