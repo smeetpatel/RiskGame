@@ -28,7 +28,7 @@ public class PlayRisk {
 		boolean validCommand = false;
 		boolean loadGame = false;
 
-		Player player;
+		Player player = null;
 		Controller controller;
 
 		PlayRisk game = new PlayRisk();
@@ -61,9 +61,9 @@ public class PlayRisk {
 
                         //set traversal counter by finding appropriate player
 						traversalCounter = -1;
-						for(Player player : controller.getGame().getPlayers()){
+						for(Player player1 : controller.getGame().getPlayers()){
 							traversalCounter++;
-							if(player==controller.getGame().getActivePlayer()){
+							if(player1==controller.getGame().getActivePlayer()){
 								break;
 							}
 						}
@@ -199,8 +199,9 @@ public class PlayRisk {
 						}
 					}
 
-					System.out.println(player.getPlayerName() + " has won the game.");
-
+					if(player!=null){
+						System.out.println(player.getPlayerName() + " has won the game.");
+					}
 				}
 			} else if (command.equals("2")){
 			    //tournament code

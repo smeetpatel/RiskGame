@@ -53,17 +53,19 @@ public class CheaterPlayer extends Player{
         for(Country country: this.getOwnedCountries().values()){
 
             for(Country neighbour: country.getNeighbours().values()){
-                if(!this.getOwnedCountries().containsKey(neighbour)){
-                    this.getOwnedCountries().put(neighbour.getCountryName(),neighbour);
-                    neighbour.setOwnerPlayer(this);
+                if(!this.getOwnedCountries().containsKey(neighbour.getCountryName().toLowerCase())){
+                    this.getOwnedCountries().put(neighbour.getCountryName().toLowerCase(),neighbour);
                     neighbour.getOwnerPlayer().getOwnedCountries().remove(neighbour);
-                    notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
+                    neighbour.setOwnerPlayer(this);
+                    notifyObservers(getPlayerName() + " conquered " + neighbour.getCountryName() + ".\n");
+
                     //move armies to conquered territory
                     moveArmy(game, country.getCountryName(), neighbour.getCountryName(), numberOfDice, country.getNumberOfArmies()-1);
 
                     //check if player owns all the countries on the map
                     if (getOwnedCountries().size() == game.getMap().getCountries().size()) {
                         gameActions.endGame(game);
+                        return true;
                     }
 
                     //check if player owns entire continent or not
@@ -93,19 +95,14 @@ public class CheaterPlayer extends Player{
      */
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num){
 
-        ArrayList<Country> countries = (ArrayList<Country>) this.getOwnedCountries().values();
-        ArrayList<Country> neighbours;
-
-        for(Country c:countries){
-            neighbours = (ArrayList<Country>) c.getNeighbours().values();
-            for(Country neighbour : neighbours){
-                if(!(neighbour.getOwnerPlayer().equals(this.getPlayerName()))){
-                    c.setNumberOfArmies(c.getNumberOfArmies() * 2);
+        for(Country country : this.getOwnedCountries().values()){
+            for(Country neighbour : country.getNeighbours().values()){
+                if(!(this.getOwnedCountries().containsKey(neighbour.getCountryName().toLowerCase()))){
+                    country.setNumberOfArmies(country.getNumberOfArmies() * 2);
                     break;
                 }
             }
         }
-
         return FortificationCheck.FORTIFICATIONSUCCESS;
     }
 }
