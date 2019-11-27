@@ -1,5 +1,6 @@
 package main.java.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -8,7 +9,7 @@ import java.util.Collection;
  *
  * @author Tirth
  */
-public class Deck {
+public class Deck implements Serializable {
 
     /**
      * List of cards in the deck.

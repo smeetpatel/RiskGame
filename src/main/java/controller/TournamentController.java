@@ -22,69 +22,6 @@ public class TournamentController extends Controller {
     GameActions gameActions;
 
     /**
-     * Ensures map name is valid.
-     *
-     * @param s input string
-     * @return true if valid match, else false
-     */
-    public boolean isMapNameValid(String s) {
-
-        return s != null && s.matches("^[a-zA-Z.]*$");
-    }
-
-    /**
-     * Ensures player strategy is valid
-     * @param s strategy of the player
-     * @return true if valid else false
-     */
-    public boolean isPlayerStrategyValid(String s){
-
-        String[] array = new String[]{"aggresive", "benevolent", "random", "cheater"};
-        for(int i=0; i<4; i++){
-            if(s.equals(array[i])){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Ensure that all strategies of player are distinct
-     * @param list list of player's strategy
-     * @return true if valid else false
-     */
-    public boolean isPlayerStrategyDistinct(ArrayList<String> list){
-
-        for(int i=0;i<list.size();i++){
-            for(int j = i+1; j<list.size(); j++){
-                if(list.get(i).equals(list.get(j))){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Ensures that all maps exist
-     * @param list list of name of maps
-     * @return true if valid else false
-     */
-    public boolean allMapExists(ArrayList<String> list){
-        int counter=0;
-        for(String s:list){
-            if(gameActions.isMapExists(s)){
-                counter++;
-            }
-        }
-        if(counter == list.size()){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
-    /**
      * Creates a tournament controller object.
      */
     public TournamentController(){
@@ -176,8 +113,7 @@ public class TournamentController extends Controller {
 
                                             if (n >= 10 && n <= 50) {
                                                 noOfTurns = Integer.parseInt(data[newIndex + 1]);
-
-                                                //System.out.println("Number of turns: " + noOfTurns);
+                                                playTournament(maps, strategies, noOfGames, noOfTurns);
                                                 return "success";
                                             } else {
                                                 return "number of turns invalid";
@@ -323,5 +259,69 @@ public class TournamentController extends Controller {
         for(Player player : game.getPlayers()){
             player.attach(playerDominationView);
         }
+    }
+
+    /**
+     * Ensures map name is valid.
+     *
+     * @param s input string
+     * @return true if valid match, else false
+     */
+    public boolean isMapNameValid(String s) {
+
+        return s != null && s.matches("^[a-zA-Z.]*$");
+    }
+
+    /**
+     * Ensures player strategy is valid
+     * @param s strategy of the player
+     * @return true if valid else false
+     */
+    public boolean isPlayerStrategyValid(String s){
+
+        String[] array = new String[]{"aggresive", "benevolent", "random", "cheater"};
+        for(int i=0; i<4; i++){
+            if(s.equals(array[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Ensure that all strategies of player are distinct
+     * @param list list of player's strategy
+     * @return true if valid else false
+     */
+    public boolean isPlayerStrategyDistinct(ArrayList<String> list){
+
+        for(int i=0;i<list.size();i++){
+            for(int j = i+1; j<list.size(); j++){
+                if(list.get(i).equals(list.get(j))){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Ensures that all maps exist
+     * @param list list of name of maps
+     * @return true if valid else false
+     */
+    public boolean allMapExists(ArrayList<String> list){
+        int counter=0;
+        for(String s:list){
+            if(gameActions.isMapExists(s)){
+                counter++;
+            }
+        }
+        if(counter == list.size()){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

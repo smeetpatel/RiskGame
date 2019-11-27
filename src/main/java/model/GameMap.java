@@ -1,5 +1,6 @@
 package main.java.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,7 +14,7 @@ import java.util.Iterator;
  * @author Smeet
  *
  */
-public class GameMap {
+public class GameMap implements Serializable {
 	/**
 	 * Name of the game map.
 	 */

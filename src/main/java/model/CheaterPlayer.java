@@ -51,6 +51,7 @@ public class CheaterPlayer extends Player{
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
 
         for(Country country: this.getOwnedCountries().values()){
+
             for(Country neighbour: country.getNeighbours().values()){
                 if(!this.getOwnedCountries().containsKey(neighbour)){
                     this.getOwnedCountries().put(neighbour.getCountryName(),neighbour);
