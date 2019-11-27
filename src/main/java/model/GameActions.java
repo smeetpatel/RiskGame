@@ -3,10 +3,7 @@ package main.java.model;
 import main.java.controller.Command;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Class performs background operations for playing Risk.
@@ -29,13 +26,13 @@ public class GameActions extends Observable{
             if(determineMapType("src/main/resources/maps/" + mapName)){
                 //Domination map
                 game.setMapType("domination");
-                LoadDominationMap lm = new LoadDominationMap();
+                DominationMap lm = new LoadDominationMap();
                 map = lm.readMap(filePath);
                 map.setMapName(mapName);
             } else {
                 //Conquest map
                 game.setMapType("conquest");
-                LoadConquestMap lm = new LoadConquestMap();
+                DominationMap lm = new MapAdapter(new LoadConquestMap());
                 map = lm.readMap(filePath);
                 map.setMapName(mapName);
             }
@@ -89,13 +86,13 @@ public class GameActions extends Observable{
             if(determineMapType("src/main/resources/maps/" + mapName)){
                 //Domination map
                 game.setMapType("domination");
-                LoadDominationMap lm = new LoadDominationMap();
+                DominationMap lm = new LoadDominationMap();
                 map = lm.readMap(filePath);
                 map.setMapName(mapName);
             } else {
                 //Conquest map
                 game.setMapType("conquest");
-                LoadConquestMap lm = new LoadConquestMap();
+                DominationMap lm = new MapAdapter(new LoadConquestMap());
                 map = lm.readMap(filePath);
                 map.setMapName(mapName);
             }

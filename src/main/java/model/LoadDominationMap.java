@@ -9,7 +9,7 @@ import java.util.HashMap;
  * 
  * @author Smeet
  */
-public class LoadDominationMap {
+public class LoadDominationMap implements DominationMap{
 	/**
 	 * Reads the ".map" file and creates a GameMap object accordingly.
 	 * Performs basic validation checks too.
