@@ -46,7 +46,7 @@ public class RandomPlayer extends Player {
             existingArmies += this.getOwnedArmies();
             randomCountry.setNumberOfArmies(existingArmies);
             this.setOwnedArmies(this.getOwnedArmies());
-            notifyObservers(Integer.toString(this.getOwnedArmies()) + " armies reinforced at " + randomCountry + ". Remaining reinforcement armies: " + Integer.toString(this.getOwnedArmies()) + "\n");
+            notifyObservers(Integer.toString(this.getOwnedArmies()) + " armies reinforced at " + randomCountry.getCountryName() + ". Remaining reinforcement armies: " + Integer.toString(this.getOwnedArmies()) + "\n");
             game.setGamePhase(Phase.ATTACK);
         } else {
             notifyObservers(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
@@ -140,6 +140,7 @@ public class RandomPlayer extends Player {
                     //check if player owns all the countries on the map
                     if (getOwnedCountries().size() == game.getMap().getCountries().size()) {
                         gameActions.endGame(game);
+                        return true;
                     }
 
                     //check if player owns entire continent or not
@@ -226,7 +227,7 @@ public class RandomPlayer extends Player {
             return null;
         }
         for(Country neighbor: attackingCountry.getNeighbours().values()){
-            if(!getOwnedCountries().containsKey(neighbor.getCountryName())){
+            if(!getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
                 return neighbor;
             }
         }
