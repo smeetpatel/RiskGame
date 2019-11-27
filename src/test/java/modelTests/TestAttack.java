@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class TestAttack {
+
     /**
      * Represents the state of the game
      */
@@ -66,7 +67,7 @@ public class TestAttack {
     /**
      * Set up the context
      */
-    @Before
+    /*@Before
     public void before(){
         //initialize required references
         gameActions = new GameActions();
@@ -110,12 +111,12 @@ public class TestAttack {
         player1.setOwnedCards(c4);
         player1.setOwnedCards(c5);
         player1.setOwnedCards(c6);
-    }
+    }*/
 
     /**
      * Tests if number of dice are valid for attacker/defender
      */
-    @Test
+    /*@Test
     public void testAttack1(){
         game.getMap().getCountries().get("india").setNumberOfArmies(3);
         boolean check = gameActions.diceValid(game, "india", 3, true);
@@ -140,11 +141,12 @@ public class TestAttack {
         game.getMap().getCountries().get("india").setNumberOfArmies(2);
         check = gameActions.diceValid(game, "india", 0, false);
         Assert.assertEquals(false, check);
-    }
+    }*/
 
     /**
      * Tests if valid attack or not.
      */
+    /*
     @Test
     public void testAttack2(){
         boolean check = gameActions.areNeighbors(game, player1, "india", "china");
@@ -163,6 +165,7 @@ public class TestAttack {
     /**
      * Tests if valid move after conquering.
      */
+    /*
     @Test
     public void testAttack3(){
         int numberOfDice = 3;
@@ -187,5 +190,5 @@ public class TestAttack {
         game.getMap().getCountries().get("usa").setNumberOfArmies(0);
         check = player1.moveArmy(game, "india", "usa", numberOfDice, numberOfArmies);
         Assert.assertTrue(check);
-    }
+    }*/
 }

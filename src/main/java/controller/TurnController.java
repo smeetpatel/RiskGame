@@ -66,11 +66,14 @@ public class TurnController extends Controller{
                             if(gameAction.noCardExchange(game, player)){
                                 message = "Player do not want to perform card exchange operation or player do " +
                                         "not have enough cards to exchange.";
+                                this.game.getLogger().info("Player do not want to perform card exchange operation or player do " +
+                                        "not have enough cards to exchange.");
                                 player.detach(cardExchangeView);
                                 cardExchangeView.setVisible(false);
                                 cardExchangeView.dispose();
                             } else {
                                 message = "Player has to exchange the cards.";
+                                this.game.getLogger().info("Player has to exchange the cards.");
                             }
                         } else {
                             if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
@@ -87,10 +90,13 @@ public class TurnController extends Controller{
                                         Collections.sort(cardIndex);
                                         if(player.cardExchange(game, cardIndex)){
                                             message = "Card Exchange successfully occurred";
+                                            this.game.getLogger().info("Card Exchange successfully occurred");
                                             if(player.getOwnedCards().size()<=2){
                                                 if(gameAction.noCardExchange(game, player)){
                                                     message = "Player do not want to perform card exchange operation or player do " +
                                                             "not have enough cards to exchange.";
+                                                    this.game.getLogger().info("Player do not want to perform card exchange operation or player do " +
+                                                            "not have enough cards to exchange.");
                                                     player.detach(cardExchangeView);
                                                     cardExchangeView.setVisible(false);
                                                     cardExchangeView.dispose();
@@ -99,17 +105,21 @@ public class TurnController extends Controller{
 
                                         } else {
                                             message = "Invalid exchange command.";
+                                            this.game.getLogger().info("Invalid exchange command.");
                                         }
                                     } else {
                                         message = "Index number of card is wrong";
+                                        this.game.getLogger().info("Index number of card is wrong");
                                     }
                                 }
                             }
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         message = "Invalid command - it should be of the form 'exchangecards num num num -none'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'exchangecards num num num -none'");
                     } catch (Exception e) {
                         message = "Invalid command - it should be of the form 'exchangecards num num num -none'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'exchangecards num num num -none'");
                     }
                     break;
 
@@ -122,15 +132,18 @@ public class TurnController extends Controller{
                             }
                         }else{
                             message = "Invalid command. enter file name to save a game.";
+                            this.game.getLogger().info("Invalid command. enter file name to save a game.");
                         }
 
                     }catch (ArrayIndexOutOfBoundsException e){
                         message = "Invalid Command, It should be 'savegame filename'";
+                        this.game.getLogger().info("Invalid Command, It should be 'savegame filename'");
                     }
                     break;
 
                 default:
                     message = "Invalid command - use 'exchangecards command'.";
+                    this.game.getLogger().info("Invalid command - use 'exchangecards command'.");
                     break;
             }
         } else if (game.getGamePhase().equals(Phase.REINFORCEMENT)) {
@@ -145,6 +158,7 @@ public class TurnController extends Controller{
                                 if (check) {
                                     if (player.getOwnedArmies() == 0) {
                                         message = "Reinforcement phase successfully ended. Begin attack now.";
+                                        this.game.getLogger().info("Reinforcement phase successfully ended. Begin attack now.");
                                         if (player.isAttackPossible()) {
                                             attackView.canAttack(player);
                                         } else {
@@ -154,18 +168,23 @@ public class TurnController extends Controller{
                                 } else {
                                     if (player.getOwnedArmies() < numberOfArmies) {
                                         message = "You don't have enough armies";
+                                        this.game.getLogger().info("You don't have enough armies");
                                     } else {
                                         message = "You don't own this country";
+                                        this.game.getLogger().info("You don't own this country");
                                     }
                                 }
                             } else {
                                 message = "Invalid command - invalid characters in command";
+                                this.game.getLogger().info("Invalid command - invalid characters in command");
                             }
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         message = "Invalid command - it should be of the form 'reinforce countryName num'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'reinforce countryName num'");
                     } catch (Exception e) {
                         message = "Invalid command - it should be of the form 'reinforce countryName num'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'reinforce countryName num'");
                     }
                     break;
 
@@ -178,10 +197,12 @@ public class TurnController extends Controller{
                             }
                         }else{
                             message = "Invalid command. enter file name to save a game.";
+                            this.game.getLogger().info("Invalid command. enter file name to save a game.");
                         }
 
                     }catch (ArrayIndexOutOfBoundsException e){
                         message = "Invalid Command, It should be 'savegame filename'";
+                        this.game.getLogger().info("Invalid Command, It should be 'savegame filename'");
                     }
                     break;
 
@@ -191,6 +212,7 @@ public class TurnController extends Controller{
 
                 default:
                     message = "Invalid command - either use reinforce or showmap commands in reinforcement phase.";
+                    this.game.getLogger().info("Invalid command - either use reinforce or showmap commands in reinforcement phase.");
                     break;
             }
         } else if (game.getGamePhase().equals(Phase.ATTACK)) {
@@ -205,8 +227,10 @@ public class TurnController extends Controller{
                                 }
                                 attackData.resetAttack();
                                 message = "Player do not want to perform attack";
+                                this.game.getLogger().info("Player do not want to perform attack");
                             } else {
                                 message = "Must move army to just conquered country first. Use 'attackmove num' command.";
+                                this.game.getLogger().info("Must move army to just conquered country first. Use 'attackmove num' command.");
                             }
                         }else if(data.length == 4){
                             if(!attackData.getSendConqueringTroops()){
@@ -221,20 +245,26 @@ public class TurnController extends Controller{
                                                     attackData.setCanAttack(true);
                                                 } else {
                                                     message = attackData.getNumberOfDice() + " dice rolls not possible for attack from " + attackData.getFromCountry();
+                                                    this.game.getLogger().info(attackData.getNumberOfDice() + " dice rolls not possible for attack from " + attackData.getFromCountry());
                                                 }
                                             } else {
                                                 message = attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.";
+                                                this.game.getLogger().info(attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.");
                                             }
                                         } else {
                                             message = attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors or belong to the same player. Attack not possible.";
+                                            this.game.getLogger().info(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors or belong to the same player. Attack not possible.");
                                         }
                                     }
                                 } else {
                                     message = "Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
                                             " or 'attack noattack'";
+                                    this.game.getLogger().info("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                            " or 'attack noattack'");
                                 }
                             } else {
                                 message = "Must move army to just conquered country first. Use 'attackmove num' command.";
+                                this.game.getLogger().info("Must move army to just conquered country first. Use 'attackmove num' command.");
                             }
 
                         }else if(data.length == 5){
@@ -253,6 +283,7 @@ public class TurnController extends Controller{
                                                         int defendDice = gameAction.getMaxDiceRolls(game, attackData.getFromCountry(), "defender");
                                                         if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
                                                             message = player.getPlayerName() + " has successfully conquered " + attackData.getToCountry();
+                                                            this.game.getLogger().info(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
                                                             if(player.getOwnedCountries().size()==game.getMap().getCountries().size()){
                                                                 gameAction.endGame(game);
                                                                 return message;
@@ -292,38 +323,54 @@ public class TurnController extends Controller{
                                                     }
                                                 } else {
                                                     message = attackData.getNumberOfDice() + " dice rolls not possible for attack from " + attackData.getFromCountry();
+                                                    this.game.getLogger().info(attackData.getNumberOfDice() + " dice rolls not possible for attack from " + attackData.getFromCountry());
                                                 }
                                             } else {
                                                 message = attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.";
+                                                this.game.getLogger().info(attackData.getFromCountry() + " does not have enough armies to attack. Attack not possible.");
                                             }
                                         } else {
                                             message = attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors or belong to the same player. Attack not possible.";
+                                            this.game.getLogger().info(attackData.getFromCountry() + " and " + attackData.getToCountry() + " are not neighbors or belong to the same player. Attack not possible.");
                                         }
                                     } else{
                                         message = "Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
                                                 " or 'attack noattack'";
+                                        this.game.getLogger().info("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                                " or 'attack noattack'");
                                     }
                                 }
                                 else{
                                     message = "Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
                                             " or 'attack noattack'";
+                                    this.game.getLogger().info("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                            " or 'attack noattack'");
                                 }
                             } else {
                                 message = "Must move army to just conquered country first. Use 'attackmove num' command.";
+                                this.game.getLogger().info("Must move army to just conquered country first. Use 'attackmove num' command.");
                             }
                         } else {
                             message = "Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
                                     " or 'attack noattack'";
+                            this.game.getLogger().info("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                    " or 'attack noattack'");
                         }
                     }catch (ArrayIndexOutOfBoundsException e) {
                         message = "Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
                                 " or 'attack noattack'";
+                        this.game.getLogger().info("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                " or 'attack noattack'");
                     } catch (NumberFormatException e) {
                         message = "Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
                                 " or 'attack noattack'";
+                        this.game.getLogger().info("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                " or 'attack noattack'");
                     } catch (Exception e) {
                         message = "Invalid command. It should be of the form 'attack countrynamefrom countynameto numdice allout'" +
                                 " or 'attack noattack'";
+                        this.game.getLogger().info("Invalid command  it should be of the form 'attack countrynamefrom countynameto numdice allout'" +
+                                " or 'attack noattack'");
                     }
                     break;
                 case "defend":
@@ -337,6 +384,7 @@ public class TurnController extends Controller{
                                         if(gameAction.diceValid(game, attackData.getToCountry(), defendDice, false)) {
                                             if(player.attack(game, attackData.getFromCountry(), attackData.getToCountry(), attackData.getNumberOfDice(), defendDice, p)){
                                                 message = player.getPlayerName() + " has successfully conquered " + attackData.getToCountry();
+                                                this.game.getLogger().info(player.getPlayerName() + " has successfully conquered " + attackData.getToCountry());
                                                 if(player.getOwnedCountries().size()==game.getMap().getCountries().size()){
                                                     gameAction.endGame(game);
                                                     return message;
@@ -372,28 +420,36 @@ public class TurnController extends Controller{
                                             attackData.setCanAttack(false);
                                         } else {
                                             message = p.getPlayerName() + " does not have enough armies to roll dice " + defendDice + " times.";
+                                            this.game.getLogger().info(p.getPlayerName() + " does not have enough armies to roll dice " + defendDice + " times.");
                                             if(player.isAttackPossible()){
                                                 attackView.canAttack(player);
                                             }
                                         }
                                     }else {
                                         message = "Enter valid number of dice. Enter either 1 or 2.";
+                                        this.game.getLogger().info("Enter valid number of dice. Enter either 1 or 2.");
                                     }
                                 }else{
                                     message = "Invalid command - it should be of the form 'defend numdice'.";
+                                    this.game.getLogger().info("Invalid command - it should be of the form 'defend numdice'.");
                                 }
                             }else{
                                 message = "Before defend command, enter 'attack countrynamefrom countynameto numdice allout'.";
+                                this.game.getLogger().info("Before defend command, enter 'attack countrynamefrom countynameto numdice allout'.");
                             }
                         } else {
                             message = "Must move army to just conquered country first. Use 'attackmove num' command.";
+                            this.game.getLogger().info("Must move army to just conquered country first. Use 'attackmove num' command.");
                         }
                     }catch (ArrayIndexOutOfBoundsException e) {
                         message = "Invalid command - it should be of the form 'defend numdice'. ";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'defend numdice'.");
                     } catch (NumberFormatException e) {
                         message = "Invalid command - it should be of the form 'defend numdice'.";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'defend numdice'.");
                     } catch (Exception e) {
                         message = "Invalid command - it should be of the form 'defend numdice'.";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'defend numdice'.");
                     }
                     break;
 
@@ -416,22 +472,29 @@ public class TurnController extends Controller{
                                         }
                                     } else {
                                         message = "Move at least " + attackData.getNumberOfDice() + " armies to " + attackData.getToCountry();
+                                        this.game.getLogger().info("Move at least " + attackData.getNumberOfDice() + " armies to " + attackData.getToCountry());
                                     }
                                 }else {
                                     message = "Enter valid number of armies";
+                                    this.game.getLogger().info("Enter valid number of armies");
                                 }
                             }else {
                                 message = "Invalid command - it should be of the form 'attackmove num'.";
+                                this.game.getLogger().info("Invalid command - it should be of the form 'attackmove num'.");
                             }
                         }else{
                             message = "Player did not counquered any country, so invalid command";
+                            this.game.getLogger().info("Player did not counquered any country, so invalid command");
                         }
                     }catch (ArrayIndexOutOfBoundsException e) {
                         message = "Invalid command - it should be of the form 'attackmove num'.";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'attackmove num'.");
                     } catch (NumberFormatException e) {
                         message = "Invalid command - it should be of the form 'attackmove num'.";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'attackmove num'.");
                     } catch (Exception e) {
                         message = "Invalid command - it should be of the form 'attackmove num'.";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'attackmove num'.");
                     }
                     break;
 
@@ -445,12 +508,15 @@ public class TurnController extends Controller{
                                 }
                             }else{
                                 message = "Invalid command. enter file name to save a game.";
+                                this.game.getLogger().info("Invalid command. enter file name to save a game.");
                             }
                         } else {
                             message = "Move army first to be able to save the game.";
+                            this.game.getLogger().info("Move army first to be able to save the game.");
                         }
                     }catch (ArrayIndexOutOfBoundsException e){
                         message = "Invalid Command, It should be 'savegame filename'";
+                        this.game.getLogger().info("Invalid Command, It should be 'savegame filename'");
                     }
                     break;
 
@@ -460,6 +526,7 @@ public class TurnController extends Controller{
 
                 default:
                     message = "Invalid command - either use attack/defend/attackmove/showmap command.";
+                    this.game.getLogger().info("Invalid command - either use attack/defend/attackmove/showmap command.");
                     break;
             }
         } else if (game.getGamePhase().equals(Phase.ATTACKCARDEXCHANGE)){
@@ -480,31 +547,39 @@ public class TurnController extends Controller{
                                     Collections.sort(cardIndex);
                                     if(player.cardExchange(game, cardIndex)){
                                         message = "Card Exchange successfully occurred";
+                                        this.game.getLogger().info("Card Exchange successfully occurred");
                                         if(!gameAction.continueCardExchange(game, player)) {
                                             message = "Required card exchange completed. Continue with attack phase. First, move armies to conquered armies.";
+                                            this.game.getLogger().info("Required card exchange completed. Continue with attack phase. First, move armies to conquered armies.");
                                             player.detach(cardExchangeView);
                                             cardExchangeView.setVisible(false);
                                             cardExchangeView.dispose();
                                         } else {
                                             message = "You still need to exchange cards till you have four or lesser number of cards.";
+                                            this.game.getLogger().info("You still need to exchange cards till you have four or lesser number of cards.");
                                         }
                                     } else {
                                         message = "Invalid exchange command.";
+                                        this.game.getLogger().info("Invalid exchange command.");
                                     }
                                 }else {
                                     message = "Index number of card is wrong";
+                                    this.game.getLogger().info("Index number of card is wrong");
                                 }
                             }
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         message = "Invalid command - it should be of the form 'exchangecards num num num -none'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'exchangecards num num num -none'");
                     } catch (Exception e) {
                         message = "Invalid command - it should be of the form 'exchangecards num num num -none'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'exchangecards num num num -none'");
                     }
                     break;
 
                 default:
                     message = "Invalid command - use 'exchangecards num num num' command only.";
+                    this.game.getLogger().info("Invalid command - use 'exchangecards num num num' command only.");
                     break;
             }
         } else if (game.getGamePhase().equals(Phase.FORTIFICATION)) {
@@ -514,6 +589,7 @@ public class TurnController extends Controller{
                         if (data[1].equals("none")) {
                             player.fortify(game);
                             message = "Turn ends.";
+                            this.game.getLogger().info("Turn ends.");
                         } else if (!(data[1] == null) && !(data[2] == null) && !(data[3] == null)) {
                             if (this.isAlpha(data[1]) || this.isAlpha(data[2]) || data[3].matches("[0-9]+")) {
                                 fromCountry = data[1];
@@ -523,25 +599,34 @@ public class TurnController extends Controller{
                                 if (check == FortificationCheck.FORTIFICATIONSUCCESS) {
                                     //player.detach(phaseView);
                                     message = "Successful fortification";
+                                    this.game.getLogger().info("Successful fortification");
                                 } else if (check == FortificationCheck.PATHFAIL) {
                                     message = fromCountry + " and " + toCountry + " do not have path of player owned countries.";
+                                    this.game.getLogger().info(fromCountry + " and " + toCountry + " do not have path of player owned countries.");
                                 } else if (check == FortificationCheck.ARMYCOUNTFAIL) {
                                     message = "You don't have enough armies.";
+                                    this.game.getLogger().info("You don't have enough armies.");
                                 } else if (check == FortificationCheck.TOCOUNTRYFAIL) {
                                     message = toCountry + " does not exist.";
+                                    this.game.getLogger().info(toCountry + " does not exist.");
                                 } else {
                                     message = fromCountry + " does not exist.";
+                                    this.game.getLogger().info(fromCountry + " does not exist.");
                                 }
                             } else {
                                 message = "Invalid command - invalid characters in command";
+                                this.game.getLogger().info("Invalid command - invalid characters in command");
                             }
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
                         message = "Invalid command - it should be of the form 'fortify fromCountry toCountry num' or 'foritfy none'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'fortify fromCountry toCountry num' or 'foritfy none'");
                     } catch (NumberFormatException e) {
                         message = "Invalid command - it should be of the form 'fortify fromCountry toCountry num' or 'foritfy none'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'fortify fromCountry toCountry num' or 'foritfy none'");
                     } catch (Exception e) {
                         message = "Invalid command - it should be of the form 'fortify fromCountry toCountry num' or 'foritfy none'";
+                        this.game.getLogger().info("Invalid command - it should be of the form 'fortify fromCountry toCountry num' or 'foritfy none'");
                     }
                     break;
 
@@ -554,10 +639,12 @@ public class TurnController extends Controller{
                             }
                         }else{
                             message = "Invalid command. enter file name to save a game.";
+                            this.game.getLogger().info("Invalid command. enter file name to save a game.");
                         }
 
                     }catch (ArrayIndexOutOfBoundsException e){
-                        message = "Invalid Command, It should be 'savegame filename'";
+                        message = "Invalid Command. It should be 'savegame filename'";
+                        this.game.getLogger().info("Invalid Command. It should be 'savegame filename'");
                     }
                     break;
 
@@ -567,6 +654,7 @@ public class TurnController extends Controller{
 
                 default:
                     message = "Invalid command - either use fortify/showmap command.";
+                    this.game.getLogger().info("Invalid command - either use fortify/showmap command.");
                     break;
             }
         }

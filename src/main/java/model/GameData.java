@@ -62,17 +62,8 @@ public class GameData extends Observable implements Serializable {
         activePlayer = null;
         deck = new Deck();
         cardsDealt = 0;
-        try{
-            FileHandler fh;
-            fh = new FileHandler("src/main/resources/game/" + this.map.getMapName() + ".log");
-            this.logger.addHandler(fh);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fh.setFormatter(formatter);
-        }catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        logger = Logger.getLogger("MyLog");
+
     }
 
     public GameData(GameMap map, String mapType, Phase gamePhase, ArrayList<Player> players, Player activePlayer, Deck deck, int cardsDealt){
@@ -252,5 +243,22 @@ public class GameData extends Observable implements Serializable {
         activePlayer = null;
         deck = new Deck();
         cardsDealt = 0;
+    }
+
+    /**
+     * Sets up the logger file.
+     */
+    public void setUpLogger(){
+        try{
+            FileHandler fh;
+            fh = new FileHandler("src/main/resources/game/" + this.map.getMapName() + ".log");
+            this.logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        }catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

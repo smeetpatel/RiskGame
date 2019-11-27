@@ -118,6 +118,6 @@ public class GameDataBuilder implements Serializable {
      * @return returns the newly created GameData object.
      */
     public GameData buildGameData(){
-        return new GameData(map, mapType, gamePhase, players, activePlayer, deck, cardsDealt)
+        return new GameData(map, mapType, gamePhase, players, activePlayer, deck, cardsDealt);
     }
 }
