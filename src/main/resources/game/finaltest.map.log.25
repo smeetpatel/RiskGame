@@ -1,0 +1,2224 @@
+Nov 28, 2019 3:58:39 AM main.java.controller.LoadGameController parseCommand
+INFO: Game loaded successfully.
+Nov 28, 2019 3:58:39 AM main.java.controller.LoadGameController parseCommand
+INFO: Game loaded successfully.
+Nov 28, 2019 3:58:39 AM main.java.controller.TournamentController printFailureMessage
+INFO: Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'
+Nov 28, 2019 3:58:39 AM main.java.controller.TournamentController printFailureMessage
+INFO: Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'
+Nov 28, 2019 3:58:39 AM main.java.controller.TournamentController printFailureMessage
+INFO: Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'
+Nov 28, 2019 3:58:39 AM main.java.controller.TournamentController printFailureMessage
+INFO: Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'
+Nov 28, 2019 3:58:39 AM main.java.controller.TournamentController printFailureMessage
+INFO: Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'
+Nov 28, 2019 3:58:39 AM main.java.controller.TournamentController printFailureMessage
+INFO: Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'
+Nov 28, 2019 3:58:39 AM main.java.controller.TournamentController printFailureMessage
+INFO: Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'
+Nov 28, 2019 3:58:39 AM main.java.controller.TournamentController playTournament
+INFO: ---------------------------------------------------------------------------
+Nov 28, 2019 3:58:39 AM main.java.controller.TournamentController playTournament
+INFO: Game 1 on finaltest.map: Countries allocated amongst players
+Nov 28, 2019 3:58:40 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 1
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at India. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified nz with 15 armies from India. benevolent's turn ends now.
+Nov 28, 2019 3:58:40 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 2
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer reinforce
+INFO: 3 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at India.
+
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer attack
+INFO: random conquered India.
+
+Nov 28, 2019 3:58:40 AM main.java.model.Player moveArmy
+INFO: random moved 3 armies from Canada to India.
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer fortify
+INFO: random fortified Canada with 16 armies from India. random's turn ends now.
+Nov 28, 2019 3:58:40 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 3
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified China with 27 armies from nz. benevolent's turn ends now.
+Nov 28, 2019 3:58:40 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 4
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer reinforce
+INFO: 12 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at Aussie.
+
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at nz.
+
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer attack
+INFO: random conquered nz.
+
+Nov 28, 2019 3:58:40 AM main.java.model.Player moveArmy
+INFO: random moved 3 armies from Aussie to nz.
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer fortify
+INFO: random fortified US with 21 armies from Aussie. random's turn ends now.
+Nov 28, 2019 3:58:40 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 5
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:40 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:40 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 6
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:40 AM main.java.model.RandomPlayer fortify
+INFO: random fortified Canada with 49 armies from nz. random's turn ends now.
+Nov 28, 2019 3:58:40 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 7
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:40 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:40 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:41 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:41 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:41 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:41 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 8
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer fortify
+INFO: random fortified India with 21 armies from US. random's turn ends now.
+Nov 28, 2019 3:58:41 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 9
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:41 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:41 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:41 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:41 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:41 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 10
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer fortify
+INFO: random fortified nz with 1 armies from US. random's turn ends now.
+Nov 28, 2019 3:58:41 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 11
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:41 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:41 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:41 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:41 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:41 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 12
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:41 AM main.java.model.RandomPlayer fortify
+INFO: random fortified US with 112 armies from Canada. random's turn ends now.
+Nov 28, 2019 3:58:41 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 13
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:41 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:42 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:42 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:42 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:42 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:42 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 14
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer fortify
+INFO: random fortified Aussie with 1 armies from nz. random's turn ends now.
+Nov 28, 2019 3:58:42 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 15
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:42 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:42 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:42 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:42 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:42 AM main.java.controller.TournamentController playTournament
+INFO: ---------------------------------------------------------------------------
+Nov 28, 2019 3:58:42 AM main.java.controller.TournamentController playTournament
+INFO: Game 2 on finaltest.map: Countries allocated amongst players
+Nov 28, 2019 3:58:42 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 1
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer reinforce
+INFO: 3 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at Canada.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at Canada.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at Canada.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at Canada.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: random conquered India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.Player moveArmy
+INFO: random moved 3 armies from Canada to India.
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer fortify
+INFO: random fortified India with 15 armies from Aussie. random's turn ends now.
+Nov 28, 2019 3:58:42 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 2
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:42 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at nz. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:42 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:42 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified China with 15 armies from nz. benevolent's turn ends now.
+Nov 28, 2019 3:58:42 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 3
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer reinforce
+INFO: 12 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:42 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:42 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at India.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at India.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at India.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer fortify
+INFO: random fortified Aussie with 13 armies from US. random's turn ends now.
+Nov 28, 2019 3:58:43 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 4
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at nz. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified nz with 7 armies from China. benevolent's turn ends now.
+Nov 28, 2019 3:58:43 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 5
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer reinforce
+INFO: 12 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at Aussie.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at Aussie.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at Aussie.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at Aussie.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random conquered nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.Player moveArmy
+INFO: random moved 3 armies from Aussie to nz.
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer fortify
+INFO: random fortified Aussie with 36 armies from Canada. random's turn ends now.
+Nov 28, 2019 3:58:43 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 6
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:43 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:43 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 7
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer fortify
+INFO: random fortified Aussie with 36 armies from India. random's turn ends now.
+Nov 28, 2019 3:58:43 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 8
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:43 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:43 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 9
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:43 AM main.java.model.RandomPlayer fortify
+INFO: random fortified Canada with 43 armies from nz. random's turn ends now.
+Nov 28, 2019 3:58:43 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 10
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:43 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:43 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:43 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 11
+Nov 28, 2019 3:58:43 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer fortify
+INFO: random fortified nz with 64 armies from Canada. random's turn ends now.
+Nov 28, 2019 3:58:44 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 12
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:44 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:44 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:44 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:44 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:44 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 13
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random conquered China.
+
+Nov 28, 2019 3:58:44 AM main.java.model.Player moveArmy
+INFO: random moved 3 armies from nz to China.
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random has won the game.
+Nov 28, 2019 3:58:44 AM main.java.controller.TournamentController playTournament
+INFO: ---------------------------------------------------------------------------
+Nov 28, 2019 3:58:44 AM main.java.controller.TournamentController playTournament
+INFO: Game 3 on finaltest.map: Countries allocated amongst players
+Nov 28, 2019 3:58:44 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 1
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:44 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at India. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:44 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:44 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified nz with 15 armies from India. benevolent's turn ends now.
+Nov 28, 2019 3:58:44 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 2
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer reinforce
+INFO: 3 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at India.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random conquered India.
+
+Nov 28, 2019 3:58:44 AM main.java.model.Player moveArmy
+INFO: random moved 3 armies from Canada to India.
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer fortify
+INFO: random fortified US with 15 armies from India. random's turn ends now.
+Nov 28, 2019 3:58:44 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 3
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:44 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:44 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:44 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified China with 27 armies from nz. benevolent's turn ends now.
+Nov 28, 2019 3:58:44 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 4
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer reinforce
+INFO: 12 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:44 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer attack
+INFO: random conquered nz.
+
+Nov 28, 2019 3:58:44 AM main.java.model.Player moveArmy
+INFO: random moved 3 armies from Aussie to nz.
+Nov 28, 2019 3:58:44 AM main.java.model.RandomPlayer fortify
+INFO: random fortified US with 40 armies from Canada. random's turn ends now.
+Nov 28, 2019 3:58:44 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 5
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:45 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:45 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 6
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer fortify
+INFO: random fortified nz with 1 armies from India. random's turn ends now.
+Nov 28, 2019 3:58:45 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 7
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:45 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:45 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 8
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer fortify
+INFO: random fortified nz with 10 armies from Aussie. random's turn ends now.
+Nov 28, 2019 3:58:45 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 9
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:45 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:45 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 10
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at China.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at nz.
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer fortify
+INFO: random fortified Aussie with 40 armies from US. random's turn ends now.
+Nov 28, 2019 3:58:45 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 11
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:45 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:45 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:45 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 12
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:45 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:45 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer fortify
+INFO: random fortified US with 1 armies from nz. random's turn ends now.
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 13
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:46 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 14
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer reinforce
+INFO: 21 armies reinforced at Canada. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer fortify
+INFO: random fortified Canada with 106 armies from India. random's turn ends now.
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 15
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer reinforce
+INFO: 3 armies reinforced at China. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer fortify
+INFO: No fortification.
+Nov 28, 2019 3:58:46 AM main.java.model.Player fortify
+INFO: benevolent decided to not fortify any country. benevolent's turn ends now.
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: ---------------------------------------------------------------------------
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Game 1 on ameroki.map: Countries allocated amongst players
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 1
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at afganistan.
+
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer fortify
+INFO: random fortified maganar with 3 armies from north_afrori. random's turn ends now.
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 2
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at czeck. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified ireland with 7 armies from czeck. benevolent's turn ends now.
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 3
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at china.
+
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at heal.
+
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer fortify
+INFO: random fortified duiestie with 3 armies from alberta. random's turn ends now.
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 4
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at china. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified czeck with 7 armies from china. benevolent's turn ends now.
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 5
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at albania.
+
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:46 AM main.java.model.RandomPlayer fortify
+INFO: random fortified tungu with 23 armies from north_afrori. random's turn ends now.
+Nov 28, 2019 3:58:46 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 6
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:46 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at china. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified western_ulstrailia with 1 armies from new_guinia. benevolent's turn ends now.
+Nov 28, 2019 3:58:47 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 7
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at ihesia.
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer fortify
+INFO: random fortified tungu with 30 armies from north_afrori. random's turn ends now.
+Nov 28, 2019 3:58:47 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 8
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at new_guinia. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified japan with 1 armies from south_afrori. benevolent's turn ends now.
+Nov 28, 2019 3:58:47 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 9
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at western_united_states.
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at teramar.
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer fortify
+INFO: random fortified alberta with 3 armies from duiestie. random's turn ends now.
+Nov 28, 2019 3:58:47 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 10
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at south_afrori. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified western_united_states with 7 armies from china. benevolent's turn ends now.
+Nov 28, 2019 3:58:47 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 11
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at middle_east.
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at middle_east.
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: random conquered middle_east.
+
+Nov 28, 2019 3:58:47 AM main.java.model.Player moveArmy
+INFO: random moved 1 armies from kongrolo to middle_east.
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer fortify
+INFO: random fortified duiestie with 2 armies from vinenlant. random's turn ends now.
+Nov 28, 2019 3:58:47 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 12
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer reinforce
+INFO: 6 armies reinforced at china. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:47 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified pero with 1 armies from vagnagale. benevolent's turn ends now.
+Nov 28, 2019 3:58:47 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 13
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at alberta.
+
+Nov 28, 2019 3:58:47 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:47 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer fortify
+INFO: random fortified east_afrori with 52 armies from tungu. random's turn ends now.
+Nov 28, 2019 3:58:48 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 14
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer reinforce
+INFO: 6 armies reinforced at vagnagale. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified western_utropa with 7 armies from western_united_states. benevolent's turn ends now.
+Nov 28, 2019 3:58:48 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 15
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at jacuncail.
+
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer fortify
+INFO: random fortified kongrolo with 1 armies from middle_east. random's turn ends now.
+Nov 28, 2019 3:58:48 AM main.java.controller.TournamentController playTournament
+INFO: ---------------------------------------------------------------------------
+Nov 28, 2019 3:58:48 AM main.java.controller.TournamentController playTournament
+INFO: Game 2 on ameroki.map: Countries allocated amongst players
+Nov 28, 2019 3:58:48 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 1
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at czeck. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified ireland with 7 armies from czeck. benevolent's turn ends now.
+Nov 28, 2019 3:58:48 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 2
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at duiestie.
+
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer fortify
+INFO: No fortification
+Nov 28, 2019 3:58:48 AM main.java.model.Player fortify
+INFO: random decided to not fortify any country. random's turn ends now.
+Nov 28, 2019 3:58:48 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 3
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at czeck. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified western_ulstrailia with 1 armies from new_guinia. benevolent's turn ends now.
+Nov 28, 2019 3:58:48 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 4
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at heal.
+
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:48 AM main.java.model.RandomPlayer fortify
+INFO: No fortification
+Nov 28, 2019 3:58:48 AM main.java.model.Player fortify
+INFO: random decided to not fortify any country. random's turn ends now.
+Nov 28, 2019 3:58:48 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 5
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at new_guinia. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:48 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:48 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified japan with 1 armies from south_afrori. benevolent's turn ends now.
+Nov 28, 2019 3:58:49 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 6
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at kancheria.
+
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at india.
+
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer fortify
+INFO: random fortified alberta with 3 armies from vinenlant. random's turn ends now.
+Nov 28, 2019 3:58:49 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 7
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:49 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at south_afrori. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:49 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:49 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified kancheria with 7 armies from czeck. benevolent's turn ends now.
+Nov 28, 2019 3:58:49 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 8
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at ihesia.
+
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer fortify
+INFO: random fortified north_afrori with 3 armies from east_afrori. random's turn ends now.
+Nov 28, 2019 3:58:49 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 9
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:49 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at czeck. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:49 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:49 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified pero with 1 armies from vagnagale. benevolent's turn ends now.
+Nov 28, 2019 3:58:49 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 10
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at afganistan.
+
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer fortify
+INFO: random fortified east_afrori with 3 armies from north_afrori. random's turn ends now.
+Nov 28, 2019 3:58:49 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 11
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:49 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at vagnagale. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:49 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:49 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified western_utropa with 7 armies from kancheria. benevolent's turn ends now.
+Nov 28, 2019 3:58:49 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 12
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at sluci.
+
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:49 AM main.java.model.RandomPlayer fortify
+INFO: random fortified alberta with 3 armies from duiestie. random's turn ends now.
+Nov 28, 2019 3:58:49 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 13
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:49 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at kancheria. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified northern_utropa with 8 armies from western_utropa. benevolent's turn ends now.
+Nov 28, 2019 3:58:50 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 14
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer attack
+INFO: random lost 2 army at alberta.
+
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer fortify
+INFO: random fortified afganistan with 1 armies from sluci. random's turn ends now.
+Nov 28, 2019 3:58:50 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 15
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer reinforce
+INFO: 7 armies reinforced at western_utropa. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified Quebeck with 9 armies from northern_utropa. benevolent's turn ends now.
+Nov 28, 2019 3:58:50 AM main.java.controller.TournamentController playTournament
+INFO: ---------------------------------------------------------------------------
+Nov 28, 2019 3:58:50 AM main.java.controller.TournamentController playTournament
+INFO: Game 3 on ameroki.map: Countries allocated amongst players
+Nov 28, 2019 3:58:50 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 1
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at Quebeck.
+
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at Quebeck.
+
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer attack
+INFO: random conquered Quebeck.
+
+Nov 28, 2019 3:58:50 AM main.java.model.Player moveArmy
+INFO: random moved 1 armies from duiestie to Quebeck.
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer fortify
+INFO: random fortified duiestie with 2 armies from albania. random's turn ends now.
+Nov 28, 2019 3:58:50 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 2
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer reinforce
+INFO: 6 armies reinforced at czeck. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified ireland with 6 armies from czeck. benevolent's turn ends now.
+Nov 28, 2019 3:58:50 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 3
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at heaurt.
+
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:50 AM main.java.model.RandomPlayer fortify
+INFO: random fortified north_afrori with 3 armies from maganar. random's turn ends now.
+Nov 28, 2019 3:58:50 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 4
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer reinforce
+INFO: 6 armies reinforced at czeck. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:50 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:50 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified western_ulstrailia with 1 armies from new_guinia. benevolent's turn ends now.
+Nov 28, 2019 3:58:51 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 5
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at south_afrori.
+
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer attack
+INFO: random conquered south_afrori.
+
+Nov 28, 2019 3:58:51 AM main.java.model.Player moveArmy
+INFO: random moved 3 armies from tungu to south_afrori.
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer fortify
+INFO: random fortified duiestie with 3 armies from heal. random's turn ends now.
+Nov 28, 2019 3:58:51 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 6
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer reinforce
+INFO: 6 armies reinforced at new_guinia. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified pero with 1 armies from vagnagale. benevolent's turn ends now.
+Nov 28, 2019 3:58:51 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 7
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer reinforce
+INFO: 7 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 2 army at japan.
+
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer attack
+INFO: random conquered japan.
+
+Nov 28, 2019 3:58:51 AM main.java.model.Player moveArmy
+INFO: random moved 2 armies from south_afrori to japan.
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer fortify
+INFO: random fortified south_afrori with 3 armies from north_afrori. random's turn ends now.
+Nov 28, 2019 3:58:51 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 8
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer reinforce
+INFO: 6 armies reinforced at vagnagale. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified western_utropa with 6 armies from czeck. benevolent's turn ends now.
+Nov 28, 2019 3:58:51 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 9
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer reinforce
+INFO: 8 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at jacuncail.
+
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer fortify
+INFO: random fortified japan with 2 armies from north_afrori. random's turn ends now.
+Nov 28, 2019 3:58:51 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 10
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer reinforce
+INFO: 6 armies reinforced at czeck. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:51 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified northern_utropa with 7 armies from western_utropa. benevolent's turn ends now.
+Nov 28, 2019 3:58:51 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 11
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer reinforce
+INFO: 8 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at sluci.
+
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:51 AM main.java.model.RandomPlayer fortify
+INFO: random fortified sluci with 2 armies from afganistan. random's turn ends now.
+Nov 28, 2019 3:58:51 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 12
+Nov 28, 2019 3:58:51 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:52 AM main.java.model.BenevolentPlayer reinforce
+INFO: 6 armies reinforced at western_utropa. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:52 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:52 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified central_ameroki with 8 armies from northern_utropa. benevolent's turn ends now.
+Nov 28, 2019 3:58:52 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 13
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:52 AM main.java.model.RandomPlayer reinforce
+INFO: 8 armies reinforced at tungu. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:52 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at kancheria.
+
+Nov 28, 2019 3:58:52 AM main.java.model.RandomPlayer attack
+INFO: benevolent lost 1 army at kancheria.
+
+Nov 28, 2019 3:58:52 AM main.java.model.RandomPlayer attack
+INFO: random conquered kancheria.
+
+Nov 28, 2019 3:58:52 AM main.java.model.Player moveArmy
+INFO: random moved 1 armies from india to kancheria.
+Nov 28, 2019 3:58:52 AM main.java.model.RandomPlayer fortify
+INFO: random fortified north_afrori with 1 armies from india. random's turn ends now.
+Nov 28, 2019 3:58:52 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 14
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setActivePlayer
+INFO: Active player: benevolent
+
+Nov 28, 2019 3:58:52 AM main.java.model.BenevolentPlayer reinforce
+INFO: 5 armies reinforced at northern_utropa. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setGamePhase
+INFO: benevolent's attack phase
+Nov 28, 2019 3:58:52 AM main.java.model.BenevolentPlayer attack
+INFO: benevolent decides not to attack.
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setGamePhase
+INFO: benevolent's fortification phase
+Nov 28, 2019 3:58:52 AM main.java.model.BenevolentPlayer fortify
+INFO: benevolent fortified eastern_ulstarilia with 6 armies from new_guinia. benevolent's turn ends now.
+Nov 28, 2019 3:58:52 AM main.java.controller.TournamentController playTournament
+INFO: Turn number: 15
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setActivePlayer
+INFO: Active player: random
+
+Nov 28, 2019 3:58:52 AM main.java.model.RandomPlayer reinforce
+INFO: 8 armies reinforced at japan. Remaining reinforcement armies: 0
+
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setGamePhase
+INFO: random's attack phase
+Nov 28, 2019 3:58:52 AM main.java.model.RandomPlayer attack
+INFO: random lost 1 army at argentina.
+
+Nov 28, 2019 3:58:52 AM main.java.model.RandomPlayer attack
+INFO: Player do no want to attack.
+Nov 28, 2019 3:58:52 AM main.java.model.GameData setGamePhase
+INFO: random's fortification phase
+Nov 28, 2019 3:58:52 AM main.java.model.RandomPlayer fortify
+INFO: random fortified tungu with 51 armies from afganistan. random's turn ends now.

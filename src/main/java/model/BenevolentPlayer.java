@@ -69,7 +69,7 @@ public class BenevolentPlayer extends Player {
      * @param fromCountry country from armies send
      * @param toCountry country to armies placed
      * @param num total number of armies to send from one country to another country
-     * @return FortificationCheck.FORTIFICATIONSUCCESS if fortification successful
+     * @return FortificationCheck.FORTIFICATIONSUCCESS if fortification successful, else appropriate error message
      */
     @Override
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num) {

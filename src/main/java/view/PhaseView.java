@@ -27,15 +27,11 @@ public class PhaseView extends JFrame implements Observer {
     public PhaseView() {
 
         initComponents();
-        //performSomething();
     }
 
-    /*public void performSomething(){
-        for(int i = 0; i<30; i++){
-            logText.insert("...................................." + Integer.toString(i) + "\n", 0);
-        }
-    }*/
-
+    /**
+     * Initialize the view
+     */
     private void initComponents() {
         phaseLabel = new JLabel();
         phaseText = new JTextField();
@@ -120,6 +116,10 @@ public class PhaseView extends JFrame implements Observer {
 
     }
 
+    /**
+     * Update the observers
+     * @param message Message to display on receive updates.
+     */
     public void update(String message){
 
         logText.insert(message, 0);

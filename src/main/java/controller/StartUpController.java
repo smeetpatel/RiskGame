@@ -40,6 +40,9 @@ public class StartUpController extends Controller{
 
     /**
      * {@inheritDoc}
+     * @param player Player calling the command.
+     * @param newCommand Command.
+     * @return Appropriate response message.
      */
     @Override
     public String parseCommand(Player player, String newCommand) {
@@ -205,6 +208,7 @@ public class StartUpController extends Controller{
 
     /**
      * {@inheritDoc}
+     * @return GameData object representing the state of the game.
      */
     @Override
     public GameData getGame() {

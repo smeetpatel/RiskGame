@@ -87,5 +87,4 @@ public class TestTurnController {
         String message = controller.parseCommand(player, command);
         Assert.assertEquals("You don't own this country", message);
     }
-
 }

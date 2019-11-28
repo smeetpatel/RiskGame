@@ -192,72 +192,100 @@ public class TestGameActions {
     }
 
     /**
-     * Tests if card exchange occurs correctly or not.
+     * Tests if number of dice are valid for attacker/defender
      */
     @Test
-    public void testCardExchange(){
-        ArrayList<Integer> cardIndex = new ArrayList<Integer>();
-        cardIndex.add(5);
-        cardIndex.add(3);
-        cardIndex.add(2);
-        Collections.sort(cardIndex);
-        player1.cardExchange(game, cardIndex);
-        Assert.assertEquals(5, player1.getOwnedArmies());
-    }
+    public void testDiceValid(){
+        game.getMap().getCountries().get("india").setNumberOfArmies(3);
+        boolean check = gameActions.diceValid(game, "india", 3, true);
+        Assert.assertEquals(false, check);
 
-    /**
-     * Tests if invalid card combination is detected or not.
-     */
-    @Test
-    public void testCardExchange2(){
-        ArrayList<Integer> cardIndex = new ArrayList<Integer>();
-        cardIndex.add(5);
-        cardIndex.add(1);
-        cardIndex.add(2);
-        Collections.sort(cardIndex);
-        boolean check = player1.cardExchange(game, cardIndex);
+        game.getMap().getCountries().get("india").setNumberOfArmies(3);
+        check = gameActions.diceValid(game, "india", 2, true);
+        Assert.assertEquals(true, check);
+
+        game.getMap().getCountries().get("india").setNumberOfArmies(3);
+        check = gameActions.diceValid(game, "india", 0, true);
+        Assert.assertEquals(false, check);
+
+        game.getMap().getCountries().get("india").setNumberOfArmies(3);
+        check = gameActions.diceValid(game, "india", 3, false);
+        Assert.assertEquals(false, check);
+
+        game.getMap().getCountries().get("india").setNumberOfArmies(2);
+        check = gameActions.diceValid(game, "india", 2, false);
+        Assert.assertEquals(true, check);
+
+        game.getMap().getCountries().get("india").setNumberOfArmies(2);
+        check = gameActions.diceValid(game, "india", 0, false);
         Assert.assertEquals(false, check);
     }
 
     /**
-     * Test if wildcard combination is correctly detected or not.
+     * Tests if valid attack or not by comparing the neighborhood of the countries.
      */
     @Test
-    public void testCardExchange3(){
-        ArrayList<Integer> cardIndex = new ArrayList<Integer>();
-        cardIndex.add(6);
-        cardIndex.add(1);
-        cardIndex.add(2);
-        Collections.sort(cardIndex);
-        boolean check = player1.cardExchange(game, cardIndex);
-        Assert.assertEquals(true, check);
-    }
+    public void testAreNeighbor(){
+        gameActions.loadMap(game, "testmapthird.map");
+        player1 = new HumanPlayer("Smeet");
+        player2 = new HumanPlayer("Tirth");
+        players.add(player1);
+        players.add(player2);
+        game.setPlayers(players);
+        game.setGamePhase(Phase.CARDEXCHANGE);
 
-    /**
-     * Test if invalid card indexes are detected or not.
-     */
-    @Test
-    public void testCardExchange4(){
-        ArrayList<Integer> cardIndex = new ArrayList<Integer>();
-        cardIndex.add(7);
-        cardIndex.add(1);
-        cardIndex.add(2);
-        Collections.sort(cardIndex);
-        boolean check = player1.cardExchange(game, cardIndex);
+        player1.getOwnedCountries().put("india", game.getMap().getCountries().get("india"));
+        player1.getOwnedCountries().put("china", game.getMap().getCountries().get("china"));
+        player1.getOwnedCountries().put("canada", game.getMap().getCountries().get("canada"));
+        player1.getOwnedCountries().put("aussie", game.getMap().getCountries().get("aussie"));
+        player2.getOwnedCountries().put("usa", game.getMap().getCountries().get("usa"));
+        player2.getOwnedCountries().put("russia", game.getMap().getCountries().get("russia"));
+        player2.getOwnedCountries().put("nz", game.getMap().getCountries().get("nz"));
+
+        c1 = new Card("Infantry", game.getMap().getCountries().get("india"));
+        c2 = new Card("Infantry", game.getMap().getCountries().get("russia"));
+        c3 = new Card("Artillery", game.getMap().getCountries().get("aussie"));
+        c4 = new Card("Infantry", game.getMap().getCountries().get("usa"));
+        c5 = new Card("Cavalary", game.getMap().getCountries().get("nz"));
+        c6 = new Card("WildCard", null);
+
+        player1.setOwnedCards(c1);
+        player1.setOwnedCards(c2);
+        player1.setOwnedCards(c3);
+        player1.setOwnedCards(c4);
+        player1.setOwnedCards(c5);
+        player1.setOwnedCards(c6);
+
+        boolean check = gameActions.areNeighbors(game, player1, "india", "china");
         Assert.assertEquals(false, check);
+
+        check = gameActions.areNeighbors(game, player1, "usa", "aussie");
+        Assert.assertEquals(false, check);
+
+        check = gameActions.areNeighbors(game, player1, "india", "nz");
+        Assert.assertEquals(false, check);
+
+        check = gameActions.areNeighbors(game, player1, "china", "russia");
+        Assert.assertEquals(true, check);
     }
 
     /**
-     * Test if invalid card indexes are detected or not.
+     * Tests if correctly identifies invalid map file or not.
      */
     @Test
-    public void testCardExchange5(){
-        ArrayList<Integer> cardIndex = new ArrayList<Integer>();
-        cardIndex.add(5);
-        cardIndex.add(1);
-        cardIndex.add(6);
-        Collections.sort(cardIndex);
-        boolean check = player1.cardExchange(game, cardIndex);
-        Assert.assertEquals(true, check);
+    public void testLoadMap1(){
+        gameActions.loadMap(game, "invalid.map");
+        Assert.assertFalse(game.getMap().getValid());
+        Assert.assertEquals(Phase.NULL, game.getGamePhase());
+    }
+
+    /**
+     * Tests if correctly identifies valid map file or not.
+     */
+    @Test
+    public void testLoadMap2(){
+        gameActions.loadMap(game, "testmapthird.map");
+        Assert.assertTrue(game.getMap().getValid());
+        Assert.assertEquals(Phase.STARTUP, game.getGamePhase());
     }
 }

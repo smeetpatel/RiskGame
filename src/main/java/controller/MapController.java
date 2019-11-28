@@ -14,7 +14,7 @@ public class MapController extends Controller{
     public MapView mapView;
 
     /**
-     * Intializes required class variables.
+     * Initializes required class variables.
      */
     public MapController(){
         game = new GameData();
@@ -24,6 +24,9 @@ public class MapController extends Controller{
 
     /**
      * {@inheritDoc}
+     * @param player Player calling the command.
+     * @param newCommand Command.
+     * @return Appropriate response message.
      */
     @Override
     public String parseCommand(Player player, String newCommand){
@@ -408,6 +411,7 @@ public class MapController extends Controller{
 
     /**
      * {@inheritDoc}
+     * @return GameData object representing the state of the game.
      */
     @Override
     public GameData getGame() {

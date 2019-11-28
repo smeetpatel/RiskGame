@@ -36,6 +36,9 @@ public class Observable {
         }
     }
 
+    /**
+     * Notifies the observers.
+     */
     public void notifyObservers(String message){
         for(Observer observer : observers){
             observer.update(message);

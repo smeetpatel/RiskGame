@@ -15,7 +15,6 @@ public class GameActions extends Observable{
      * @param game    Representing game state
      * @param mapName Name of the map to be searched/created
      */
-
     public void editMap(GameData game, String mapName) {
         //Check if file exists
         String filePath = "src/main/resources/maps/" + mapName;
@@ -98,9 +97,6 @@ public class GameActions extends Observable{
             }
             game.setMap(map);
             game.setUpLogger();
-            // Creation of Deck.
-            //ArrayList<Country> countries = new ArrayList<>(map.getCountries().values());
-            //Deck deck = new Deck(countries);
             if (validateMap(map) == MapValidityStatus.VALIDMAP) {
                 map.setValid(true);
                 game.setGamePhase(Phase.STARTUP);
@@ -327,9 +323,9 @@ public class GameActions extends Observable{
 
     /**
      * Checks if no card exchange is valid move or not.
+     * @return true if player owns less than five cards, else false
      */
-    public boolean noCardExchange(GameData game, Player player){
-        //game.setActivePlayer(player);
+    public boolean noCardExchange(GameData game, Player player){ ;
         if (player.getOwnedCards().size() < 5){
             game.setGamePhase(Phase.REINFORCEMENT);
             return true;
@@ -499,6 +495,13 @@ public class GameActions extends Observable{
         game.setGamePhase(Phase.FORTIFICATION);
     }
 
+    /**
+     * Gets maimum possible dice rolls for given argument.
+     * @param game Represents the state of the game.
+     * @param fromCountry Principal country in question.
+     * @param role Attacker/defender
+     * @return maximum number of valid dices
+     */
     public int getMaxDiceRolls(GameData game, String fromCountry, String role){
         Country country = game.getMap().getCountries().get(fromCountry.toLowerCase());
         if(role.equals("attacker")){

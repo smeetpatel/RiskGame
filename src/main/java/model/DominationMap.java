@@ -1,10 +1,5 @@
 package main.java.model;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-
 /**
  * Interface to read/write domination map format.
  */
