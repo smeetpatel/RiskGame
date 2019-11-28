@@ -158,7 +158,6 @@ public class StartUpController extends Controller{
                                     for(Player p : game.getPlayers()){
                                         p.attach(phaseView);
                                     }
-                                    //player.attach(phaseView);
                                     game.attach(phaseView);
                                 }
                             } else {
