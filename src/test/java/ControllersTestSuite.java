@@ -2,28 +2,24 @@ package test.java;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
 import test.java.controllerTests.TestLoadGameController;
 import test.java.controllerTests.TestStartUpController;
 import test.java.controllerTests.TestTournamentController;
 import test.java.controllerTests.TestTurnController;
-import test.java.modelTests.*;
 
 /**
- * run all the test cases present in the system
+ * run all the test cases for testing the controllers
  */
 @RunWith(Suite.class)
-@SuiteClasses({
-        TestContinent.class,
-        TestDeckCreation.class,
-        TestEditMap.class,
-        TestGameActions.class,
-        TestHumanPlayer.class,
-        TestMapValidation.class,
+@Suite.SuiteClasses({
         TestStartUpController.class,
         TestTurnController.class,
         TestLoadGameController.class,
         TestTournamentController.class
-        })
+})
 
-public class TestSuite {}
+/**
+ * Runs all test cases for testing the controllers
+ */
+public class ControllersTestSuite {
+}
