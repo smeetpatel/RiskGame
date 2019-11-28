@@ -78,7 +78,7 @@ public class RandomPlayer extends Player {
         //ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
         Object[] sourceCountries = this.getOwnedCountries().values().toArray();
 
-        while (defendingCountry == null || randomCounter<25) {
+        while (defendingCountry == null && randomCounter<25) {
             Country originCountry = (Country) sourceCountries[random.nextInt(sourceCountries.length)];
             countryFrom = originCountry.getCountryName();
             attackingCountry = game.getMap().getCountries().get(countryFrom.toLowerCase());

@@ -106,12 +106,15 @@ public class PhaseView extends JFrame implements Observer {
             logText.insert("Reinforcement armies before card exchange: " + Integer.toString(game.getActivePlayer().getOwnedArmies()) + "\n", 0);
         } else if(game.getGamePhase()==Phase.REINFORCEMENT){
             phaseText.setText("Reinforcement");
+            playerText.setText(game.getActivePlayer().getPlayerName());
             logText.insert("Final reinforcement armies gained: " + Integer.toString(game.getActivePlayer().getOwnedArmies()) + "\n", 0);
         } else if(game.getGamePhase()==Phase.ATTACK){
             phaseText.setText("Attack");
+            playerText.setText(game.getActivePlayer().getPlayerName());
             logText.setText(null);
         } else if(game.getGamePhase()==Phase.FORTIFICATION){
             phaseText.setText("Fortification");
+            playerText.setText(game.getActivePlayer().getPlayerName());
             logText.setText(null);
         }
 

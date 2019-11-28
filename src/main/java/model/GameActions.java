@@ -649,7 +649,7 @@ public class GameActions extends Observable{
     public GameDataBuilder loadGame(String fileName){
         GameDataBuilder gameDataBuilder;
         try{
-            FileInputStream f = new FileInputStream((new File("src/main/resources/game/" + fileName + ".txt")));
+            FileInputStream f = new FileInputStream((new File("src/main/resources/game/" + fileName)));
             ObjectInputStream o = new ObjectInputStream((f));
             gameDataBuilder = (GameDataBuilder) o.readObject();
         } catch(FileNotFoundException e){

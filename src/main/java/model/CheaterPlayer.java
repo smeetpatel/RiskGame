@@ -60,8 +60,9 @@ public class CheaterPlayer extends Player{
         for(Country country : temp.values()){
             for(Country neighbour : country.getNeighbours().values()){
                 if(!this.getOwnedCountries().containsKey(neighbour.getCountryName().toLowerCase())){
+                    defendingPlayer = neighbour.getOwnerPlayer();
                     this.getOwnedCountries().put(neighbour.getCountryName().toLowerCase(),neighbour);
-                    neighbour.getOwnerPlayer().getOwnedCountries().remove(neighbour.getCountryName().toLowerCase());
+                    defendingPlayer.getOwnedCountries().remove(neighbour.getCountryName().toLowerCase());
                     neighbour.setOwnerPlayer(this);
                     game.getLogger().info(getPlayerName() + " conquered " + neighbour.getCountryName() + ".\n");
                     notifyObservers(getPlayerName() + " conquered " + neighbour.getCountryName() + ".\n");
@@ -79,11 +80,11 @@ public class CheaterPlayer extends Player{
                     //check if player owns entire continent or not
                     gameActions.checkContinentOwnership(game, this);
 
-                    if (neighbour.getOwnerPlayer().getOwnedCountries().size() == 0) {
+                    if (defendingPlayer.getOwnedCountries().size() == 0) {
                         game.getLogger().info(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                         notifyObservers(neighbour.getOwnerPlayer().getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
-                        gameActions.getAllCards(this, neighbour.getOwnerPlayer());
-                        game.removePlayer(neighbour.getOwnerPlayer());
+                        gameActions.getAllCards(this, defendingPlayer);
+                        game.removePlayer(defendingPlayer);
                         if (getOwnedCards().size() >= 6) {
                             addCardExchangeArmies(game);
                         }

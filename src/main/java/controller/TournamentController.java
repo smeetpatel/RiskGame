@@ -143,6 +143,7 @@ public class TournamentController extends Controller {
                     return "there has to be -M";
                 }
             }catch (ArrayIndexOutOfBoundsException e){
+                e.printStackTrace();
                 String message = "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                 return message;
             }
@@ -202,8 +203,8 @@ public class TournamentController extends Controller {
 
                 //populate countries amongst players and create player domination view
                 gameAction.populateCountries(game, game.getPlayers());
-                game.getLogger().info("Game " + 1 + " on " + mapName + ": Countries allocated amongst players");
-                System.out.println("Game " + 1 + " on " + mapName + ": Countries allocated amongst players");
+                game.getLogger().info("Game " + i + " on " + mapName + ": Countries allocated amongst players");
+                System.out.println("Game " + i + " on " + mapName + ": Countries allocated amongst players");
                 playerDominationView = new PlayerDominationView();
                 playerDominationView.setVisible(true);
                 playerDominationView.setSize(600, 600);
@@ -238,7 +239,9 @@ public class TournamentController extends Controller {
                         traversalCounter = 0;
                     }
                 }
-                winner.put(gameNumber, "No winner");
+                if(game.getGamePhase()!= Phase.QUIT){
+                    winner.put(gameNumber, "No winner");
+                }
 
                 //detach model objects from views, close of the views, and reset game data
                 game.detach(phaseView);
