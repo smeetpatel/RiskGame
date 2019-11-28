@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+/**
+ * Represents a typical player.
+ */
 public abstract class Player extends Observable implements Serializable {
 
 	/**
