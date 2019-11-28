@@ -25,6 +25,6 @@ import test.java.modelTests.*;
         TestNeighbor.class,
         TestReinforceArmies.class,
         TestReinforcement.class,
-        TestValidateMap.class})
+        })
 
 public class TestSuite {}

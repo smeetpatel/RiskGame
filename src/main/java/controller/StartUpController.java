@@ -30,6 +30,7 @@ public class StartUpController extends Controller{
 
     /**
      * Intializes required class variables.
+     * @param game Represents the state of the game.
      */
     public StartUpController(GameData game){
         this.game = game;

@@ -49,7 +49,6 @@ public class TournamentController extends Controller {
 
 
         if (commandName.equals("tournament")) {
-
             try {
                 if (data[1].equals("-M")) {
                     int i = 2;
@@ -58,19 +57,17 @@ public class TournamentController extends Controller {
                             if (isMapNameValid(data[i])) {
                                 maps.add(data[i]);
                             } else {
-                                return "map name is not valid";
+                                printFailureMessage();
+                                return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                             }
-
                         } else {
-                            return "there is nothing after -P";
+                            printFailureMessage();
+                            return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                         }
                         i++;
                     }
 
                     if(maps.size()>=1 && maps.size()<=5 && allMapExists(maps)) {
-
-                        //System.out.println(maps);
-
 
                         if (data[i].equals("-P")) {
 
@@ -81,11 +78,13 @@ public class TournamentController extends Controller {
                                     if (isPlayerStrategyValid(data[indexNew])) {
                                         strategies.add(data[indexNew]);
                                     } else {
-                                        return "player strategy is not valid";
+                                        printFailureMessage();
+                                        return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                                     }
 
                                 } else {
-                                    return "there is nothing after -P";
+                                    printFailureMessage();
+                                    return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                                 }
                                 indexNew++;
                             }
@@ -99,10 +98,12 @@ public class TournamentController extends Controller {
                                             noOfGames = Integer.parseInt(data[indexNew + 1]);
                                             //System.out.println("Number of Games:" + noOfGames);
                                         } else {
-                                            return "number of game is not valid";
+                                            printFailureMessage();
+                                            return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                                         }
                                     } else {
-                                        return "nothing after -G";
+                                        printFailureMessage();
+                                        return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                                     }
 
                                     int newIndex = indexNew + 2;
@@ -119,47 +120,45 @@ public class TournamentController extends Controller {
                                                 playTournament(maps, strategies, noOfGames, noOfTurns);
                                                 return "success";
                                             } else {
-                                                return "number of turns invalid";
+                                                printFailureMessage();
+                                                return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                                             }
                                         } else {
-                                            return "nothin after -G";
+                                            printFailureMessage();
+                                            return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                                         }
                                     } else {
-                                        return "there has to be -D";
+                                        printFailureMessage();
+                                        return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                                     }
                                 } else {
-                                    return "there has to be -G";
+                                    printFailureMessage();
+                                    return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                                 }
                             }else{
-                                return "number of strategies is not valid";
+                                printFailureMessage();
+                                return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                             }
                         } else {
-                            return "there has to be -P";
+                            printFailureMessage();
+                            return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                         }
                     }else {
-                        return "numbee of maps is invalid.";
+                        printFailureMessage();
+                        return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                     }
                 } else {
-                    return "there has to be -M";
+                    printFailureMessage();
+                    return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                 }
             }catch (ArrayIndexOutOfBoundsException e){
-                e.printStackTrace();
                 String message = "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
                 return message;
             }
         } else {
-            return "Command has to be start with 'tournamnet'";
+            printFailureMessage();
+            return "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
         }
-
-        //TODO: Return string "success" if valid tournament command
-        //TODO Validation 1: Check if map files exist or not by calling 'isMapExists' method of GameActions class
-        //TODO Validation 2: Check that number of map files in the argument are between 1 to 5
-        //TODO Validation 3: Check if that number of player strategies in the command are between 2 to 4
-        //TODO Validation 4: Check that the mentioned player strategies are all of different types
-        //TODO Validation 5: Check that number of games mentioned in the argument are between 1 to 5
-        //TODO Validation 6: Check that number of turns mentioned in the argument are between 10 to 50
-        //TODO return appropriate string message in response to any failure. Make sure message makes reflect the occuring error.
-        //TODO if command is valid, call playTournament method of TournamentController with appropriate arguments
     }
 
     /**
@@ -332,5 +331,13 @@ public class TournamentController extends Controller {
             return false;
         }
 
+    }
+
+    /**
+     *Method prints failure message for tournament command
+     */
+    public void printFailureMessage(){
+        String message = "Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'";
+        this.game.getLogger().info("Comand has to be in form of 'tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns'");
     }
 }

@@ -14,7 +14,6 @@ public interface ConquestMap {
      * Performs basic validation checks too.
      * @param mapName Name of the map file to be read
      * @return GameMap object representing the map just read
-     * @throws FileNotFoundException, IOException
      */
     public GameMap readMap(String mapName);
 
@@ -24,7 +23,6 @@ public interface ConquestMap {
      * @param map      GameMap object representing the map to be saved
      * @param fileName Name with which map file is to be saved
      * @return true if successful, else false indicating invalid command
-     * @throws IOException
      */
     boolean saveMap(GameMap map, String fileName);
 }

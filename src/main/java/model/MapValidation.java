@@ -98,7 +98,7 @@ public class MapValidation {
 	}
 	/**
 	 * Checks if entire graph is connected
-	 * @param graph JGraphT graph of the form Graph<Country, DefaultEdge>
+	 * @param graph JGraphT graph of the form Graph
 	 * @return true if graph is connected, else false indicating that graph is invalid
 	 */
 	public  boolean isGraphConnected(Graph<Country, DefaultEdge> graph) {
