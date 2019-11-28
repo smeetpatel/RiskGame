@@ -19,13 +19,16 @@ public class TournamentController extends Controller {
     /**
      * Represents object of GameActions Class
      */
-    GameActions gameActions;
+    GameActions gameAction;
 
     /**
      * Creates a tournament controller object.
      */
     public TournamentController(){
+
         super();
+        game = new GameData();
+        gameAction = new GameActions();
     }
 
     /**
@@ -199,6 +202,7 @@ public class TournamentController extends Controller {
 
                 //populate countries amongst players and create player domination view
                 gameAction.populateCountries(game, game.getPlayers());
+                game.getLogger().info("Game " + 1 + " on " + mapName + ": Countries allocated amongst players");
                 System.out.println("Game " + 1 + " on " + mapName + ": Countries allocated amongst players");
                 playerDominationView = new PlayerDominationView();
                 playerDominationView.setVisible(true);
@@ -221,14 +225,16 @@ public class TournamentController extends Controller {
                 //let each player play one by one
                 for(int j=1; j<=numberOfTurns; j++){
                     Player player = getGame().getPlayers().get(traversalCounter);
+                    game.getLogger().info("Turn number: " + j);
                     turnController.botTurn(player);
                     if(game.getGamePhase()== Phase.QUIT){
                         winner.put(gameNumber, player.getPlayerName());
+                        traversalCounter = 0;
                         break;
                     }
                     turnController.turnEndEvent();
                     traversalCounter++;
-                    if (traversalCounter >= numberOfPlayers) {
+                    if (traversalCounter >= getGame().getPlayers().size()) {
                         traversalCounter = 0;
                     }
                 }
@@ -313,7 +319,7 @@ public class TournamentController extends Controller {
     public boolean allMapExists(ArrayList<String> list){
         int counter=0;
         for(String s:list){
-            if(gameActions.isMapExists(s)){
+            if(gameAction.isMapExists(s)){
                 counter++;
             }
         }

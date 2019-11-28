@@ -31,13 +31,11 @@ public class CheaterPlayer extends Player{
      * @return true if reinforcement is successful
      */
     public boolean reinforce(GameData game, String countryName, int num){
-
-        ArrayList<Country> countries = (ArrayList<Country>) this.getOwnedCountries().values();
-        for(Country c:countries){
+        game.setActivePlayer(this);
+        for(Country c : this.getOwnedCountries().values()){
             game.getLogger().info(this.getPlayerName() + " reinforced " + c.getCountryName() + " with " + c.getNumberOfArmies());
             c.setNumberOfArmies(c.getNumberOfArmies() * 2);
         }
-
         return true;
     }
 
@@ -53,12 +51,17 @@ public class CheaterPlayer extends Player{
      */
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
 
-        for(Country country: this.getOwnedCountries().values()){
+        //make hashmap copies to loop through
+        HashMap<String, Country> temp = new HashMap<String, Country>();
+        for(String s : this.getOwnedCountries().keySet()){
+            temp.put(s, this.getOwnedCountries().get(s));
+        }
 
-            for(Country neighbour: country.getNeighbours().values()){
+        for(Country country : temp.values()){
+            for(Country neighbour : country.getNeighbours().values()){
                 if(!this.getOwnedCountries().containsKey(neighbour.getCountryName().toLowerCase())){
                     this.getOwnedCountries().put(neighbour.getCountryName().toLowerCase(),neighbour);
-                    neighbour.getOwnerPlayer().getOwnedCountries().remove(neighbour);
+                    neighbour.getOwnerPlayer().getOwnedCountries().remove(neighbour.getCountryName().toLowerCase());
                     neighbour.setOwnerPlayer(this);
                     game.getLogger().info(getPlayerName() + " conquered " + neighbour.getCountryName() + ".\n");
                     notifyObservers(getPlayerName() + " conquered " + neighbour.getCountryName() + ".\n");
@@ -88,6 +91,14 @@ public class CheaterPlayer extends Player{
                 }
             }
         }
+        //check if player has won the game or not
+        if(getOwnedCountries().size()==game.getMap().getCountries().size()){
+            game.getLogger().info(this.getPlayerName() + " has won the game.");
+            gameActions.endGame(game);
+            return true;
+        }
+        game.getLogger().info(this.getPlayerName() + " decides not to attack anymore.");
+        gameActions.endAttack(game);
         return true;
     }
 

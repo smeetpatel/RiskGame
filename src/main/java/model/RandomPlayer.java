@@ -34,27 +34,22 @@ public class RandomPlayer extends Player {
     public boolean reinforce(GameData game, String countryName, int num) {
 
         Random random = new Random();
-        ArrayList<Country> countries = (ArrayList<Country>) this.getOwnedCountries().values();
-        Country randomCountry = countries.get(random.nextInt(this.getOwnedCountries().size()));
+        Object[] values = this.getOwnedCountries().values().toArray();
+        //Country randomCountry = (Country) values[random.nextInt(values.length)];
+        Country randomCountry = (Country) values[0];
 
         gameActions.assignReinforcementArmies(game, this);
-        this.cardExchange(game, null);
+        addCardExchangeArmies(game);
 
         game.setActivePlayer(this);
 
-        if (this.getOwnedArmies() > 0) {
+        num = this.getOwnedArmies();
+        randomCountry.setNumberOfArmies(randomCountry.getNumberOfArmies() + num);
+        this.setOwnedArmies(0);
+        game.getLogger().info(num + " armies reinforced at " + randomCountry.getCountryName() + ". Remaining reinforcement armies: " + this.getOwnedArmies() + "\n");
+        notifyObservers(num + " armies reinforced at " + randomCountry.getCountryName() + ". Remaining reinforcement armies: " + this.getOwnedArmies() + "\n");
+        game.setGamePhase(Phase.ATTACK);
 
-            int existingArmies = randomCountry.getNumberOfArmies();
-            existingArmies += this.getOwnedArmies();
-            randomCountry.setNumberOfArmies(existingArmies);
-            this.setOwnedArmies(this.getOwnedArmies());
-            game.getLogger().info(Integer.toString(this.getOwnedArmies()) + " armies reinforced at " + randomCountry.getCountryName() + ". Remaining reinforcement armies: " + Integer.toString(this.getOwnedArmies()) + "\n");
-            notifyObservers(Integer.toString(this.getOwnedArmies()) + " armies reinforced at " + randomCountry.getCountryName() + ". Remaining reinforcement armies: " + Integer.toString(this.getOwnedArmies()) + "\n");
-            game.setGamePhase(Phase.ATTACK);
-        } else {
-            game.getLogger().info(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
-            notifyObservers(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
-        }
         return true;
     }
 
@@ -75,26 +70,26 @@ public class RandomPlayer extends Player {
         int[] attackerDiceRolls;
         int[] defenderDiceRolls;
 
-        boolean check = false;
         Random random = new Random();
         Country attackingCountry = null;
         Country defendingCountry = null;
-        int randomcounter = 0;
+        int randomCounter = 0;
 
-        ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
+        //ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
+        Object[] sourceCountries = this.getOwnedCountries().values().toArray();
 
-        while (defendingCountry.equals(null) || randomcounter<25) {
-            countryFrom = sourceCountries.get(random.nextInt(sourceCountries.size())).getCountryName();
+        while (defendingCountry == null || randomCounter<25) {
+            Country originCountry = (Country) sourceCountries[random.nextInt(sourceCountries.length)];
+            countryFrom = originCountry.getCountryName();
             attackingCountry = game.getMap().getCountries().get(countryFrom.toLowerCase());
             defendingCountry = canAttack(attackingCountry);
-            randomcounter++;
+            randomCounter++;
         }
 
         while((defendingCountry = canAttack(attackingCountry))!=null) {
 
             //get the defending player
             defendingPlayer = defendingCountry.getOwnerPlayer();
-
 
             numberOfDice = gameActions.getMaxDiceRolls(game, attackingCountry.getCountryName(), "attacker");
             defendDice = gameActions.getMaxDiceRolls(game, defendingCountry.getCountryName(), "defender");
@@ -128,18 +123,20 @@ public class RandomPlayer extends Player {
                 }
                 if (defendingCountry.getNumberOfArmies() == 0) {
                     if (attackerArmiesLost > 0) {
-                        game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
-                        notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
+                        game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
+                        notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
+                        attackerArmiesLost = 0;
                     }
                     if (defenderArmiesLost > 0) {
-                        game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
-                        notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
+                        game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
+                        notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
+                        defenderArmiesLost = 0;
                     }
-                    getOwnedCountries().put(countryTo.toLowerCase(), defendingCountry);
+                    getOwnedCountries().put(defendingCountry.getCountryName().toLowerCase(), defendingCountry);
                     defendingCountry.setOwnerPlayer(this);
-                    defendingPlayer.getOwnedCountries().remove(countryTo.toLowerCase());
-                    game.getLogger().info(getPlayerName() + " conquered " + countryTo + ".\n");
-                    notifyObservers(getPlayerName() + " conquered " + countryTo + ".\n");
+                    defendingPlayer.getOwnedCountries().remove(defendingCountry.getCountryName().toLowerCase());
+                    game.getLogger().info(getPlayerName() + " conquered " + defendingCountry.getCountryName() + ".\n");
+                    notifyObservers(getPlayerName() + " conquered " + defendingCountry.getCountryName() + ".\n");
 
                     //move armies to conquered territory
                     moveArmy(game, attackingCountry.getCountryName(), defendingCountry.getCountryName(), numberOfDice, numberOfDice);
@@ -170,16 +167,18 @@ public class RandomPlayer extends Player {
                 }
             }
             if (attackerArmiesLost > 0) {
-                game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
-                notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
+                game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
+                notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
             }
             if (defenderArmiesLost > 0) {
-                game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
-                notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
+                game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
+                notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
             }
             attackerArmiesLost = 0;
             defenderArmiesLost = 0;
         }
+        game.getLogger().info("Player do no want to attack.");
+        gameActions.endAttack(game);
         return true;
     }
 
@@ -198,14 +197,16 @@ public class RandomPlayer extends Player {
         Random random = new Random();
         int randomCounter = 0;
 
-        ArrayList<Country> targetCountries = (ArrayList<Country>) this.getOwnedCountries().values();
-        ArrayList<Country> sourceCountries = (ArrayList<Country>) this.getOwnedCountries().values();
+        Object[] targetCountries = this.getOwnedCountries().values().toArray();
+        Object[] sourceCountries = this.getOwnedCountries().values().toArray();
         //Collections.shuffle(targetCountries);
         //Collections.shuffle(sourceCountries);
 
-        while (!check || randomCounter < 25) {
-            fromCountry = sourceCountries.get(random.nextInt(this.getOwnedCountries().size())).getCountryName();
-            toCountry = targetCountries.get(random.nextInt(this.getOwnedCountries().size())).getCountryName();
+        while (!check && randomCounter < 25) {
+            Country originCountry = (Country) sourceCountries[random.nextInt(sourceCountries.length)];
+            Country destinationCountry = (Country) targetCountries[random.nextInt(sourceCountries.length)];
+            fromCountry = originCountry.getCountryName();
+            toCountry = destinationCountry.getCountryName();
             if (fromCountry != toCountry) {
                 check = mv.fortificationConnectivityCheck(this, fromCountry, toCountry);
             }

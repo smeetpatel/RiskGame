@@ -161,6 +161,7 @@ public class AggressivePlayer extends Player{
             defenderArmiesLost = 0;
         }
         game.getLogger().info(this.getPlayerName() + " decides not to attack anymore.");
+        gameActions.endAttack(game);
         return true;
     }
 
@@ -227,13 +228,10 @@ public class AggressivePlayer extends Player{
      * @return country to attack
      */
     public Country canAttack(Country attackingCountry){
-        if(attackingCountry.getNumberOfArmies()==1){
+        if(attackingCountry.getNumberOfArmies()==1 || attackingCountry==null){
             return null;
         }
         for(Country neighbor: attackingCountry.getNeighbours().values()){
-
-          
-
             if(!getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
 
                 return neighbor;
