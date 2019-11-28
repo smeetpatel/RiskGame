@@ -12,7 +12,7 @@ public class MapAdapter implements DominationMap{
 
     /**
      * Creates the MapAdapter object and in turn creates a ConquestMap object.
-     * @param conquestMap
+     * @param conquestMap ConqeustMap type object to use in the adapter.
      */
     public MapAdapter(ConquestMap conquestMap){
         super();

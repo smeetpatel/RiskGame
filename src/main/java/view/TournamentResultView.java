@@ -11,6 +11,7 @@ public class TournamentResultView {
     /**
      * Displays the result of the tournament
      * @param winner HashMap representing the winner of the game indexed based on the number of the game.
+     * @param maps List of maps used to play the tournament.
      */
     public void displayTournamentResult(HashMap<Integer, String> winner, ArrayList<String> maps){
         int mapChangeAfter = winner.size()/maps.size();

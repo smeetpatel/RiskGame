@@ -243,6 +243,7 @@ public class GameData extends Observable implements Serializable {
 
     /**
      * Remove player
+     * @param p PLayer to be removed.
      */
     public void removePlayer(Player p){
         this.players.remove(p);

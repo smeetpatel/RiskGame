@@ -13,6 +13,7 @@ public class Observable {
 
     /**
      * Attaches an observer.
+     * @param o Observer to be attached.
      */
     public void attach(Observer o){
         this.observers.add(o);
@@ -20,6 +21,7 @@ public class Observable {
 
     /**
      * Detach an observer.
+     * @param o Observer to be detached.
      */
     public void detach(Observer o){
         if(!observers.isEmpty()){
@@ -29,6 +31,7 @@ public class Observable {
 
     /**
      * Notifies the observers.
+     * @param o Obserable object to help update the observers.
      */
     public void notifyObservers(Observable o){
         for(Observer observer : observers){
@@ -38,6 +41,7 @@ public class Observable {
 
     /**
      * Notifies the observers.
+     * @param message Message to be flashed on receiving the notifcation.
      */
     public void notifyObservers(String message){
         for(Observer observer : observers){

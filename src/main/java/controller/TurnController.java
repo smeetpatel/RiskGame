@@ -35,6 +35,7 @@ public class TurnController extends Controller{
 
     /**
      * Intializes required class variables.
+     * @param game Represents the state of the game.
      */
     public TurnController(GameData game){
         this.game = game;

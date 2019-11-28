@@ -30,6 +30,7 @@ public class Controller {
 
     /**
      * Get game data.
+     * @return GameData object representing the state of the game.
      */
     public GameData getGame(){return null;};
 }

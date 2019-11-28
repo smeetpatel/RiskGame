@@ -140,6 +140,7 @@ public class GameActions extends Observable{
      *
      * @param players    List of players in the game
      * @param playerName Name of the player
+     * @param playerStrategy Strategy used by the player
      * @return true if successful in adding the player, else false
      */
     public boolean addPlayer(ArrayList<Player> players, String playerName, String playerStrategy) {
@@ -323,7 +324,9 @@ public class GameActions extends Observable{
 
     /**
      * Checks if no card exchange is valid move or not.
-     * @return true if player owns less than five cards, else false
+     * @param game Represents the state of the game.
+     * @param player Represents the player calling the function.
+     * @return true if player owns less than five cards, else false.
      */
     public boolean noCardExchange(GameData game, Player player){ ;
         if (player.getOwnedCards().size() < 5){
@@ -335,10 +338,10 @@ public class GameActions extends Observable{
     }
 
     /**
-     * This function is to assign armies to player for reinforcement
-     *
-     * @param player Player playing the move
-     * @return true if successful, else false
+     * This function is to assign armies to player for reinforcement.
+     * @param game Represents the state of the game.
+     * @param player Player playing the move.
+     * @return true if successful, else false.
      */
     public boolean assignReinforcementArmies(GameData game, Player player) {
         int totalControlValue = 0;
@@ -363,20 +366,6 @@ public class GameActions extends Observable{
         player.setOwnedArmies(player.getOwnedArmies() + totalReinforcementArmies);
         game.setActivePlayer(player);
         return true;
-    }
-
-    /**
-     * Responsible for
-     * 1) Maintaining player turns
-     * 2) Calling reinforcement, attack, and fortification methods of player in proper order.
-     */
-    public void playerTurns(GameData game){
-        Player player;
-        int numberOfPlayers = game.getPlayers().size();
-        int traversalCounter = 0;
-        while(true){
-            player = game.getPlayers().get(traversalCounter);
-        }
     }
 
     /**
@@ -452,6 +441,7 @@ public class GameActions extends Observable{
      * @param game Represents the state of the game
      * @param countryName Attacking country
      * @param numberOfDice Proposed number of dice rolls
+     * @param attack true if attacker calling the function, else false
      * @return true if attack is possible, else false.
      */
     public boolean diceValid(GameData game, String countryName, int numberOfDice, boolean attack) {
