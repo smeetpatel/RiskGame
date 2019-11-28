@@ -65,7 +65,7 @@ public class AggressivePlayer extends Player{
 
         //find attacking and defending countries
         Country attackingCountry = findStrongestCountry();
-        Country defendingCountry = canAttack(attackingCountry);
+        Country defendingCountry;
 
         //attack till attack is possible from the attackingCountry
         while((defendingCountry = canAttack(attackingCountry))!=null){
@@ -106,10 +106,12 @@ public class AggressivePlayer extends Player{
                 //if defender loses the country, perform necessary actions
                 if(defendingCountry.getNumberOfArmies()==0){
                     if(attackerArmiesLost>0){
+                        System.out.println("attackingCountry.getCountryName(): " + attackingCountry.getCountryName());
                         game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
                         notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
                     }
                     if(defenderArmiesLost>0){
+                        System.out.println("defendingCountry.getCountryName(): " + defendingCountry.getCountryName());
                         game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
                         notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
                     }
@@ -150,12 +152,12 @@ public class AggressivePlayer extends Player{
                 }
             }
             if(attackerArmiesLost>0){
-                game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
-                notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
+                game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
+                notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
             }
             if(defenderArmiesLost>0){
-                game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
-                notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
+                game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
+                notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
             }
             attackerArmiesLost = 0;
             defenderArmiesLost = 0;

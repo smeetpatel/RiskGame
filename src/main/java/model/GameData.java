@@ -74,6 +74,7 @@ public class GameData extends Observable implements Serializable {
         this.activePlayer = activePlayer;
         this.deck = deck;
         this.cardsDealt = cardsDealt;
+        this.logger = Logger.getLogger("MyLog");
         try{
             FileHandler fh;
             fh = new FileHandler("src/main/resources/game/" + this.map.getMapName() + ".log");

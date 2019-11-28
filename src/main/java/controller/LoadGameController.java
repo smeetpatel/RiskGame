@@ -1,9 +1,6 @@
 package main.java.controller;
 
-import main.java.model.GameData;
-import main.java.model.GameDataBuilder;
-import main.java.model.Phase;
-import main.java.model.Player;
+import main.java.model.*;
 import main.java.view.PhaseView;
 import main.java.view.PlayerDominationView;
 
@@ -22,6 +19,11 @@ public class LoadGameController extends Controller{
      */
     public PhaseView phaseView;
 
+    public LoadGameController(){
+        super();
+        game = new GameData();
+        gameAction = new GameActions();
+    }
     /**
      * Function responsible for parsing user command and calling appropriate method.
      *
@@ -95,7 +97,7 @@ public class LoadGameController extends Controller{
         playerDominationView.setSize(600, 600);
         playerDominationView.setDefaultCloseOperation(3);
         for(Player p : game.getPlayers()){
-            p.attach(phaseView);
+            p.attach(playerDominationView);
         }
         gameAction.initalizaMapContolValue(game);
     }
@@ -121,6 +123,6 @@ public class LoadGameController extends Controller{
      */
     @Override
     public GameData getGame() {
-        return super.getGame();
+        return this.game;
     }
 }

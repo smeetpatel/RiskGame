@@ -169,6 +169,9 @@ public class PlayRisk {
 							command = "exchangecards -none";
 							message = controller.parseCommand(player, command);
 							System.out.println(message);
+							if(loadGame){
+								loadGame = false;
+							}
 
 							//loop through all three phases of the player
 							while (controller.getGame().getGamePhase() != Phase.TURNEND) {
