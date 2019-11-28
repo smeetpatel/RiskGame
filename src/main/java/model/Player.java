@@ -254,6 +254,9 @@ public abstract class Player extends Observable implements Serializable {
 
 	/**
 	 * Exchanges cards.
+	 * @param game Represents the state of the game.
+	 * @param cardIndex ArrayList of indexes to be exchanged if valid exchange
+	 * @return true if successful exchange, else false
 	 */
 	public boolean cardExchange(GameData game, ArrayList<Integer> cardIndex) {
 		int numberOfArmies = 0;

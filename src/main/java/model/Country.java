@@ -10,7 +10,6 @@ import java.util.HashMap;
  * @author Smeet
  *
  */
-
 public class Country implements Serializable {
 	/**
 	 * Index value of the country when saving to ".map" file of domination game format.

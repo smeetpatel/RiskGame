@@ -148,6 +148,12 @@ public class LoadConquestMap implements ConquestMap{
         }
     }
 
+    /**
+     * Saves map in Conquest map file format
+     * @param map      GameMap object representing the map to be saved
+     * @param fileName Name with which map file is to be saved
+     * @return true if successful in saving the map, else false
+     */
     public boolean saveMap(GameMap map, String fileName){
         GameActions gameActions = new GameActions();
         if (gameActions.validateMap(map) == MapValidityStatus.VALIDMAP){

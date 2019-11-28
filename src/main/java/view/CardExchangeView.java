@@ -266,6 +266,10 @@ public class CardExchangeView extends JFrame implements Observer {
         }
     }
 
+    /**
+     * Updates the observers
+     * @param message Message to display on receive updates.
+     */
     public void update(String message){
 
     }

@@ -676,6 +676,7 @@ public class TurnController extends Controller{
 
     /**
      * {@inheritDoc}
+     * @return GameData object representing the state of the game.
      */
     @Override
     public GameData getGame() {

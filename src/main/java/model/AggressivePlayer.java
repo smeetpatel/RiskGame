@@ -21,7 +21,7 @@ public class AggressivePlayer extends Player{
      * @param game Represents the state of the game
      * @param countryName Reinforce armies here
      * @param num Reinforce this many armies
-     * @return
+     * @return true if successful in reinforcing, else false
      */
     public boolean reinforce(GameData game, String countryName, int num){
         GameActions gameActions = new GameActions();
@@ -52,7 +52,7 @@ public class AggressivePlayer extends Player{
      * @param numberOfDice Number of dice attacker wishes to roll
      * @param defendDice Number of dice defender wishes to roll
      * @param defendingPlayer Player owning the defending country
-     * @return
+     * @return true if valid attack, else false
      */
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer){
 
@@ -173,7 +173,7 @@ public class AggressivePlayer extends Player{
      * @param fromCountry country from armies send
      * @param toCountry country to armies placed
      * @param num total number of armies to send from one country to another country
-     * @return
+     * @return Appropriate response of type FortificationCheck
      */
     public FortificationCheck fortify(GameData game, String fromCountry, String toCountry, int num){
         Country destinationCountry = findCountryToFortify();
@@ -268,7 +268,7 @@ public class AggressivePlayer extends Player{
     /**
      * Finds the country to fortify from.
      * @param destinationCountry Country to fortify.
-     * @return Countyr to fortify from.
+     * @return Country to fortify from.
      */
     public Country findOriginCountry(Country destinationCountry){
         MapValidation mv = new MapValidation();

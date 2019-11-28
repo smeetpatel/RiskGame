@@ -48,6 +48,9 @@ public class PlayerDominationView extends JFrame implements Observer {
         initComponents();
     }
 
+    /**
+     * Initialize the view.
+     */
     private void initComponents() {
         playerNameLabel = new JLabel();
         mapContolledLabel = new JLabel();
@@ -340,6 +343,10 @@ public class PlayerDominationView extends JFrame implements Observer {
         }
     }
 
+    /**
+     * Updates the observer.
+     * @param message Message to display on receive updates.
+     */
     public void update(String message){
         //System.out.println(message);
     }

@@ -163,6 +163,7 @@ public class TournamentController extends Controller {
 
     /**
      * Get game data.
+     * @return GameData object representing the state of the game.
      */
     public GameData getGame(){
         return game;
@@ -202,6 +203,7 @@ public class TournamentController extends Controller {
 
                 //populate countries amongst players and create player domination view
                 gameAction.populateCountries(game, game.getPlayers());
+                game.getLogger().info("---------------------------------------------------------------------------");
                 game.getLogger().info("Game " + i + " on " + mapName + ": Countries allocated amongst players");
                 System.out.println("Game " + i + " on " + mapName + ": Countries allocated amongst players");
                 playerDominationView = new PlayerDominationView();
@@ -262,6 +264,7 @@ public class TournamentController extends Controller {
 
     /**
      * Stores the player for the domination view
+     * @param playerDominationView Player domination view object.
      */
     private void attachToPlayers(PlayerDominationView playerDominationView) {
         for(Player player : game.getPlayers()){
@@ -287,7 +290,7 @@ public class TournamentController extends Controller {
      */
     public boolean isPlayerStrategyValid(String s){
 
-        String[] array = new String[]{"aggresive", "benevolent", "random", "cheater"};
+        String[] array = new String[]{"aggressive", "benevolent", "random", "cheater"};
         for(int i=0; i<4; i++){
             if(s.equals(array[i])){
                 return true;

@@ -1,0 +1,12 @@
+Nov 27, 2019 2:29:05 PM main.java.controller.MapController parseCommand
+INFO: You can now edit ConquestCliff.map
+Nov 27, 2019 2:29:21 PM main.java.controller.MapController parseCommand
+INFO: fourthright removed from the map
+Nov 27, 2019 2:29:25 PM main.java.controller.MapController parseCommand
+INFO: Valid map.
+Nov 27, 2019 2:29:38 PM main.java.controller.MapController parseCommand
+INFO: Map file saved successfully as conquestmapcopy.map
+Nov 27, 2019 2:31:17 PM main.java.controller.MapController parseCommand
+INFO: Map is valid. Add players now.
+Nov 27, 2019 2:31:21 PM main.java.controller.StartUpController parseCommand
+INFO: Invalid command - use gameplayer/populatecountries/placearmy/placeall/showmap commands in start up phase.

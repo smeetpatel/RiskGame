@@ -66,6 +66,16 @@ public class GameData extends Observable implements Serializable {
 
     }
 
+    /**
+     * Constructor to initialize the game data.
+     * @param map Represents the state of the game.
+     * @param mapType Domination/Conquest type map
+     * @param gamePhase Phase the game is currently in
+     * @param players List of players involved in the game
+     * @param activePlayer Player who's turn is going on
+     * @param deck Deck of cards.
+     * @param cardsDealt Number of cards dealt till now
+     */
     public GameData(GameMap map, String mapType, Phase gamePhase, ArrayList<Player> players, Player activePlayer, Deck deck, int cardsDealt){
         this.map = map;
         this.mapType = mapType;

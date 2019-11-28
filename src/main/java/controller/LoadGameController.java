@@ -19,6 +19,9 @@ public class LoadGameController extends Controller{
      */
     public PhaseView phaseView;
 
+    /**
+     * Responsible for creating LoadGameController object.
+     */
     public LoadGameController(){
         super();
         game = new GameData();
@@ -54,8 +57,8 @@ public class LoadGameController extends Controller{
                         }
                         //method call for load game and parse this filename as argument
                     }else{
-                        message = "Invalid command. Enter file name to save a game.";
-                        this.game.getLogger().info(newCommand + " - Invalid command. Enter file name to save a game.");
+                        message = "Invalid command. Enter file name to load a game.";
+                        this.game.getLogger().info(newCommand + " - Invalid command. Enter file name to load a game.");
                     }
 
                 }catch (ArrayIndexOutOfBoundsException e){

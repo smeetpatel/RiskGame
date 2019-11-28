@@ -234,6 +234,9 @@ public class PlayRisk {
 		System.out.println();
 	}
 
+	/**
+	 * Prints names of existing game files in maps folder.
+	 */
 	private void printSavedGames(){
         File folder = new File("src/main/resources/game/");
         File[] files = folder.listFiles();
