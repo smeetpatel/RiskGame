@@ -55,7 +55,6 @@ public class LoadConquestMap implements ConquestMap{
      * @param reader Stream starting from continents section of ".map" file
      * @param map Represents the game map
      * @return BufferedReader stream at the point where it has finished reading continents
-     * @throws IOException
      */
     public BufferedReader readContinents(BufferedReader reader, GameMap map){
         String s;
@@ -88,7 +87,6 @@ public class LoadConquestMap implements ConquestMap{
      * @param reader Stream starting from countries section of ".map" file
      * @param map Represents the game map
      * @return BufferedReader stream at the point where it has finished reading countries
-     * @throws IOException
      */
     public BufferedReader readTerritories(BufferedReader reader, GameMap map){
         String s;

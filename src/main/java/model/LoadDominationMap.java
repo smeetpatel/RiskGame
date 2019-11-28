@@ -15,7 +15,6 @@ public class LoadDominationMap implements DominationMap{
 	 * Performs basic validation checks too.
 	 * @param mapName Name of the map file to be read
 	 * @return GameMap object representing the map just read
-	 * @throws FileNotFoundException, IOException
 	 */
 	public GameMap readMap(String mapName) {
 		int inMapIndex = 1;
@@ -201,7 +200,6 @@ public class LoadDominationMap implements DominationMap{
 	 * @param map      GameMap object representing the map to be saved
 	 * @param fileName Name with which map file is to be saved
 	 * @return true if successful, else false indicating invalid command
-	 * @throws IOException
 	 */
 	public boolean saveMap(GameMap map, String fileName) {
 		//Check if map is valid or not
