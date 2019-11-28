@@ -9,7 +9,7 @@ import test.java.modelTests.*;
  * run all the test cases present in the system
  */
 @RunWith(Suite.class)
-@SuiteClasses({TestArmyAllocation.class,
+@SuiteClasses({
         TestAttack.class,
         TestConnectedContinent.class,
         TestConnectedMap.class,
@@ -19,9 +19,7 @@ import test.java.modelTests.*;
         TestEditMap.class,
         TestEmptyContinent.class,
         TestFortify.class,
-        TestGamePlayer.class,
         TestLoadDominationMap.class,
-        TestPopulatecountries.class,
         TestNeighbor.class,
         TestReinforceArmies.class,
         TestReinforcement.class,

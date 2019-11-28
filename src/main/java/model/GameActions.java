@@ -332,7 +332,6 @@ public class GameActions extends Observable{
         //game.setActivePlayer(player);
         if (player.getOwnedCards().size() < 5){
             game.setGamePhase(Phase.REINFORCEMENT);
-            //GameActions.assignReinforcementArmies(player);
             return true;
         } else {
             return false;
