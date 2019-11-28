@@ -10,17 +10,14 @@ public class BenevolentPlayer extends Player {
     GameActions gameActions;
 
     /**
-     * Represents the weakest country of the player
-     */
-    String weakestCountry;
-
-    /**
      * Creates a player with the argument player name and sets default value for rest of the player fields.
      *
      * @param playerName name of player
      */
     public BenevolentPlayer(String playerName) {
+
         super(playerName);
+        gameActions = new GameActions();
     }
 
     /**
@@ -37,19 +34,14 @@ public class BenevolentPlayer extends Player {
         addCardExchangeArmies(game);
 
         game.setActivePlayer(this);
-        weakestCountry = getWeakestCountry(this).getCountryName();
+        Country weakestCountry = getWeakestCountry(this);
 
-        if (this.getOwnedArmies() > 0) {
-            Country c = this.getOwnedCountries().get(weakestCountry.toLowerCase());
-            int existingArmies = c.getNumberOfArmies();
-            existingArmies += this.getOwnedArmies();
-            c.setNumberOfArmies(existingArmies);
-            this.setOwnedArmies(this.getOwnedArmies());
-            notifyObservers(this.getOwnedArmies() + " armies reinforced at " + weakestCountry + ". Remaining reinforcement armies: " + this.getOwnedArmies() + "\n");
-            game.setGamePhase(Phase.ATTACK);
-        } else {
-            notifyObservers(this.getPlayerName() + " doesn't have " + this.getOwnedArmies() + " armies to reinforce. Invalid command.");
-        }
+        num = this.getOwnedArmies();
+        weakestCountry.setNumberOfArmies(weakestCountry.getNumberOfArmies() + num);
+        this.setOwnedArmies(0);
+        game.getLogger().info(num + " armies reinforced at " + weakestCountry.getCountryName() + ". Remaining reinforcement armies: " + this.getOwnedArmies() + "\n");
+        notifyObservers(num + " armies reinforced at " + weakestCountry.getCountryName() + ". Remaining reinforcement armies: " + this.getOwnedArmies() + "\n");
+        game.setGamePhase(Phase.ATTACK);
 
         return true;
     }
@@ -66,7 +58,7 @@ public class BenevolentPlayer extends Player {
      */
     @Override
     public boolean attack(GameData game, String countryFrom, String countryTo, int numberOfDice, int defendDice, Player defendingPlayer) {
-
+        game.getLogger().info(this.getPlayerName() + " decides not to attack.");
         gameActions.endAttack(game);
         return true;
     }
@@ -91,14 +83,17 @@ public class BenevolentPlayer extends Player {
 
             int fromArmies = this.getOwnedCountries().get(fromCountry.toLowerCase()).getNumberOfArmies();
             int toArmies = this.getOwnedCountries().get(toCountry.toLowerCase()).getNumberOfArmies();
+            num = fromArmies - 1;
             toArmies += (fromArmies - 1);
             fromArmies = 1;
             this.getOwnedCountries().get(fromCountry.toLowerCase()).setNumberOfArmies(fromArmies);
             this.getOwnedCountries().get(toCountry.toLowerCase()).setNumberOfArmies(toArmies);
-            notifyObservers(this.getPlayerName() + " fortified " + toCountry + " with " + toArmies + " armies from " + fromCountry + ". " + this.getPlayerName() + "'s turn ends now.");
+            game.getLogger().info(this.getPlayerName() + " fortified " + toCountry + " with " + num + " armies from " + fromCountry + ". " + this.getPlayerName() + "'s turn ends now.");
+            notifyObservers(this.getPlayerName() + " fortified " + toCountry + " with " + num + " armies from " + fromCountry + ". " + this.getPlayerName() + "'s turn ends now.");
             game.setGamePhase(Phase.TURNEND);
             return FortificationCheck.FORTIFICATIONSUCCESS;
         }else{
+            game.getLogger().info("No fortification.");
             this.fortify(game);
             return FortificationCheck.FORTIFICATIONSUCCESS;
         }
@@ -113,7 +108,6 @@ public class BenevolentPlayer extends Player {
 
         Collection<Country> countries = player.getOwnedCountries().values();
         Country[] targetCountries = countries.toArray(new Country[0]);
-
 
         int length = targetCountries.length;
         for (int i = 0; i < length - 1; i++) {
@@ -131,7 +125,7 @@ public class BenevolentPlayer extends Player {
         int lengthSources = sourceCountries.length;
         for (int i = 0; i < length - 1; i++) {
             for (int j = 0; j < length - i - 1; j++) {
-                if (sourceCountries[j].getNumberOfArmies() > sourceCountries[j + 1].getNumberOfArmies()) {
+                if (sourceCountries[j].getNumberOfArmies() < sourceCountries[j + 1].getNumberOfArmies()) {
                     // swap arr[j+1] and arr[i]
                     Country temp = sourceCountries[j];
                     sourceCountries[j] = sourceCountries[j + 1];
@@ -142,16 +136,19 @@ public class BenevolentPlayer extends Player {
 
         MapValidation mv = new MapValidation();
         boolean check;
-        String fromAndToCountries = null;
+        String fromAndToCountries = "No connectivity found";
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < lengthSources; j++) {
-                check = mv.fortificationConnectivityCheck(player, sourceCountries[j].getCountryName(), targetCountries[i].getCountryName());
-                if (check) {
-                    fromAndToCountries = sourceCountries[j].getCountryName() + " " + targetCountries[i].getCountryName();
-                    break;
-                }else {
-                    fromAndToCountries = "No connectivity found";
+                if(sourceCountries[j]!=targetCountries[i]){
+                    check = mv.fortificationConnectivityCheck(player, sourceCountries[j].getCountryName(), targetCountries[i].getCountryName());
+                    if (check) {
+                        fromAndToCountries = sourceCountries[j].getCountryName() + " " + targetCountries[i].getCountryName();
+                        return fromAndToCountries;
+                    }else {
+                        fromAndToCountries = "No connectivity found";
+                    }
                 }
+
             }
         }
         return fromAndToCountries;

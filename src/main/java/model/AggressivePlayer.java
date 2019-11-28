@@ -38,6 +38,7 @@ public class AggressivePlayer extends Player{
         num = getOwnedArmies();
         country.setNumberOfArmies(country.getNumberOfArmies() + getOwnedArmies());
         setOwnedArmies(0);
+        game.getLogger().info(num + " armies reinforced at " + country.getCountryName() +". Remaining reinforcement armies: " + getOwnedArmies() + "\n");
         notifyObservers(num + " armies reinforced at " + country.getCountryName() +". Remaining reinforcement armies: " + getOwnedArmies() + "\n");
         game.setGamePhase(Phase.ATTACK);
         return true;
@@ -105,14 +106,17 @@ public class AggressivePlayer extends Player{
                 //if defender loses the country, perform necessary actions
                 if(defendingCountry.getNumberOfArmies()==0){
                     if(attackerArmiesLost>0){
+                        game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
                         notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + attackingCountry.getCountryName() + ".\n");
                     }
                     if(defenderArmiesLost>0){
+                        game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
                         notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + defendingCountry.getCountryName() + ".\n");
                     }
                     getOwnedCountries().put(defendingCountry.getCountryName().toLowerCase(), defendingCountry);
                     defendingCountry.setOwnerPlayer(this);
                     defendingPlayer.getOwnedCountries().remove(defendingCountry.getCountryName().toLowerCase());
+                    game.getLogger().info(getPlayerName() + " conquered " + defendingCountry.getCountryName() + ".\n");
                     notifyObservers(getPlayerName() + " conquered " + defendingCountry.getCountryName() + ".\n");
 
                     //move armies to conquered territory
@@ -120,6 +124,7 @@ public class AggressivePlayer extends Player{
 
                     //check if player has won the game or not
                     if(getOwnedCountries().size()==game.getMap().getCountries().size()){
+                        game.getLogger().info(this.getPlayerName() + " has won the game.");
                         gameActions.endGame(game);
                         return true;
                     }
@@ -129,6 +134,7 @@ public class AggressivePlayer extends Player{
 
                     //if defending player lost army, get all his cards, perform card exchange if applicable, and removing losing pkayer from the game.
                     if(defendingPlayer.getOwnedCountries().size()==0){
+                        game.getLogger().info(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                         notifyObservers(defendingPlayer.getPlayerName() + " lost his/her last country. Hence, out of the game. " + getPlayerName() + " gets all his/her cards.");
                         if(defendingPlayer.getOwnedCountries().size()==0){
                             gameActions.getAllCards(this, defendingPlayer);
@@ -144,14 +150,18 @@ public class AggressivePlayer extends Player{
                 }
             }
             if(attackerArmiesLost>0){
+                game.getLogger().info(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
                 notifyObservers(getPlayerName() + " lost " + attackerArmiesLost + " army at " + countryFrom + ".\n");
             }
             if(defenderArmiesLost>0){
+                game.getLogger().info(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
                 notifyObservers(defendingPlayer.getPlayerName() + " lost " + defenderArmiesLost + " army at " + countryTo + ".\n");
             }
             attackerArmiesLost = 0;
             defenderArmiesLost = 0;
         }
+        game.getLogger().info(this.getPlayerName() + " decides not to attack anymore.");
+        gameActions.endAttack(game);
         return true;
     }
 
@@ -167,12 +177,14 @@ public class AggressivePlayer extends Player{
         Country destinationCountry = findCountryToFortify();
         Country originCountry = findOriginCountry(destinationCountry);
         if(originCountry == null){
+            game.getLogger().info("No fortification");
             fortify(game);
             return FortificationCheck.FORTIFICATIONSUCCESS;
         }
         num = originCountry.getNumberOfArmies()-1;
         destinationCountry.setNumberOfArmies(destinationCountry.getNumberOfArmies()+num);
         originCountry.setNumberOfArmies(originCountry.getNumberOfArmies()-num);
+        game.getLogger().info(getPlayerName() + " fortified " + destinationCountry.getCountryName() + " with " + num + " armies from " + originCountry.getCountryName() +". " + getPlayerName() + "'s turn ends now.");
         notifyObservers(getPlayerName() + " fortified " + destinationCountry.getCountryName() + " with " + num + " armies from " + originCountry.getCountryName() +". " + getPlayerName() + "'s turn ends now.");
         game.setGamePhase(Phase.TURNEND);
         return FortificationCheck.FORTIFICATIONSUCCESS;
@@ -216,13 +228,10 @@ public class AggressivePlayer extends Player{
      * @return country to attack
      */
     public Country canAttack(Country attackingCountry){
-        if(attackingCountry.getNumberOfArmies()==1){
+        if(attackingCountry.getNumberOfArmies()==1 || attackingCountry==null){
             return null;
         }
         for(Country neighbor: attackingCountry.getNeighbours().values()){
-
-          
-
             if(!getOwnedCountries().containsKey(neighbor.getCountryName().toLowerCase())){
 
                 return neighbor;

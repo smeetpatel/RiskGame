@@ -21,7 +21,7 @@ public class PlayerContext {
             case "human":
                 player = new HumanPlayer(playerName);
                 return true;
-            case "aggresive":
+            case "aggressive":
                 player = new AggressivePlayer(playerName);
                 return true;
             case "benevolent":
