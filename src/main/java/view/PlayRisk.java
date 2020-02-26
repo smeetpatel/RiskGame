@@ -58,7 +58,6 @@ public class PlayRisk {
 							message = controller.parseCommand(null, command);
 						} while (!message.equals("Loaded successfully"));
 
-
 						//set traversal counter by finding appropriate player
 						traversalCounter = -1;
 						for (Player player1 : controller.getGame().getPlayers()) {
@@ -83,7 +82,6 @@ public class PlayRisk {
 						do {
 							command = read.nextLine();
 							message = controller.parseCommand(null, command);
-							System.out.println(message);
 						} while (controller.getGame().getGamePhase() != Phase.STARTUP);
 
 						//now add game players and populate countries
@@ -91,7 +89,6 @@ public class PlayRisk {
 						do {
 							command = read.nextLine();
 							message = controller.parseCommand(null, command);
-							System.out.println(message);
 						} while (controller.getGame().getGamePhase() != Phase.ARMYALLOCATION);
 
 						//allow players to place all the initial armies in start-up phase
@@ -107,7 +104,6 @@ public class PlayRisk {
 								command = "placeall";
 							}
 							message = controller.parseCommand(player, command);
-							System.out.println(message);
 							if (!command.equalsIgnoreCase("showmap") && originalArmies > player.getOwnedArmies()) {
 								traversalCounter++;
 								if (traversalCounter >= numberOfPlayers) {
@@ -168,7 +164,6 @@ public class PlayRisk {
 							}
 							command = "exchangecards -none";
 							message = controller.parseCommand(player, command);
-							System.out.println(message);
 							if(loadGame){
 								loadGame = false;
 							}
